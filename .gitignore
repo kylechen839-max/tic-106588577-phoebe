@@ -1,0 +1,10 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+*.class
+.ipynb_checkpoints/
+outputs/
+venv/
+.venv/
+phoebe-env/
+Miniforge3-*.sh
