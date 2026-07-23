@@ -1,0 +1,23 @@
+{
+  "timestamp_utc": "2026-07-23T00:18:00.359633+00:00",
+  "bundle_path": "tic_106588577_powell_ready.phoebe",
+  "params": [
+    "incl@binary",
+    "t0_supconj@binary"
+  ],
+  "sigmas": {
+    "incl@binary": 0.0002,
+    "t0_supconj@binary": 1e-06
+  },
+  "nwalkers": 8,
+  "niters": 1,
+  "secondary_fill_factor": 0.999999,
+  "burnin": 0,
+  "best_iter": 0,
+  "best_walker": 3,
+  "best_lnprob": -54982.435149600744,
+  "after_powell_chi2": 129150.75864287131,
+  "emcee_best_chi2": 127319.63687960047,
+  "beats_after_powell": true,
+  "target_after_powell_chi2": 127974.04617631363
+}
