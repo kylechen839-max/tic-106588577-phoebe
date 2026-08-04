@@ -11,6 +11,7 @@ import phoebe
 
 
 BASELINE_CHI2 = 127974.04617631363
+BASELINE_RMS = 0.0014644575928165597
 
 
 def solution_value(b, qualifier, solution="emcee_solution"):
@@ -122,6 +123,49 @@ def save_best_plot(b, output_dir, model="emcee_best"):
     plt.close(fig)
 
 
+def residual_metrics(b, model):
+    residuals = b.calculate_residuals(model=model, dataset="lc01")
+    values = np.asarray(residuals.value if hasattr(residuals, "value") else residuals)
+    return {
+        "sum_squares": float(np.sum(values**2)),
+        "mean_squares": float(np.mean(values**2)),
+        "rms": float(np.sqrt(np.mean(values**2))),
+        "mean_abs": float(np.mean(np.abs(values))),
+        "max_abs": float(np.max(np.abs(values))),
+        "n_points": int(values.size),
+    }
+
+
+def convergence_metrics(b, niters, burnin):
+    metrics = {
+        "acceptance_fractions": None,
+        "acceptance_fraction_mean": None,
+        "autocorr_times": None,
+        "autocorr_time_max": None,
+        "converged_50tau": False,
+        "post_burnin_iterations": int(max(niters - burnin, 0)),
+    }
+    try:
+        acceptance = np.asarray(solution_value(b, "acceptance_fractions"), dtype=float)
+        metrics["acceptance_fractions"] = acceptance.tolist()
+        metrics["acceptance_fraction_mean"] = float(np.nanmean(acceptance))
+    except Exception as exc:
+        metrics["acceptance_fraction_error"] = str(exc)
+
+    try:
+        tau = np.asarray(solution_value(b, "autocorr_times"), dtype=float)
+        finite_tau = tau[np.isfinite(tau)]
+        metrics["autocorr_times"] = tau.tolist()
+        if finite_tau.size:
+            tau_max = float(np.max(finite_tau))
+            metrics["autocorr_time_max"] = tau_max
+            metrics["converged_50tau"] = bool((niters - burnin) > 50 * tau_max)
+    except Exception as exc:
+        metrics["autocorr_time_error"] = str(exc)
+
+    return metrics
+
+
 def main():
     script_dir = os.path.dirname(os.path.abspath(__file__))
     repo_dir = os.path.dirname(script_dir)
@@ -135,6 +179,7 @@ def main():
     b = phoebe.load(bundle_path)
     b.run_compute(compute="phoebe01", model="after_powell_check", overwrite=True)
     after_powell_chi2 = b.calculate_chi2(model="after_powell_check", dataset="lc01")
+    after_powell_residuals = residual_metrics(b, "after_powell_check")
     secondary_fill_factor = apply_secondary_fill_factor(b)
 
     emcee_params = parse_list(
@@ -205,10 +250,10 @@ def main():
                     "timestamp_utc": datetime.now(timezone.utc).isoformat(),
                     "params": emcee_params,
                     "sigmas": sigmas,
-        "nwalkers": nwalkers,
-        "niters": niters,
-        "secondary_fill_factor": secondary_fill_factor,
-        "finite_lnprob_count": int(np.sum(finite)),
+                    "nwalkers": nwalkers,
+                    "niters": niters,
+                    "secondary_fill_factor": secondary_fill_factor,
+                    "finite_lnprob_count": int(np.sum(finite)),
                     "lnprob_min": float(np.nanmin(lnprobs)),
                     "lnprob_max": float(np.nanmax(lnprobs)),
                     "failed_samples": failed_samples,
@@ -218,48 +263,4 @@ def main():
                 default=str,
             )
             handle.write("\n")
-        b.save(os.path.join(output_dir, "tic_106588577_emcee_failed.phoebe"))
-        print(f"Saved failure diagnostics: {failure_path}")
-        raise RuntimeError("No finite emcee samples found.")
-
-    best_flat_index = int(np.nanargmax(np.where(finite, lnprobs, -np.inf)))
-    best_iter, best_walker = np.unravel_index(best_flat_index, lnprobs.shape)
-    best_values = samples[best_iter, best_walker, :]
-    best_lnprob = float(lnprobs[best_iter, best_walker])
-
-    for twig, value in zip(fitted_twigs, best_values):
-        b.set_value(twig, float(value))
-        print(f"Best sample {twig} = {float(value)}")
-
-    b.run_compute(compute="phoebe01", model="emcee_best", overwrite=True)
-    emcee_best_chi2 = b.calculate_chi2(model="emcee_best", dataset="lc01")
-    save_best_plot(b, output_dir, model="emcee_best")
-
-    result = {
-        "timestamp_utc": datetime.now(timezone.utc).isoformat(),
-        "bundle_path": bundle_path,
-        "params": emcee_params,
-        "sigmas": sigmas,
-        "nwalkers": nwalkers,
-        "niters": niters,
-        "secondary_fill_factor": secondary_fill_factor,
-        "burnin": burnin,
-        "best_iter": int(best_iter),
-        "best_walker": int(best_walker),
-        "best_lnprob": best_lnprob,
-        "after_powell_chi2": float(after_powell_chi2),
-        "emcee_best_chi2": float(emcee_best_chi2),
-        "beats_after_powell": bool(emcee_best_chi2 < after_powell_chi2),
-        "target_after_powell_chi2": BASELINE_CHI2,
-    }
-    result_path = os.path.join(output_dir, "emcee_experiment_result.json")
-    with open(result_path, "w", encoding="utf-8") as handle:
-        json.dump(result, handle, indent=2)
-        handle.write("\n")
-
-    b.save(os.path.join(output_dir, "tic_106588577_emcee_best.phoebe"))
-    print(json.dumps(result, indent=2))
-
-
-if __name__ == "__main__":
-    main()
+        b.save(os.path.join(output_dir, "tic_106588577_emcee_failed.pho

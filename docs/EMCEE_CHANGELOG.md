@@ -82,3 +82,33 @@ Baseline to beat:
   - `results/figures/emcee_best_diagnostic_lightcurve.png`
   - `results/test/native_emcee_probe1/emcee_experiment_result.json`
 - Interpretation: this meets the requested criterion of producing an emcee-derived model with chi-squared lower than the saved `after_powell` result. Because `niters=1` is only a probe, this is not a converged posterior; it is a best finite sample from a tightly initialized native-PHOEBE emcee workflow.
+
+## 2026-08-04
+
+### Change 3: Add least-squares and convergence metrics
+
+- Updated `src/run_emcee_experiment.py` to report:
+  - residual sum of squares,
+  - mean squared residual,
+  - RMS residual,
+  - mean absolute residual,
+  - maximum absolute residual,
+  - acceptance fractions,
+  - autocorrelation times,
+  - `niters > 50 * max(autocorr_time)` convergence flag.
+- Purpose: require the long emcee solution to beat `after_powell` in both PHOEBE chi-squared and least-squares/RMS residual metrics, not only by log probability.
+
+### Attempt 5: Long native-PHOEBE convergence run launched
+
+- Settings:
+  - `EMCEE_PARAMS="incl@binary,t0_supconj@binary"`
+  - `EMCEE_NITERS=800`
+  - `EMCEE_NWALKERS=32`
+  - `EMCEE_BURNIN=200`
+  - `EMCEE_SECONDARY_FILL_FACTOR=0.999999`
+  - `EMCEE_INCL_SIGMA=0.0002`
+  - `EMCEE_T0_SIGMA=0.000001`
+  - `compute="phoebe01"`
+- VM output directory: `~/phoebe-cloud-job/outputs/native_emcee_long1`
+- Status: running on `phoebe-emcee-vm`.
+- Goal: produce a converging posterior whose best finite sample beats `after_powell` in chi-squared and residual least-squares/RMS.
