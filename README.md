@@ -28,6 +28,7 @@ This figure compares the observed light curve with the best finite native-PHOEBE
 - VM work has been abandoned for the active workflow. Current runs are local on macOS using `.venv` and `phoebe==2.4.22`.
 - The earlier emcee/ellc posterior diagnostic does not match the observed light curve as well as the native PHOEBE result, so it should be treated as a test result.
 - Local tests use the saved `after_powell` model in `bundles/tic_106588577_powell_ready.phoebe` as the baseline comparison.
+- The original TESS extraction notebook used only Sector 07 even though six TESScut sectors were available. See `docs/TESS_PIPELINE_REVIEW.md` for the multi-sector extraction path.
 
 ## Recreate Diagnostic Figures
 
