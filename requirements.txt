@@ -1,4 +1,4 @@
-phoebe
+phoebe==2.4.22
 numpy
 matplotlib
 scipy

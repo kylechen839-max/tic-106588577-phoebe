@@ -110,5 +110,33 @@ Baseline to beat:
   - `EMCEE_T0_SIGMA=0.000001`
   - `compute="phoebe01"`
 - VM output directory: `~/phoebe-cloud-job/outputs/native_emcee_long1`
-- Status: running on `phoebe-emcee-vm`.
+- Status: abandoned after switching away from the VM.
 - Goal: produce a converging posterior whose best finite sample beats `after_powell` in chi-squared and residual least-squares/RMS.
+
+### Change 4: Abandon VM and move active workflow local
+
+- Stopped the Google Compute Engine VM `phoebe-emcee-vm`.
+- Created a local `.venv` on macOS.
+- Pinned `requirements.txt` to `phoebe==2.4.22`, matching the version that loaded the Powell-ready bundle correctly.
+- Moved the incompatible PHOEBE 2.5 passband cache aside so PHOEBE 2.4.22 could initialize passbands cleanly.
+- Changed `src/run_emcee_experiment.py` so local runs can compare against the saved `after_powell` model in the Powell-ready bundle instead of recomputing the exact semi-detached Powell model every time.
+
+### Attempt 6: Local native-PHOEBE smoke probe
+
+- Settings:
+  - `EMCEE_PARAMS="incl@binary,t0_supconj@binary"`
+  - `EMCEE_NITERS=1`
+  - `EMCEE_NWALKERS=8`
+  - `EMCEE_BURNIN=0`
+  - `EMCEE_SECONDARY_FILL_FACTOR=0.999999`
+  - `EMCEE_INCL_SIGMA=0.0002`
+  - `EMCEE_T0_SIGMA=0.000001`
+  - `BASELINE_MODEL=after_powell`
+  - `RECOMPUTE_BASELINE=false`
+- Local output directory: `outputs/local_emcee_probe5`
+- Result:
+  - `emcee_best_chi2 = 127197.71490010298`
+  - `after_powell_chi2 = 127974.04617631363`
+  - `emcee_best RMS = 0.0014600368695896705`
+  - `after_powell RMS = 0.0014644575928165597`
+- Interpretation: the local workflow is functional and again finds an emcee-derived sample that beats `after_powell` in chi-squared and RMS. This was only a one-iteration smoke test, so it is not a converged posterior.

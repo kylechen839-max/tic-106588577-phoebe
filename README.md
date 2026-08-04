@@ -25,8 +25,9 @@ This figure compares the observed light curve with the best finite native-PHOEBE
 ## Current Notes
 
 - The best emcee-derived model currently beats the saved `after_powell` chi-squared target.
-- The VM successfully runs PHOEBE with the conda-forge `ellc` installation.
+- VM work has been abandoned for the active workflow. Current runs are local on macOS using `.venv` and `phoebe==2.4.22`.
 - The earlier emcee/ellc posterior diagnostic does not match the observed light curve as well as the native PHOEBE result, so it should be treated as a test result.
+- Local tests use the saved `after_powell` model in `bundles/tic_106588577_powell_ready.phoebe` as the baseline comparison.
 
 ## Recreate Diagnostic Figures
 
@@ -34,6 +35,9 @@ From an environment with PHOEBE installed:
 
 ```bash
 cd tic-106588577-phoebe
+python3 -m venv .venv
+.venv/bin/python -m pip install --upgrade pip setuptools wheel
+.venv/bin/python -m pip install -r requirements.txt
 python src/make_powell_diagnostic_figure.py
 python src/make_emcee_diagnostic_figure.py
 ```

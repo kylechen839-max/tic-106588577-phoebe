@@ -35,3 +35,14 @@ The Powell diagnostic values were:
 - RMS residual: `0.0014644575928165597`
 
 The earlier emcee/ellc posterior diagnostic produced a valid figure, but those posterior curves fit the observed light curve poorly compared with the native PHOEBE model. Keep those outputs as test results until the ellc/emcee model setup is reconciled with the PHOEBE native model.
+
+## Local Workflow Status
+
+The active workflow has moved off the VM and back to local macOS execution. A local `.venv` with `phoebe==2.4.22` successfully loaded the Powell-ready bundle and produced a one-iteration native-PHOEBE emcee smoke test:
+
+- Output directory: `outputs/local_emcee_probe5`
+- `after_powell` chi-squared: `127974.04617631363`
+- local smoke-test `emcee_best` chi-squared: `127197.71490010298`
+- local smoke-test `emcee_best` RMS: `0.0014600368695896705`
+
+This confirms the local path works, but it does not establish posterior convergence.

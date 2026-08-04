@@ -177,9 +177,17 @@ def main():
     os.makedirs(output_dir, exist_ok=True)
 
     b = phoebe.load(bundle_path)
-    b.run_compute(compute="phoebe01", model="after_powell_check", overwrite=True)
-    after_powell_chi2 = b.calculate_chi2(model="after_powell_check", dataset="lc01")
-    after_powell_residuals = residual_metrics(b, "after_powell_check")
+    baseline_model = os.environ.get("BASELINE_MODEL", "after_powell")
+    recompute_baseline = os.environ.get("RECOMPUTE_BASELINE", "false").lower() in (
+        "1",
+        "true",
+        "yes",
+    )
+    if recompute_baseline:
+        baseline_model = "after_powell_check"
+        b.run_compute(compute="phoebe01", model=baseline_model, overwrite=True)
+    after_powell_chi2 = b.calculate_chi2(model=baseline_model, dataset="lc01")
+    after_powell_residuals = residual_metrics(b, baseline_model)
     secondary_fill_factor = apply_secondary_fill_factor(b)
 
     emcee_params = parse_list(
@@ -263,4 +271,59 @@ def main():
                 default=str,
             )
             handle.write("\n")
-        b.save(os.path.join(output_dir, "tic_106588577_emcee_failed.pho
+        b.save(os.path.join(output_dir, "tic_106588577_emcee_failed.phoebe"))
+        print(f"Saved failure diagnostics: {failure_path}")
+        raise RuntimeError("No finite emcee samples found.")
+
+    best_flat_index = int(np.nanargmax(np.where(finite, lnprobs, -np.inf)))
+    best_iter, best_walker = np.unravel_index(best_flat_index, lnprobs.shape)
+    best_values = samples[best_iter, best_walker, :]
+    best_lnprob = float(lnprobs[best_iter, best_walker])
+
+    for twig, value in zip(fitted_twigs, best_values):
+        b.set_value(twig, float(value))
+        print(f"Best sample {twig} = {float(value)}")
+
+    b.run_compute(compute="phoebe01", model="emcee_best", overwrite=True)
+    emcee_best_chi2 = b.calculate_chi2(model="emcee_best", dataset="lc01")
+    emcee_best_residuals = residual_metrics(b, "emcee_best")
+    save_best_plot(b, output_dir, model="emcee_best")
+    convergence = convergence_metrics(b, niters, burnin)
+
+    result = {
+        "timestamp_utc": datetime.now(timezone.utc).isoformat(),
+        "bundle_path": bundle_path,
+        "baseline_model": baseline_model,
+        "recompute_baseline": recompute_baseline,
+        "params": emcee_params,
+        "sigmas": sigmas,
+        "nwalkers": nwalkers,
+        "niters": niters,
+        "secondary_fill_factor": secondary_fill_factor,
+        "burnin": burnin,
+        "best_iter": int(best_iter),
+        "best_walker": int(best_walker),
+        "best_lnprob": best_lnprob,
+        "after_powell_chi2": float(after_powell_chi2),
+        "after_powell_residuals": after_powell_residuals,
+        "emcee_best_chi2": float(emcee_best_chi2),
+        "emcee_best_residuals": emcee_best_residuals,
+        "beats_after_powell": bool(emcee_best_chi2 < after_powell_chi2),
+        "beats_after_powell_target": bool(emcee_best_chi2 < BASELINE_CHI2),
+        "beats_after_powell_rms": bool(emcee_best_residuals["rms"] < after_powell_residuals["rms"]),
+        "beats_after_powell_rms_target": bool(emcee_best_residuals["rms"] < BASELINE_RMS),
+        "convergence": convergence,
+        "target_after_powell_chi2": BASELINE_CHI2,
+        "target_after_powell_rms": BASELINE_RMS,
+    }
+    result_path = os.path.join(output_dir, "emcee_experiment_result.json")
+    with open(result_path, "w", encoding="utf-8") as handle:
+        json.dump(result, handle, indent=2)
+        handle.write("\n")
+
+    b.save(os.path.join(output_dir, "tic_106588577_emcee_best.phoebe"))
+    print(json.dumps(result, indent=2))
+
+
+if __name__ == "__main__":
+    main()
