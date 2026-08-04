@@ -42,10 +42,31 @@ def parse_args():
         ),
     )
     parser.add_argument(
+        "--known-sectors",
+        default="7,33,34,61,87,88",
+        help=(
+            "Comma-separated sector list from the saved notebook output. "
+            "Used when --sector is omitted and --skip-broad-search is set."
+        ),
+    )
+    parser.add_argument(
+        "--skip-broad-search",
+        action="store_true",
+        help="Search each known sector directly instead of first running a broad TESScut search.",
+    )
+    parser.add_argument(
         "--sigma-clip",
         type=float,
         default=6.0,
         help="Reject points more than this many MAD-scaled sigma from each sector median.",
+    )
+    parser.add_argument("--period", type=float, default=PERIOD_DAYS)
+    parser.add_argument("--t0", type=float, default=T0_SUPCONJ)
+    parser.add_argument(
+        "--phase-bin-count",
+        type=int,
+        default=0,
+        help="If positive, also save a phase-binned PHOEBE input with this many bins.",
     )
     return parser.parse_args()
 
@@ -58,6 +79,10 @@ def parse_pair(value):
 def parse_slice(value):
     start, stop = value.split(":", 1)
     return slice(int(start), int(stop))
+
+
+def parse_int_list(value):
+    return [int(item.strip()) for item in value.split(",") if item.strip()]
 
 
 def sector_from_mission(mission):
@@ -136,10 +161,47 @@ def process_pixel_file(pf, args, sector):
     return np.column_stack((time, norm_flux, norm_flux_err, sectors))
 
 
-def save_diagnostic(data, output_dir, target_name):
+def phase_values(time, period, t0):
+    phase = ((time - t0) / period) % 1.0
+    return np.where(phase > 0.8, phase - 1.0, phase)
+
+
+def save_binned_lightcurve(data, args):
+    time, flux, flux_err, _ = data.T
+    phase = phase_values(time, args.period, args.t0)
+    bins = np.linspace(-0.2, 0.8, args.phase_bin_count + 1)
+    rows = []
+    for lower, upper in zip(bins[:-1], bins[1:]):
+        mask = (phase >= lower) & (phase < upper)
+        if not np.any(mask):
+            continue
+        bin_phase = 0.5 * (lower + upper)
+        bin_flux = np.nanmedian(flux[mask])
+        scatter = 1.4826 * np.nanmedian(np.abs(flux[mask] - bin_flux))
+        if not np.isfinite(scatter) or scatter == 0:
+            scatter = np.nanmedian(flux_err[mask])
+        bin_err = scatter / np.sqrt(np.sum(mask))
+        bin_time = args.t0 + bin_phase * args.period
+        rows.append((bin_time, bin_flux, bin_err, bin_phase, np.sum(mask)))
+
+    binned = np.asarray(rows, dtype=float)
+    output_path = os.path.join(
+        args.output_dir,
+        f"{args.target_name}_LightCurve_multisector_binned.txt",
+    )
+    np.savetxt(
+        output_path,
+        binned,
+        header="Time\tFlux\tFlux_Err\tPhase\tN",
+        fmt=["%.8e", "%.8e", "%.8e", "%.8e", "%.0f"],
+        delimiter="\t",
+    )
+    return output_path, binned
+
+
+def save_diagnostic(data, output_dir, target_name, period, t0, binned=None):
     time, flux, _, sector = data.T
-    phase = ((time - T0_SUPCONJ) / PERIOD_DAYS) % 1.0
-    phase = np.where(phase > 0.8, phase - 1.0, phase)
+    phase = phase_values(time, period, t0)
 
     fig, axes = plt.subplots(2, 1, figsize=(10, 7), constrained_layout=True)
     for sector_number in sorted(set(sector.astype(int))):
@@ -165,6 +227,14 @@ def save_diagnostic(data, output_dir, target_name):
     axes[1].set_xlabel("Phase relative to primary eclipse")
     axes[1].set_ylabel("Sector-normalized flux")
     axes[1].set_xlim(-0.30, 0.80)
+    if binned is not None:
+        axes[1].plot(
+            binned[:, 3],
+            binned[:, 1],
+            color="black",
+            lw=1.8,
+            label="binned median",
+        )
     axes[0].legend(ncols=3, fontsize=8)
     fig.suptitle(f"{target_name}: combined TESS sectors")
     fig.savefig(
@@ -181,24 +251,40 @@ def main():
 
     import lightkurve as lk
 
-    search_results = lk.search_tesscut(args.search_string)
     selected = []
-    for index, row in enumerate(search_results.table):
-        sector = sector_from_mission(row["mission"])
-        if args.sector and sector not in args.sector:
-            continue
-        selected.append((index, sector))
+    if args.skip_broad_search:
+        sectors = args.sector or parse_int_list(args.known_sectors)
+        for sector in sectors:
+            selected.append((None, sector))
+    else:
+        search_results = lk.search_tesscut(args.search_string)
+        for index, row in enumerate(search_results.table):
+            sector = sector_from_mission(row["mission"])
+            if args.sector and sector not in args.sector:
+                continue
+            selected.append((index, sector))
 
     if not selected:
         raise RuntimeError("No matching TESSCut sectors found.")
 
     all_data = []
     for index, sector in selected:
-        print(f"Downloading and processing sector {sector} from search index {index}")
-        pf = search_results[index].download(cutout_size=args.cutout_size)
+        if index is None:
+            print(f"Searching, downloading, and processing sector {sector}")
+            sector_results = lk.search_tesscut(args.search_string, sector=sector)
+            if len(sector_results) == 0:
+                print(f"  no TESScut result for sector {sector}; skipping")
+                continue
+            pf = sector_results[0].download(cutout_size=args.cutout_size)
+        else:
+            print(f"Downloading and processing sector {sector} from search index {index}")
+            pf = search_results[index].download(cutout_size=args.cutout_size)
         sector_data = process_pixel_file(pf, args, sector)
         print(f"  kept {len(sector_data)} points")
         all_data.append(sector_data)
+
+    if not all_data:
+        raise RuntimeError("No sectors were successfully extracted.")
 
     combined = np.vstack(all_data)
     combined = combined[np.argsort(combined[:, 0])]
@@ -211,7 +297,18 @@ def main():
         fmt=["%.8e", "%.8e", "%.8e", "%.0f"],
         delimiter="\t",
     )
-    save_diagnostic(combined, args.output_dir, args.target_name)
+    binned = None
+    if args.phase_bin_count > 0:
+        binned_path, binned = save_binned_lightcurve(combined, args)
+        print(f"Saved binned light curve: {binned_path}")
+    save_diagnostic(
+        combined,
+        args.output_dir,
+        args.target_name,
+        args.period,
+        args.t0,
+        binned=binned,
+    )
     print(f"Saved combined light curve: {output_path}")
 
 

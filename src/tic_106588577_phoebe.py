@@ -72,7 +72,7 @@ def build_initial_bundle(data_path):
     b.set_value("pblum_mode", "dataset-scaled")
 
     # Known information.
-    b["period@binary"] = 0.5055155277660734 * 2
+    b["period@binary"] = float(os.environ.get("PERIOD_DAYS", 0.5055155277660734 * 2))
     b["teff@primary"] = 21000
     b["teff@secondary"] = 15138
     b["requiv@primary"] = 2
@@ -438,7 +438,10 @@ def main():
         print("No Powell-ready bundle found; running lc_geometry and Powell first.")
         b = prepare_powell_bundle(data_path, output_dir, powell_bundle_path)
 
-    run_emcee(b, output_dir)
+    if os.environ.get("SKIP_EMCEE", "false").lower() in ("1", "true", "yes"):
+        print("Skipping emcee because SKIP_EMCEE=true.")
+    else:
+        run_emcee(b, output_dir)
 
     bundle_path = os.path.join(output_dir, "tic_106588577_final.phoebe")
     b.save(bundle_path)

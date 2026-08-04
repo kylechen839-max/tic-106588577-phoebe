@@ -29,6 +29,7 @@ This figure compares the observed light curve with the best finite native-PHOEBE
 - The earlier emcee/ellc posterior diagnostic does not match the observed light curve as well as the native PHOEBE result, so it should be treated as a test result.
 - Local tests use the saved `after_powell` model in `bundles/tic_106588577_powell_ready.phoebe` as the baseline comparison.
 - The original TESS extraction notebook used only Sector 07 even though six TESScut sectors were available. See `docs/TESS_PIPELINE_REVIEW.md` for the multi-sector extraction path.
+- The six-sector TESS test refined the period to `1.0118536926383312 d` and produced a binned PHOEBE input. See `docs/MULTISECTOR_TESS_RESULTS.md`.
 
 ## Recreate Diagnostic Figures
 
