@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="560" viewBox="0 0 900 560">
+<rect width="100%" height="100%" fill="white"/>
+<text x="82" y="34" font-family="Arial" font-size="22" font-weight="700">WISE Excess Diagnostic: J071951.40-240400.6</text>
+<line x1="82" y1="488" x2="866" y2="488" stroke="#222"/>
+<line x1="82" y1="58" x2="82" y2="488" stroke="#222"/>
+<polyline points="154.3,109.0 260.6,164.0 569.5,323.8 786.5,436.1" fill="none" stroke="#4b5563" stroke-width="3" stroke-dasharray="8 7"/>
+<polyline points="154.3,109.2 260.6,163.8 569.5,292.8 786.5,230.6" fill="none" stroke="#2563eb" stroke-width="3"/>
+<circle cx="154.3" cy="109.2" r="7" fill="#2563eb"/>
+<text x="140.3" y="514" font-family="Arial" font-size="15">W1</text>
+<text x="120.3" y="94.2" font-family="Arial" font-size="13">-0.1σ</text>
+<circle cx="260.6" cy="163.8" r="7" fill="#2563eb"/>
+<text x="246.6" y="514" font-family="Arial" font-size="15">W2</text>
+<text x="226.6" y="148.8" font-family="Arial" font-size="13">0.1σ</text>
+<circle cx="569.5" cy="292.8" r="7" fill="#2563eb"/>
+<text x="555.5" y="514" font-family="Arial" font-size="15">W3</text>
+<text x="535.5" y="277.8" font-family="Arial" font-size="13">8.4σ</text>
+<circle cx="786.5" cy="230.6" r="7" fill="#2563eb"/>
+<text x="772.5" y="514" font-family="Arial" font-size="15">W4</text>
+<text x="752.5" y="215.6" font-family="Arial" font-size="13">13.0σ</text>
+<circle cx="154.3" cy="109.0" r="5" fill="white" stroke="#4b5563" stroke-width="2"/>
+<circle cx="260.6" cy="164.0" r="5" fill="white" stroke="#4b5563" stroke-width="2"/>
+<circle cx="569.5" cy="323.8" r="5" fill="white" stroke="#4b5563" stroke-width="2"/>
+<circle cx="786.5" cy="436.1" r="5" fill="white" stroke="#4b5563" stroke-width="2"/>
+<text x="360.0" y="538" font-family="Arial" font-size="16">Wavelength (micron, log scale)</text>
+<text x="18" y="360.0" transform="rotate(-90 18 360.0)" font-family="Arial" font-size="16">Flux density Fν (Jy, log scale)</text>
+<rect x="590" y="72" width="252" height="62" fill="white" stroke="#d1d5db"/>
+<line x1="610" y1="94" x2="660" y2="94" stroke="#2563eb" stroke-width="3"/>
+<text x="672" y="99" font-family="Arial" font-size="14">AllWISE observed</text>
+<line x1="610" y1="118" x2="660" y2="118" stroke="#4b5563" stroke-width="3" stroke-dasharray="8 7"/>
+<text x="672" y="123" font-family="Arial" font-size="14">W1/W2 stellar baseline</text>
+</svg>
