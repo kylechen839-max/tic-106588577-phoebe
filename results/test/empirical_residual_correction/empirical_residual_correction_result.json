@@ -1,0 +1,29 @@
+{
+  "timestamp_utc": "2026-08-05T00:21:19.002852+00:00",
+  "source_bundle": "results/final/tic_106588577_multisector_controlled_best.phoebe",
+  "source_model": "controlled_search_best",
+  "method": "smooth spline fit to binned PHOEBE residual medians",
+  "note": "Empirical diagnostic correction, not a physical PHOEBE binary solution.",
+  "raw_phoebe_residuals": {
+    "rms": 0.001118510879687342,
+    "mean_abs": 0.0007281583647954803,
+    "max_abs": 0.0054177624871794006,
+    "primary_core_mean": -0.002385407777233814,
+    "secondary_core_mean": 9.545666525175618e-05,
+    "primary_core_rms": 0.0029917702035375535,
+    "secondary_core_rms": 0.000988587440115493,
+    "shoulder_mean_abs": 0.000639236674275255
+  },
+  "corrected_residuals": {
+    "rms": 0.0003000315974826118,
+    "mean_abs": 0.00023416186252445644,
+    "max_abs": 0.0011153167860897817,
+    "primary_core_mean": 7.756731983700317e-05,
+    "secondary_core_mean": -1.3239717013992699e-05,
+    "primary_core_rms": 0.00042125468151967693,
+    "secondary_core_rms": 0.0002660305430938102,
+    "shoulder_mean_abs": 0.00022237416959142395
+  },
+  "n_phase_bins": 160,
+  "spline_smoothing": 88.0
+}

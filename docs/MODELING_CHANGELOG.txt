@@ -1,0 +1,63 @@
+TIC 106588577 modeling changelog
+=================================
+
+2026-08-04
+
+- Added a residual-trend search workflow to target coherent eclipse residuals directly instead of optimizing only global chi-squared.
+- New script: src/run_residual_trend_search.py
+- Input light curve: data/J071951.40-240400.6_LightCurve_multisector_binned.txt
+- Base bundle: bundles/tic_106588577_powell_ready.phoebe
+- Fixed period: 1.0118536926383312 d
+- Fixed reference t0 for folding: 1492.5441099999998 d
+- Starting point: results/final/tic_106588577_multisector_controlled_best.phoebe parameters.
+- Parameters allowed to vary in the first automated residual-trend search:
+  incl@binary, t0_supconj@binary, requiv@primary, secondary Roche fill factor,
+  teffratio, gravb_bol for both stars, lc01 limb-darkening coefficients for both
+  stars, syncpar for both stars, q, and sma.
+- Objective function:
+  total RMS residual plus a weighted penalty for coherent residual means and
+  median absolute residuals inside the primary eclipse, secondary eclipse, and
+  eclipse shoulders.
+
+- First residual-trend search result:
+  The best residual-trend candidate reduced the custom eclipse-trend score, but
+  it increased global chi-squared and produced a worse broad phase trend in the
+  residual plot. It was retained as a test artifact, not adopted as the main
+  physical PHOEBE model.
+  Metrics on the full 1200-bin curve:
+  chi-squared = 60530.44545032243
+  RMS = 0.0013917716467213425
+  primary eclipse mean residual = 0.000074389625755621
+  secondary eclipse mean residual = 0.00029903025345716307
+  conclusion = lower eclipse-core offset, but worse global fit and visibly
+  unacceptable residual trend.
+
+- Added empirical residual-correction diagnostic script:
+  src/make_empirical_residual_correction.py
+- Purpose:
+  generate a residual plot with no coherent eclipse-phase trend by fitting a
+  smooth spline to the binned residual medians from the best controlled PHOEBE
+  model and adding that smooth residual component back to the model curve.
+- Important interpretation:
+  this is an empirical diagnostic correction, not a physical PHOEBE binary
+  solution. It shows the phase-dependent structure that the current PHOEBE
+  geometry is failing to capture.
+- Empirical correction result:
+  source physical model = results/final/tic_106588577_multisector_controlled_best.phoebe
+  source PHOEBE model = controlled_search_best
+  raw PHOEBE RMS = 0.001118510879687342
+  corrected RMS = 0.0003000315974826118
+  raw primary eclipse mean residual = -0.002385407777233814
+  corrected primary eclipse mean residual = 0.00007756731983700317
+  raw secondary eclipse mean residual = 0.00009545666525175618
+  corrected secondary eclipse mean residual = -0.000013239717013992699
+  raw max absolute residual = 0.0054177624871794006
+  corrected max absolute residual = 0.0011153167860897817
+- Output files:
+  results/test/residual_trend_search/residual_trend_best_diagnostic.png
+  results/test/residual_trend_search/residual_trend_search_result.json
+  results/test/residual_trend_search/tic_106588577_residual_trend_best.phoebe
+  results/test/empirical_residual_correction/empirical_residual_corrected_diagnostic.png
+  results/test/empirical_residual_correction/empirical_residual_correction_result.json
+  results/test/empirical_residual_correction/empirical_residual_corrected_curve.txt
+  results/test/empirical_residual_correction/empirical_residual_correction_spline.txt
