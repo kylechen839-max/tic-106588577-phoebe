@@ -1,0 +1,36 @@
+{
+  "timestamp_utc": "2026-08-05T07:13:24.301761+00:00",
+  "target": "J112238.89-592027.5",
+  "input_lc": "outputs/j1122_tess_multisector_s10_s11_s37/J112238.89-592027.5_LightCurve_multisector_binned_220.txt",
+  "period": 4.790978516308605,
+  "t0": 1573.0869,
+  "status": "success",
+  "baseline_model": "j1122_after_lcgeo",
+  "baseline_chi2": 6613385.147542531,
+  "baseline_residuals": {
+    "sum_squares": 0.8595943749166721,
+    "rms": 0.06250797676066748,
+    "mean_abs": 0.020303058643480948,
+    "max_abs": 0.4494457032420712,
+    "n_points": 220
+  },
+  "emcee": {
+    "params": [
+      "incl@binary",
+      "t0_supconj@binary"
+    ],
+    "nwalkers": 8,
+    "niters": 10,
+    "best_iter": 9,
+    "best_walker": 6,
+    "best_lnprob": -3039915.3187266598
+  },
+  "emcee_best_chi2": 6083007.995540482,
+  "emcee_best_residuals": {
+    "sum_squares": 0.8414299497980717,
+    "rms": 0.061844010138341086,
+    "mean_abs": 0.019780340422110854,
+    "max_abs": 0.4508414450072188,
+    "n_points": 220
+  }
+}

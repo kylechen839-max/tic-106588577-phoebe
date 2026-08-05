@@ -29,6 +29,16 @@ def parse_args():
     parser.add_argument("--cutout-size", type=int, default=20)
     parser.add_argument("--target-threshold", type=float, default=10.0)
     parser.add_argument("--reference-pixel", default="12,12")
+    parser.add_argument(
+        "--target-y",
+        default=None,
+        help="Optional custom target aperture y slice, e.g. 4:6. Overrides threshold mask.",
+    )
+    parser.add_argument(
+        "--target-x",
+        default=None,
+        help="Optional custom target aperture x slice, e.g. 4:6. Overrides threshold mask.",
+    )
     parser.add_argument("--background-y", default="18:24")
     parser.add_argument("--background-x", default="1:12")
     parser.add_argument("--pca-components", type=int, default=5)
@@ -123,10 +133,17 @@ def process_pixel_file(pf, args, sector):
     background_y = parse_slice(args.background_y)
     background_x = parse_slice(args.background_x)
 
-    target_mask = pf.create_threshold_mask(
-        threshold=args.target_threshold,
-        reference_pixel=reference_pixel,
-    )
+    if args.target_y and args.target_x:
+        target_mask = build_background_mask(
+            pf.shape[1:],
+            parse_slice(args.target_y),
+            parse_slice(args.target_x),
+        )
+    else:
+        target_mask = pf.create_threshold_mask(
+            threshold=args.target_threshold,
+            reference_pixel=reference_pixel,
+        )
     background_mask = build_background_mask(
         pf.shape[1:],
         background_y,

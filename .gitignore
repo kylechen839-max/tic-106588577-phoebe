@@ -9,3 +9,4 @@ venv/
 .venv-tess/
 phoebe-env/
 Miniforge3-*.sh
+*emcee_solution*.ps
