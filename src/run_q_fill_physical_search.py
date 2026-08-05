@@ -1,0 +1,341 @@
+import json
+from datetime import datetime, timezone
+from pathlib import Path
+
+import matplotlib
+
+matplotlib.use("Agg")
+
+import matplotlib.pyplot as plt
+import numpy as np
+import phoebe
+
+
+REPO_DIR = Path(__file__).resolve().parents[1]
+BASE_BUNDLE = REPO_DIR / "bundles" / "tic_106588577_powell_ready.phoebe"
+INPUT_LC = REPO_DIR / "data" / "J071951.40-240400.6_LightCurve_multisector_binned.txt"
+OUTPUT_DIR = REPO_DIR / "outputs" / "q_fill_physical_search"
+PERIOD = 1.0118536926383312
+T0 = 1492.5441099999998
+RNG_SEED = 106588580
+
+
+def load_input(path):
+    data = np.loadtxt(path, comments="#").T
+    times, fluxes, sigmas = data[0], data[1], data[2]
+    sigmas = np.maximum(sigmas, np.nanmedian(sigmas))
+    return times, fluxes, sigmas
+
+
+def phase_values(times, t0):
+    phase = ((times - t0) / PERIOD) % 1.0
+    return np.where(phase > 0.8, phase - 1.0, phase)
+
+
+def rebin(times, fluxes, sigmas, t0, n_bins):
+    phase = phase_values(times, t0)
+    bins = np.linspace(-0.2, 0.8, n_bins + 1)
+    rows = []
+    for lower, upper in zip(bins[:-1], bins[1:]):
+        mask = (phase >= lower) & (phase < upper)
+        if not np.any(mask):
+            continue
+        bin_phase = 0.5 * (lower + upper)
+        bin_flux = np.nanmedian(fluxes[mask])
+        scatter = 1.4826 * np.nanmedian(np.abs(fluxes[mask] - bin_flux))
+        if not np.isfinite(scatter) or scatter <= 0:
+            scatter = np.nanmedian(sigmas[mask])
+        rows.append((t0 + bin_phase * PERIOD, bin_flux, scatter / np.sqrt(mask.sum())))
+    out = np.asarray(rows, dtype=float)
+    return out[:, 0], out[:, 1], np.maximum(out[:, 2], np.nanmedian(out[:, 2]))
+
+
+def prepare_bundle(times, fluxes, sigmas):
+    b = phoebe.load(str(BASE_BUNDLE))
+    for twig in b.filter(context="constraint", constraint_func="semidetached").twigs:
+        try:
+            b.remove_constraint(twig)
+        except Exception:
+            pass
+    b.set_value("period@binary@orbit@component", PERIOD)
+    b.set_value("t0_supconj@binary@orbit@component", T0)
+    b.set_value("times@lc01@lc@dataset", times)
+    b.set_value("fluxes@lc01@lc@dataset", fluxes)
+    b.set_value("sigmas@lc01@lc@dataset", sigmas)
+    b.set_value("pblum_mode@lc01", "dataset-scaled")
+    return b
+
+
+def set_candidate(b, candidate):
+    b.set_value("q@binary@orbit@component", candidate["q"])
+    b.set_value("incl@binary@orbit@component", candidate["incl"])
+    b.set_value("t0_supconj@binary@orbit@component", candidate["t0"])
+    b.set_value("sma@binary@orbit@component", candidate["sma"])
+
+    requiv_secondary_max = b.get_value("requiv_max@secondary@star@component")
+    b.set_value(
+        "requiv@secondary@star@component",
+        candidate["secondary_fill"] * requiv_secondary_max,
+    )
+
+    requiv_primary_max = b.get_value("requiv_max@primary@star@component")
+    requiv_primary = min(candidate["requiv_primary"], 0.96 * requiv_primary_max)
+    b.set_value("requiv@primary@star@component", requiv_primary)
+
+    teff_primary = b.get_value("teff@primary@star@component")
+    b.set_value("teff@secondary@star@component", candidate["teffratio"] * teff_primary)
+    b.set_value("gravb_bol@primary@star@component", candidate["gravb_primary"])
+    b.set_value("gravb_bol@secondary@star@component", candidate["gravb_secondary"])
+
+
+def residual_metrics(phase, residuals):
+    primary = np.abs(phase) < 0.045
+    secondary = np.abs(phase - 0.5) < 0.035
+    shoulders = ((np.abs(phase) >= 0.045) & (np.abs(phase) < 0.11)) | (
+        (np.abs(phase - 0.5) >= 0.035) & (np.abs(phase - 0.5) < 0.09)
+    )
+    broad = (phase > 0.12) & (phase < 0.78)
+
+    def mean(mask):
+        return float(np.mean(residuals[mask]))
+
+    def rms(mask):
+        return float(np.sqrt(np.mean(residuals[mask] ** 2)))
+
+    def mean_abs(mask):
+        return float(np.mean(np.abs(residuals[mask])))
+
+    trend_score = (
+        3.5 * abs(mean(primary))
+        + 2.5 * abs(mean(secondary))
+        + 1.6 * mean_abs(primary)
+        + 1.3 * mean_abs(secondary)
+        + 1.0 * mean_abs(shoulders)
+        + 1.0 * mean_abs(broad)
+    )
+    return {
+        "rms": float(np.sqrt(np.mean(residuals**2))),
+        "mean_abs": float(np.mean(np.abs(residuals))),
+        "max_abs": float(np.max(np.abs(residuals))),
+        "primary_core_mean": mean(primary),
+        "secondary_core_mean": mean(secondary),
+        "primary_core_rms": rms(primary),
+        "secondary_core_rms": rms(secondary),
+        "shoulder_mean_abs": mean_abs(shoulders),
+        "broad_mean_abs": mean_abs(broad),
+        "trend_score": float(trend_score),
+    }
+
+
+def evaluate(b, candidate, model):
+    set_candidate(b, candidate)
+    b.run_compute(compute="phoebe01", model=model, overwrite=True)
+    times = np.asarray(b.get_value("times@lc01@lc@dataset"), dtype=float)
+    observed = np.asarray(b.get_value("fluxes@lc01@lc@dataset"), dtype=float)
+    predicted = np.asarray(
+        b.get_value(f"fluxes@lc01@phoebe01@{model}@lc@model"),
+        dtype=float,
+    )
+    t0 = float(b.get_value("t0_supconj@binary@orbit@component"))
+    phase = phase_values(times, t0)
+    residuals = observed - predicted
+    metrics = residual_metrics(phase, residuals)
+    objective = metrics["rms"] + 0.45 * metrics["trend_score"]
+    return {
+        "model": model,
+        "candidate": dict(candidate),
+        "chi2": float(b.calculate_chi2(model=model, dataset="lc01")),
+        "objective": float(objective),
+        **metrics,
+    }
+
+
+def base_candidate():
+    return {
+        "q": 1.0,
+        "sma": 10.12605462848939,
+        "secondary_fill": 0.995,
+        "incl": 159.59668610123063,
+        "t0": T0,
+        "requiv_primary": 1.5360075942651437,
+        "teffratio": 0.7208571428571429,
+        "gravb_primary": 0.9,
+        "gravb_secondary": 1.0,
+    }
+
+
+def candidate_grid():
+    base = base_candidate()
+    candidates = []
+    for q in [0.35, 0.5, 0.7, 1.0, 1.4, 2.0, 2.8]:
+        for secondary_fill in [0.82, 0.9, 0.96, 0.995]:
+            for incl in [156.0, 159.6, 163.0, 167.0, 171.0]:
+                c = dict(base)
+                c.update({"q": q, "secondary_fill": secondary_fill, "incl": incl})
+                candidates.append(c)
+
+    rng = np.random.default_rng(RNG_SEED)
+    for _ in range(110):
+        c = dict(base)
+        c.update(
+            {
+                "q": float(10 ** rng.uniform(np.log10(0.3), np.log10(3.2))),
+                "sma": float(rng.uniform(8.0, 14.0)),
+                "secondary_fill": float(rng.uniform(0.78, 0.999)),
+                "incl": float(rng.uniform(154.0, 174.0)),
+                "t0": float(T0 + rng.normal(0.0, 0.0012)),
+                "requiv_primary": float(rng.uniform(1.15, 2.25)),
+                "teffratio": float(rng.uniform(0.66, 0.79)),
+                "gravb_primary": float(rng.uniform(0.65, 1.0)),
+                "gravb_secondary": float(rng.uniform(0.65, 1.0)),
+            }
+        )
+        candidates.append(c)
+    return candidates
+
+
+def local_candidates(center):
+    rng = np.random.default_rng(RNG_SEED + 1)
+    candidates = []
+    for _ in range(90):
+        c = dict(center)
+        c.update(
+            {
+                "q": float(np.clip(center["q"] * np.exp(rng.normal(0, 0.22)), 0.25, 4.0)),
+                "sma": float(np.clip(center["sma"] + rng.normal(0, 0.7), 7.0, 15.0)),
+                "secondary_fill": float(np.clip(center["secondary_fill"] + rng.normal(0, 0.035), 0.72, 0.999)),
+                "incl": float(np.clip(center["incl"] + rng.normal(0, 2.0), 150.0, 178.5)),
+                "t0": float(center["t0"] + rng.normal(0, 0.00045)),
+                "requiv_primary": float(np.clip(center["requiv_primary"] + rng.normal(0, 0.18), 0.8, 2.8)),
+                "teffratio": float(np.clip(center["teffratio"] + rng.normal(0, 0.018), 0.58, 0.88)),
+                "gravb_primary": float(np.clip(center["gravb_primary"] + rng.normal(0, 0.07), 0.45, 1.0)),
+                "gravb_secondary": float(np.clip(center["gravb_secondary"] + rng.normal(0, 0.07), 0.45, 1.0)),
+            }
+        )
+        candidates.append(c)
+    return candidates
+
+
+def save_plot(b, result, output_dir, prefix):
+    model = result["model"]
+    t0 = float(b.get_value("t0_supconj@binary@orbit@component"))
+    times = np.asarray(b.get_value("times@lc01@lc@dataset"), dtype=float)
+    observed = np.asarray(b.get_value("fluxes@lc01@lc@dataset"), dtype=float)
+    predicted = np.asarray(
+        b.get_value(f"fluxes@lc01@phoebe01@{model}@lc@model"),
+        dtype=float,
+    )
+    phase = phase_values(times, t0)
+    residuals = observed - predicted
+    order = np.argsort(phase)
+    bins = np.linspace(-0.2, 0.8, 101)
+    mids, meds = [], []
+    for lo, hi in zip(bins[:-1], bins[1:]):
+        mask = (phase >= lo) & (phase < hi)
+        if np.any(mask):
+            mids.append(0.5 * (lo + hi))
+            meds.append(np.median(residuals[mask]))
+
+    fig, (ax, rx) = plt.subplots(
+        2,
+        1,
+        figsize=(10, 7),
+        sharex=True,
+        gridspec_kw={"height_ratios": [3, 1], "hspace": 0.05},
+    )
+    ax.scatter(phase, observed, s=8, color="0.25", alpha=0.45, linewidths=0)
+    ax.plot(phase[order], predicted[order], color="#dc2626", lw=2)
+    ax.set_ylabel("Flux")
+    ax.set_title(
+        f"{prefix}: chi2={result['chi2']:.1f}, rms={result['rms']:.6f}, "
+        f"trend={result['trend_score']:.6f}"
+    )
+    rx.axhline(0, color="0.45", lw=1)
+    rx.scatter(phase, residuals, s=8, color="0.25", alpha=0.45, linewidths=0)
+    rx.plot(mids, meds, color="#2563eb", lw=1.8, label="binned residual median")
+    rx.legend(loc="upper right", fontsize=8)
+    rx.set_xlabel("Phase")
+    rx.set_ylabel("Obs-model")
+    ax.set_xlim(-0.2, 0.8)
+    fig.savefig(output_dir / f"{prefix}_diagnostic.png", dpi=220, bbox_inches="tight")
+    plt.close(fig)
+
+
+def main():
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    full_times, full_fluxes, full_sigmas = load_input(INPUT_LC)
+    search_times, search_fluxes, search_sigmas = rebin(full_times, full_fluxes, full_sigmas, T0, 180)
+
+    search_b = prepare_bundle(search_times, search_fluxes, search_sigmas)
+    results, failures = [], []
+    best = None
+    candidates = candidate_grid()
+    for idx, candidate in enumerate(candidates):
+        try:
+            result = evaluate(search_b, candidate, f"q_fill_search_{idx:04d}")
+            results.append(result)
+            if best is None or result["objective"] < best["objective"]:
+                best = result
+                print(
+                    "accepted",
+                    idx,
+                    f"objective={result['objective']:.7f}",
+                    f"rms={result['rms']:.7f}",
+                    f"trend={result['trend_score']:.7f}",
+                    f"chi2={result['chi2']:.2f}",
+                    result["candidate"],
+                )
+            elif idx % 25 == 0:
+                print("checked", idx, f"best_objective={best['objective']:.7f}")
+        except Exception as exc:
+            failures.append({"idx": idx, "candidate": candidate, "error": str(exc)})
+
+    for offset, candidate in enumerate(local_candidates(best["candidate"]), start=len(candidates)):
+        try:
+            result = evaluate(search_b, candidate, f"q_fill_search_{offset:04d}")
+            results.append(result)
+            if result["objective"] < best["objective"]:
+                best = result
+                print(
+                    "accepted",
+                    offset,
+                    f"objective={result['objective']:.7f}",
+                    f"rms={result['rms']:.7f}",
+                    f"trend={result['trend_score']:.7f}",
+                    f"chi2={result['chi2']:.2f}",
+                    result["candidate"],
+                )
+            elif offset % 25 == 0:
+                print("checked", offset, f"best_objective={best['objective']:.7f}")
+        except Exception as exc:
+            failures.append({"idx": offset, "candidate": candidate, "error": str(exc)})
+
+    ranked = sorted(results, key=lambda item: item["objective"])
+    full_b = prepare_bundle(full_times, full_fluxes, full_sigmas)
+    final = evaluate(full_b, ranked[0]["candidate"], "q_fill_physical_best")
+    save_plot(full_b, final, OUTPUT_DIR, "q_fill_physical_best")
+    full_b.save(str(OUTPUT_DIR / "tic_106588577_q_fill_physical_best.phoebe"))
+
+    output = {
+        "timestamp_utc": datetime.now(timezone.utc).isoformat(),
+        "source_bundle": str(BASE_BUNDLE.relative_to(REPO_DIR)),
+        "period": PERIOD,
+        "t0": T0,
+        "random_seed": RNG_SEED,
+        "search_bins": int(search_times.size),
+        "full_bins": int(full_times.size),
+        "best_search_result": ranked[0],
+        "top_10_search_results": ranked[:10],
+        "final_full_result": final,
+        "n_success": len(results),
+        "n_failures": len(failures),
+        "failures": failures[:25],
+    }
+    with open(OUTPUT_DIR / "q_fill_physical_search_result.json", "w", encoding="utf-8") as handle:
+        json.dump(output, handle, indent=2)
+        handle.write("\n")
+    print(json.dumps(final, indent=2))
+
+
+if __name__ == "__main__":
+    main()

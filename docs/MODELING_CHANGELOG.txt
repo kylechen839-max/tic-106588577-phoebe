@@ -61,3 +61,122 @@ TIC 106588577 modeling changelog
   results/test/empirical_residual_correction/empirical_residual_correction_result.json
   results/test/empirical_residual_correction/empirical_residual_corrected_curve.txt
   results/test/empirical_residual_correction/empirical_residual_correction_spline.txt
+
+2026-08-04 continued
+
+- Started a physical PHOEBE spot-model branch because symmetric binary
+  parameters did not remove the coherent phase-dependent residuals.
+- Probe result:
+  adding one dark spot on the primary with colat=90 deg, long=0 deg,
+  radius=20 deg, relteff=0.8 reduced the full 1200-bin chi-squared from
+  35867.291156438136 to 29662.02872695636.
+- Added script:
+  src/run_spot_physical_search.py
+- Spot parameters explored:
+  primary spot colat, longitude, angular radius, and relative temperature.
+- Objective:
+  global RMS residual plus a smaller penalty for coherent eclipse residual
+  trend, so the search favors a physical model that improves the full light
+  curve without ignoring the eclipse mismatch.
+
+- One-primary-spot physical search result:
+  Best spot:
+    colat = 76.346839700304 deg
+    long = 7.3981441145742295 deg
+    radius = 37.54240561077953 deg
+    relteff = 0.7385109974350407
+  Metrics on the full 1200-bin curve:
+    chi-squared = 38655.981207718236
+    RMS = 0.001127867516951687
+    mean absolute residual = 0.0009586821486008423
+    max absolute residual = 0.0033729029546325506
+    primary eclipse mean residual = -0.00039675294602199555
+    secondary eclipse mean residual = -0.0002770896946860827
+    trend score = 0.0060295862649817926
+  Interpretation:
+    The primary spot reduced the most severe primary-eclipse mismatch and max
+    absolute residual relative to the controlled no-spot model, but it worsened
+    global chi-squared and RMS. It is useful evidence that a surface-brightness
+    asymmetry can absorb part of the eclipse-core residual, but it is not a
+    complete replacement for the controlled physical solution.
+
+- Added script:
+  src/run_two_spot_physical_search.py
+- Two-spot branch:
+  Kept the best primary spot fixed and searched for a secondary spot to absorb
+  the remaining secondary-eclipse and broad residual structure.
+  Best secondary spot:
+    colat = 79.7203127091482 deg
+    long = 171.15181187291455 deg
+    radius = 8.083068424093437 deg
+    relteff = 0.850950409379458
+  Metrics on the full 1200-bin curve:
+    chi-squared = 42054.58726242218
+    RMS = 0.00117298287898494
+    mean absolute residual = 0.0010055721591760217
+    max absolute residual = 0.003058671952452352
+    primary eclipse mean residual = -0.0001064278668882407
+    secondary eclipse mean residual = -0.00036407568785914605
+    trend score = 0.006075758897933421
+  Interpretation:
+    The two-spot model further reduced the primary-core mean residual and max
+    absolute residual, but it worsened the global fit and left a coherent
+    residual trend. It is retained only as a rejected/diagnostic physical branch.
+
+- Added script:
+  src/run_q_fill_physical_search.py
+- q/fill/brightness physical branch:
+  Removed the semidetached constraint from the Powell-ready bundle and searched
+  mass ratio q, semimajor axis, secondary Roche fill fraction, inclination,
+  t0_supconj, primary radius, teff ratio, and both bolometric gravity
+  brightening coefficients.
+  Best full-resolution candidate:
+    q = 1.1857744733663014
+    sma = 12.104034213448593
+    secondary fill = 0.9738810647537933
+    inclination = 155.88698353070032 deg
+    t0_supconj = 1492.544587779703 d
+    requiv primary = 1.7955060808226835
+    teffratio = 0.699890725294744
+    gravb primary = 0.6933414639629036
+    gravb secondary = 0.7245339550365854
+  Metrics on the full 1200-bin curve:
+    chi-squared = 47426.816181497445
+    RMS = 0.0012364281528485259
+    mean absolute residual = 0.001070692916017663
+    max absolute residual = 0.00330696687851173
+    primary eclipse mean residual = -0.00040104651495406556
+    secondary eclipse mean residual = 0.00013131612908126323
+    trend score = 0.0075676968652632175
+  Interpretation:
+    The q/fill search found physically different near-contact configurations,
+    but the best full-resolution result is worse than the controlled no-spot
+    baseline in chi-squared, RMS, and residual trend. It is not adopted.
+
+- Added script:
+  src/run_eclipse_spot_search.py
+- Eclipse-focused compact spot branch:
+  Started a targeted search for compact primary spots near the eclipse chord,
+  allowing small changes in inclination and t0. The run was stopped after the
+  early grid repeatedly favored tiny, low-impact spots and failed to produce an
+  improvement worth continuing. No final artifact was adopted from this branch.
+
+- Current conclusion after physical-parameter searches:
+  The mismatch has not yet been physically corrected. PHOEBE parameter changes
+  can reduce parts of the eclipse residual, especially with primary spot-like
+  surface-brightness asymmetry, but every tested physical branch either worsens
+  the global chi-squared/RMS or leaves a coherent phase trend. The empirical
+  residual correction remains only a diagnostic map of the missing structure,
+  not a physical model. The controlled no-spot model remains the best global
+  PHOEBE solution so far.
+
+- New output files:
+  results/test/spot_physical_search/spot_physical_search_result.json
+  results/test/spot_physical_search/spot_physical_best_diagnostic.png
+  results/final/tic_106588577_spot_physical_best.phoebe
+  results/test/two_spot_physical_search/two_spot_physical_search_result.json
+  results/test/two_spot_physical_search/two_spot_physical_best_diagnostic.png
+  results/test/two_spot_physical_search/tic_106588577_two_spot_physical_best.phoebe
+  results/test/q_fill_physical_search/q_fill_physical_search_result.json
+  results/test/q_fill_physical_search/q_fill_physical_best_diagnostic.png
+  results/test/q_fill_physical_search/tic_106588577_q_fill_physical_best.phoebe
