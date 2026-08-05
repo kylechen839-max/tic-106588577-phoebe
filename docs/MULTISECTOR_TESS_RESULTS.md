@@ -76,24 +76,41 @@ Result:
 
 This RMS is lower than the previous one-sector `after_powell` RMS of `0.0014644575928165597`, but the chi-squared is not directly comparable because the multi-sector binned errors are constructed from bin scatter.
 
+## Controlled Local Search
+
+I ran a controlled local search around the previous Powell geometry instead of adopting the unstable multi-sector lc_geometry radius estimate. The search used a 240-bin version of the multi-sector light curve for speed, then evaluated the accepted candidate on the full 1200-bin input.
+
+Best accepted candidate:
+
+- period: `1.0118536926383312 d`
+- `t0_supconj@binary`: `1492.54561 d`
+- `incl@binary`: `159.59668610123063 deg`
+- `requiv@primary`: `1.5360075942651437 solRad`
+- `teffratio`: `0.7208571428571429`
+- `gravb_bol@primary`: `0.9`
+- `gravb_bol@secondary`: `1.0`
+- secondary fill factor: `0.995`
+
+Full 1200-bin result:
+
+- chi-squared: `35867.291156438136`
+- RMS residual: `0.001118510879687342`
+- mean absolute residual: `0.0007281583647954803`
+- max absolute residual: `0.0054177624871794006`
+
+Compared with the old Powell geometry evaluated on the same multi-sector binned light curve:
+
+- chi-squared improved from `37097.54537827828` to `35867.291156438136`
+- RMS improved from `0.0011397137096130843` to `0.001118510879687342`
+- mean absolute residual improved from `0.0007543885310056284` to `0.0007281583647954803`
+
+The improvement is modest. The diagnostic figure still shows coherent residual structure, with the primary eclipse core underfit and a smaller mismatch near the secondary dip. This means the multi-sector data and refined period help, but the current detached/near-contact PHOEBE geometry still does not fully describe the eclipse shapes.
+
 ## Interpretation
 
 The multi-sector extraction is clearly useful. It shows that the old period was the main reason sectors did not align over the multi-year baseline.
 
 The remaining residuals are coherent in phase, not random TESS scatter. The strongest residual periodogram peak is near `3.09` cycles per orbital phase, and the residual plot shows the current model underfits the primary eclipse depth and has shape mismatch near the secondary dip.
-
-Recommended modeling path:
-
-1. Use the refined multi-sector binned light curve as the new input.
-2. Keep the refined period fixed initially.
-3. Do not fully adopt lc_geometry's `requivsumfrac` from the multi-sector curve.
-4. Fit a controlled parameter set around the old Powell geometry:
-   - `incl@binary`
-   - `t0_supconj@binary`
-   - `requiv@primary` or `requivsumfrac@binary`
-   - `teffratio@binary`
-   - possibly `gravb_bol@primary` and `gravb_bol@secondary`
-5. Keep the secondary slightly detached during optimization, for example fill factor `0.995` to `0.999`, to avoid PHOEBE projection failures at exact Roche contact.
 
 ## Figures
 
@@ -103,3 +120,5 @@ Recommended modeling path:
 - `results/test/tess_multisector/multisector_bin_counts.png`
 - `results/test/tess_multisector/old_geometry_multisector_detached_diagnostic.png`
 - `results/test/tess_multisector/multisector_residual_periodogram.png`
+- `results/test/multisector_controlled_search/controlled_search_best_diagnostic.png`
+- `results/test/multisector_controlled_search/controlled_search_result.json`

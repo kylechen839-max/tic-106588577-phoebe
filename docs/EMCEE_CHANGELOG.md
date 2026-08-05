@@ -140,3 +140,30 @@ Baseline to beat:
   - `emcee_best RMS = 0.0014600368695896705`
   - `after_powell RMS = 0.0014644575928165597`
 - Interpretation: the local workflow is functional and again finds an emcee-derived sample that beats `after_powell` in chi-squared and RMS. This was only a one-iteration smoke test, so it is not a converged posterior.
+
+### Change 5: Insert controlled multi-sector search before another long emcee run
+
+- Added `src/run_multisector_controlled_search.py`.
+- Purpose: use the cleaner multi-sector folded and binned light curve to test the parameter directions recommended after the TESS pipeline review before spending time on another expensive sampler.
+- The search intentionally kept the refined period fixed and did not adopt the unstable multi-sector lc_geometry `requivsumfrac`.
+- Parameters tested around the previous Powell solution:
+  - `incl@binary`
+  - `t0_supconj@binary`
+  - `requiv@primary`
+  - `teffratio`
+  - `gravb_bol@primary`
+  - `gravb_bol@secondary`
+- Result on the full 1200-bin multi-sector curve:
+  - old Powell geometry chi-squared: `37097.54537827828`
+  - controlled-search chi-squared: `35867.291156438136`
+  - old Powell RMS: `0.0011397137096130843`
+  - controlled-search RMS: `0.001118510879687342`
+- Best accepted change:
+  - `t0_supconj@binary = 1492.54561 d`
+  - `gravb_bol@secondary = 1.0`
+  - retained the Powell inclination, primary radius, and temperature ratio.
+- Output files:
+  - `results/final/tic_106588577_multisector_controlled_best.phoebe`
+  - `results/test/multisector_controlled_search/controlled_search_best_diagnostic.png`
+  - `results/test/multisector_controlled_search/controlled_search_result.json`
+- Interpretation: this beats the old Powell model on the multi-sector binned light curve in both chi-squared and RMS, but it is still not a converged emcee posterior. The residual structure remains coherent, especially through the eclipse cores.
