@@ -1,0 +1,28 @@
+{
+  "candidate_source": "focused recompute from interrupted wide grid",
+  "result": {
+    "model": "j1122_detached_wide_best",
+    "candidate": {
+      "incl": 83.0,
+      "t0": 1573.0869,
+      "sma": 20.0,
+      "r1": 1.5,
+      "r2": 1.125,
+      "teffratio": 0.75,
+      "gravb_primary": 0.8,
+      "gravb_secondary": 0.8
+    },
+    "chi2": 787.7378288295774,
+    "objective": 0.007168357214512394,
+    "rms": 0.0009067720990883199,
+    "mean_abs": 0.0006112655279872663,
+    "max_abs": 0.005797586115040221,
+    "primary_mean": -0.0007568036069921374,
+    "secondary_mean": -0.0009963178402074696,
+    "primary_mean_abs": 0.0012250324163215153,
+    "secondary_mean_abs": 0.0011884817020524584,
+    "out_of_eclipse_mean_abs": 0.0004347217248628316,
+    "shoulder_mean_abs": 0.0004535639549271434,
+    "trend_score": 0.008945121593462963
+  }
+}
