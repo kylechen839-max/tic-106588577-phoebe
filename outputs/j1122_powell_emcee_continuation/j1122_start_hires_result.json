@@ -1,0 +1,25 @@
+{
+  "model": "j1122_start_hires",
+  "candidate": {
+    "incl": 87.0,
+    "t0": 1573.0869,
+    "sma": 20.0,
+    "r1": 0.7,
+    "r2": 0.455,
+    "teffratio": 0.75,
+    "gravb_primary": 0.8,
+    "gravb_secondary": 0.8
+  },
+  "chi2": 679.3668684938272,
+  "objective": 0.007035556095449362,
+  "rms": 0.0009020429395795062,
+  "mean_abs": 0.0005236484326079594,
+  "max_abs": 0.006032611693734813,
+  "primary_mean": -0.0011960266224051534,
+  "secondary_mean": -0.0005911306940250225,
+  "primary_mean_abs": 0.0013383783114387926,
+  "secondary_mean_abs": 0.0007932375498084093,
+  "out_of_eclipse_mean_abs": 0.00037618875968014877,
+  "shoulder_mean_abs": 0.00035652775931139684,
+  "trend_score": 0.008762161651242653
+}

@@ -1,0 +1,138 @@
+{
+  "timestamp_utc": "2026-08-11T23:23:43.323494+00:00",
+  "target": "J112238.89-592027.5",
+  "input_lc": "outputs/j1122_tess_multisector_s10_s11_s37/J112238.89-592027.5_LightCurve_multisector_binned_220.txt",
+  "params": [
+    "incl",
+    "t0",
+    "r1",
+    "r2",
+    "teffratio"
+  ],
+  "bounds": {
+    "incl": [
+      85.8,
+      88.5
+    ],
+    "t0": [
+      1573.0851,
+      1573.0887
+    ],
+    "r1": [
+      0.55,
+      0.9
+    ],
+    "r2": [
+      0.32,
+      0.62
+    ],
+    "teffratio": [
+      0.58,
+      0.95
+    ]
+  },
+  "start": {
+    "incl": 87.0,
+    "t0": 1573.0869,
+    "sma": 20.0,
+    "r1": 0.7,
+    "r2": 0.455,
+    "teffratio": 0.75,
+    "gravb_primary": 0.8,
+    "gravb_secondary": 0.8
+  },
+  "status": "success",
+  "powell": {
+    "optimizer_result": {
+      "success": true,
+      "message": "Optimization terminated successfully.",
+      "fun": 748.4965213833325,
+      "nit": 2,
+      "nfev": 106,
+      "x": [
+        87.00638549741235,
+        1573.0875692510388,
+        0.6989251602154395,
+        0.4550842850064301,
+        0.6979549275328235
+      ]
+    },
+    "best": {
+      "model": "j1122_after_bounded_powell",
+      "candidate": {
+        "incl": 87.00638549741235,
+        "t0": 1573.0875692510388,
+        "sma": 20.0,
+        "r1": 0.6989251602154395,
+        "r2": 0.4550842850064301,
+        "teffratio": 0.6979549275328235,
+        "gravb_primary": 0.8,
+        "gravb_secondary": 0.8
+      },
+      "chi2": 748.4965213833325,
+      "objective": 0.007242671162920338,
+      "rms": 0.0009323006433558526,
+      "mean_abs": 0.000553829532785213,
+      "max_abs": 0.006314619891203299,
+      "primary_mean": -0.0012771317922806401,
+      "secondary_mean": -0.0006060254234258785,
+      "primary_mean_abs": 0.0013390045497477475,
+      "secondary_mean_abs": 0.0007081669744855487,
+      "out_of_eclipse_mean_abs": 0.0004211598594651681,
+      "shoulder_mean_abs": 0.0004023043135176802,
+      "trend_score": 0.009014815027949265
+    }
+  },
+  "emcee": {
+    "nwalkers": 16,
+    "niters": 40,
+    "discard": 20,
+    "thin": 2,
+    "best_iter": 36,
+    "best_walker": 11,
+    "best_log_prob": -339.05047620985073,
+    "best": {
+      "model": "j1122_emcee_best",
+      "candidate": {
+        "incl": 86.95709359254643,
+        "t0": 1573.0880589116282,
+        "sma": 20.0,
+        "r1": 0.6970302857526676,
+        "r2": 0.4695733851491268,
+        "teffratio": 0.702220116514112,
+        "gravb_primary": 0.8,
+        "gravb_secondary": 0.8
+      },
+      "chi2": 670.648827783586,
+      "objective": 0.0070842789843901036,
+      "rms": 0.0008974307769047845,
+      "mean_abs": 0.0005204621331250421,
+      "max_abs": 0.006018268196632981,
+      "primary_mean": -0.0011921640583309977,
+      "secondary_mean": -0.000658392237818046,
+      "primary_mean_abs": 0.0013261355253018127,
+      "secondary_mean_abs": 0.000741098154714843,
+      "out_of_eclipse_mean_abs": 0.0003832449985540412,
+      "shoulder_mean_abs": 0.0003566549246585282,
+      "trend_score": 0.008838354582121885
+    },
+    "acceptance_fraction_mean": 0.2140625,
+    "acceptance_fraction_min": 0.025,
+    "acceptance_fraction_max": 0.425,
+    "posterior_median": {
+      "incl": 86.96430493917775,
+      "t0": 1573.0879065735317,
+      "r1": 0.7007227059561483,
+      "r2": 0.46100754079890893,
+      "teffratio": 0.6954806391647049
+    },
+    "posterior_std": {
+      "incl": 0.037544432207981385,
+      "t0": 0.000447897580800226,
+      "r1": 0.047690560356632716,
+      "r2": 0.058723799100438324,
+      "teffratio": 0.02211030571229901
+    },
+    "max_flat_log_prob": -339.05047620985073
+  }
+}
