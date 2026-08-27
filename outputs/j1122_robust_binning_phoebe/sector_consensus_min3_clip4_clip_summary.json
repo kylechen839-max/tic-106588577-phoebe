@@ -1,0 +1,9 @@
+{
+  "source_bins": 210,
+  "kept_bins": 210,
+  "removed_bins": 0,
+  "clip_sigma": 4.0,
+  "continuum_median": 1.0002047875,
+  "continuum_robust_scatter": 0.00037239576150004843,
+  "removed_phases": []
+}
