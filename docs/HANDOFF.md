@@ -92,7 +92,7 @@ Started ~19:50 UTC on 2026-10-02; expected to take ~2 h. The processes continue 
 
 | Run | Command tag | Output when done |
 |---|---|---|
-| J033226.58+520357.1, J223949.47+583254.4, J045912.77+165543.8, J221843.61+544715.0, J231201.40+532028.6 | `--tag _v2` | `outputs/candidates/<name>/<name>_phoebe_result_v2.json` |
+| J033226.58+520357.1, J045912.77+165543.8, J221843.61+544715.0, J231201.40+532028.6 | `--tag _v2` | `outputs/candidates/<name>/<name>_phoebe_result_v2.json` |
 | J160415.99−562627.3, J232537.66+613847.9 (eccentric, q fitted; relaunched ~21:30 UTC from cached grids) | none | `<name>_phoebe_result.json` |
 
 Check status and relaunch if needed:
@@ -125,6 +125,10 @@ The round-2 code differs from round 1:
    - Re-derive Teff with an extinction-corrected SED (Gaia BP/RP + 2MASS with A_V free, e.g. from Bayestar/Green dust maps or a fit). Then rerun the PHOEBE fit with `--teff`.
    - If it is still overluminous, try `--fit-l3`.
    - A large fitted l3 together with an overluminous SED points to a third star, which would also affect whether the IR excess belongs to the EB.
+   - **J2239+58 `_v2` is done and did not improve**: χ²_red 243; the primary is 0.047 too shallow (−55σ). Multi-start reaches the same minimum.
+     - Likely cause: the deep (0.39) V-shaped primary needs the hotter star eclipsed by a larger, cooler companion near i = 90°.
+     - Try `--eccentric yes`, since the secondary is at φ = 0.504 with unequal widths.
+     - Seed T2/T1 lower, and let k go above 1.4 (the current bound).
 3. **J1419−56 (passes every check):** look for higher-resolution 24 µm data (Spitzer MIPS, AKARI), check for apsidal motion with `eclipse_timing.py`, and test the result's sensitivity to the assumed Teff and q.
 4. **J2218+54 (strongest SED):** add a cool spot for the O'Connell asymmetry and consider ld/gravity-darkening refinements. It is worth requesting RVs.
 5. **J1122:** redo the custom-aperture extraction for all 7 sectors on the new ephemeris (`src/extract_multisector_tess_lightcurve.py --period 4.7917045 --t0 3762.8427`). Compare its eclipse depth with QLP and refit. Do not reuse the old `outputs/j1122_*` binned files; they use the wrong period.
