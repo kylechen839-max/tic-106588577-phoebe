@@ -58,7 +58,26 @@ Input: `outputs/candidates/J112238.89-592027.5/J112238.89-592027.5_binned.txt`. 
 
 Pipeline: `src/pipeline/run_phoebe_candidate.py --teff 7705 --fit-l3 --l3 0.37 --tag _7sector` (grid → Nelder–Mead → emcee → high-resolution recompute).
 
-**Status (2026-10-02): running.** The grid best was χ² = 904 (i = 89.5°, r₁+r₂ = 0.084, l3 = 0.37). Nelder–Mead has reached χ² = 360 after 450 evaluations; emcee and the post-fit checks are pending. Results will be written to `outputs/candidates/J112238.89-592027.5/J112238.89-592027.5_phoebe_result_7sector.json`. Because the input differs (7 sectors, QLP, new ephemeris), χ² cannot be compared directly with the earlier 3-sector values (292–640).
+**Result (2026-10-02):**
+
+| Parameter | Value |
+|---|---|
+| Inclination | 89.80° |
+| r₁ / r₂ (R/a) | 0.0986 / 0.0331 |
+| T2/T1 | 0.572 (T2 ≈ 4410 K) |
+| Third light, fitted | **0.16** (TIC contamination predicts ~0.37) |
+| χ²_red | **1.77** |
+| RMS | 1.86 ppt |
+| Eclipse bias (primary / secondary) | -3.2σ / -0.8σ |
+
+This is a good light-curve fit on the corrected ephemeris. The primary bias is only borderline (|bias| < 3σ is the pass threshold). The binary-blackbody check fails:
+- the photosphere fit to J, H, Ks, W1 gives χ² = 116;
+- d_phot / d_Gaia = 0.51, i.e. J1122 is ~3.8× more luminous than an MS binary at 7705 K with this geometry;
+- the W3/W4 excess survives the binary photosphere at 32σ / 13σ.
+
+Bundle: `outputs/candidates/J112238.89-592027.5/J112238.89-592027.5_phoebe_best_7sector.phoebe`
+
+![J1122 7-sector fit](../outputs/candidates/J112238.89-592027.5/J112238.89-592027.5_phoebe_fit_7sector.png)
 
 ## Recommended next steps for J1122
 

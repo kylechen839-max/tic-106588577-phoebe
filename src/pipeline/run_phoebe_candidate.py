@@ -127,6 +127,8 @@ class Model:
         incl, dt0, rsum, k, tr = (d[n] for n in PARAMS[:5])
         if "l3" in d:
             self.b.set_value("l3_frac@lc01", d["l3"])
+        if "q" in d:
+            self.b.set_value("q@binary", d["q"])
         if "ecosw" in d:
             ecc = math.hypot(d["ecosw"], d["esinw"])
             if ecc >= 0.9:
@@ -194,6 +196,7 @@ def bounds_for(rsum0, distortion):
         "l3": (0.0, 0.8),
         "ecosw": (-0.6, 0.6),
         "esinw": (-0.7, 0.7),
+        "q": (0.15, 1.5),
     }
 
 
@@ -201,27 +204,37 @@ def in_bounds(v, B):
     return all(B[n][0] <= x <= B[n][1] for n, x in zip(PARAMS, v))
 
 
-def grid_search(m, rsum0, tr0, B, log):
-    best = (np.inf, None)
+def grid_search(m, rsum0, tr0, B, log, ntop=3):
+    """Coarse grid; returns the best (chi2, v) and the top-ntop distinct grid points."""
+    results = []
     incls = [74, 80, 84, 87, 89.5]
     rsums = [rsum0 * f for f in (0.7, 0.85, 1.0, 1.2, 1.4)]
-    ks = [0.5, 0.75, 1.0]
+    ks = [0.5, 0.75, 1.0, 1.3]
     trs = sorted(set([float(np.clip(tr0 * f, 0.3, 1.2)) for f in (0.8, 1.0, 1.2)]))
-    n = 0
+    best = np.inf
     for incl in incls:
         for rs in rsums:
             for k in ks:
                 for tr in trs:
-                    extra = {"l3": m.l3_start, "ecosw": m.ecosw_start, "esinw": m.esinw_start}
-                    v = np.array([incl, 0.0, rs, k, tr] + [extra[n] for n in PARAMS[5:]])
+                    extra = {"l3": m.l3_start, "ecosw": m.ecosw_start, "esinw": m.esinw_start, "q": m.q_start}
+                    v = np.array([incl, m.dt0_start, rs, k, tr] + [extra[n] for n in PARAMS[5:]])
                     if not in_bounds(v, B):
                         continue
                     chi2, _ = m.evaluate(v)
-                    n += 1
-                    if chi2 < best[0]:
-                        best = (chi2, v)
-                        log(f"  grid {n}: chi2={chi2:.1f} v={np.round(v, 4).tolist()}")
-    return best
+                    if np.isfinite(chi2):
+                        results.append((chi2, v))
+                        if chi2 < best:
+                            best = chi2
+                            log(f"  grid {len(results)}: chi2={chi2:.1f} v={np.round(v, 4).tolist()}")
+    results.sort(key=lambda r: r[0])
+    top = []
+    for c, v in results:
+        # distinct = differs from every kept point in incl by >2 deg or in k or rsum
+        if all(abs(v[0] - t[1][0]) > 2 or abs(v[3] - t[1][3]) > 0.05 or abs(v[2] - t[1][2]) > 0.01 for t in top):
+            top.append((c, v))
+        if len(top) >= ntop:
+            break
+    return (top[0] if top else (np.inf, None)), top
 
 
 def powell(m, v0, B, maxiter, log, maxfev=None):
@@ -274,7 +287,7 @@ def run_emcee(m, v0, B, nwalkers, niter, scale_chi2, log):
     import emcee
     rng = np.random.default_rng(1)
     steps = {"incl": 0.3, "dt0": 0.0004, "rsum": 0.01 * v0[2], "k": 0.03, "teffratio": 0.02, "l3": 0.02,
-             "ecosw": 0.002, "esinw": 0.01}
+             "ecosw": 0.002, "esinw": 0.01, "q": 0.03}
     step = np.array([steps[n] for n in PARAMS])
     p0 = []
     while len(p0) < nwalkers:
@@ -413,6 +426,8 @@ def main():
     ap.add_argument("--iters", type=int, default=30)
     ap.add_argument("--l3", type=float, default=0.0, help="third light (fraction of total); start value if --fit-l3")
     ap.add_argument("--fit-l3", action="store_true", help="fit third light as a free parameter")
+    ap.add_argument("--fit-q", choices=["auto", "yes", "no"], default="auto",
+                    help="fit mass ratio; auto = for Roche-distortion (P < 3 d) systems")
     ap.add_argument("--eccentric", choices=["auto", "yes", "no"], default="auto",
                     help="fit ecosw/esinw; auto = when the secondary eclipse is >0.01 in phase from 0.5")
     ap.add_argument("--period", type=float, default=None, help="override ephemeris period")
@@ -447,13 +462,17 @@ def main():
         PARAMS.extend(["ecosw", "esinw"])
     tag = args.tag
     distortion = args.distortion or ("roche" if period < 3 else "sphere")
+    fit_q = args.fit_q == "yes" or (args.fit_q == "auto" and distortion == "roche")
+    if fit_q:
+        PARAMS.append("q")  # ellipsoidal amplitude depends on q for close (Roche) systems
     log(f"=== {name} {datetime.now(timezone.utc).isoformat()}  P={period:.6f} t0={t0:.5f} Teff1={teff1:.0f} "
         f"M1~{m1:.2f} q={q} distortion={distortion} nbins={len(times)}")
 
     rsum0, tr0, width = initial_guesses(eph, flux, times)
     B = bounds_for(rsum0, distortion)
     m = Model(times, flux, sig, period, t0, teff1, m1, q, distortion, args.ntri, l3=args.l3)
-    m.l3_start, m.ecosw_start, m.esinw_start = args.l3, ecosw0, esinw0
+    m.l3_start, m.ecosw_start, m.esinw_start, m.q_start = args.l3, ecosw0, esinw0, q
+    m.dt0_start = float(np.clip(ecl.get("phase1", 0.0) * period, -0.009, 0.009))
     if eccentric:
         log(f"  eccentric: secondary at phase {phase2:.4f} -> ecosw0={ecosw0:.4f}, esinw0={esinw0:.3f}")
     log(f"  sma={m.sma:.2f} Rsun, eclipse width {width:.3f} -> rsum0={rsum0:.3f}, teffratio0={tr0:.2f}")
@@ -463,19 +482,38 @@ def main():
     if grid_cache.exists() and json.loads(grid_cache.read_text()).get("params") == PARAMS:
         g = json.loads(grid_cache.read_text())
         chi_grid, v_grid = g["chi2"], np.array(g["v"])
+        top = [(c, np.array(v)) for c, v in g.get("top", [[chi_grid, g["v"]]])]
         log("  using cached grid result")
     else:
-        chi_grid, v_grid = grid_search(m, rsum0, tr0, B, log)
+        (chi_grid, v_grid), top = grid_search(m, rsum0, tr0, B, log)
         if v_grid is not None:
-            grid_cache.write_text(json.dumps({"params": PARAMS, "chi2": chi_grid, "v": list(map(float, v_grid))}))
+            grid_cache.write_text(json.dumps({"params": PARAMS, "chi2": chi_grid, "v": list(map(float, v_grid)),
+                                              "top": [[float(c), list(map(float, v))] for c, v in top]}))
     if v_grid is None:
         raise SystemExit("grid search produced no valid model")
     log(f"grid best chi2={chi_grid:.2f} ({time.time() - t_start:.0f}s)")
-    chi_pow, v_pow, nev = powell(m, v_grid, B, args.powell_maxiter, log)
+    opt_cache = cdir / f"{name}_localopt{tag}.json"
+    if opt_cache.exists() and json.loads(opt_cache.read_text()).get("params") == PARAMS:
+        o = json.loads(opt_cache.read_text())
+        chi_pow, v_pow, nev = o["chi2"], np.array(o["v"]), o["evals"]
+        log("  using cached local-optimisation result")
+    else:
+        # multi-start: local optimisation from each of the top distinct grid points
+        chi_pow, v_pow, nev = np.inf, v_grid, 0
+        for i, (c0, v0) in enumerate(top):
+            c, v, n_ = powell(m, v0, B, args.powell_maxiter, log)
+            nev += n_
+            log(f"  start {i + 1}/{len(top)} (grid chi2 {c0:.1f}) -> chi2 {c:.2f}")
+            if c < chi_pow:
+                chi_pow, v_pow = c, v
+        opt_cache.write_text(json.dumps({"params": PARAMS, "chi2": float(chi_pow), "v": list(map(float, v_pow)),
+                                         "evals": nev}))
     log(f"local-opt (Nelder-Mead) chi2={chi_pow:.2f} after {nev} evals v={np.round(v_pow, 5).tolist()}")
     dof = max(len(times) - len(PARAMS) - 1, 1)
     scale = max(chi_pow / dof, 1.0)  # inflate errors so best fit has chi2_red ~ 1 for the posterior widths
-    v_best, flat, chain, lp = run_emcee(m, v_pow, B, args.walkers, args.iters, scale, log)
+    # emcee's red-blue move needs at least 2 x ndim walkers
+    nwalkers = max(args.walkers, 2 * len(PARAMS) + 2)
+    v_best, flat, chain, lp = run_emcee(m, v_pow, B, nwalkers, args.iters, scale, log)
     chi_mc, _ = m.evaluate(v_best)
     if chi_pow < chi_mc:
         v_best = v_pow
@@ -508,6 +546,21 @@ def main():
         "blackbody_check": {k_: v_ for k_, v_ in bb.items() if k_ not in ("lam", "flux", "sigma", "model")},
         "runtime_s": time.time() - t_start,
     }
+    result["q"] = float(vb.get("q", q))
+    result["q_fitted"] = bool(fit_q)
+    ratio = bb.get("distance_ratio_phot_over_gaia")
+    if ratio and np.isfinite(ratio):
+        # what the Gaia distance implies if the fitted geometry (R/a, T2/T1) is right and l3 = 0:
+        # the system is 1/ratio^2 more luminous than assumed -> a scales by 1/ratio, total mass by 1/ratio^3
+        mtot = m1 * (1 + result["q"])
+        result["distance_scaling"] = {
+            "luminosity_factor_vs_assumed": 1 / ratio**2,
+            "implied_sma_rsun": hi.sma / ratio,
+            "implied_total_mass_msun": mtot / ratio**3,
+            "assumed_total_mass_msun": mtot,
+            "note": "ratio << 1 means the system is brighter than an MS binary at the TIC Teff: Teff "
+                    "underestimated (reddening), evolved components, or third light",
+        }
     result["passes_all"] = bool(phot["pass_fit"] and phot["pass_no_eclipse_bias"] and bb.get("pass_photosphere")
                                 and bb.get("pass_distance") is not False and bb.get("pass_excess_survives"))
     (cdir / f"{name}_phoebe_result{tag}.json").write_text(json.dumps(result, indent=2, default=float) + "\n")

@@ -40,7 +40,18 @@ Fourteen VizieR EB/variable catalogues went through the CDS XMatch service. ASAS
 | DEBCat | V/152 | all | 1 (CW Cep) | 0 |
 | **Unique DD objects** | | | **800** | **9** |
 
-† The Gaia entry is the general machine-learning variability classifier (`vari_classifier_result`), not the dedicated EB pipeline (`vari_eclipsing_binary`, I/358/veb). It was used because `veb` has no coordinates for XMatch. Its `ECL` label is less pure than the TESS/ZTF classifications (sparse Gaia sampling, so ellipsoidal variables and pulsators leak in), and no Gaia period was used. **To do:** join the matched Gaia source IDs to I/358/veb to require an EB-pipeline solution and add its period, depths and secondary phase.
+† The Gaia entry is the general machine-learning variability classifier (`vari_classifier_result`), not the dedicated EB pipeline (`vari_eclipsing_binary`, I/358/veb), because `veb` has no coordinates for XMatch. **Follow-up check** (`src/crossmatch/gaia_veb_join.py`, Gaia archive TAP join → `outputs/crossmatch/dd1_gaia_veb.csv`):
+- all 408 Gaia `ECL` matches have a `vari_eclipsing_binary` solution;
+- 358 of them also have a period from another survey, and for **342 of those (96%) the Gaia period agrees** within 1%, allowing ×2 and ×½ aliases.
+
+The 16 disagreements are mostly Gaia period aliases. Tier-A examples:
+
+| Object | Gaia period | Other surveys and TESS |
+|---|---:|---:|
+| J173224.94−364153.9 | 2.722 d | 2.959 d |
+| J024542.12+480837.8 | 12.66 d | 6.864 d |
+
+The Gaia `ECL` class is a reliable EB indicator for this sample. Its periods should be checked against TESS rather than adopted directly.
 
 None of the 800 DD1 matches were in the old `EB_WiseID` list apart from J0719 (VSX type `ED`). That list came from a different source, so this search is almost entirely new ground.
 
@@ -167,31 +178,77 @@ Notes:
 
 Light-curve notes: J0454−67 and J0537−66 (LMC) are dominated by pulsation-like variability, and J2319+58 (P = 20.4 d) is too sparsely sampled. All three are poor PHOEBE targets.
 
-## PHOEBE modelling status (2026-10-02, in progress)
+## PHOEBE modelling status (2026-10-02)
 
-`src/pipeline/run_phoebe_candidate.py` is running on 8 tier-A candidates plus J1122. None has reached the emcee and post-fit checks yet; the session restarted once and the runs were relaunched from cached grid results. Latest best χ² from the Nelder–Mead stage:
+### Round 1: finished fits (6)
 
-| target | stage | best χ² | notes |
-|---|---|---:|---|
-| J221843.61+544715.0 | local opt | 8,610 | circular, Roche; strongest debris-like SED |
-| J045912.77+165543.8 | local opt | 10,081 | circular, Roche, strong ellipsoidal variation |
-| J033226.58+520357.1 | local opt | 21,900 | total (flat-bottomed) primary eclipse |
-| J223949.47+583254.4 | local opt done | 37,560 | |
-| J231201.40+532028.6 | local opt | 1,217 | |
-| J141909.42-565518.1 | local opt | 271 | eccentric (secondary at φ=0.585) |
-| J160415.99-562627.3 | grid | 5,189 | eccentric (φ₂=0.541) |
-| J232537.66+613847.9 | grid | 37,747 | eccentric (φ₂=0.450) |
-| J112238.89-592027.5 (7 sectors) | local opt | 360 | new ephemeris, l3 fitted, Teff 7705 K |
+`src/pipeline/run_phoebe_candidate.py`: grid → Nelder–Mead → emcee (12×30) → high-resolution recompute. q is fixed at 0.8 and there is one optimiser start. Full results are in `outputs/candidates/<name>/<name>_phoebe_result.json`, with fit plots alongside.
 
-J2041+46 and J1246−65 were also fitted (best χ² 857 and 1,001) before the image check showed their excess is nebular. Those runs were stopped.
+| target | P (d) | i (°) | r1/r2 (R/a) | T1/T2 (K) | e | l3 | R1/R2 (R☉, assumed M) | χ²_red | rms (ppt) | eclipse bias σ (pri/sec) | d_phot/d_Gaia | W3σ/W4σ vs binary | fit | no bias | phot. | dist. | excess | all |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| J033226.58+520357.1 | 1.44710 | 64.51 | 0.274 / 0.252 | 10465 / 7240 | 0 (fixed) | 0.00 | 2.52 / 2.32 | 135.2 | 8.12 | 23.2 / 16.0 | 0.57 | -0.1 / 7.0 | ✗ | ✗ | ✓ | ✗ | ✓ | **✗** |
+| J045912.77+165543.8 | 1.02269 | 69.35 | 0.232 / 0.185 | 8714 / 5357 | 0 (fixed) | 0.00 | 1.52 / 1.21 | 40.4 | 2.92 | 12.9 / -19.6 | 0.44 | -0.4 / 8.0 | ✗ | ✗ | ✓ | ✗ | ✓ | **✗** |
+| J112238.89-592027.5 (7sector) | 4.79170 | 89.80 | 0.099 / 0.033 | 7705 / 4410 | 0 (fixed) | 0.16 fit | 1.68 / 0.57 | 1.8 | 1.86 | -3.2 / -0.8 | 0.51 | 32.0 / 12.6 | ✓ | ✗ | ✗ | ✗ | ✓ | **✗** |
+| J221843.61+544715.0 | 1.66926 | 74.06 | 0.289 / 0.151 | 6911 / 5254 | 0 (fixed) | 0.00 | 2.30 / 1.20 | 47.0 | 3.65 | 13.6 / 20.6 | 0.65 | 18.0 / 13.7 | ✗ | ✗ | ✓ | ✓ | ✓ | **✗** |
+| J223949.47+583254.4 | 3.09244 | 89.75 | 0.327 / 0.185 | 8188 / 5989 | 0 (fixed) | 0.00 | 4.31 / 2.44 | 249.5 | 10.51 | -55.6 / 14.9 | 0.53 | -1.1 / 5.6 | ✗ | ✗ | ✓ | ✗ | ✓ | **✗** |
+| J231201.40+532028.6 | 6.84953 | 84.26 | 0.192 / 0.094 | 8547 / 8355 | 0 (fixed) | 0.00 | 4.41 / 2.15 | 4.4 | 5.38 | -3.1 / -4.8 | 0.84 | 5.1 / 12.3 | ✓ | ✗ | ✓ | ✓ | ✓ | **✗** |
 
-When the runs finish, `src/pipeline/summarize_phoebe.py` writes `outputs/candidates/phoebe_summary.md` (photometry and blackbody pass/fail per target) and a fit montage.
+![round-1 fits](../outputs/candidates/phoebe_fits_montage.png)
+
+**No candidate passes every check yet.** Per target:
+
+| Target | Outcome | Next step |
+|---|---|---|
+| J1122 (7 sectors) | Good light-curve fit: χ²_red 1.8, rms 1.9 ppt, i = 89.8°, l3 = 0.16 (fitted), T2/T1 = 0.57. Fails the binary-photosphere JHKW1 check (χ² 116) and the distance check, and the primary bias is borderline (−3.2σ). | — |
+| J2312+53 | Closest candidate: χ²_red 4.4, distance ratio 0.84, W3/W4 excess survives the binary photosphere (5.1σ / 12.3σ). Small S-shaped eclipse residuals remain. | Round 2 starts dt0 from the measured eclipse phase. |
+| J2218+54 | Good overall shape (rms 3.7 ppt), excess survives (18σ / 14σ), distance ratio 0.65. Eclipse residuals carry structure; the light curve has an O'Connell asymmetry, so a spot is likely needed. | Round 2 fits q. |
+| J0332+52, J2239+58 | Wrong local minimum: the model gives a V-shaped eclipse where the data are flat-bottomed (total eclipse). | Round 2 uses multi-start and k = 1.3. |
+| J0459+16 | Strong ellipsoidal variation; q fixed at 0.8 cannot match it. | Round 2 fits q. |
+
+### Blackbody/distance check: systematic result
+
+At the Gaia distance (parallax S/N 34–89, with GSP-Phot and 1/parallax agreeing within 5%), every system is **1.4–5× more luminous** than a main-sequence binary with the TIC Teff and the fitted geometry:
+
+| Target | d_phot / d_Gaia | Luminosity factor |
+|---|---:|---:|
+| J2312 | 0.84 | 1.4 |
+| J2218 | 0.65 | 2.4 |
+| J0332 | 0.57 | 3.0 |
+| J2239 | 0.53 | 3.5 |
+| J1122 | 0.51 | 3.8 |
+| J0459 | 0.44 | 5.1 |
+
+The TIC single-star radii (3.7–10.6 R☉) say the same thing. Possible explanations:
+1. TIC Teffs underestimated because of reddening (these are low-latitude stars), so the stars are really hotter and more massive;
+2. evolved components;
+3. a luminous third star (real l3).
+
+For J0459 (P = 1.02 d) the implied total mass under (2) is implausible, so (1) or (3) is more likely. **This matters for the disk interpretation:** if a third star dominates the SED, the IR excess may not belong to the EB. The runner now writes `distance_scaling` (implied luminosity, sma and mass) into every result.
+
+### Round 2: running at handoff
+
+Code changes for round 2:
+- q is fitted for Roche systems (P < 3 d);
+- k = 1.3 added to the grid;
+- multi-start Nelder–Mead from the top 3 distinct grid points;
+- dt0 starts from the measured eclipse phase;
+- at least 2 × ndim emcee walkers (the 7-parameter eccentric fits crashed before);
+- a cached local-optimisation result (`_localopt*.json`) so a crash cannot lose the optimisation.
+
+| Run | Output tag | Status at handoff |
+|---|---|---|
+| J0332, J2239, J0459, J2218, J2312 | `_v2` | grid stage |
+| J1419−56 (eccentric) | — | emcee stage, from cached Nelder–Mead χ² 249.8 |
+| J1604−56, J2325+61 (eccentric) | — | regridding with q |
+
+J2041+46 and J1246−65 were stopped after the image check showed nebular contamination (best χ² 857 and 1,001).
 
 Bugs fixed while building the pipeline:
 - scipy bounded Powell returned points worse than its best evaluation, so it was replaced by Nelder–Mead in normalised coordinates;
 - the eclipse-width seed was inflated by ellipsoidal variation, so out-of-eclipse variation is now removed with a Fourier fit before measuring widths;
 - the 2P test was too sensitive, so it was replaced by a per-cycle odd/even depth test;
-- isolated bad cadences are removed with a running-median filter.
+- isolated bad cadences are removed with a running-median filter;
+- the eccentric fits crashed at emcee because 12 walkers is fewer than 2 × 7 parameters.
 
 ## Reproduce
 

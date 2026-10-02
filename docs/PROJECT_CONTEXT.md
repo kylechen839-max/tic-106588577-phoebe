@@ -58,6 +58,7 @@ Be explicit about what is verified vs. assumed; report chi2/residual numbers, no
 | Sanity checks and tiers | `src/crossmatch/sanity_checks.py` | `dd*_candidates_scored.csv`, `dd*_sed_plots/`, support caches |
 | WISE image check | `src/crossmatch/wise_cutouts.py [names]` | `outputs/crossmatch/wise_cutouts/` |
 | Tables | `src/crossmatch/make_tables.py` | `tierA_table.md`, `tierB_top40_table.md` |
+| Gaia EB-pipeline check | `src/crossmatch/gaia_veb_join.py` | `dd1_gaia_veb.csv` (Gaia veb period, model, depths) |
 | Extra targets (J0719, J1122) | `src/crossmatch/support_rows_for_targets.py` | `extra_scored.csv`, `extra_support_allwise.csv` |
 | TESS light curves | `src/pipeline/fetch_tess_lc.py --designation --ra --dec --tic --period [--fixed-period]` | `outputs/candidates/<name>/` raw, binned, ephemeris, diagnostic |
 | Eclipse timing (O−C) | `src/pipeline/eclipse_timing.py --designation [--old-period --old-t0]` | `<name>_timing.json`, `_oc.png` |
@@ -76,7 +77,7 @@ Everything under `outputs/` is gitignored. Selected results are force-added (`gi
 3. **Rejected by the WISE image check (nebular contamination):** J1022−62, J2041+46, J1246−65. **Rejected as non-debris:** CW Cep (free-free/Be), the LMC systems J0454−67 and J0537−66 (14 kpc, beam confusion).
 4. **J1122 period was wrong.** The old 4.7909785 d gives way to **4.7917045 ± 0.0000058 d** from 7-sector O−C. The old ephemeris shifted S10/S11/S37 eclipses by −1.15/−0.92/+1.34 h, which probably explains the "sector-dependent eclipse bias". TIC also gives J1122 37% TESS contamination and Teff 7705 K (earlier models used l3 = 0 and 6000 K).
 5. **J0719 ephemeris is fine:** P = 1.0118518 ± 0.0000003 d (2×10⁻⁶ d from the README value).
-6. **Gaia DR3 caveat:** the "Gaia" survey is the variability classifier (`ECL` class), not the dedicated EB table (I/358/veb). See the to-do below.
+6. **Gaia DR3:** the cross-match used the variability classifier (`ECL`). Every match has a `vari_eclipsing_binary` solution, and the Gaia period agrees with other surveys for 96% of them (aliases in the rest).
 
 ## Decisions and conventions (keep these unless there is a reason to change)
 
@@ -98,14 +99,12 @@ Everything under `outputs/` is gitignored. Selected results are force-added (`gi
 
 ## Status at handoff
 
-- 9 PHOEBE runs were in progress (8 tier-A candidates plus J1122 7-sector); none had finished. See `docs/DD_EB_CROSSMATCH.md` → "PHOEBE modelling status".
-- If the runs died, relaunch with the same command. Grid results are cached, so a relaunch goes straight to Nelder–Mead.
-- Code, docs and selected outputs are committed on branch `dd-eb-crossmatch-2026-10-02`.
+See **`docs/HANDOFF.md`** for the latest status (PHOEBE round-1 results, round-2 runs in flight, exact next steps). It supersedes the status and open-task lists below.
 
 ## Open tasks (priority order)
 
 1. Finish the PHOEBE runs. Run `summarize_phoebe.py`, add the results to `docs/DD_EB_CROSSMATCH.md` and `docs/J1122_EPHEMERIS_CORRECTION.md`, and list which candidates pass the blackbody and photometry checks.
-2. Join the Gaia `ECL` matches to I/358/veb by source ID. Require an EB-pipeline solution, compare Gaia periods, and rescore.
+2. ~~Join the Gaia `ECL` matches to I/358/veb.~~ Done: all 408 have a veb solution; periods agree for 96% of those with another survey period (`src/crossmatch/gaia_veb_join.py`).
 3. Improve the WISE image S/N, for example with a plane-fit background in a 18–35″ annulus. Then re-run cutouts and visually review every tier-B object flagged `wise_image`.
 4. Look for more EB surveys:
    - TESS-FFI EB catalogues newer than Prša+2022 (for example IJspeert+2024, Howard+2025);
