@@ -1,0 +1,21 @@
+=== J045912.77+165543.8 2026-10-02T19:19:42.927812+00:00  P=1.022686 t0=3240.05130 Teff1=8714 M1~2.00 q=0.8 distortion=roche nbins=208
+  sma=6.54 Rsun, eclipse width 0.108 -> rsum0=0.283, teffratio0=0.72
+  using cached grid result
+grid best chi2=55435.98 (0s)
+  local-opt eval 25: best chi2 11342.11
+  local-opt eval 50: best chi2 10797.44
+  local-opt eval 75: best chi2 10429.77
+  local-opt eval 100: best chi2 10414.29
+  local-opt eval 125: best chi2 10412.41
+  local-opt eval 150: best chi2 10118.84
+  local-opt eval 175: best chi2 10108.78
+  local-opt eval 200: best chi2 10081.28
+  local-opt eval 225: best chi2 10081.28
+  local-opt eval 250: best chi2 10081.28
+  local-opt eval 275: best chi2 10081.28
+  local-opt eval 300: best chi2 10081.28
+  local-opt eval 325: best chi2 10081.28
+  local-opt eval 350: best chi2 10081.28
+  local-opt eval 375: best chi2 10081.28
+  local-opt eval 400: best chi2 10081.28
+local-opt (Nelder-Mead) chi2=10081.28 after 424 evals v=[70.10446, 0.00195, 0.4022, 0.67425, 0.49891]

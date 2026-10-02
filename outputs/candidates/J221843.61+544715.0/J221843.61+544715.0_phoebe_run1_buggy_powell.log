@@ -1,0 +1,18 @@
+=== J221843.61+544715.0 2026-10-02T15:52:21.628569+00:00  P=1.669261 t0=3387.03072 Teff1=6911 M1~1.35 q=0.8 distortion=roche nbins=200
+  sma=7.96 Rsun, eclipse width 0.190 -> rsum0=0.314, teffratio0=0.85
+  grid 1: chi2=566891.8 v=[74.0, 0.0, 0.2199, 0.5, 0.6796]
+  grid 10: chi2=529091.4 v=[74.0, 0.0, 0.267, 0.5, 0.6796]
+  grid 19: chi2=416462.1 v=[74.0, 0.0, 0.3142, 0.5, 0.6796]
+  grid 28: chi2=153390.0 v=[74.0, 0.0, 0.377, 0.5, 0.6796]
+  grid 29: chi2=151811.9 v=[74.0, 0.0, 0.377, 0.5, 0.8495]
+  grid 37: chi2=16116.5 v=[74.0, 0.0, 0.4398, 0.5, 0.6796]
+grid best chi2=16116.46 (451s)
+  powell eval 25: best chi2 15556.40
+  powell eval 50: best chi2 15161.47
+  powell eval 75: best chi2 8101.94
+  powell eval 100: best chi2 8076.32
+  powell eval 125: best chi2 7877.32
+  powell eval 150: best chi2 7854.61
+  powell eval 175: best chi2 7828.80
+  powell eval 200: best chi2 7808.96
+  powell eval 225: best chi2 7786.59

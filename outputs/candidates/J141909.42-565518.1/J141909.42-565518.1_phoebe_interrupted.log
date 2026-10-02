@@ -1,0 +1,18 @@
+=== J141909.42-565518.1 2026-10-02T16:23:35.798240+00:00  P=16.633733 t0=4084.88111 Teff1=10875 M1~3.03 q=0.8 distortion=sphere nbins=236
+  eccentric: secondary at phase 0.5853 -> ecosw0=0.1339, esinw0=0.143
+  sma=48.28 Rsun, eclipse width 0.042 -> rsum0=0.132, teffratio0=0.98
+  using cached grid result
+grid best chi2=32804.16 (0s)
+  local-opt eval 25: best chi2 23556.10
+  local-opt eval 50: best chi2 4471.79
+  local-opt eval 75: best chi2 2452.38
+  local-opt eval 100: best chi2 2312.59
+  local-opt eval 125: best chi2 2037.16
+  local-opt eval 150: best chi2 1510.46
+  local-opt eval 175: best chi2 371.66
+  local-opt eval 200: best chi2 303.99
+  local-opt eval 225: best chi2 268.52
+  local-opt eval 250: best chi2 266.90
+  local-opt eval 275: best chi2 249.25
+  local-opt eval 300: best chi2 249.25
+  local-opt eval 325: best chi2 249.25

@@ -1,0 +1,12 @@
+=== J033226.58+520357.1 2026-10-02T16:24:12.297655+00:00  P=1.447103 t0=2937.11025 Teff1=10465 M1~2.78 q=0.8 distortion=roche nbins=155
+  sma=9.20 Rsun, eclipse width 0.214 -> rsum0=0.529, teffratio0=0.75
+  grid 1: chi2=39018.5 v=[74.0, 0.0, 0.3706, 0.5, 0.599]
+  grid 4: chi2=38976.9 v=[74.0, 0.0, 0.3706, 0.75, 0.599]
+grid best chi2=38976.87 (359s)
+  local-opt eval 25: best chi2 28688.02
+  local-opt eval 50: best chi2 22327.90
+  local-opt eval 75: best chi2 22112.08
+  local-opt eval 100: best chi2 21953.41
+  local-opt eval 125: best chi2 21899.80
+  local-opt eval 150: best chi2 21899.80
+  local-opt eval 175: best chi2 21899.80

@@ -1,0 +1,208 @@
+# Disk Detective × Eclipsing-Binary Cross-Match
+
+Date: 2026-10-02
+Scripts: `src/crossmatch/` (catalogue build, cross-match, sanity checks, tables) and `src/pipeline/` (TESS light curves, PHOEBE)
+
+## Goal
+
+Find the next DD objects to model after J0719 and J1122: Disk Detective targets that are also catalogued eclipsing binaries, that hold up under SED, photometry and confusion checks, and that have usable TESS data for the PHOEBE pipeline.
+
+## Inputs
+
+| List | Source | Rows |
+|---|---|---:|
+| DD1.0 | `WZ_subjects_*.txt` (35 IPAC tables, AllWISE + 2MASS; from `~/Downloads/WZSubs.zip`, duplicate `-5to-4 copy` file skipped) | 412,729 unique |
+| DD2.x | `data/catalogs/DDv2.1_Wise_Ids.txt` (AllWISE designations; positions parsed from the name) | 1,419 unique |
+| Previous EB list | `data/catalogs/EB_WiseID_previous.txt` (`EB_WiseID.txt.lf`) | 7,827, of which only 6 are DD1 objects (J0719, J1122, J0136+62, J2039+46, J2052+44, J2219+61) |
+
+The WZSubs folder is not committed (86 MB). Unzip `WZSubs.zip` into `data/catalogs/` to rebuild it.
+
+## EB surveys cross-matched (3″ radius)
+
+Fourteen VizieR EB/variable catalogues went through the CDS XMatch service. ASAS-SN is not served by XMatch, so its EA/EB/EW classes (154,530 stars) were downloaded and matched locally.
+
+| Survey | VizieR | Eclipsing selection | DD1 matches | DD2 matches |
+|---|---|---|---:|---:|
+| Gaia DR3 variability classifier † | I/358/vclassre | Class = ECL | 407 | 0 |
+| VSX | B/vsx/vsx | type token E/EA/EB/EW/ED/EC/ESD/E-DO (EP planets excluded) | 566 | 2 |
+| ZTF periodic variables (Chen+2020) | J/ApJS/249/18 | EA, EW | 108 | 0 |
+| ATLAS variables (Heinze+2018) | J/AJ/156/241 | CBF, CBH, DBF, DBH | 76 | 1 |
+| ASAS-SN variables | II/366 | EA, EB, EW | 58 | 1 |
+| ASAS-3 | II/264/asas3 | EC, ED, ESD | 33 | 0 |
+| OGLE LMC EBs | J/AcA/66/421 | C, NC | 31 | 0 |
+| TESS OBA-type EBs (IJspeert+2021) | J/A+A/652/A120 | all | 26 | 0 |
+| TESS EB catalogue (Prša+2022) | J/ApJS/258/16 | all | 24 | 5 |
+| WISE variables (Chen+2018) | J/ApJS/237/28 | EA, EW | 22 | 0 |
+| CRTS North / South | J/ApJS/213/9, J/MNRAS/469/3688 | Cl 1–3 | 7 / 4 | 1 / 0 |
+| NSVS (Hoffman+2009) | J/AJ/138/466 | Vcl A/W/B | 3 | 0 |
+| OGLE-IV EB parameters (Wang+2024) | J/ApJS/275/12 | all | 3 | 0 |
+| Kepler EBs | J/AJ/151/68 | all | 2 | 0 |
+| DEBCat | V/152 | all | 1 (CW Cep) | 0 |
+| **Unique DD objects** | | | **800** | **9** |
+
+† The Gaia entry is the general machine-learning variability classifier (`vari_classifier_result`), not the dedicated EB pipeline (`vari_eclipsing_binary`, I/358/veb). It was used because `veb` has no coordinates for XMatch. Its `ECL` label is less pure than the TESS/ZTF classifications (sparse Gaia sampling, so ellipsoidal variables and pulsators leak in), and no Gaia period was used. **To do:** join the matched Gaia source IDs to I/358/veb to require an EB-pipeline solution and add its period, depths and secondary phase.
+
+None of the 800 DD1 matches were in the old `EB_WiseID` list apart from J0719 (VSX type `ED`). That list came from a different source, so this search is almost entirely new ground.
+
+VSX re-ingests Gaia, ASAS-SN, ZTF, ATLAS and TESS classifications. Independent confirmation is therefore counted after mapping each VSX entry back to its parent survey (`n_independent`).
+
+## Sanity checks
+
+`src/crossmatch/sanity_checks.py` queries AllWISE (qph/ccf/ex flags), Gaia DR3 (12″ cone), TIC v8.2 and SIMBAD for every match, then applies:
+
+| Check | Rule | DD1 pass rate |
+|---|---|---:|
+| match | nearest separation ≤ 1.5″ or ≥ 2 independent surveys | 82% |
+| multi_survey | ≥ 2 independent EB surveys | 18% |
+| period | survey periods agree within 1% (allowing ×2 / ×½ aliases) | 99% |
+| period_plausible | 0.15–30 d; contact classes (EW/EC/CBF/CBH) < 1.5 d | 78% |
+| wise_quality | W3 and W4 `qph` A/B, `ccf` 0 or d, `ex` = 0 | 74% |
+| **ir_excess (blackbody check)** | W3 or W4 ≥ 5σ above **both** a free blackbody fitted to J,H,Ks,W1 **and** a blackbody fixed at the TIC Teff; the excess band must have qph A/B (not an upper limit) | 83% |
+| **photosphere (photometry check)** | catalogue-Teff blackbody fits J,H,Ks,W1 with χ² < 60 (no strong near-IR/hot-dust excess) | 27% |
+| dust_over_ff | single-temperature dust blackbody fits W2–W4 excess better than free-free (α = −0.1…0.6) | 79% |
+| unconfused | no Gaia source within 6″ brighter than G+2.5; neighbours within 12″ < 25% of target G flux | 67% |
+| tess_usable | TIC contamination ratio < 0.3 and Tmag < 14.5 | 67% |
+| not_evolved_or_wind | SIMBAD type not LPV/Mira/AGB/RSG/WR/Be/emission-line/PN/symbiotic/supergiant | 67% |
+| nearby | Gaia distance < 3 kpc (GSP-Phot, else 1/parallax if S/N > 5) | — |
+
+Tiers:
+- **A**: every critical check passes, plus photosphere, dust_over_ff, ≥ 2 independent surveys, nearby, and not a SIMBAD YSO.
+- **B**: every critical check passes, but the object is single-survey, a YSO, fails the photosphere check, or is distant.
+- **C**: fails a critical check (match, period plausibility, WISE quality, IR excess, confusion, TESS usability, evolved/wind type).
+
+Result: **DD1 12 A / 119 B / 669 C; DD2 0 / 0 / 9.**
+
+### WISE image check
+
+Catalogue W3/W4 photometry can have clean flags (qph A, ccf 0) and still be dominated by extended nebulosity. `src/crossmatch/wise_cutouts.py` pulls 2′×2′ AllWISE W1–W4 cutouts from SkyView for every tier-A/B object (images in `outputs/crossmatch/wise_cutouts/`). It then measures whether a compact W3 or W4 source (S/N ≥ 5) sits within 4″ of the star. A failure blocks tier A but only demotes the object to B for visual review, because the S/N estimate can be fooled by bright nebular gradients. J0719 itself fails the automated check, yet its images show a compact, centred W3/W4 source.
+
+Confirmed by eye as nebular contamination (no compact W3/W4 source at the star): **J102247.90−620315.5, J204142.75+463029.3, J124645.61−653628.5**. All three were tier A before the image check.
+
+### DD2 result
+
+All nine DD2 matches are nearby M dwarfs (high proper motion). Their W4 "excess" comes from W4 upper limits (`qph` = `AAAU`), so none survive the quality check. DD2 yields no usable EB candidate from these surveys. J0136, J0333, J2039, J2052 and J2219, the earlier DD2-named targets, are not catalogued EBs in any of these surveys.
+
+### Example of the checks working
+
+- **CW Cep** (DEBCat, B0.5V+B0.5V, P = 2.73 d) has strong W3/W4 excess, but free-free fits it better than dust (χ² 0.8 vs 16.8) and SIMBAD lists it as Be*. It is correctly sent to tier C as a wind/free-free source, not a debris disk.
+- Tier A initially included two LMC systems (J0454−67 and J0537−66, ~14 kpc, W4 300–700× photosphere). At that distance the 12″ W4 beam covers almost a parsec, so the `nearby` check now removes them.
+
+## Tier-A candidates
+
+`*` marks objects with no TIC Teff, where the excess is measured against the free-temperature blackbody only.
+
+| DD1 designation     | EB surveys (indep.)                                    |   P (d) | TIC Teff   | W3σ / W4σ    | W4 obs/phot   | T_dust (K)   |   Tmag | d (pc)   |   RUWE |   TESS sect. | SIMBAD   | failed checks   |
+|:--------------------|:-------------------------------------------------------|--------:|:-----------|:-------------|:--------------|:-------------|-------:|:---------|-------:|-------------:|:---------|:----------------|
+| J073937.23-363011.8 | gaia_dr3;tess_oba_ebs;vsx;wise_chen2018 (4)            |  0.9551 | –          | 2.6* / 17.5* | 5.6*          | 125*         |    8.2 | 396      |   1.07 |            5 | EclBin   |                 |
+| J221843.61+544715.0 | asassn;atlas_heinze2018;gaia_dr3;vsx;wise_chen2018 (4) |  1.6692 | 6911       | 18.4 / 13.7  | 26.2          | 162          |   11.5 | 1268     |   0.96 |            8 | SB*      |                 |
+| J024542.12+480837.8 | gaia_dr3;vsx;wise_chen2018 (3)                         |  6.8639 | 8664       | 0.5 / 10.7   | 2.8           | 109          |    8.3 | 907      |   0.89 |            3 | SB*      |                 |
+| J173224.94-364153.9 | gaia_dr3;tess_oba_ebs;vsx (3)                          |  2.959  | –          | -0.4* / 6.6* | 2.6*          | 40*          |    8.4 | 804      |   1.01 |            4 | EclBin   |                 |
+| J223949.47+583254.4 | gaia_dr3;vsx;wise_chen2018 (3)                         |  3.0922 | 8188       | 0.1 / 5.8    | 2.1           | 84           |    8.9 | 989      |   1.17 |            4 | EclBin   |                 |
+| J231201.40+532028.6 | gaia_dr3;vsx (2)                                       |  6.8495 | 8547       | 5.1 / 12.3   | 3.3           | 179          |    8.6 | 742      |   0.89 |            5 | EclBin   |                 |
+| J223553.38+500414.8 | tess_ebs;tess_oba_ebs (2)                              | 10.9206 | 12746      | -0.5 / 8.4   | 1.6           | 40           |    6.3 | 566      |   1.05 |            7 | SB*      |                 |
+| J160415.99-562627.3 | gaia_dr3;vsx (2)                                       |  2.2078 | 10970      | 1.1 / 8.7    | 3.7           | 117          |    8.9 | 950      |   0.73 |            6 | EclBin   |                 |
+| J141909.42-565518.1 | tess_oba_ebs;vsx (2)                                   | 16.6336 | –          | -0.0* / 8.5* | 2.9*          | 40*          |    8.4 | 788      |   0.86 |            7 | EclBin   |                 |
+| J045912.77+165543.8 | gaia_dr3;vsx (2)                                       |  1.0227 | 8714       | 2.1 / 8.4    | 2.9           | 144          |    8.7 | 458      |   1.31 |            4 | EclBin   |                 |
+| J220912.52+582025.0 | atlas_heinze2018;vsx;ztf_chen2020 (2)                  |  1.4813 | –          | 8.0* / 7.5*  | 2.8*          | 234*         |   12.1 | –        |  42.76 |            9 | EclBin   |                 |
+| J033226.58+520357.1 | gaia_dr3;vsx (2)                                       |  1.4471 | 10465      | 1.9 / 7.3    | 2.5           | 150          |    8.3 | 683      |   2.08 |            4 | EclBin   |                 |
+
+Notes:
+- **J221843.61+544715.0** is the cleanest debris-like SED. It is photospheric through W2, then has a 162 K excess at 18σ (W3) and 14σ (W4), with f_IR ≈ 4×10⁻³. It has 4 independent EB detections and 8 TESS sectors.
+- J220912.52+582025.0 has Gaia RUWE = 42.8, which suggests an unresolved visual companion. Treat its W3/W4 excess with caution.
+- J073937, J173224 and J141909 have no TIC Teff (hot OB stars). Their excess relies on the free blackbody, and dust vs free-free should be re-checked with a hot-star atmosphere.
+- W4-only excesses of 2–3× (J0245, J2239, J0459, J0332, J1604, J1419, J2235) are statistically significant but weaker. Inspect the unWISE W4 images before claiming dust.
+
+## Tier-B (top 40 by score)
+
+| DD1 designation     | EB surveys (indep.)                                |    P (d) | TIC Teff   | W3σ / W4σ     | W4 obs/phot   | T_dust (K)   |   Tmag | d (pc)   |   RUWE |   TESS sect. | SIMBAD    | failed checks           |
+|:--------------------|:---------------------------------------------------|---------:|:-----------|:--------------|:--------------|:-------------|-------:|:---------|-------:|-------------:|:----------|:------------------------|
+| J102247.90-620315.5 | asassn;gaia_dr3;tess_oba_ebs;vsx;wise_chen2018 (4) |   2.2136 | –          | 16.2* / 9.9*  | 30.5*         | 183*         |   11.5 | 2263     |   0.92 |            7 | EclBin    | wise_image              |
+| J204142.75+463029.3 | asassn;gaia_dr3;vsx;ztf_chen2020 (3)               |   2.3934 | 7463       | 3.7 / 10.3    | 63.2          | 182          |   13.5 | 2331     |   1.08 |            9 | EclBin    | wise_image              |
+| J124645.61-653628.5 | asassn;gaia_dr3 (2)                                |   3.7479 | 12362      | 14.2 / 10.8   | 39.6          | 236          |   12.7 | 1924     |   0.94 |            7 | EclBin    | wise_image              |
+| J235953.92+660910.2 | asassn;gaia_dr3;vsx;wise_chen2018;ztf_chen2020 (4) |   0.3275 | 6123       | 5.2 / 12.2    | 75.5          | 136          |   14.4 | 753      |   0.99 |            8 | EclBin    | photosphere;wise_image  |
+| J045439.87-671306.0 | gaia_dr3;ogle_lmc_ecl;tess_oba_ebs;vsx (3)         |   1.7889 | –          | 5.2* / 13.7*  | 305.8*        | 117*         |   13.5 | 14780    |   1.29 |           44 | EclBin    | nearby;wise_image       |
+| J053749.52-664011.4 | gaia_dr3;ogle_lmc_ecl;tess_oba_ebs;vsx (3)         |   1.9325 | –          | 4.0* / 11.1*  | 690.9*        | 115*         |   14.5 | 14224    |   2.44 |           43 | EclBin    | nearby;wise_image       |
+| J225051.52+604854.8 | asassn;gaia_dr3;vsx (3)                            |  28.8265 | 6593       | 23.9 / 18.0   | 5.3           | 1339         |   11.1 | 1502     |   1.34 |            8 | EclBin    | photosphere             |
+| J233034.93+663345.5 | gaia_dr3;tess_ebs;vsx (3)                          |   6.56   | 8736       | 6.8 / 6.7     | 2.3           | 252          |    9.9 | 900      |   0.92 |            9 | EclBin    | photosphere             |
+| J043930.11-323306.5 | asas3;vsx (2)                                      |   0.358  | 5097       | 32.6 / 35.4   | 45.7          | 280          |    9.5 | 373      |   1.14 |            6 | Star      | photosphere             |
+| J032549.83+311023.7 | asassn;ztf_chen2020 (2)                            |   1.1454 | 4636       | 28.0 / 35.3   | 38.9          | 193          |   10.8 | 287      |   1.07 |            6 | TTauri*   | photosphere             |
+| J230357.58+541153.7 | gaia_dr3;vsx (2)                                   | nan      | 7993       | 21.8 / 19.8   | 5.1           | 689          |    8.8 | 1525     |   0.98 |            5 | EclBin    | dust_over_ff            |
+| J112938.82-595344.5 | asassn;wise_chen2018 (2)                           |   1.9167 | –          | 1.8* / 14.6*  | 47.9*         | 106*         |   11.7 | 5714     |   0.83 |            6 | EclBin    | nearby;wise_image       |
+| J232537.66+613847.9 | asassn;gaia_dr3;vsx (2)                            |   1.9221 | 8862       | 4.0 / 13.3    | 18.6          | 128          |   11.6 | 3556     |   2.95 |            9 | EclBin    | nearby                  |
+| J222457.26+513651.5 | vsx (1)                                            | nan      | –          | 30.8* / 35.4* | 46.3*         | 215*         |   12   | 275      |  13.74 |            7 | EclBin    | multi_survey            |
+| J075739.78+773434.9 | gaia_dr3 (1)                                       | nan      | 7042       | -2.7 / 16.3   | 1.8           | 40           |    6.6 | 250      |   0.96 |            8 | EclBin    | multi_survey            |
+| J060413.65-071148.3 | asassn;vsx (1)                                     |   0.6657 | 7874       | 28.0 / 17.6   | 23.9          | 234          |   10.5 | 402      |   1.22 |            3 | EclBin    | multi_survey            |
+| J042859.11+362311.0 | crts_drake2014;vsx (1)                             |   0.9375 | –          | 28.2* / 17.6* | 16.9*         | 276*         |   14.4 | –        | nan    |            3 | EclBin    | multi_survey            |
+| J080957.52-490820.1 | tess_oba_ebs (1)                                   | nan      | 13589      | 12.6 / 17.2   | 9.0           | 176          |    9   | 383      |   0.94 |            7 | Star      | multi_survey            |
+| J214345.90+510535.5 | asassn (1)                                         |   4.2485 | 10277      | 11.4 / 16.8   | 44.7          | 141          |   11.5 | 2149     |   0.84 |            6 | Star      | multi_survey            |
+| J161205.04-204340.7 | vsx (1)                                            |  18.5819 | –          | 21.4* / 16.7* | 9.1*          | 247*         |   11.9 | 123      |   4.25 |            1 | OrionV*   | multi_survey            |
+| J003939.39+614202.9 | vsx (1)                                            |  19.0586 | 10642      | 19.3 / 17.3   | 4.3           | 421          |    8.4 | 569      |   1.05 |            6 | Star      | multi_survey            |
+| J110859.18-564050.5 | tess_oba_ebs (1)                                   | nan      | –          | 10.9* / 15.4* | 15.5*         | 159*         |   10.1 | 2522     |   0.9  |            7 | Star      | multi_survey            |
+| J171047.03-442701.4 | gaia_dr3 (1)                                       | nan      | 9510       | 4.0 / 15.4    | 19.6          | 143          |   11.6 | 2086     |   1.52 |            6 | SB*       | multi_survey            |
+| J200336.35+310625.0 | gaia_dr3;vsx (1)                                   |   1.1675 | 10597      | -2.7 / 14.7   | 14.8          | 40           |   10.4 | 2458     |   0.97 |            8 | EclBin    | multi_survey;wise_image |
+| J210423.04+503307.0 | gaia_dr3;vsx (1)                                   |   3.4195 | –          | -1.6* / 13.8* | 16.0*         | 40*          |   13.2 | 1333     |   5.53 |            8 | EclBin    | multi_survey            |
+| J085722.48-481433.3 | gaia_dr3;vsx (1)                                   |   3.5092 | 3994       | 3.0 / 13.7    | 36.3          | 118          |   13.3 | 1895     |   1.03 |            8 | EclBin    | multi_survey;wise_image |
+| J071951.40-240400.6 | vsx (1)                                            |   1.0118 | –          | 7.0* / 12.8*  | 9.8*          | 151*         |    9   | 1464     |   1.35 |            7 | PulsV*    | multi_survey;wise_image |
+| J040818.25+322736.0 | vsx (1)                                            |   2.334  | 8248       | 2.2 / 11.7    | 2.5           | 155          |    7.4 | 159      |   1.01 |            6 | Star      | multi_survey            |
+| J070132.37-132625.3 | gaia_dr3 (1)                                       | nan      | 10866      | 8.7 / 12.5    | 5.7           | 177          |    9.1 | 1102     |   0.86 |            4 | EclBin    | multi_survey            |
+| J082053.67-622336.3 | tess_oba_ebs (1)                                   | nan      | 13062      | 11.2 / 11.8   | 2.6           | 328          |    7.9 | 424      |   0.87 |           20 | Variable* | multi_survey            |
+| J120726.23-604131.7 | gaia_dr3;vsx (1)                                   |   4.7616 | –          | 15.5* / 11.1* | 25.9*         | 197*         |   11.6 | 1433     |   0.85 |            8 | EclBin    | multi_survey;wise_image |
+| J160558.63-194903.1 | atlas_heinze2018 (1)                               |   3.7532 | 3224       | 26.6 / 10.7   | 14.7          | 262          |   13.6 | 159      |   1.09 |            1 | OrionV*   | multi_survey            |
+| J085125.73-415632.3 | gaia_dr3;vsx (1)                                   |  10.1516 | 10496      | 17.9 / 10.4   | 15.6          | 207          |   11.5 | 2032     |   0.89 |            5 | EclBin    | multi_survey            |
+| J125119.04-571955.7 | asassn;vsx (1)                                     |   1.3947 | 6394       | 18.5 / 10.2   | 15.9          | 195          |   12   | –        | nan    |            7 |           | multi_survey;wise_image |
+| J092427.58-461754.5 | gaia_dr3;vsx (1)                                   |   2.2679 | 5079       | 8.8 / 9.9     | 5.3           | 181          |   10.9 | 758      |   1.51 |            8 | EclBin    | multi_survey            |
+| J094742.50-562630.0 | tess_oba_ebs (1)                                   | nan      | –          | 0.6* / 9.4*   | 4.7*          | 99*          |    9.1 | 697      |   0.94 |            8 | Star      | multi_survey            |
+| J032319.22+512329.3 | vsx (1)                                            |   4.5065 | 9154       | 14.1 / 9.3    | 12.7          | 180          |   10.7 | 758      |   0.92 |            3 | EclBin    | multi_survey            |
+| J203732.75+461923.2 | vsx (1)                                            |   0.1776 | 6057       | 8.1 / 9.1     | 11.5          | 184          |   11.9 | 1279     |   2.05 |            9 | delSctV*  | multi_survey;wise_image |
+| J060533.48+221628.8 | vsx (1)                                            | nan      | 12695      | 13.3 / 9.0    | 10.2          | 183          |    9.6 | 920      |   1.11 |            6 | Star      | multi_survey            |
+| J200145.46+384406.9 | tess_ebs (1)                                       |   0.3817 | 10857      | 4.9 / 8.3     | 2.2           | 223          |    7.9 | 335      |   0.84 |            9 |           | multi_survey            |
+
+## Light curves
+
+`src/pipeline/fetch_tess_lc.py` downloads SPOC / TESS-SPOC / QLP light curves, median-normalises each orbit, clips only upward outliers, refines the period, and builds an eclipse-adaptive, sector-consensus phase-binned PHOEBE input. It also:
+- tests odd/even primary depths cycle by cycle, with errors from eclipse-to-eclipse scatter, and doubles the period only if they differ by > 4σ **and** there is no secondary at phase 0.5;
+- locates the secondary eclipse phase and widths, so eccentric systems are detected automatically (J1604: φ₂ = 0.541; J1419: 0.578; J2325: 0.452).
+
+![tier-A light curves](../outputs/crossmatch/tierA_lightcurve_montage.png)
+
+Light-curve notes: J0454−67 and J0537−66 (LMC) are dominated by pulsation-like variability, and J2319+58 (P = 20.4 d) is too sparsely sampled. All three are poor PHOEBE targets.
+
+## PHOEBE modelling status (2026-10-02, in progress)
+
+`src/pipeline/run_phoebe_candidate.py` is running on 8 tier-A candidates plus J1122. None has reached the emcee and post-fit checks yet; the session restarted once and the runs were relaunched from cached grid results. Latest best χ² from the Nelder–Mead stage:
+
+| target | stage | best χ² | notes |
+|---|---|---:|---|
+| J221843.61+544715.0 | local opt | 8,610 | circular, Roche; strongest debris-like SED |
+| J045912.77+165543.8 | local opt | 10,081 | circular, Roche, strong ellipsoidal variation |
+| J033226.58+520357.1 | local opt | 21,900 | total (flat-bottomed) primary eclipse |
+| J223949.47+583254.4 | local opt done | 37,560 | |
+| J231201.40+532028.6 | local opt | 1,217 | |
+| J141909.42-565518.1 | local opt | 271 | eccentric (secondary at φ=0.585) |
+| J160415.99-562627.3 | grid | 5,189 | eccentric (φ₂=0.541) |
+| J232537.66+613847.9 | grid | 37,747 | eccentric (φ₂=0.450) |
+| J112238.89-592027.5 (7 sectors) | local opt | 360 | new ephemeris, l3 fitted, Teff 7705 K |
+
+J2041+46 and J1246−65 were also fitted (best χ² 857 and 1,001) before the image check showed their excess is nebular. Those runs were stopped.
+
+When the runs finish, `src/pipeline/summarize_phoebe.py` writes `outputs/candidates/phoebe_summary.md` (photometry and blackbody pass/fail per target) and a fit montage.
+
+Bugs fixed while building the pipeline:
+- scipy bounded Powell returned points worse than its best evaluation, so it was replaced by Nelder–Mead in normalised coordinates;
+- the eclipse-width seed was inflated by ellipsoidal variation, so out-of-eclipse variation is now removed with a Fourier fit before measuring widths;
+- the 2P test was too sensitive, so it was replaced by a per-cycle odd/even depth test;
+- isolated bad cadences are removed with a running-median filter.
+
+## Reproduce
+
+```bash
+python3 -m venv .venv-tess   # or use ~/phoebe-env/bin/python -m venv
+.venv-tess/bin/pip install astroquery lightkurve pandas matplotlib scipy tabulate
+unzip ~/Downloads/WZSubs.zip -d data/catalogs -x "__MACOSX/*"
+.venv-tess/bin/python src/crossmatch/build_dd_catalogs.py
+.venv-tess/bin/python src/crossmatch/crossmatch_eb_surveys.py          # ~20 min (CDS XMatch)
+.venv-tess/bin/python src/crossmatch/sanity_checks.py                  # ~10 min
+.venv-tess/bin/python src/crossmatch/make_tables.py
+.venv-tess/bin/python src/pipeline/fetch_tess_lc.py --designation <J...> --ra <deg> --dec <deg> --tic <TIC> --period <d>
+~/phoebe-env/bin/python src/pipeline/run_phoebe_candidate.py --designation <J...>
+```

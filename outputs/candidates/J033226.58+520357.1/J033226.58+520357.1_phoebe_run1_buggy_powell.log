@@ -1,0 +1,5 @@
+=== J033226.58+520357.1 2026-10-02T15:56:07.015656+00:00  P=1.447104 t0=3636.06264 Teff1=10465 M1~2.78 q=0.8 distortion=roche nbins=200
+  sma=9.20 Rsun, eclipse width 0.305 -> rsum0=0.504, teffratio0=0.75
+  grid 1: chi2=72537.0 v=[74.0, 0.0, 0.353, 0.5, 0.6019]
+grid best chi2=72537.03 (849s)
+  powell eval 25: best chi2 66014.11

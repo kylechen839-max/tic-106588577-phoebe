@@ -10,3 +10,6 @@ venv/
 phoebe-env/
 Miniforge3-*.sh
 *emcee_solution*.ps
+
+# DD1 WZ subject tables (86 MB): unzip ~/Downloads/WZSubs.zip into data/catalogs/
+data/catalogs/WZSubs/

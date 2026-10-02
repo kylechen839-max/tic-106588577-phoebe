@@ -1,0 +1,37 @@
+{
+  "designation": "J033226.58+520357.1",
+  "catalog_period": 1.44709,
+  "period": 1.4471030238099998,
+  "t0": 2937.1102492950854,
+  "odd_even_sigma": 0.9231723568090585,
+  "odd_depth": 0.06771539866625809,
+  "even_depth": 0.0655115720810608,
+  "phase05_dip_over_primary": 0.29234613264404885,
+  "sectors": [
+    18,
+    59,
+    86
+  ],
+  "authors": [
+    "QLP",
+    "TESS-SPOC"
+  ],
+  "n_points": 21417,
+  "n_bins": 155,
+  "oot_flux": 1.0070559331970692,
+  "primary_depth": 0.07677897314485338,
+  "secondary_depth": 0.024127138285299554,
+  "raw_rms": 0.013366884030630341,
+  "eclipses": {
+    "phase1": -0.0035608703816929488,
+    "phase2": 0.4993791936757377,
+    "depth1": 0.05405164915025429,
+    "depth2": 0.023470889804384054,
+    "halfwidth1": 0.107,
+    "halfwidth2": 0.1,
+    "secondary_detected": true,
+    "continuum_amplitude": 0.027502083510406616,
+    "profile_noise": 0.0005987906923438391
+  },
+  "ecosw_estimate": -0.0009751602938022827
+}
