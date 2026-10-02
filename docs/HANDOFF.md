@@ -58,7 +58,17 @@ kylechen839-max/tic-106588577-phoebe, branch main). Commit and push to main when
 - **7-sector PHOEBE fit:** χ²_red = 1.77, rms 1.86 ppt, i = 89.8°, r₁/r₂ = 0.099/0.033, T2/T1 = 0.57, fitted l3 = 0.16. It fails the binary-blackbody (JHKW1 χ² 116) and distance checks.
 - J0719's ephemeris is fine: P = 1.0118518 ± 0.0000003 d.
 
-### 3. PHOEBE round 1 (6 finished; none passes every check)
+### 3. PHOEBE results (7 finished; J1419 passes every check)
+
+**J141909.42−565518.1 passes all checks:**
+- eccentric EB: P = 16.634 d, e = 0.145, i = 89.2°, T2/T1 = 0.97;
+- light-curve fit: χ²_red 0.92;
+- blackbody/photometry: binary photosphere fits J, H, Ks, W1 (χ² 0.1); d_phot/d_Gaia = 0.91;
+- IR excess: W4 at 8.5σ (W4-only, so the dust temperature is unconstrained); compact, centred W4 source.
+
+Details are in `docs/DD_EB_CROSSMATCH.md`.
+
+Fits that do not pass yet:
 
 | Target | χ²_red | d_phot/d_Gaia | Verdict |
 |---|---:|---:|---|
@@ -83,8 +93,7 @@ Started ~19:50 UTC on 2026-10-02; expected to take ~2 h. The processes continue 
 | Run | Command tag | Output when done |
 |---|---|---|
 | J033226.58+520357.1, J223949.47+583254.4, J045912.77+165543.8, J221843.61+544715.0, J231201.40+532028.6 | `--tag _v2` | `outputs/candidates/<name>/<name>_phoebe_result_v2.json` |
-| J141909.42−565518.1 (eccentric) | none | `<name>_phoebe_result.json` |
-| J160415.99−562627.3, J232537.66+613847.9 (eccentric, q fitted) | none | `<name>_phoebe_result.json` |
+| J160415.99−562627.3, J232537.66+613847.9 (eccentric, q fitted; relaunched ~21:30 UTC from cached grids) | none | `<name>_phoebe_result.json` |
 
 Check status and relaunch if needed:
 
@@ -116,11 +125,12 @@ The round-2 code differs from round 1:
    - Re-derive Teff with an extinction-corrected SED (Gaia BP/RP + 2MASS with A_V free, e.g. from Bayestar/Green dust maps or a fit). Then rerun the PHOEBE fit with `--teff`.
    - If it is still overluminous, try `--fit-l3`.
    - A large fitted l3 together with an overluminous SED points to a third star, which would also affect whether the IR excess belongs to the EB.
-3. **J2218+54 (best candidate):** add a cool spot for the O'Connell asymmetry and consider ld/gravity-darkening refinements. It is worth requesting RVs.
-4. **J1122:** redo the custom-aperture extraction for all 7 sectors on the new ephemeris (`src/extract_multisector_tess_lightcurve.py --period 4.7917045 --t0 3762.8427`). Compare its eclipse depth with QLP and refit. Do not reuse the old `outputs/j1122_*` binned files; they use the wrong period.
-5. **Improve the WISE image S/N** in `src/crossmatch/wise_cutouts.py`: use a plane-fit background in an 18–35″ annulus. J0719 falsely fails the current version. Then visually review the tier-B objects flagged `wise_image`.
-6. **Fit the remaining tier-A objects:** J073937 (hot, no TIC Teff; use `--teff`), J024542, J173224, J223553, J220912.
-7. **More surveys:** recent TESS-FFI EB catalogues (IJspeert+2024, Howard+2025), OGLE disk EBs, Pan-STARRS1 3π variables, K2 EBs.
+3. **J1419−56 (passes every check):** look for higher-resolution 24 µm data (Spitzer MIPS, AKARI), check for apsidal motion with `eclipse_timing.py`, and test the result's sensitivity to the assumed Teff and q.
+4. **J2218+54 (strongest SED):** add a cool spot for the O'Connell asymmetry and consider ld/gravity-darkening refinements. It is worth requesting RVs.
+5. **J1122:** redo the custom-aperture extraction for all 7 sectors on the new ephemeris (`src/extract_multisector_tess_lightcurve.py --period 4.7917045 --t0 3762.8427`). Compare its eclipse depth with QLP and refit. Do not reuse the old `outputs/j1122_*` binned files; they use the wrong period.
+6. **Improve the WISE image S/N** in `src/crossmatch/wise_cutouts.py`: use a plane-fit background in an 18–35″ annulus. J0719 falsely fails the current version. Then visually review the tier-B objects flagged `wise_image`.
+7. **Fit the remaining tier-A objects:** J073937 (hot, no TIC Teff; use `--teff`), J024542, J173224, J223553, J220912.
+8. **More surveys:** recent TESS-FFI EB catalogues (IJspeert+2024, Howard+2025), OGLE disk EBs, Pan-STARRS1 3π variables, K2 EBs.
 
 ## Pipeline commands
 

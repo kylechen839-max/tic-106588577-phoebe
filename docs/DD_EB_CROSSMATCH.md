@@ -180,7 +180,7 @@ Light-curve notes: J0454−67 and J0537−66 (LMC) are dominated by pulsation-li
 
 ## PHOEBE modelling status (2026-10-02)
 
-### Round 1: finished fits (6)
+### Finished fits (7)
 
 `src/pipeline/run_phoebe_candidate.py`: grid → Nelder–Mead → emcee (12×30) → high-resolution recompute. q is fixed at 0.8 and there is one optimiser start. Full results are in `outputs/candidates/<name>/<name>_phoebe_result.json`, with fit plots alongside.
 
@@ -189,13 +189,36 @@ Light-curve notes: J0454−67 and J0537−66 (LMC) are dominated by pulsation-li
 | J033226.58+520357.1 | 1.44710 | 64.51 | 0.274 / 0.252 | 10465 / 7240 | 0 (fixed) | 0.00 | 2.52 / 2.32 | 135.2 | 8.12 | 23.2 / 16.0 | 0.57 | -0.1 / 7.0 | ✗ | ✗ | ✓ | ✗ | ✓ | **✗** |
 | J045912.77+165543.8 | 1.02269 | 69.35 | 0.232 / 0.185 | 8714 / 5357 | 0 (fixed) | 0.00 | 1.52 / 1.21 | 40.4 | 2.92 | 12.9 / -19.6 | 0.44 | -0.4 / 8.0 | ✗ | ✗ | ✓ | ✗ | ✓ | **✗** |
 | J112238.89-592027.5 (7sector) | 4.79170 | 89.80 | 0.099 / 0.033 | 7705 / 4410 | 0 (fixed) | 0.16 fit | 1.68 / 0.57 | 1.8 | 1.86 | -3.2 / -0.8 | 0.51 | 32.0 / 12.6 | ✓ | ✗ | ✗ | ✗ | ✓ | **✗** |
+| J141909.42-565518.1 | 16.63373 | 89.24 | 0.094 / 0.047 | 10875 / 10545 | 0.145 | 0.00 | 4.56 / 2.27 | 0.9 | 3.18 | -2.5 / 1.1 | 0.91 | -0.1 / 8.5 | ✓ | ✓ | ✓ | ✓ | ✓ | **✓** |
 | J221843.61+544715.0 | 1.66926 | 74.06 | 0.289 / 0.151 | 6911 / 5254 | 0 (fixed) | 0.00 | 2.30 / 1.20 | 47.0 | 3.65 | 13.6 / 20.6 | 0.65 | 18.0 / 13.7 | ✗ | ✗ | ✓ | ✓ | ✓ | **✗** |
 | J223949.47+583254.4 | 3.09244 | 89.75 | 0.327 / 0.185 | 8188 / 5989 | 0 (fixed) | 0.00 | 4.31 / 2.44 | 249.5 | 10.51 | -55.6 / 14.9 | 0.53 | -1.1 / 5.6 | ✗ | ✗ | ✓ | ✗ | ✓ | **✗** |
+| J223949.47+583254.4 | 3.09244 | 88.69 | 0.322 / 0.182 | 8188 / 6016 | 0 (fixed) | 0.00 | 4.25 / 2.41 | 242.7 | 10.31 | -55.0 / 18.7 | 0.52 | -1.1 / 5.6 | ✗ | ✗ | ✓ | ✗ | ✓ | **✗** |
 | J231201.40+532028.6 | 6.84953 | 84.26 | 0.192 / 0.094 | 8547 / 8355 | 0 (fixed) | 0.00 | 4.41 / 2.15 | 4.4 | 5.38 | -3.1 / -4.8 | 0.84 | 5.1 / 12.3 | ✓ | ✗ | ✓ | ✓ | ✓ | **✗** |
 
 ![round-1 fits](../outputs/candidates/phoebe_fits_montage.png)
 
-**No candidate passes every check yet.** Per target:
+**First candidate to pass every check: J141909.42−565518.1** (`outputs/candidates/J141909.42-565518.1/`)
+
+| Property | Value |
+|---|---|
+| Orbit | P = 16.634 d, eccentric: e = 0.145, ω = 22°; secondary eclipse at φ = 0.585 |
+| Geometry | i = 89.2°; r₁/r₂ = 0.094/0.047; T2/T1 = 0.97 (T1 = 10,875 K from Gaia GSP-Phot, no TIC Teff); total (flat-bottomed) secondary eclipse |
+| Light-curve fit | χ²_red = 0.92, rms 3.2 ppt; eclipse bias −2.5σ / +1.1σ (passes, but the primary is close to the 3σ limit) |
+| Blackbody/photometry | binary photosphere fits J, H, Ks, W1 with χ² = 0.1; d_phot/d_Gaia = 0.91 (Gaia 788 pc) |
+| IR excess | W4 survives against the binary photosphere at 8.5σ (W4 ≈ 2.9× photosphere); W3 shows no excess |
+| WISE image | compact, centred W4 source (S/N 6) with some diffuse surroundings |
+
+Caveats:
+- The excess is W4-only, so the dust temperature is unconstrained (the fit sits at the 40 K grid edge). This is cold dust or an unresolved W4 contaminant.
+- Masses are assumed, so the absolute radii (4.6 / 2.3 R☉) are only indicative.
+
+Next steps for J1419:
+- check W4 at higher resolution (Spitzer MIPS 24 µm or AKARI, if available);
+- check whether its eclipse times drift (apsidal motion), using `eclipse_timing.py`.
+
+![J1419 fit](../outputs/candidates/J141909.42-565518.1/J141909.42-565518.1_phoebe_fit.png)
+
+The other six fits do not pass yet. Per target:
 
 | Target | Outcome | Next step |
 |---|---|---|
@@ -238,8 +261,7 @@ Code changes for round 2:
 | Run | Output tag | Status at handoff |
 |---|---|---|
 | J0332, J2239, J0459, J2218, J2312 | `_v2` | grid stage |
-| J1419−56 (eccentric) | — | emcee stage, from cached Nelder–Mead χ² 249.8 |
-| J1604−56, J2325+61 (eccentric) | — | regridding with q |
+| J1604−56, J2325+61 (eccentric, q fitted) | — | Nelder–Mead stage (relaunched ~21:30 UTC) |
 
 J2041+46 and J1246−65 were stopped after the image check showed nebular contamination (best χ² 857 and 1,001).
 
