@@ -319,6 +319,8 @@ def planck(T, lam_um):
 
 
 def read_rows(path, name):
+    if not Path(path).exists():  # e.g. cloud container without the AllWISE support cache
+        return []
     with open(path, newline="") as fh:
         return [r for r in csv.DictReader(fh) if r["designation"] == name]
 
