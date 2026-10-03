@@ -3,3 +3,22 @@ Connection to online passbands at https://tables.phoebe-project.org could not be
   sma=14.49 Rsun, eclipse width 0.214 -> rsum0=0.529, teffratio0=0.75
   grid 1: chi2=40618.9 v=[74.0, -0.0052, 0.3706, 0.5, 0.599, 0.8]
   grid 4: chi2=38237.9 v=[74.0, -0.0052, 0.3706, 0.75, 0.599, 0.8]
+grid best chi2=38237.87 (1270s)
+  local-opt eval 25: best chi2 26117.58
+  local-opt eval 50: best chi2 22185.39
+  local-opt eval 75: best chi2 21778.64
+  local-opt eval 100: best chi2 21626.26
+  local-opt eval 125: best chi2 21626.26
+  local-opt eval 150: best chi2 21507.99
+  local-opt eval 175: best chi2 21507.99
+  local-opt eval 200: best chi2 21451.81
+  local-opt eval 225: best chi2 21451.81
+  local-opt eval 250: best chi2 21451.81
+  local-opt eval 275: best chi2 21451.81
+  local-opt eval 300: best chi2 21451.81
+  local-opt eval 325: best chi2 21451.81
+  local-opt eval 350: best chi2 21451.81
+  local-opt eval 375: best chi2 21451.81
+  local-opt eval 400: best chi2 21451.81
+  local-opt eval 425: best chi2 21451.81
+  local-opt eval 450: best chi2 21451.81
