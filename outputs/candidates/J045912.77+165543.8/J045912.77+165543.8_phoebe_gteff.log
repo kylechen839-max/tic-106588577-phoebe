@@ -13,3 +13,18 @@
   grid 37: chi2=72218.4 v=[74.0, 0.0008, 0.3395, 0.5, 0.5774, 0.8]
   grid 40: chi2=61071.6 v=[74.0, 0.0008, 0.3395, 0.75, 0.5774, 0.8]
 grid best chi2=61071.59 (2332s)
+  local-opt eval 25: best chi2 17484.97
+  local-opt eval 50: best chi2 9858.91
+  local-opt eval 75: best chi2 9224.24
+  local-opt eval 100: best chi2 9224.24
+  local-opt eval 125: best chi2 9224.24
+  local-opt eval 150: best chi2 9224.24
+  local-opt eval 175: best chi2 9220.21
+  local-opt eval 200: best chi2 9220.21
+  local-opt eval 225: best chi2 9173.21
+  local-opt eval 250: best chi2 9111.40
+  local-opt eval 275: best chi2 9111.40
+  local-opt eval 300: best chi2 9063.62
+  local-opt eval 325: best chi2 9063.62
+  local-opt eval 350: best chi2 9063.62
+  local-opt eval 375: best chi2 9063.62
