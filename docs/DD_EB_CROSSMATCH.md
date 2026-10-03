@@ -272,6 +272,29 @@ Bugs fixed while building the pipeline:
 - isolated bad cadences are removed with a running-median filter;
 - the eccentric fits crashed at emcee because 12 walkers is fewer than 2 × 7 parameters.
 
+### Cloud run 2026-10-03 (daily routine)
+
+These fits ran in the cloud container with an offline-rebuilt TESS:T passband (`src/pipeline/build_tess_passband.py`). It reproduces the J1419 best-model χ² exactly (210.41). The AllWISE cache (`outputs/crossmatch/dd1_support_cache/allwise.csv`) is not in the repo, and VizieR is blocked, so **no fit below has a binary-blackbody/distance check yet**, and `passes_all` is false by construction. Run `src/pipeline/recheck_sed.py` once the cache is committed. "est. d ratio" is the `teff_distance_scaling.py` estimate: the old fit's d_phot/d_Gaia rescaled to the new radii and temperatures.
+
+| Target (tag) | T1 (K) | i (°) | r1/r2 | q | e | χ²_red | rms (ppt) | eclipse bias σ (pri/sec) | LC checks | est. d ratio |
+|---|---:|---:|---|---:|---:|---:|---:|---|---|---:|
+| J024542.12+480837.8 | 8664 | 89.9 | 0.265 / 0.223 | 0.80 | 0 | 3.84 | 26.7 | −2.0 / +3.8 | fit ✓, bias ✗ | — |
+| J073937.23−363011.8 | 13856 (Gaia) | 87.2 | 0.333 / 0.155 | 0.25 | 0 | 2.90 | 4.6 | −4.5 / +4.8 | fit ✓, bias ✗ | — |
+| J220912.52+582025.0 | 3350 (bb) | 65.4 | 0.295 / 0.309 | 0.95 | 0 | **1.03** | 7.8 | −0.0 / −0.9 | **fit ✓, bias ✓** | — (no parallax, RUWE 43) |
+| J223553.38+500414.8 | 12746 | 74.7 | 0.181 / 0.041 | 0.80 | 0.40 | 15.2 | 2.2 | −7.6 / −7.9 | ✗ | — |
+| J223949.47+583254.4 (`_v3ecc`, eccentric) | 8188 | 89.2 | 0.335 / 0.191 | 0.80 | 0.064 | 235 | 10.2 | −49 / +5.6 | ✗ | — |
+| J223949.47+583254.4 (`_gteff`) | 15003 | 88.7 | 0.324 / 0.179 | 0.80 | 0 | 318 | 14.5 | −89 / +22 | ✗ | 1.23 |
+| J231201.40+532028.6 (`_gteff`) | 9932 | 82.7 | 0.183 / 0.110 | 0.80 | 0 | 4.91 | 5.6 | −4.3 / +2.2 | fit ✓, bias ✗ | 1.03 |
+| J045912.77+165543.8 (`_gteff`) | 13966 | 67.6 | 0.253 / 0.195 | 0.82 | 0 | 22.4 (was 40.4) | 2.0 | +12.2 / +4.1 | ✗ | 0.95 (was 0.44) |
+
+Findings:
+- **The Gaia GSP-Phot Teff largely removes the luminosity excess.** Holding the fitted geometry, the Teff that gives d_phot/d_Gaia = 1 is 9,800 K (J2312), 12,800 K (J2239), 15,300 K (J0459, J0332) and 9,500 K (J2218); the TIC Teffs are 6,900–10,500 K. The real refits at the Gaia Teff move the estimated ratio to 0.95–1.23. Every one of these stars has BP−RP = 0.26–0.78, which is too red for an A/B star without reddening. Explanation (1), reddening-biased TIC Teffs, is now the leading one, ahead of a third star. This is inferred from a scaled SED, not yet from the full AllWISE check.
+- J0459 at 13,966 K: χ²_red drops from 40.4 to 22.4, but the primary-eclipse bias is still +12σ.
+- J2312 at 9,932 K: χ²_red 4.91 and est. d ratio 1.03, but the primary bias is −4.3σ. It is still the closest candidate after J1419.
+- J2239 is not fixed by eccentricity (χ²_red 235) or by a hotter Teff (318). The −49 to −89σ primary bias means the model eclipse is too shallow whatever is tried. Next, widen the k bound above 1.4 or check for a blended or mis-phased light curve.
+- J2209+58 fits the light curve (χ²_red 1.03), but it is a 3,350 K M-dwarf pair with RUWE 43 and no usable parallax. An excess around a pair of M dwarfs is unusual, and the RUWE suggests an unresolved companion. Treat it with caution.
+- J0245+48: R1 = 6.1 R☉ at 8,664 K for the assumed mass, so the primary is probably evolved. The secondary bias is +3.8σ.
+
 ## Reproduce
 
 ```bash
