@@ -186,12 +186,12 @@ def initial_guesses(eph, flux, times):
     return rsum, tr, width
 
 
-def bounds_for(rsum0, distortion):
+def bounds_for(rsum0, distortion, kmax=1.4):
     return {
         "incl": (60.0, 90.0),
         "dt0": (-0.01, 0.01),
         "rsum": (max(0.03, 0.4 * rsum0), min(0.78 if distortion == "roche" else 0.9, 2.2 * rsum0)),
-        "k": (0.2, 1.4),
+        "k": (0.2, kmax),
         "teffratio": (0.3, 1.25),
         "l3": (0.0, 0.8),
         "ecosw": (-0.6, 0.6),
@@ -209,7 +209,7 @@ def grid_search(m, rsum0, tr0, B, log, ntop=3):
     results = []
     incls = [74, 80, 84, 87, 89.5]
     rsums = [rsum0 * f for f in (0.7, 0.85, 1.0, 1.2, 1.4)]
-    ks = [0.5, 0.75, 1.0, 1.3]
+    ks = [0.5, 0.75, 1.0, 1.3, 1.7, 2.2]  # points above --kmax are skipped by in_bounds
     trs = sorted(set([float(np.clip(tr0 * f, 0.3, 1.2)) for f in (0.8, 1.0, 1.2)]))
     best = np.inf
     for incl in incls:
@@ -434,6 +434,7 @@ def main():
                     help="fit ecosw/esinw; auto = when the secondary eclipse is >0.01 in phase from 0.5")
     ap.add_argument("--period", type=float, default=None, help="override ephemeris period")
     ap.add_argument("--t0", type=float, default=None, help="override ephemeris t0")
+    ap.add_argument("--kmax", type=float, default=1.4, help="upper bound on k = r2/r1")
     ap.add_argument("--tag", default="", help="suffix for output file names")
     args = ap.parse_args()
     name = args.designation
@@ -471,7 +472,7 @@ def main():
         f"M1~{m1:.2f} q={q} distortion={distortion} nbins={len(times)}")
 
     rsum0, tr0, width = initial_guesses(eph, flux, times)
-    B = bounds_for(rsum0, distortion)
+    B = bounds_for(rsum0, distortion, args.kmax)
     m = Model(times, flux, sig, period, t0, teff1, m1, q, distortion, args.ntri, l3=args.l3)
     m.l3_start, m.ecosw_start, m.esinw_start, m.q_start = args.l3, ecosw0, esinw0, q
     m.dt0_start = float(np.clip(ecl.get("phase1", 0.0) * period, -0.009, 0.009))
