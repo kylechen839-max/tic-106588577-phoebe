@@ -19,3 +19,19 @@ One entry per daily cloud run. The plan for the next run is in `docs/PROJECT_CON
 **Key finding.** The luminosity excess at the Gaia distance mostly goes away with the Gaia GSP-Phot Teff. TIC Teffs look reddening-biased low by 15–45%. This is inferred from a scaled SED; the full AllWISE check is still to do.
 
 **Also done:** `src/pipeline/teff_distance_scaling.py` and `src/pipeline/recheck_sed.py`. Draft PR #2 is open.
+
+## 2026-10-04
+
+**Environment.** The same 4-core container, resumed. The 3 fits left running on 10-03 (J1732, J0332 `_gteff`, J1419 `_teffm10`) had been **killed when the session went idle**, ~3 min after the last reply. Background fits only survive while the session is active. Cached `_grid`/`_localopt` JSONs let the relaunches skip finished stages. Archive hosts are still blocked (CDS XMatch, VizieR, MAST, SkyView, IRSA, tables.phoebe-project.org).
+
+**Code.** Two new options in `run_phoebe_candidate.py`: `--kmax` (upper bound on k; grid adds k = 1.7, 2.2 when allowed) and `--no-irrad` (reflection albedo 0).
+
+**Fits** (table in `docs/DD_EB_CROSSMATCH.md` → "Cloud run 2026-10-04"):
+- J1419 Teff −10%/+10%: geometry stable (i 89.1–89.4°, r₁ 0.094, e 0.14); χ²_red 0.67/0.64, below the nominal 0.92; est. d ratio 0.79/1.04; secondary bias 2.8/3.4σ.
+- J0332 at Gaia Teff (18,920 K): χ²_red 125 (was 135). Still fails.
+- J2312 at Gaia Teff, eccentric + l3: χ²_red 2.00, eclipse bias −4.0/−9.2σ.
+- J2239 with k ≤ 2.5: no change (χ²_red 245, k stays 0.56). **With reflection off: χ²_red 17.4, rms 3.0 ppt** (was 243, 10.5).
+- J2218 at 9,500 K, q fitted: **χ²_red 11.8, rms 1.5 ppt** (was 47, 3.6); q = 0.32; est. d ratio 1.12.
+- Still running at the time of writing: J1604 `_gteff`, J1732, J2218 `_t9500noirr`, J0459 `_gteffnoirr`.
+
+**Key finding.** The default reflection albedo of 1.0 for T > 7,500 K produces humps the data do not show. Switching reflection off fixed most of the J2239 misfit, and it should be tested on every hot system.

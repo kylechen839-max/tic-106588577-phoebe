@@ -295,6 +295,27 @@ Findings:
 - J2209+58 fits the light curve (χ²_red 1.03), but it is a 3,350 K M-dwarf pair with RUWE 43 and no usable parallax. An excess around a pair of M dwarfs is unusual, and the RUWE suggests an unresolved companion. Treat it with caution.
 - J0245+48: R1 = 6.1 R☉ at 8,664 K for the assumed mass, so the primary is probably evolved. The secondary bias is +3.8σ.
 
+### Cloud run 2026-10-04 (daily routine)
+
+The same caveats as 2026-10-03 apply: no AllWISE cache, so there is no full SED check, and "est. d ratio" is the scaled estimate from `teff_distance_scaling.py`. New runner options: `--kmax` (upper bound on k) and `--no-irrad` (reflection off).
+
+| Target (tag) | Change | T1 (K) | i (°) | r1/r2 | q | e / l3 | χ²_red | rms (ppt) | eclipse bias σ (pri/sec) | est. d ratio |
+|---|---|---:|---:|---|---:|---|---:|---:|---|---:|
+| J141909.42−565518.1 (`_teffm10`) | Teff −10% | 9790 | 89.13 | 0.0945 / 0.0472 | 0.80 | 0.140 / 0 | 0.67 | 3.5 | −1.9 / +2.8 | 0.79 |
+| J141909.42−565518.1 (`_teffp10`) | Teff +10% | 11960 | 89.44 | 0.0940 / 0.0469 | 0.80 | 0.139 / 0 | 0.64 | 3.8 | −0.9 / **+3.4** | 1.04 |
+| J033226.58+520357.1 (`_gteff`) | Gaia Teff | 18920 | 63.5 | 0.316 / 0.236 | 0.40 | 0 / 0 | 125 | 8.1 | +19.8 / +4.2 | 1.43 |
+| J231201.40+532028.6 (`_gteffecc`) | Gaia Teff, eccentric, l3 | 9932 | 86.96 | 0.170 / 0.087 | 0.80 | 0.050 / 0.01 | **2.00** | 6.9 | −4.0 / −9.2 | 0.91 |
+| J223949.47+583254.4 (`_kmax`) | k ≤ 2.5 | 8188 | 88.79 | 0.325 / 0.183 | 0.80 | 0 / 0 | 245 | 10.5 | −58 / +13 | 0.53 |
+| J223949.47+583254.4 (`_noirr`) | reflection off | 8188 | 80.70 | 0.321 / 0.223 | 0.80 | 0 / 0 | **17.4** (was 243) | **3.0** | −15 / +9.4 | 0.54 |
+| J221843.61+544715.0 (`_t9500`) | Teff 9,500 K, q fitted | 9500 | 76.77 | 0.338 / 0.116 | 0.32 | 0 / 0 | **11.8** (was 47) | **1.5** | −6.6 / +7.6 | 1.12 |
+
+Findings:
+- **J1419 is robust to Teff.** Over ±10% Teff the geometry barely moves: i = 89.1–89.4°, r₁ = 0.094, e = 0.14. Both refits reach a lower χ² than the nominal fit (146–153 vs 210), so the nominal minimum was not fully converged. The estimated d ratio stays inside 0.6–1.8 (0.79–1.04). At +10% the secondary bias reaches 3.4σ, just over the 3σ limit. Refit at the nominal Teff from these better starting points.
+- **The reflection effect was J2239's problem.** At T1 > 7,500 K the runner uses albedo 1.0, which gives reflection humps around the secondary eclipse that the data do not show. With `--no-irrad`, χ²_red drops from 243 to 17.4 and the rms from 10.5 to 3.0 ppt. The primary is still 15σ too shallow in its core. The other hot systems (J2218 at 9,500 K, J0459, J0332, J2312) probably need the same test.
+- **J2218 at 9,500 K** (the Teff the scaling says gives d ratio ≈ 1) with q fitted: χ²_red 47 → 11.8, rms 3.6 → 1.5 ppt, q = 0.32, est. d ratio 1.12. The eclipse biases (−6.6/+7.6σ) still fail.
+- J2312 with eccentricity and l3 (e = 0.05, l3 = 0.01): χ²_red 2.00, but the secondary bias got worse (−9.2σ).
+- Still running at the time of writing: J1604 (Gaia Teff), J1732 (eccentric, Roche, q: very slow), J2218 `_t9500noirr` and J0459 `_gteffnoirr`.
+
 ## Reproduce
 
 ```bash
