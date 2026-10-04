@@ -105,3 +105,7 @@ grid best chi2=14606.14 (446s)
   local-opt eval 475: best chi2 2808.99
   start 3/3 (grid chi2 33759.3) -> chi2 2808.99
 local-opt (Nelder-Mead) chi2=2664.57 after 1448 evals v=[80.69612, 0.00296, 0.54328, 0.69443, 0.6978]
+  emcee 12x30 in 687s, acc=0.53
+{"incl": 80.69612395126396, "r1_frac": 0.32062510264699645, "r2_frac": 0.22265018302798084, "teffratio": 0.697800567570519, "chi2_final_hires": 2696.265450732403, "passes_all": false}
+photometry: {"chi2": 2696.265450732403, "dof": 155, "chi2_red": 17.395260972467117, "rms": 0.003001572104215199, "primary_mean_resid": -0.012933895868030204, "primary_bias_sigma": -15.022327988836512, "secondary_mean_resid": 0.004403318557592378, "secondary_bias_sigma": 9.40391244040248, "pass_fit": false, "pass_no_eclipse_bias": false}
+blackbody: {"status": "no AllWISE row"}
