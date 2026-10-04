@@ -72,3 +72,14 @@ grid best chi2=38237.87 (1270s)
   local-opt eval 550: best chi2 18890.94
   start 3/3 (grid chi2 43943.5) -> chi2 18890.94
 local-opt (Nelder-Mead) chi2=18890.94 after 1644 evals v=[64.73071, -0.00205, 0.52642, 0.883, 0.63408, 0.76668]
+Connection to online passbands at https://tables.phoebe-project.org could not be established.  Check your internet connection or try again later (can manually call phoebe.list_online_passbands(refresh=True) to retry).  If the problem persists and you're using a Mac, you may need to update openssl (see https://phoebe-project.org/help/faq). Original error from urlopen: URLError <urlopen error Tunnel connection failed: 403 Forbidden>
+=== J033226.58+520357.1 2026-10-04T12:53:19.756622+00:00  P=1.447103 t0=2937.11025 Teff1=18920 M1~10.84 q=0.8 distortion=roche nbins=155
+  sma=14.49 Rsun, eclipse width 0.214 -> rsum0=0.529, teffratio0=0.75
+  using cached grid result
+grid best chi2=38237.87 (0s)
+  using cached local-optimisation result
+local-opt (Nelder-Mead) chi2=18890.94 after 1644 evals v=[64.73071, -0.00205, 0.52642, 0.883, 0.63408, 0.76668]
+  emcee 14x30 in 1749s, acc=0.50
+{"incl": 63.511308379228936, "r1_frac": 0.31628590316326305, "r2_frac": 0.2361550552203179, "teffratio": 0.5914357652307252, "chi2_final_hires": 18493.095783208617, "passes_all": false}
+photometry: {"chi2": 18493.095783208617, "dof": 148, "chi2_red": 124.95334988654471, "rms": 0.008079414772854348, "primary_mean_resid": 0.010028259445907323, "primary_bias_sigma": 19.807485951030994, "secondary_mean_resid": 0.0019174451695360972, "secondary_bias_sigma": 4.156897958326772, "pass_fit": false, "pass_no_eclipse_bias": false}
+blackbody: {"status": "no AllWISE row"}

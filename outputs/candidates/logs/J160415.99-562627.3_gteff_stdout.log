@@ -1,0 +1,7 @@
+Connection to online passbands at https://tables.phoebe-project.org could not be established.  Check your internet connection or try again later (can manually call phoebe.list_online_passbands(refresh=True) to retry).  If the problem persists and you're using a Mac, you may need to update openssl (see https://phoebe-project.org/help/faq). Original error from urlopen: URLError <urlopen error Tunnel connection failed: 403 Forbidden>
+=== J160415.99-562627.3 2026-10-04T13:22:40.712426+00:00  P=2.207665 t0=4138.07428 Teff1=14140 M1~5.55 q=0.8 distortion=roche nbins=204
+  eccentric: secondary at phase 0.5406 -> ecosw0=0.0638, esinw0=0.000
+  sma=15.36 Rsun, eclipse width 0.112 -> rsum0=0.293, teffratio0=0.98
+  grid 1: chi2=840106.0 v=[74.0, -0.0001, 0.2051, 0.5, 0.787, 0.0638, 0.0, 0.8]
+  grid 2: chi2=837945.0 v=[74.0, -0.0001, 0.2051, 0.5, 0.9838, 0.0638, 0.0, 0.8]
+  grid 3: chi2=837236.0 v=[74.0, -0.0001, 0.2051, 0.5, 1.1806, 0.0638, 0.0, 0.8]
