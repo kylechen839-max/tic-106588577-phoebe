@@ -91,7 +91,7 @@ def phase_values(times, t0, period):
 
 # ----------------------------------------------------------------------------- bundle
 class Model:
-    def __init__(self, times, flux, sig, period, t0, teff1, mass1, q, distortion, ntri, l3=0.0):
+    def __init__(self, times, flux, sig, period, t0, teff1, mass1, q, distortion, ntri, l3=0.0, irrad=True):
         self.period, self.t0, self.teff1 = period, t0, teff1
         self.mtot = mass1 * (1 + q)
         self.sma = kepler_sma(period, self.mtot)
@@ -111,7 +111,7 @@ class Model:
         b.set_value("sma@binary", self.sma)
         b.set_value("teff@primary", teff1)
         gb = 1.0 if teff1 > 7500 else 0.32
-        alb = 1.0 if teff1 > 7500 else 0.6
+        alb = (1.0 if teff1 > 7500 else 0.6) if irrad else 0.0
         for comp in ("primary", "secondary"):
             b.set_value(f"gravb_bol@{comp}", gb)
             b.set_value(f"irrad_frac_refl_bol@{comp}", alb)
@@ -434,6 +434,7 @@ def main():
                     help="fit ecosw/esinw; auto = when the secondary eclipse is >0.01 in phase from 0.5")
     ap.add_argument("--period", type=float, default=None, help="override ephemeris period")
     ap.add_argument("--t0", type=float, default=None, help="override ephemeris t0")
+    ap.add_argument("--no-irrad", action="store_true", help="switch off reflection (irradiation albedo 0)")
     ap.add_argument("--kmax", type=float, default=1.4, help="upper bound on k = r2/r1")
     ap.add_argument("--tag", default="", help="suffix for output file names")
     args = ap.parse_args()
@@ -473,7 +474,7 @@ def main():
 
     rsum0, tr0, width = initial_guesses(eph, flux, times)
     B = bounds_for(rsum0, distortion, args.kmax)
-    m = Model(times, flux, sig, period, t0, teff1, m1, q, distortion, args.ntri, l3=args.l3)
+    m = Model(times, flux, sig, period, t0, teff1, m1, q, distortion, args.ntri, l3=args.l3, irrad=not args.no_irrad)
     m.l3_start, m.ecosw_start, m.esinw_start, m.q_start = args.l3, ecosw0, esinw0, q
     m.dt0_start = float(np.clip(ecl.get("phase1", 0.0) * period, -0.009, 0.009))
     if eccentric:
@@ -522,7 +523,7 @@ def main():
         v_best = v_pow
     np.save(cdir / f"{name}_emcee_chain{tag}.npy", chain)
 
-    hi = Model(times, flux, sig, period, t0, teff1, m1, q, distortion, args.ntri_final, l3=args.l3)
+    hi = Model(times, flux, sig, period, t0, teff1, m1, q, distortion, args.ntri_final, l3=args.l3, irrad=not args.no_irrad)
     chi_hi, pred = hi.evaluate(v_best, label="final", keep=True)
     hi.b.save(str(cdir / f"{name}_phoebe_best{tag}.phoebe"))
     vb = dict(zip(PARAMS, v_best))
