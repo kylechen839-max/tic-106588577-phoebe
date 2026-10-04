@@ -32,6 +32,7 @@ One entry per daily cloud run. The plan for the next run is in `docs/PROJECT_CON
 - J2312 at Gaia Teff, eccentric + l3: χ²_red 2.00, eclipse bias −4.0/−9.2σ.
 - J2239 with k ≤ 2.5: no change (χ²_red 245, k stays 0.56). **With reflection off: χ²_red 17.4, rms 3.0 ppt** (was 243, 10.5).
 - J2218 at 9,500 K, q fitted: **χ²_red 11.8, rms 1.5 ppt** (was 47, 3.6); q = 0.32; est. d ratio 1.12.
-- Still running at the time of writing: J1604 `_gteff`, J1732, J2218 `_t9500noirr`, J0459 `_gteffnoirr`.
+- Reflection off on Roche systems makes them worse: J2218 `_t9500noirr` χ²_red 18.96 (vs 11.8), J0459 `_gteffnoirr` 765 (vs 22.4).
+- J1604 `_gteff` and J1732 were killed by a container restart at ~23:00 UTC and relaunched.
 
-**Key finding.** The default reflection albedo of 1.0 for T > 7,500 K produces humps the data do not show. Switching reflection off fixed most of the J2239 misfit, and it should be tested on every hot system.
+**Key finding.** For J2239 (detached, flat out-of-eclipse), the default reflection albedo of 1.0 produced humps the data do not show; switching it off fixed most of the misfit. For the short-period Roche systems (J2218, J0459), switching it off makes the fit much worse, so it is a per-system choice.

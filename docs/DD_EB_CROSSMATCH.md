@@ -314,7 +314,8 @@ Findings:
 - **The reflection effect was J2239's problem.** At T1 > 7,500 K the runner uses albedo 1.0, which gives reflection humps around the secondary eclipse that the data do not show. With `--no-irrad`, χ²_red drops from 243 to 17.4 and the rms from 10.5 to 3.0 ppt. The primary is still 15σ too shallow in its core. The other hot systems (J2218 at 9,500 K, J0459, J0332, J2312) probably need the same test.
 - **J2218 at 9,500 K** (the Teff the scaling says gives d ratio ≈ 1) with q fitted: χ²_red 47 → 11.8, rms 3.6 → 1.5 ppt, q = 0.32, est. d ratio 1.12. The eclipse biases (−6.6/+7.6σ) still fail.
 - J2312 with eccentricity and l3 (e = 0.05, l3 = 0.01): χ²_red 2.00, but the secondary bias got worse (−9.2σ).
-- Still running at the time of writing: J1604 (Gaia Teff), J1732 (eccentric, Roche, q: very slow), J2218 `_t9500noirr` and J0459 `_gteffnoirr`.
+- **Reflection off is not a general fix.** J2218 at 9,500 K with reflection off: χ²_red 18.96 (vs 11.8 with reflection), primary bias +20σ. J0459 at Gaia Teff with reflection off: χ²_red 765 (vs 22.4). Both are short-period (1.0–1.7 d) Roche systems that need the reflection/ellipsoidal terms. Use `--no-irrad` only for detached systems whose out-of-eclipse light curve is flat (J2239).
+- J1604 (Gaia Teff) and J1732 were relaunched after a container restart; their results go into the next run's log.
 
 ## Reproduce
 
