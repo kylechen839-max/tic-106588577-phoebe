@@ -28,12 +28,20 @@ def main():
     ap.add_argument("--old-period", type=float, default=None)
     ap.add_argument("--old-t0", type=float, default=None)
     ap.add_argument("--out", default=None)
+    ap.add_argument("--secondary", action="store_true",
+                    help="time the secondary eclipse instead (uses eclipses.phase2/halfwidth2 from the ephemeris "
+                         "JSON); a primary/secondary period difference measures apsidal motion")
     a = ap.parse_args()
     d = ROOT / "outputs" / "candidates" / a.designation
     t, f, e, s = np.loadtxt(d / f"{a.designation}_raw.txt").T
     eph = json.loads((d / f"{a.designation}_ephemeris.json").read_text())
     P, t0 = eph["period"], eph["t0"]
-    hw = eph.get("eclipses", {}).get("halfwidth1", 0.03)
+    ecl = eph.get("eclipses", {})
+    hw = ecl.get("halfwidth1", 0.03)
+    depth0 = eph.get("primary_depth", 0.05)
+    if a.secondary:  # shift the reference epoch to the secondary and time it like a primary
+        t0 = t0 + ecl["phase2"] * P
+        hw, depth0 = ecl.get("halfwidth2", hw), ecl.get("depth2", depth0)
     rows = []
     for sec in np.unique(s):
         m = s == sec
@@ -43,7 +51,7 @@ def main():
             continue
         x = ph[w] * P * 24
         try:
-            popt, pcov = curve_fit(dip, x, f[m][w], p0=[eph.get("primary_depth", 0.05), 0, hw * P * 24 / 2, 1.0])
+            popt, pcov = curve_fit(dip, x, f[m][w], p0=[depth0, 0, hw * P * 24 / 2, 1.0])
         except RuntimeError:
             continue
         n = np.round((np.median(t[m]) - t0) / P)
@@ -68,10 +76,12 @@ def main():
         ax.annotate(f"S{int(lab)}", (x, y), textcoords="offset points", xytext=(4, 4), fontsize=7)
     ax.axhline(0, color="0.5")
     ax.set_xlabel("BTJD"); ax.set_ylabel("O-C (hours)"); ax.legend(fontsize=8)
-    ax.set_title(f"{a.designation} primary-eclipse timings")
+    which = "secondary" if a.secondary else "primary"
+    ax.set_title(f"{a.designation} {which}-eclipse timings")
     fig.tight_layout()
-    fig.savefig(a.out or d / f"{a.designation}_oc.png", dpi=140)
-    (d / f"{a.designation}_timing.json").write_text(json.dumps(res, indent=2) + "\n")
+    sfx = "_sec" if a.secondary else ""
+    fig.savefig(a.out or d / f"{a.designation}_oc{sfx}.png", dpi=140)
+    (d / f"{a.designation}_timing{sfx}.json").write_text(json.dumps(res, indent=2) + "\n")
     print(json.dumps({k: res[k] for k in ("P", "e_P", "T0", "e_T0")}, indent=2))
     if "oc_old_h" in res:
         print("O-C vs old ephemeris (h):", dict(zip([int(x) for x in sec], np.round(res["oc_old_h"], 2))))

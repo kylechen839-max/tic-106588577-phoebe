@@ -1,0 +1,11 @@
+/Users/kylechen/Documents/repos/tic-106588577-phoebe/src/crossmatch/sanity_checks.py:205: FutureWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  agg["n_independent"] = agg["designation"].map(long.groupby("designation").apply(independent))
+/Users/kylechen/Documents/repos/tic-106588577-phoebe/src/crossmatch/sanity_checks.py:205: FutureWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  agg["n_independent"] = agg["designation"].map(long.groupby("designation").apply(independent))
+Could not import regions, which is required for some of the functionalities of this module.
+dd2: 10 candidates; querying support catalogues
+querying TESScut sectors for 0 tier A/B candidates
+{'C': 10}
+dd1: 862 candidates; querying support catalogues
+querying TESScut sectors for 162 tier A/B candidates
+{'C': 700, 'B': 135, 'A': 27}

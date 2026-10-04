@@ -12,7 +12,8 @@ while true; do
   args=(${=line}); name=$args[1]; tag=$args[2]; extra=(${args[3,-1]})
   [[ $tag == "-" ]] && tag=""
   echo "$(date -u +%FT%TZ) start $name$tag $extra"
-  nohup ~/phoebe-env/bin/python src/pipeline/run_phoebe_candidate.py --designation $name ${tag:+--tag $tag} $extra \
+  tagargs=(); [[ -n $tag ]] && tagargs=(--tag $tag)
+  nohup ~/phoebe-env/bin/python src/pipeline/run_phoebe_candidate.py --designation $name $tagargs $extra \
     > outputs/candidates/logs/${name}${tag}_stdout.log 2>&1 &
   sleep 5
 done

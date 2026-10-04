@@ -1,0 +1,73 @@
+Could not import regions, which is required for some of the functionalities of this module.
+  dd2 x gaia_dr3: 0 eclipsing-class matches within 3.0"
+  dd2 x tess_ebs: 5 eclipsing-class matches within 3.0"
+  dd2 x tess_oba_ebs: 0 eclipsing-class matches within 3.0"
+  dd2 x ztf_chen2020: 0 eclipsing-class matches within 3.0"
+  dd2 x vsx: 2 eclipsing-class matches within 3.0"
+  dd2 x atlas_heinze2018: 1 eclipsing-class matches within 3.0"
+  dd2 x wise_chen2018: 0 eclipsing-class matches within 3.0"
+  dd2 x crts_drake2014: 1 eclipsing-class matches within 3.0"
+  dd2 x crts_south2017: 0 eclipsing-class matches within 3.0"
+  dd2 x kepler_ebs: 0 eclipsing-class matches within 3.0"
+  dd2 x asas3: 0 eclipsing-class matches within 3.0"
+  dd2 x nsvs_hoffman2009: 0 eclipsing-class matches within 3.0"
+  dd2 x debcat: 0 eclipsing-class matches within 3.0"
+  dd2 x ogle4_wang2024: 0 eclipsing-class matches within 3.0"
+  dd2 x ogle_lmc_ecl: 0 eclipsing-class matches within 3.0"
+dd2 x tess_10k_kostov2025 ...
+  dd2 x tess_10k_kostov2025: 0 eclipsing-class matches within 3.0"
+dd2 x tess_obaf_ijspeert2024 ...
+  dd2 x tess_obaf_ijspeert2024: 0 eclipsing-class matches within 3.0"
+dd2 x tess_ea_shi2022 ...
+  dd2 x tess_ea_shi2022: 1 eclipsing-class matches within 3.0"
+dd2 x tess_gao2025 ...
+  dd2 x tess_gao2025: 1 eclipsing-class matches within 3.0"
+dd2 x css_algol_papageorgiou2018 ...
+  dd2 x css_algol_papageorgiou2018: 0 eclipsing-class matches within 3.0"
+dd2 x lamost_ea_qian2018 ...
+  dd2 x lamost_ea_qian2018: 0 eclipsing-class matches within 3.0"
+dd2 x k2_armstrong2015 ...
+  dd2 x k2_armstrong2015: 0 eclipsing-class matches within 3.0"
+dd2 x ztf_2plus2_vaessen2024 ...
+  dd2 x ztf_2plus2_vaessen2024: 0 eclipsing-class matches within 3.0"
+dd2 x css_contact_wang2024 ...
+/Users/kylechen/Documents/repos/tic-106588577-phoebe/src/crossmatch/crossmatch_eb_surveys.py:115: DtypeWarning: Columns (21) have mixed types. Specify dtype option on import or set low_memory=False.
+  m = pd.read_csv(out)
+  dd2 x css_contact_wang2024: 0 eclipsing-class matches within 3.0"
+  dd2 x asassn: 1 eclipsing-class matches within 3.0"
+dd2: 10 unique DD objects with an EB-class match
+  dd1 x gaia_dr3: 408 eclipsing-class matches within 3.0"
+  dd1 x tess_ebs: 24 eclipsing-class matches within 3.0"
+  dd1 x tess_oba_ebs: 26 eclipsing-class matches within 3.0"
+  dd1 x ztf_chen2020: 108 eclipsing-class matches within 3.0"
+  dd1 x vsx: 567 eclipsing-class matches within 3.0"
+  dd1 x atlas_heinze2018: 80 eclipsing-class matches within 3.0"
+  dd1 x wise_chen2018: 22 eclipsing-class matches within 3.0"
+  dd1 x crts_drake2014: 7 eclipsing-class matches within 3.0"
+  dd1 x crts_south2017: 4 eclipsing-class matches within 3.0"
+  dd1 x kepler_ebs: 2 eclipsing-class matches within 3.0"
+  dd1 x asas3: 33 eclipsing-class matches within 3.0"
+  dd1 x nsvs_hoffman2009: 3 eclipsing-class matches within 3.0"
+  dd1 x debcat: 1 eclipsing-class matches within 3.0"
+  dd1 x ogle4_wang2024: 3 eclipsing-class matches within 3.0"
+  dd1 x ogle_lmc_ecl: 31 eclipsing-class matches within 3.0"
+dd1 x tess_10k_kostov2025 ...
+  dd1 x tess_10k_kostov2025: 6 eclipsing-class matches within 3.0"
+dd1 x tess_obaf_ijspeert2024 ...
+  dd1 x tess_obaf_ijspeert2024: 88 eclipsing-class matches within 3.0"
+dd1 x tess_ea_shi2022 ...
+  dd1 x tess_ea_shi2022: 7 eclipsing-class matches within 3.0"
+dd1 x tess_gao2025 ...
+  dd1 x tess_gao2025: 24 eclipsing-class matches within 3.0"
+dd1 x css_algol_papageorgiou2018 ...
+  dd1 x css_algol_papageorgiou2018: 0 eclipsing-class matches within 3.0"
+dd1 x lamost_ea_qian2018 ...
+  dd1 x lamost_ea_qian2018: 2 eclipsing-class matches within 3.0"
+dd1 x k2_armstrong2015 ...
+  dd1 x k2_armstrong2015: 0 eclipsing-class matches within 3.0"
+dd1 x ztf_2plus2_vaessen2024 ...
+  dd1 x ztf_2plus2_vaessen2024: 0 eclipsing-class matches within 3.0"
+dd1 x css_contact_wang2024 ...
+  dd1 x css_contact_wang2024: 0 eclipsing-class matches within 3.0"
+  dd1 x asassn: 58 eclipsing-class matches within 3.0"
+dd1: 862 unique DD objects with an EB-class match
