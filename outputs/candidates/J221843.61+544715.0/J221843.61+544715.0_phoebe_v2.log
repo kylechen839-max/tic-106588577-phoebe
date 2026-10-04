@@ -10,3 +10,74 @@
   grid 44: chi2=86736.1 v=[74.0, 0.0004, 0.3992, 1.0, 0.8418, 0.8]
   grid 47: chi2=67657.4 v=[74.0, 0.0004, 0.3992, 1.3, 0.8418, 0.8]
   grid 49: chi2=50787.9 v=[74.0, 0.0004, 0.4657, 0.5, 0.6734, 0.8]
+grid best chi2=50787.86 (491s)
+  local-opt eval 25: best chi2 12084.31
+  local-opt eval 50: best chi2 8832.49
+  local-opt eval 75: best chi2 8478.76
+  local-opt eval 100: best chi2 8229.73
+  local-opt eval 125: best chi2 8200.96
+  local-opt eval 150: best chi2 8175.25
+  local-opt eval 175: best chi2 8139.49
+  local-opt eval 200: best chi2 7918.47
+  local-opt eval 225: best chi2 5053.80
+  local-opt eval 250: best chi2 2624.95
+  local-opt eval 275: best chi2 2325.58
+  local-opt eval 300: best chi2 2259.85
+  local-opt eval 325: best chi2 2258.13
+  local-opt eval 350: best chi2 2255.43
+  local-opt eval 375: best chi2 2255.30
+  local-opt eval 400: best chi2 2255.30
+  start 1/3 (grid chi2 50787.9) -> chi2 2255.24
+  local-opt eval 25: best chi2 33606.73
+  local-opt eval 50: best chi2 13777.57
+  local-opt eval 75: best chi2 13299.77
+  local-opt eval 100: best chi2 12592.33
+  local-opt eval 125: best chi2 11939.56
+  local-opt eval 150: best chi2 9958.30
+  local-opt eval 175: best chi2 9399.91
+  local-opt eval 200: best chi2 9127.00
+  local-opt eval 225: best chi2 9076.33
+  local-opt eval 250: best chi2 8952.66
+  local-opt eval 275: best chi2 8952.66
+  local-opt eval 300: best chi2 8952.66
+  local-opt eval 325: best chi2 8952.66
+  local-opt eval 350: best chi2 8952.66
+  local-opt eval 375: best chi2 8952.66
+  local-opt eval 400: best chi2 8952.66
+  local-opt eval 425: best chi2 8952.66
+  local-opt eval 450: best chi2 8952.66
+  local-opt eval 475: best chi2 8952.66
+  local-opt eval 500: best chi2 8948.05
+  local-opt eval 525: best chi2 8948.05
+  local-opt eval 550: best chi2 8948.05
+  local-opt eval 575: best chi2 8927.12
+  local-opt eval 600: best chi2 8927.12
+  local-opt eval 625: best chi2 8927.12
+  start 2/3 (grid chi2 67657.4) -> chi2 8927.12
+  local-opt eval 25: best chi2 43407.44
+  local-opt eval 50: best chi2 10944.12
+  local-opt eval 75: best chi2 10644.97
+  local-opt eval 100: best chi2 10492.87
+  local-opt eval 125: best chi2 10483.81
+  local-opt eval 150: best chi2 10483.81
+  local-opt eval 175: best chi2 10483.81
+  local-opt eval 200: best chi2 10236.33
+  local-opt eval 225: best chi2 8636.18
+  local-opt eval 250: best chi2 8599.96
+  local-opt eval 275: best chi2 8381.62
+  local-opt eval 300: best chi2 8381.62
+  local-opt eval 325: best chi2 8381.62
+  local-opt eval 350: best chi2 8381.62
+  local-opt eval 375: best chi2 8381.62
+  local-opt eval 400: best chi2 8381.62
+  local-opt eval 425: best chi2 8381.62
+  local-opt eval 450: best chi2 8381.62
+  local-opt eval 475: best chi2 8381.62
+  local-opt eval 500: best chi2 8381.62
+  local-opt eval 525: best chi2 8381.62
+  start 3/3 (grid chi2 86736.1) -> chi2 8381.62
+local-opt (Nelder-Mead) chi2=2255.24 after 1586 evals v=[73.27305, 0.00153, 0.48175, 0.45646, 0.75241, 0.43966]
+  emcee 14x30 in 524s, acc=0.38
+{"incl": 73.76830720560659, "r1_frac": 0.34294945320712394, "r2_frac": 0.14320889082214033, "teffratio": 0.761022889261223, "chi2_final_hires": 1462.8937303555163, "passes_all": false}
+photometry: {"chi2": 1462.8937303555163, "dof": 189, "chi2_red": 7.740178467489504, "rms": 0.0013223543770289488, "primary_mean_resid": -0.0005609022406520994, "primary_bias_sigma": -3.1201365188559103, "secondary_mean_resid": 0.0023045636311535417, "secondary_bias_sigma": 13.251960701768542, "pass_fit": false, "pass_no_eclipse_bias": false}
+blackbody: {"binary_photosphere_chi2_JHKW1": 1.2483963080352398, "photometric_distance_pc": 950.9593680932699, "gaia_distance_pc": 1267.9092177000127, "distance_ratio_phot_over_gaia": 0.7500216536151619, "excess_vs_binary_photosphere": {"W2": {"ratio": 1.025007342854552, "sigma": 0.8829653013792889}, "W3": {"ratio": 2.223451274051017, "sigma": 18.103787409884312}, "W4": {"ratio": 25.66769994818217, "sigma": 13.72942759306558}}, "pass_photosphere": true, "pass_distance": true, "pass_excess_survives": true}

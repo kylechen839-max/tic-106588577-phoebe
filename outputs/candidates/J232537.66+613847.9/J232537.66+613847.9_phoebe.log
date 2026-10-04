@@ -4,3 +4,103 @@
   using cached grid result
 grid best chi2=38061.63 (0s)
   local-opt eval 25: best chi2 28706.15
+  local-opt eval 50: best chi2 27213.59
+  local-opt eval 75: best chi2 25777.31
+  local-opt eval 100: best chi2 21230.67
+  local-opt eval 125: best chi2 8813.83
+  local-opt eval 150: best chi2 4621.13
+  local-opt eval 175: best chi2 4621.13
+  local-opt eval 200: best chi2 4150.18
+  local-opt eval 225: best chi2 3647.14
+  local-opt eval 250: best chi2 3309.86
+  local-opt eval 275: best chi2 3206.00
+  local-opt eval 300: best chi2 3104.08
+  local-opt eval 325: best chi2 3104.08
+  local-opt eval 350: best chi2 3104.08
+  local-opt eval 375: best chi2 3104.08
+  local-opt eval 400: best chi2 3041.56
+  local-opt eval 425: best chi2 2853.93
+  local-opt eval 450: best chi2 2716.40
+  local-opt eval 475: best chi2 2598.06
+  local-opt eval 500: best chi2 2583.01
+  local-opt eval 525: best chi2 2570.53
+  local-opt eval 550: best chi2 2570.53
+  local-opt eval 575: best chi2 2570.53
+  local-opt eval 600: best chi2 2568.28
+  local-opt eval 625: best chi2 2568.28
+  local-opt eval 650: best chi2 2568.28
+  local-opt eval 675: best chi2 2540.39
+  local-opt eval 700: best chi2 2540.39
+  local-opt eval 725: best chi2 2540.39
+  local-opt eval 750: best chi2 2540.39
+  local-opt eval 775: best chi2 2540.39
+  local-opt eval 800: best chi2 2540.39
+  local-opt eval 825: best chi2 2540.39
+  start 1/3 (grid chi2 38061.6) -> chi2 2540.39
+  local-opt eval 25: best chi2 31895.89
+  local-opt eval 50: best chi2 27043.27
+  local-opt eval 75: best chi2 22401.92
+  local-opt eval 100: best chi2 20383.77
+  local-opt eval 125: best chi2 17334.20
+  local-opt eval 150: best chi2 12915.59
+  local-opt eval 175: best chi2 11785.63
+  local-opt eval 200: best chi2 11692.75
+  local-opt eval 225: best chi2 11523.94
+  local-opt eval 250: best chi2 11479.84
+  local-opt eval 275: best chi2 11479.84
+  local-opt eval 300: best chi2 11478.91
+  local-opt eval 325: best chi2 11478.91
+  local-opt eval 350: best chi2 11467.82
+  local-opt eval 375: best chi2 11467.82
+  local-opt eval 400: best chi2 10873.88
+  local-opt eval 425: best chi2 9514.42
+  local-opt eval 450: best chi2 8884.27
+  local-opt eval 475: best chi2 7841.70
+  local-opt eval 500: best chi2 6913.85
+  local-opt eval 525: best chi2 5621.11
+  local-opt eval 550: best chi2 4856.10
+  local-opt eval 575: best chi2 4856.10
+  local-opt eval 600: best chi2 4804.00
+  local-opt eval 625: best chi2 4717.31
+  local-opt eval 650: best chi2 4717.31
+  local-opt eval 675: best chi2 4717.31
+  local-opt eval 700: best chi2 4717.31
+  local-opt eval 725: best chi2 4717.31
+  local-opt eval 750: best chi2 4717.31
+  local-opt eval 775: best chi2 4717.31
+  local-opt eval 800: best chi2 4717.31
+  start 2/3 (grid chi2 60532.3) -> chi2 4717.31
+  local-opt eval 25: best chi2 17656.64
+  local-opt eval 50: best chi2 16167.21
+  local-opt eval 75: best chi2 15436.92
+  local-opt eval 100: best chi2 14667.39
+  local-opt eval 125: best chi2 14360.75
+  local-opt eval 150: best chi2 14201.61
+  local-opt eval 175: best chi2 14201.61
+  local-opt eval 200: best chi2 14201.61
+  local-opt eval 225: best chi2 14201.61
+  local-opt eval 250: best chi2 14201.61
+  local-opt eval 275: best chi2 14201.61
+  local-opt eval 300: best chi2 14201.61
+  local-opt eval 325: best chi2 14201.61
+  local-opt eval 350: best chi2 14201.61
+  local-opt eval 375: best chi2 14088.73
+  local-opt eval 400: best chi2 14088.73
+  local-opt eval 425: best chi2 14088.73
+  local-opt eval 450: best chi2 14088.73
+  local-opt eval 475: best chi2 14088.73
+  local-opt eval 500: best chi2 14088.73
+  local-opt eval 525: best chi2 14088.73
+  local-opt eval 550: best chi2 14088.73
+  local-opt eval 575: best chi2 14088.73
+  local-opt eval 600: best chi2 14088.73
+  local-opt eval 625: best chi2 14088.73
+  local-opt eval 650: best chi2 14088.73
+  local-opt eval 675: best chi2 14088.73
+  local-opt eval 700: best chi2 14088.73
+  start 3/3 (grid chi2 70638.7) -> chi2 14088.73
+local-opt (Nelder-Mead) chi2=2540.39 after 2350 evals v=[76.74038, -0.00051, 0.3929, 0.37346, 0.88067, -0.07624, 0.00987, 0.15111]
+  emcee 18x30 in 1110s, acc=0.29
+{"incl": 76.74037895906777, "r1_frac": 0.2860656122560822, "r2_frac": 0.1068343542319054, "teffratio": 0.8806677502469622, "chi2_final_hires": 2793.667749833961, "passes_all": false}
+photometry: {"chi2": 2793.667749833961, "dof": 197, "chi2_red": 14.18105456768508, "rms": 0.0018835114518750244, "primary_mean_resid": 0.00129364160300037, "primary_bias_sigma": 5.222842382967498, "secondary_mean_resid": 0.0004624795855537184, "secondary_bias_sigma": 2.3727623654043652, "pass_fit": false, "pass_no_eclipse_bias": false}
+blackbody: {"binary_photosphere_chi2_JHKW1": 30.510803606036532, "photometric_distance_pc": 1120.2792645324287, "gaia_distance_pc": 3556.4822, "distance_ratio_phot_over_gaia": 0.31499644916890873, "excess_vs_binary_photosphere": {"W2": {"ratio": 1.0295769081689032, "sigma": 1.039673668183335}, "W3": {"ratio": 1.3219066016939982, "sigma": 3.888163500778341}, "W4": {"ratio": 18.497661842182954, "sigma": 13.3381862710277}}, "pass_photosphere": true, "pass_distance": false, "pass_excess_survives": true}

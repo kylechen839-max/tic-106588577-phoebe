@@ -80,10 +80,56 @@
     "pass_no_eclipse_bias": true
   },
   "blackbody_check": {
-    "status": "no AllWISE row"
+    "binary_photosphere_chi2_JHKW1": 7.208120310257208,
+    "photometric_distance_pc": 157.47837077082656,
+    "gaia_distance_pc": NaN,
+    "distance_ratio_phot_over_gaia": NaN,
+    "excess_vs_binary_photosphere": {
+      "W2": {
+        "ratio": 0.9331886943229828,
+        "sigma": -2.591096309602794
+      },
+      "W3": {
+        "ratio": 1.2121337421556104,
+        "sigma": 6.33376983906022
+      },
+      "W4": {
+        "ratio": 2.6258855786959874,
+        "sigma": 7.228622618594845
+      }
+    },
+    "pass_photosphere": true,
+    "pass_distance": null,
+    "pass_excess_survives": true
   },
   "runtime_s": 10219.441174983978,
   "q": 0.9465262208814692,
   "q_fitted": true,
-  "passes_all": false
+  "passes_all": true,
+  "sed_extinction": {
+    "bands": [
+      "BP",
+      "G",
+      "RP",
+      "J",
+      "H",
+      "K",
+      "W1",
+      "W2",
+      "W3",
+      "W4"
+    ],
+    "chi2_phot": 50.155891705843885,
+    "n_phot": 7,
+    "A_V": 0.88,
+    "d_phot_pc": 151.58362835323024,
+    "d_ratio": NaN,
+    "excess_sigma": {
+      "W3": 4.9944279973996935,
+      "W4": 6.953269738820467
+    },
+    "gaia_A0": null,
+    "gaia_teff": null,
+    "tic_AV": null
+  }
 }

@@ -109,5 +109,40 @@
     "pass_excess_survives": true
   },
   "runtime_s": 667.4306240081787,
-  "passes_all": true
+  "passes_all": true,
+  "distance_scaling": {
+    "luminosity_factor_vs_assumed": 1.213356406427251,
+    "implied_sma_rsun": 53.181865217436055,
+    "implied_total_mass_msun": 7.294279592943838,
+    "assumed_total_mass_msun": 5.457576408208664
+  },
+  "sed_extinction": {
+    "bands": [
+      "BP",
+      "G",
+      "RP",
+      "J",
+      "H",
+      "K",
+      "W1",
+      "W2",
+      "W3",
+      "W4"
+    ],
+    "chi2_phot": 6.020113149545452,
+    "n_phot": 7,
+    "A_V": 0.31,
+    "d_phot_pc": 706.1259389304439,
+    "d_ratio": 0.8959325913149472,
+    "excess_sigma": {
+      "W3": -0.6438726949977118,
+      "W4": 8.425917234283125
+    },
+    "gaia_A0": null,
+    "gaia_teff": null,
+    "tic_AV": 1.0199,
+    "teff_at_gaia_dist": 11800.0,
+    "A_V_at_gaia_dist": 0.46,
+    "chi2_at_gaia_dist": 5.526548832989606
+  }
 }

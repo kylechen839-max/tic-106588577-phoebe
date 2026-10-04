@@ -22,30 +22,54 @@ OUT = ROOT / "outputs" / "crossmatch" / "wise_cutouts"
 BANDS = ["WISE 3.4", "WISE 4.6", "WISE 12", "WISE 22"]
 
 
+def plane_background(img, xx, yy, ann):
+    """Plane a + b x + c y fitted to the 18-35" annulus with 3-sigma clipping; returns (bg image, noise)."""
+    ok = ann & np.isfinite(img)
+    for _ in range(5):
+        A = np.c_[np.ones(ok.sum()), xx[ok], yy[ok]]
+        coef, *_ = np.linalg.lstsq(A, img[ok], rcond=None)
+        resid = img[ok] - A @ coef
+        noise = 1.4826 * np.median(np.abs(resid - np.median(resid)))
+        keep = np.abs(resid) < 3 * noise
+        if keep.all():
+            break
+        idx = np.flatnonzero(ok)
+        ok = ok.copy(); ok.flat[idx[~keep]] = False
+    return coef[0] + coef[1] * xx + coef[2] * yy, noise
+
+
 def measure(img, wcs, coord, pix_arcsec):
+    """Centroid offset and peak S/N of the W-band emission at the star.
+
+    v2 (2026-10-04): the background is a plane fitted to an 18-35" annulus and the noise is the clipped
+    scatter there. The old version used a median beyond 40", which in structured fields (gradients,
+    nebulosity) both biased the peak and inflated the noise, so real compact sources (e.g. J0719) failed.
+    """
     ny, nx = img.shape
     x0, y0 = wcs.world_to_pixel(coord)
-    yy, xx = np.mgrid[:ny, :nx]
+    yy, xx = np.mgrid[:ny, :nx].astype(float)
     r = np.hypot(xx - x0, yy - y0) * pix_arcsec
-    bg = np.nanmedian(img[r > 40])
-    noise = 1.4826 * np.nanmedian(np.abs(img[r > 40] - bg))
+    bg, noise = plane_background(img, xx, yy, (r > 18) & (r < 35))
     inner = r < 15
     sub = np.where(inner, img - bg, 0)
     sub[sub < 3 * noise] = 0
-    if sub.sum() <= 0:
+    if sub.sum() <= 0 or not noise > 0:
         return {"offset_arcsec": np.nan, "peak_snr": 0.0}
     cx, cy = (sub * xx).sum() / sub.sum(), (sub * yy).sum() / sub.sum()
-    peak = np.nanmax(img[r < 6]) - bg
+    peak = np.nanmax((img - bg)[r < 6])
     return {"offset_arcsec": float(np.hypot(cx - x0, cy - y0) * pix_arcsec), "peak_snr": float(peak / noise)}
 
 
-def run(names):
+def run(names, out_csv="wise_centring_v2.csv"):
     OUT.mkdir(parents=True, exist_ok=True)
     s = pd.read_csv(ROOT / "outputs" / "crossmatch" / "dd1_candidates_scored.csv")
     rows = []
     for name in names:
-        r = s[s.designation == name].iloc[0]
-        c = SkyCoord(r.ra, r.dec, unit="deg")
+        if name in set(s.designation):
+            r = s[s.designation == name].iloc[0]
+            c = SkyCoord(r.ra, r.dec, unit="deg")
+        else:  # e.g. J0719 (TIC 106588577), not in the scored list: decode the J-name
+            c = SkyCoord(f"{name[1:3]}h{name[3:5]}m{name[5:10]}s {name[10:13]}d{name[13:15]}m{name[15:]}s")
         try:
             imgs = SkyView.get_images(position=c, survey=BANDS, pixels=60, width=2 * u.arcmin, height=2 * u.arcmin)
         except Exception as e:
@@ -71,7 +95,7 @@ def run(names):
         rows.append(res)
         print(res)
     df = pd.DataFrame(rows)
-    df.to_csv(OUT / "wise_centring.csv", index=False)
+    df.to_csv(OUT / out_csv, index=False)
     return df
 
 
@@ -79,5 +103,5 @@ if __name__ == "__main__":
     names = sys.argv[1:]
     if not names:
         s = pd.read_csv(ROOT / "outputs" / "crossmatch" / "dd1_candidates_scored.csv")
-        names = s[s.tier == "A"].designation.tolist()
+        names = s[s.tier.isin(["A", "B"])].designation.tolist()
     run(names)

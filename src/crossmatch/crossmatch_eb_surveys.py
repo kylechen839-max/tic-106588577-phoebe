@@ -33,7 +33,10 @@ def vsx_is_eclipsing(vtype):
 ID_COLS = {"gaia_dr3": "Source", "tess_ebs": "TIC", "tess_oba_ebs": "TIC", "ztf_chen2020": "ID",
            "vsx": "Name", "atlas_heinze2018": "ATOID", "wise_chen2018": "WISE", "crts_drake2014": "CRTS",
            "crts_south2017": "CRTS", "kepler_ebs": "KIC", "asassn": "ASASSN-V", "asas3": "ASAS",
-           "nsvs_hoffman2009": "ID", "debcat": "Name", "ogle4_wang2024": "ID", "ogle_lmc_ecl": "Star"}
+           "nsvs_hoffman2009": "ID", "debcat": "Name", "ogle4_wang2024": "ID", "ogle_lmc_ecl": "Star",
+           "tess_10k_kostov2025": "TIC", "tess_obaf_ijspeert2024": "TIC", "tess_ea_shi2022": "TIC",
+           "tess_gao2025": "TIC", "css_algol_papageorgiou2018": "CRTS", "lamost_ea_qian2018": "Name",
+           "k2_armstrong2015": "EPIC", "ztf_2plus2_vaessen2024": "GaiaDR3", "css_contact_wang2024": "CRTS"}
 
 # name: (vizier table, function(df) -> boolean mask for eclipsing class, period column)
 SURVEYS = {
@@ -53,6 +56,16 @@ SURVEYS = {
     "debcat": ("V/152/debcat", lambda d: np.ones(len(d), bool), "Per"),
     "ogle4_wang2024": ("J/ApJS/275/12/table1", lambda d: np.ones(len(d), bool), "Per"),
     "ogle_lmc_ecl": ("J/AcA/66/421/ecl", lambda d: d["Type"].astype(str).str.strip().isin(["C", "NC"]), "Per"),
+    # added 2026-10-04 (recent TESS-FFI, CSS, LAMOST, K2 and ZTF catalogues)
+    "tess_10k_kostov2025": ("J/ApJS/279/50/table3", lambda d: np.ones(len(d), bool), "Per"),
+    "tess_obaf_ijspeert2024": ("J/A+A/691/A242/obaf-eb1", lambda d: np.ones(len(d), bool), None),
+    "tess_ea_shi2022": ("J/ApJS/259/50/table1", lambda d: np.ones(len(d), bool), "Per"),
+    "tess_gao2025": ("J/ApJS/276/57/table5", lambda d: d["Type"].astype(str).str.strip().isin(["EA", "EB", "EW"]), "Per"),
+    "css_algol_papageorgiou2018": ("J/ApJS/238/4/binaries", lambda d: np.ones(len(d), bool), "Per"),
+    "lamost_ea_qian2018": ("J/ApJS/235/5/table2", lambda d: np.ones(len(d), bool), "Per"),
+    "k2_armstrong2015": ("J/A+A/579/A19/table3", lambda d: d["Type"].astype(str).str.strip() == "EB", "Per"),
+    "ztf_2plus2_vaessen2024": ("J/A+A/682/A164/table1", lambda d: np.ones(len(d), bool), "PerA"),
+    "css_contact_wang2024": ("J/ApJS/273/31/table1", lambda d: np.ones(len(d), bool), "Period"),
 }
 
 
@@ -94,6 +107,26 @@ def asassn_local(df):
     return m
 
 
+def ijspeert_consensus_period(row, tol=0.01):
+    """IJspeert+2024 gives one period per pipeline (SPOC/QLP) and year; XMatch does not return them.
+    Keep the value that at least two pipeline-years agree on within 1%, or the only value if there is one."""
+    pers = sorted(float(row[c]) for c in row.index if c.startswith("Per") and pd.notna(row[c]) and float(row[c]) > 0)
+    if len(pers) == 1:
+        return pers[0]
+    best = [p for p in pers if sum(abs(q / p - 1) < tol for q in pers) >= 2]
+    return float(np.median(best)) if best else np.nan
+
+
+def add_ijspeert_periods(m):
+    """Attach periods fetched by cone search (outputs/crossmatch/ijspeert2024_periods.csv)."""
+    path = OUT / "ijspeert2024_periods.csv"
+    if not path.exists() or not len(m):
+        return m
+    per = pd.read_csv(path)
+    per["Per"] = per.apply(ijspeert_consensus_period, axis=1)
+    return m.merge(per[["designation", "Per"]], on="designation", how="left")
+
+
 def run(dd_name, df, surveys):
     rows = []
     for name in surveys:
@@ -117,6 +150,9 @@ def run(dd_name, df, surveys):
             ecl = np.asarray(sel(m)) if len(m) else np.zeros(0, bool)
             typecol = next((c for c in ["Class", "Type", "Cl", "Morph"] if c in m.columns), None)
         m = m[ecl]
+        if name == "tess_obaf_ijspeert2024":
+            m = add_ijspeert_periods(m)
+            per = "Per" if "Per" in m.columns else None
         print(f"  {dd_name} x {name}: {len(m)} eclipsing-class matches within {RADIUS}\"")
         for _, r in m.iterrows():
             rows.append({
