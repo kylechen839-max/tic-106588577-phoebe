@@ -97,15 +97,17 @@ Everything under `outputs/` is gitignored. Selected results are force-added (`gi
   - zsh errors on unmatched globs; use `find`.
   - PHOEBE rejects short model labels such as "m" and "x".
 
-## Daily next steps (rewritten by each daily cloud run; last: 2026-10-04)
+## Daily next steps (rewritten by each daily cloud run; last: 2026-10-05)
 
-Cloud runs: if `.venv-phoebe` is missing, run `python3 -m venv .venv-phoebe && .venv-phoebe/bin/pip install phoebe==2.4.22 emcee corner scipy matplotlib numpy pandas tabulate`, then `.venv-phoebe/bin/python src/pipeline/build_tess_passband.py`. **Keep the session active until fits finish:** background fits die when the session goes idle. Archive hosts are blocked, so only work from committed data is possible. See `docs/DAILY_LOG.md`.
+Cloud runs: if `.venv-phoebe` is missing, run `python3 -m venv .venv-phoebe && .venv-phoebe/bin/pip install phoebe==2.4.22 emcee corner scipy matplotlib numpy pandas tabulate`, then `.venv-phoebe/bin/python src/pipeline/build_tess_passband.py`. **Keep the session active until fits finish**, because fits die when it goes idle. The container can also restart mid-run; relaunch from the cached `_grid`/`_localopt` files. Archive hosts are blocked. See `docs/DAILY_LOG.md`.
 
-1. **J1604 passes the light-curve checks at Gaia Teff** (χ²_red 1.66, bias +1.7/−1.1σ). Its SED/distance check needs the AllWISE cache (step 5). J1732 finished: χ²_red 5.52, bias +8.3σ, so it fails; it is low priority. Cached grids and local optimisation are reused.
-2. **Reflection off only for detached, flat systems:** it fixed J2239 but made J2218 and J0459 much worse. Test `--no-irrad` on J2312 (P = 6.8 d, detached): `--teff 9932 --no-irrad --tag _gteffnoirr`. J0739 and J2235 are other candidates, if their out-of-eclipse light curves are flat.
-3. **J1419 nominal refit from the better minimum:** the ±10% Teff fits reached χ² 146–153 vs 210 nominal. Rerun `--designation J141909.42-565518.1 --tag _v2` with more Nelder–Mead iterations (`--powell-maxiter 12`) and confirm it still passes all checks.
-4. **J2239:** with reflection off, the primary core is still 15σ too shallow. Try `--no-irrad --kmax 2.5 --eccentric yes --tag _noirr2`, and fitted limb darkening if it is still biased (needs a code option).
-5. **SED check:** once `outputs/crossmatch/dd1_support_cache/allwise.csv` is committed (needs Kyle, or VizieR access), run `.venv-phoebe/bin/python src/pipeline/recheck_sed.py` and refresh `passes_all`.
+**Light-curve-passing candidates:** J1419 (all checks), J1604 (`_gteff`), J2312 (`_gteffnoirr`).
+
+1. **SED check for the three (highest value; needs Kyle):** commit `outputs/crossmatch/dd1_support_cache/allwise.csv` (or at least the tier-A rows), then run `.venv-phoebe/bin/python src/pipeline/recheck_sed.py outputs/candidates/J160415.99-562627.3/*_result_gteff.json outputs/candidates/J231201.40+532028.6/*_result_gteffnoirr.json`.
+2. **Collect the 2026-10-05 relaunches** if no result JSON was pushed: J1419 `--powell-maxiter 12 --tag _v2` (confirm it still passes), J0739 `--powell-maxiter 12 --tag _v2`, J2235 `--powell-maxiter 12 --tag _v2`.
+3. **Robustness of J1604 and J2312:** rerun each at Teff ±10% around the Gaia value, as was done for J1419. J1604: `--teff 12726 --tag _gteffm10` and `--teff 15554 --tag _gteffp10`. J2312: add `--no-irrad` with `--teff 8939` / `--teff 10925`.
+4. **J2218+54 (strongest SED):** the best so far is χ²_red 11.8 at 9,500 K with q fitted (`_t9500`), with bias −6.6/+7.6σ. Try `--teff 9500 --eccentric yes --tag _t9500ecc`. A spot (O'Connell asymmetry) needs a code option.
+5. **J2239:** the primary core is still 8.5σ too shallow (`_noirr2`, χ²_red 11.5). Try `--no-irrad --kmax 2.5 --eccentric yes --fit-l3 --tag _noirr3`.
 6. **If the network opens:** new EB surveys (IJspeert+2024, Howard+2025, OGLE disk, ZTF), J1122 custom aperture, WISE plane-fit background.
 
 ## Status at handoff

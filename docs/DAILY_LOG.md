@@ -38,3 +38,16 @@ One entry per daily cloud run. The plan for the next run is in `docs/PROJECT_CON
 - J1732 (first fit): χ²_red 5.52, eclipse bias +8.3/+3.3σ. It fails.
 
 **Key finding.** For J2239 (detached, flat out-of-eclipse), the default reflection albedo of 1.0 produced humps the data do not show; switching it off fixed most of the misfit. For the short-period Roche systems (J2218, J0459), switching it off makes the fit much worse, so it is a per-system choice.
+
+## 2026-10-05
+
+**Environment.** Archive hosts are still blocked, and there is still no AllWISE cache in git. The container restarted twice: ~23:00 UTC on 10-04, which killed J1604 and J1732, and ~12:50 UTC on 10-05, which killed the J1419/J0739/J2235 `_v2` refits. All were relaunched from cached grids.
+
+**Late results from 10-04:** J1604 at Gaia Teff gives χ²_red 1.66 with bias +1.7/−1.1σ, so it passes the light-curve checks. J1732 (first fit) gives χ²_red 5.52 with bias +8.3/+3.3σ and fails.
+
+**Fits today** (table in `docs/DD_EB_CROSSMATCH.md` → "Cloud run 2026-10-05"):
+- **J2312 at Gaia Teff, reflection off: χ²_red 1.69, bias −2.1/+1.9σ, est. d ratio 1.02.** It passes the light-curve checks.
+- J2239 eccentric, reflection off, k ≤ 2.5: χ²_red 11.5 (was 17.4); primary bias −8.5σ.
+- Relaunched after the restart: J1419 `_v2` (12 Nelder–Mead iterations), J0739 `_v2`, J2235 `_v2`.
+
+**Status.** Three candidates pass the light-curve checks: J1419 (all checks, round 1), J1604 (Gaia Teff) and J2312 (Gaia Teff, reflection off). Only J1419 has had the full AllWISE SED/distance check.
