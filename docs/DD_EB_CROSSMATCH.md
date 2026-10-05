@@ -318,6 +318,18 @@ Findings:
 - **J160415.99−562627.3 at Gaia Teff (14,140 K, `_gteff`) passes both light-curve checks:** χ²_red 1.66, rms 1.9 ppt, eclipse bias +1.7σ / −1.1σ. The fit has i = 85.1°, r₁/r₂ = 0.213/0.171, T2/T1 = 0.97, q = 0.76 (fitted) and e = 0.063. It is the second candidate after J1419 to pass the light-curve checks. The SED/distance check is pending: there is no earlier J1604 result to scale from, and no AllWISE cache.
 - **J173224.94−364153.9** (first fit, T1 = 9,800 K from the blackbody, eccentric, Roche, q fitted): χ²_red 5.52, rms 5.4 ppt, eclipse bias +8.3σ / +3.3σ. It fails both light-curve checks. The fit has i = 74.4°, r₁/r₂ = 0.245/0.191, q = 0.54, e = 0.027. It has no TIC or Gaia Teff; it took about 7 h of CPU.
 
+### Cloud run 2026-10-05 (daily routine)
+
+The same caveats apply: no AllWISE cache, so "est. d ratio" is the scaled estimate and `passes_all` stays false.
+
+| Target (tag) | Change | T1 (K) | i (°) | r1/r2 | k | e | χ²_red | rms (ppt) | eclipse bias σ (pri/sec) | est. d ratio |
+|---|---|---:|---:|---|---:|---:|---:|---:|---|---:|
+| J231201.40+532028.6 (`_gteffnoirr`) | Gaia Teff, reflection off | 9932 | 83.05 | 0.182 / 0.109 | 0.60 | 0 | **1.69** | 4.4 | **−2.1 / +1.9** | **1.02** |
+| J223949.47+583254.4 (`_noirr2`) | reflection off, eccentric, k ≤ 2.5 | 8188 | 75.35 | 0.259 / 0.305 | 1.18 | 0.047 | 11.5 (was 17.4) | 2.5 | −8.5 / +4.0 | 0.52 |
+
+- **J2312+53 now passes both light-curve checks** at the Gaia Teff with reflection off: χ²_red 1.69, bias −2.1/+1.9σ, est. d ratio 1.02. With J1419 and J1604, that makes three candidates through the light-curve stage. J2312 has W3/W4 excess at 5.1σ/12.3σ against the round-1 binary photosphere; its SED check needs recomputing with the new Teff once the AllWISE cache is available.
+- J2239 keeps improving (χ²_red 245 → 17.4 → 11.5) but the primary core is still 8.5σ too shallow. The best fit now has k > 1 and i = 75°, a different geometry from the albedo-1 fits. Its est. d ratio of 0.52 is at TIC Teff.
+
 ## Reproduce
 
 ```bash
