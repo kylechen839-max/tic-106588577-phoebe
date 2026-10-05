@@ -44,3 +44,15 @@ grid best chi2=5913.72 (2273s)
   local-opt eval 700: best chi2 488.41
   local-opt eval 725: best chi2 485.50
   local-opt eval 750: best chi2 485.50
+  local-opt eval 775: best chi2 485.50
+  local-opt eval 800: best chi2 485.50
+  local-opt eval 825: best chi2 485.50
+  local-opt eval 850: best chi2 485.50
+  local-opt eval 875: best chi2 485.50
+  local-opt eval 900: best chi2 485.50
+  local-opt eval 925: best chi2 485.50
+  local-opt eval 950: best chi2 485.50
+  local-opt eval 975: best chi2 485.50
+  local-opt eval 1000: best chi2 484.39
+  local-opt eval 1025: best chi2 476.83
+  local-opt eval 1050: best chi2 475.31
