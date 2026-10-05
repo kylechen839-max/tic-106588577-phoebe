@@ -205,3 +205,7 @@ Connection to online passbands at https://tables.phoebe-project.org could not be
 grid best chi2=2440.52 (0s)
   using cached local-optimisation result
 local-opt (Nelder-Mead) chi2=167.79 after 4001 evals v=[89.7115, -0.00902, 0.14006, 0.49776, 0.99791, 0.13442, 0.03575]
+  emcee 16x30 in 1288s, acc=0.35
+{"incl": 89.7115007158236, "r1_frac": 0.09351199688042557, "r2_frac": 0.04654638408532486, "teffratio": 0.9979058618199832, "chi2_final_hires": 144.7132585161355, "passes_all": false}
+photometry: {"chi2": 144.7132585161355, "dof": 228, "chi2_red": 0.6347072741935768, "rms": 0.003649210394126478, "primary_mean_resid": -0.001633255174792398, "primary_bias_sigma": -1.5024994194767975, "secondary_mean_resid": 0.008510163758587236, "secondary_bias_sigma": 3.0533927184553917, "pass_fit": true, "pass_no_eclipse_bias": false}
+blackbody: {"status": "no AllWISE row"}
