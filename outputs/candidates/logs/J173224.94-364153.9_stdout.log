@@ -190,3 +190,4 @@ Connection to online passbands at https://tables.phoebe-project.org could not be
 grid best chi2=6033.18 (0s)
   using cached local-optimisation result
 local-opt (Nelder-Mead) chi2=1002.33 after 2134 evals v=[74.28974, -0.00751, 0.43628, 0.78371, 0.84536, -0.00269, 0.02556, 0.53579]
+  emcee 18x30 in 7221s, acc=0.38
