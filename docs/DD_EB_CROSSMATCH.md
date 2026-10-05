@@ -315,7 +315,8 @@ Findings:
 - **J2218 at 9,500 K** (the Teff the scaling says gives d ratio ≈ 1) with q fitted: χ²_red 47 → 11.8, rms 3.6 → 1.5 ppt, q = 0.32, est. d ratio 1.12. The eclipse biases (−6.6/+7.6σ) still fail.
 - J2312 with eccentricity and l3 (e = 0.05, l3 = 0.01): χ²_red 2.00, but the secondary bias got worse (−9.2σ).
 - **Reflection off is not a general fix.** J2218 at 9,500 K with reflection off: χ²_red 18.96 (vs 11.8 with reflection), primary bias +20σ. J0459 at Gaia Teff with reflection off: χ²_red 765 (vs 22.4). Both are short-period (1.0–1.7 d) Roche systems that need the reflection/ellipsoidal terms. Use `--no-irrad` only for detached systems whose out-of-eclipse light curve is flat (J2239).
-- J1604 (Gaia Teff) and J1732 were relaunched after a container restart; their results go into the next run's log.
+- **J160415.99−562627.3 at Gaia Teff (14,140 K, `_gteff`) passes both light-curve checks:** χ²_red 1.66, rms 1.9 ppt, eclipse bias +1.7σ / −1.1σ. The fit has i = 85.1°, r₁/r₂ = 0.213/0.171, T2/T1 = 0.97, q = 0.76 (fitted) and e = 0.063. It is the second candidate after J1419 to pass the light-curve checks. The SED/distance check is pending: there is no earlier J1604 result to scale from, and no AllWISE cache.
+- J1732 was relaunched after a container restart; its result goes into the next run's log.
 
 ## Reproduce
 
