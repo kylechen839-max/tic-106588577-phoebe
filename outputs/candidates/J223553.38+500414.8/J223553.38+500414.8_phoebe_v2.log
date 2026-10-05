@@ -304,3 +304,22 @@ grid best chi2=5809.25 (0s)
   local-opt eval 1075: best chi2 2804.53
   local-opt eval 1100: best chi2 2804.53
   local-opt eval 1125: best chi2 2804.53
+  local-opt eval 1150: best chi2 2804.53
+  local-opt eval 1175: best chi2 2804.53
+  local-opt eval 1200: best chi2 2804.53
+  local-opt eval 1225: best chi2 2804.53
+  local-opt eval 1250: best chi2 2804.53
+  local-opt eval 1275: best chi2 2804.53
+  local-opt eval 1300: best chi2 2804.53
+  local-opt eval 1325: best chi2 2804.53
+  local-opt eval 1350: best chi2 2804.53
+  local-opt eval 1375: best chi2 2804.53
+  local-opt eval 1400: best chi2 2804.53
+  local-opt eval 1425: best chi2 2804.53
+  local-opt eval 1450: best chi2 2804.53
+  start 3/3 (grid chi2 9942.3) -> chi2 2804.53
+local-opt (Nelder-Mead) chi2=1774.54 after 4249 evals v=[74.76223, 0.00734, 0.22293, 0.23054, 0.30009, 0.15926, 0.35664]
+  emcee 16x30 in 826s, acc=0.44
+{"incl": 74.76223473424444, "r1_frac": 0.18116420072349737, "r2_frac": 0.041765963823749495, "teffratio": 0.30009151958107244, "chi2_final_hires": 2082.487857032823, "passes_all": false}
+photometry: {"chi2": 2082.487857032823, "dof": 135, "chi2_red": 15.42583597802091, "rms": 0.002211086437509803, "primary_mean_resid": -0.0014606943163614106, "primary_bias_sigma": -7.915277047735413, "secondary_mean_resid": -0.0028964911241070035, "secondary_bias_sigma": -8.161111069626019, "pass_fit": false, "pass_no_eclipse_bias": false}
+blackbody: {"status": "no AllWISE row"}
