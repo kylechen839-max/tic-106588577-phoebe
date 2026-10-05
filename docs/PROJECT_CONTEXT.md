@@ -101,10 +101,10 @@ Everything under `outputs/` is gitignored. Selected results are force-added (`gi
 
 Cloud runs: if `.venv-phoebe` is missing, run `python3 -m venv .venv-phoebe && .venv-phoebe/bin/pip install phoebe==2.4.22 emcee corner scipy matplotlib numpy pandas tabulate`, then `.venv-phoebe/bin/python src/pipeline/build_tess_passband.py`. **Keep the session active until fits finish**, because fits die when it goes idle. The container can also restart mid-run; relaunch from the cached `_grid`/`_localopt` files. Archive hosts are blocked. See `docs/DAILY_LOG.md`.
 
-**Light-curve-passing candidates:** J1419 (all checks), J1604 (`_gteff`), J2312 (`_gteffnoirr`).
+**Light-curve-passing candidates:** J1419 (all checks in round 1; the converged `_v2` fit has a marginal +3.1σ secondary bias), J1604 (`_gteff`), J2312 (`_gteffnoirr`).
 
 1. **SED check for the three (highest value; needs Kyle):** commit `outputs/crossmatch/dd1_support_cache/allwise.csv` (or at least the tier-A rows), then run `.venv-phoebe/bin/python src/pipeline/recheck_sed.py outputs/candidates/J160415.99-562627.3/*_result_gteff.json outputs/candidates/J231201.40+532028.6/*_result_gteffnoirr.json`.
-2. **Collect the 2026-10-05 relaunches** if no result JSON was pushed: J1419 `--powell-maxiter 12 --tag _v2` (confirm it still passes), J0739 `--powell-maxiter 12 --tag _v2`, J2235 `--powell-maxiter 12 --tag _v2`.
+2. **J1419 secondary bias (+3.1σ at `_v2`):** try `--fit-q yes --powell-maxiter 12 --tag _v3` (q is fixed at 0.8 for this sphere system) and look at the secondary-eclipse residuals in `_phoebe_fit_v2.png`. Collect the other 10-05 relaunches if no result JSON was pushed: J0739 `--powell-maxiter 12 --tag _v2`, J2235 `--powell-maxiter 12 --tag _v2`.
 3. **Robustness of J1604 and J2312:** rerun each at Teff ±10% around the Gaia value, as was done for J1419. J1604: `--teff 12726 --tag _gteffm10` and `--teff 15554 --tag _gteffp10`. J2312: add `--no-irrad` with `--teff 8939` / `--teff 10925`.
 4. **J2218+54 (strongest SED):** the best so far is χ²_red 11.8 at 9,500 K with q fitted (`_t9500`), with bias −6.6/+7.6σ. Try `--teff 9500 --eccentric yes --tag _t9500ecc`. A spot (O'Connell asymmetry) needs a code option.
 5. **J2239:** the primary core is still 8.5σ too shallow (`_noirr2`, χ²_red 11.5). Try `--no-irrad --kmax 2.5 --eccentric yes --fit-l3 --tag _noirr3`.

@@ -328,6 +328,7 @@ The same caveats apply: no AllWISE cache, so "est. d ratio" is the scaled estima
 | J223949.47+583254.4 (`_noirr2`) | reflection off, eccentric, k ≤ 2.5 | 8188 | 75.35 | 0.259 / 0.305 | 1.18 | 0.047 | 11.5 (was 17.4) | 2.5 | −8.5 / +4.0 | 0.52 |
 
 - **J2312+53 now passes both light-curve checks** at the Gaia Teff with reflection off: χ²_red 1.69, bias −2.1/+1.9σ, est. d ratio 1.02. With J1419 and J1604, that makes three candidates through the light-curve stage. J2312 has W3/W4 excess at 5.1σ/12.3σ against the round-1 binary photosphere; its SED check needs recomputing with the new Teff once the AllWISE cache is available.
+- **J1419 refit with 12 Nelder–Mead iterations (`_v2`) reaches a better minimum:** χ² 144.7 vs 210.4 (χ²_red 0.63), with i = 89.71°, r₁/r₂ = 0.0935/0.0465, T2/T1 = 0.998, e = 0.139. However, the **secondary-eclipse bias is +3.1σ**, just over the 3σ limit, as in the +10% Teff run (3.4σ). The round-1 "passes all" sat at a less converged point. J1419 is still the strongest candidate, but its light-curve pass is marginal; a small secondary-depth systematic is likely (T2/T1 ≈ 1, total secondary eclipse).
 - J2239 keeps improving (χ²_red 245 → 17.4 → 11.5) but the primary core is still 8.5σ too shallow. The best fit now has k > 1 and i = 75°, a different geometry from the albedo-1 fits. Its est. d ratio of 0.52 is at TIC Teff.
 
 ## Reproduce

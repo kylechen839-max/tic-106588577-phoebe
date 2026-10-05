@@ -48,6 +48,7 @@ One entry per daily cloud run. The plan for the next run is in `docs/PROJECT_CON
 **Fits today** (table in `docs/DD_EB_CROSSMATCH.md` → "Cloud run 2026-10-05"):
 - **J2312 at Gaia Teff, reflection off: χ²_red 1.69, bias −2.1/+1.9σ, est. d ratio 1.02.** It passes the light-curve checks.
 - J2239 eccentric, reflection off, k ≤ 2.5: χ²_red 11.5 (was 17.4); primary bias −8.5σ.
-- Relaunched after the restart: J1419 `_v2` (12 Nelder–Mead iterations), J0739 `_v2`, J2235 `_v2`.
+- J1419 `_v2` (12 Nelder–Mead iterations): χ² 144.7 (was 210.4), χ²_red 0.63, but the secondary bias is +3.1σ, so its light-curve pass is now marginal.
+- Relaunched after the restart and still running: J0739 `_v2`, J2235 `_v2`, J1604 `_gteffm10`.
 
-**Status.** Three candidates pass the light-curve checks: J1419 (all checks, round 1), J1604 (Gaia Teff) and J2312 (Gaia Teff, reflection off). Only J1419 has had the full AllWISE SED/distance check.
+**Status.** Three candidates pass or nearly pass the light-curve checks: J1419 (all checks in round 1; marginal +3.1σ secondary bias at the better `_v2` minimum), J1604 (Gaia Teff) and J2312 (Gaia Teff, reflection off). Only J1419 has had the full AllWISE SED/distance check.
