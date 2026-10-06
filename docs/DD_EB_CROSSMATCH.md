@@ -83,6 +83,31 @@ Tiers:
 
 Result: **DD1 12 A / 119 B / 669 C; DD2 0 / 0 / 9.**
 
+### Disk Detective 1.0 excess methodology vs ours (added 2026-10-06)
+
+Sources: Kuchner et al. 2016 (ApJ 830, 84; arXiv:1607.05713) and Silverberg et al. 2018 (ApJ 868, 43; arXiv:1809.09663), read through ar5iv. Thresholds are quoted from the text. Table-level details were not checked.
+
+**DD1.0 selection (a W1−W4 colour cut, not an SED fit):**
+- [W1]−[W4] > 0.25 mag, a ≥26% excess over a Rayleigh–Jeans slope from W1 to W4 (`w4mpro < w1mpro − 0.25`);
+- [W1]−[W4] > 5σ of the colour error;
+- W4 S/N ≥ 10 (`w4snr`), and W4 profile-fit `w4rchi2 < 1.3`;
+- no AllWISE contamination flags (`cc_flags`, `ext_flg`, `xscprox`, `na`/`nb`, `n_2mass` cuts);
+- for M stars, [W1]−[W4] > 0.9;
+- W4 is the primary band. W3 plays no role in selection, and the papers do not fit SEDs, dust temperatures or L_IR/L★ for the candidate lists.
+
+**DD1.0 vetting (the "quality labels"):**
+- Volunteers classify image flipbooks (DSS, 2MASS, WISE; 10.5″ circle) into six labels: *Multiple objects in the red circle*, *Object moves off the crosshairs*, *Extended beyond circle in WISE images*, *Empty circle in WISE images*, *Not round in DSS2 or 2MASS*, and *None of the above / good candidate*.
+- A subject is "good" when the majority choose *good candidate*. About 90% of subjects are rejected at this stage.
+- Advanced users then check the literature (SIMBAD/VizieR) to remove M giants, classical Be stars and AGN (14% of good subjects), needing at least two opinions per object.
+- High-resolution imaging (Robo-AO, RetroCam) finds background contaminants in 7% ± 1% of followed-up targets. For each contaminant, the W4 contribution (M-dwarf or flat-spectrum SED) is subtracted and [W1]−[W4] recomputed to see whether the excess survives.
+
+**How ours differs:**
+- **Excess significance.** We fit SEDs (blackbody photospheres, then the PHOEBE two-star photosphere) and require ≥5σ in W3 or W4. DD1.0 uses a model-free W1−W4 colour cut, so a W4-only DD object can pass theirs and still fail ours if the photosphere explains it.
+- **W3.** We accept W3-only excess. DD1.0 does not select on W3 at all.
+- **Contamination.** Our WISE image check plus Gaia crowding stands in for their volunteer labels and high-resolution imaging. Their labels are independent visual vetting we do not yet use.
+
+**To do** (in "Daily next steps"): add `dd_w1w4`, `dd_w1w4_sigma`, `dd_w4snr`, `dd_w4rchi2` and `dd_flags_ok` columns to the scored tables, plus the DD1.0 volunteer quality labels, and report where our tiers disagree with DD1.0's selection. This needs AllWISE `w1mpro`, `w4mpro`, their errors, `w4snr`, `w4rchi2`, `cc_flags` and `ext_flg`, which are in the WZ_subjects tables or the AllWISE cache. Neither is in the repo yet.
+
 ### WISE image check
 
 Catalogue W3/W4 photometry can have clean flags (qph A, ccf 0) and still be dominated by extended nebulosity. `src/crossmatch/wise_cutouts.py` pulls 2′×2′ AllWISE W1–W4 cutouts from SkyView for every tier-A/B object (images in `outputs/crossmatch/wise_cutouts/`). It then measures whether a compact W3 or W4 source (S/N ≥ 5) sits within 4″ of the star. A failure blocks tier A but only demotes the object to B for visual review, because the S/N estimate can be fooled by bright nebular gradients. J0719 itself fails the automated check, yet its images show a compact, centred W3/W4 source.
