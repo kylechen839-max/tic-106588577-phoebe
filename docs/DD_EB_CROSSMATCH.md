@@ -43,6 +43,7 @@ Fourteen VizieR EB/variable catalogues went through the CDS XMatch service. ASAS
 † The Gaia entry is the general machine-learning variability classifier (`vari_classifier_result`), not the dedicated EB pipeline (`vari_eclipsing_binary`, I/358/veb), because `veb` has no coordinates for XMatch. **Follow-up check** (`src/crossmatch/gaia_veb_join.py`, Gaia archive TAP join → `outputs/crossmatch/dd1_gaia_veb.csv`):
 - all 408 Gaia `ECL` matches have a `vari_eclipsing_binary` solution;
 - 358 of them also have a period from another survey, and for **342 of those (96%) the Gaia period agrees** within 1%, allowing ×2 and ×½ aliases.
+- **Correction (2026-10-06):** that 96% is partly circular, because 274 VSX entries are Gaia DR3 re-ingests and carry the Gaia period. Against periods from surveys that are not Gaia-derived (102 objects), the Gaia period agrees for **90 (88%)**. See "Reliability of the Gaia and VSX EB labels" below.
 
 The 16 disagreements are mostly Gaia period aliases. Tier-A examples:
 
@@ -369,6 +370,31 @@ The same caveats apply: no AllWISE cache, so "est. d ratio" is the scaled estima
 - **J2312+53 is robust to ±10% in Teff:** both variants pass the light-curve checks (χ²_red 1.64/1.78, all biases < 1.5σ), r₁ stays at 0.18 and i at 83–84°, and the est. d ratio stays inside 0.6–1.8 (0.87–1.16).
 - **J1419 with q fitted (`_v3`) does not help:** the Nelder–Mead stage ended at χ² 171.4 (q = 0.84, k at its lower bound 0.50), worse than the 167.8 the fixed-q `_v2` run reached at the same stage. Stopped during emcee at the cutoff. The +3.1σ secondary bias at `_v2` is not a mass-ratio problem.
 - Stopped unfinished at the 12:00 UTC cutoff (one window per day), all in the Nelder–Mead stage: J1604 `_gteffm10` (best χ² 410.1 so far vs 409.3 converged at Gaia Teff; not yet known whether it passes), J0739 `_v2` (best 454.6 vs 454.7 in round 1: no improvement, so J0739 stays a fail). Grid caches are pushed.
+
+### Reliability of the Gaia and VSX EB labels (2026-10-06)
+
+**How they find EBs.**
+- Gaia DR3 `ECL` comes from the supervised machine-learning variability classifier (Rimoldini+2023), run on sparse G/BP/RP time series (tens of epochs over ~34 months). Every `ECL` source then goes to the EB pipeline (`vari_eclipsing_binary`, Mowlavi+2023), which fits a two-Gaussian (+ ellipsoidal) model. The labels are trained on literature classes and are probabilistic; red giants / long-period variables and ellipsoidal variables are known contaminants (background knowledge, not measured here).
+- VSX is the AAVSO compilation. Each type is whatever the discovering survey or author assigned, after moderation. It ingests Gaia DR3, ZTF, ASAS-SN, ATLAS, WISE, OGLE and others, so a VSX entry is usually not independent evidence. Types ending in `:` are uncertain, and the generic type `E` is mostly from Gaia.
+
+**What our 800 matches show** (`outputs/crossmatch/dd1_eb_matches_long.csv`, `dd1_gaia_veb.csv`, `dd1_candidates_scored.csv`):
+
+| Check | Result |
+|---|---|
+| VSX entries that are Gaia DR3 re-ingests | 274 of 567 (48%); then ZTF 70, ASAS 38, OGLE 37 |
+| VSX types flagged uncertain (`:`) | 83 of 567 |
+| Gaia `ECL` matches whose SIMBAD type is a long-period variable / Mira | **97 of 407 (24%)**: median BP−RP 4.8, median Gaia "EB period" 0.76 d. These are red giants misclassified as EBs; their periods are spurious. |
+| Gaia `ECL` matches confirmed by a non-Gaia, non-VSX survey | 73 of 407 |
+| Gaia period agrees with a non-Gaia-derived period | 90 of 102 (88%) |
+| Matches whose only evidence is Gaia (direct or via VSX) | 303 (262 tier C, 41 tier B; 81 of them LPV-like) |
+| Matches whose only evidence is a VSX literature entry | 104 (90 tier C, 14 tier B; SIMBAD types include 21 LPV, 7 Wolf–Rayet, 5 symbiotic) |
+
+**By tier.**
+- **Tier A (12):** every object has ≥ 2 independent sources, none are LPV-like, and all 12 show eclipses in their TESS light curves (fitted with PHOEBE). Reliable.
+- **Tier B (119):** no LPV-like objects, but 98 have only one independent source (41 Gaia-only, 14 VSX-literature-only). Treat these as EB candidates until TESS shows the eclipses.
+- **Tier C:** all 97 LPV-like Gaia `ECL` objects are here, already removed by the `not_evolved_or_wind` cut.
+
+**Conclusion.** Gaia `ECL` alone is not reliable for red sources (BP−RP ≳ 2.5 with sub-day periods), and VSX should never count as a separate confirmation of a Gaia label. With ≥ 2 independent surveys plus TESS eclipses (tier A), the EB nature is secure. For tier B, the next step is to check TESS light curves for eclipses at the catalogue period, which needs MAST.
 
 ### DD1.0 volunteer labels (2026-10-06)
 
