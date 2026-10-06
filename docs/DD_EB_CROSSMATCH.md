@@ -370,6 +370,16 @@ The same caveats apply: no AllWISE cache, so "est. d ratio" is the scaled estima
 - **J1419 with q fitted (`_v3`) does not help:** the Nelder–Mead stage ended at χ² 171.4 (q = 0.84, k at its lower bound 0.50), worse than the 167.8 the fixed-q `_v2` run reached at the same stage. Stopped during emcee at the cutoff. The +3.1σ secondary bias at `_v2` is not a mass-ratio problem.
 - Stopped unfinished at the 12:00 UTC cutoff (one window per day), all in the Nelder–Mead stage: J1604 `_gteffm10` (best χ² 410.1 so far vs 409.3 converged at Gaia Teff; not yet known whether it passes), J0739 `_v2` (best 454.6 vs 454.7 in round 1: no improvement, so J0739 stays a fail). Grid caches are pushed.
 
+### DD1.0 volunteer labels (2026-10-06)
+
+Source: `data/catalogs/DD_1.0ObjectsFromMAST.csv`, the DD1.0 MAST table Alissa Bans shared on 2025-08-14 (30,659 subjects; she notes it is not the complete DD1.0 list). `src/crossmatch/join_dd1_labels.py` → `outputs/crossmatch/dd1_labels_join.csv`.
+
+- 115 of 800 cross-matches are in the table: 22 tier B, 93 tier C, none of the 12 tier A.
+- DD1.0 excess cut ([W1]−[W4] > 0.25, > 5σ, W4 S/N ≥ 10, M-dwarf > 0.9): all 115 pass.
+- Volunteer majority "good" (goodFraction > 0.5): 22/22 tier B, 89/93 tier C.
+- Science-team follow-up vetted YES: 10 tier B, 19 tier C; the rest are NotYetVetted.
+- Not computable from this table: `w4rchi2`, `cc_flags`, `ext_flg`.
+
 ## Reproduce
 
 ```bash
