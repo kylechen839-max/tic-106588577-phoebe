@@ -379,6 +379,23 @@ Source: `data/catalogs/DD_1.0ObjectsFromMAST.csv`, the DD1.0 MAST table Alissa B
 - Volunteer majority "good" (goodFraction > 0.5): 22/22 tier B, 89/93 tier C.
 - Science-team follow-up vetted YES: 10 tier B, 19 tier C; the rest are NotYetVetted.
 - Not computable from this table: `w4rchi2`, `cc_flags`, `ext_flg`.
+- With AllWISE photometry from the WZSubs tables, the DD1.0 [W1]−[W4] cut (> 0.25, > 5σ, W4 S/N ≥ 10, > 0.9 for M stars) passes for all 12 tier A, 116/119 tier B and 663/669 tier C. The tier-A objects still have no volunteer labels: the WZSubs tables carry photometry only.
+
+### SED check with the AllWISE cache (2026-10-06)
+
+`src/crossmatch/build_allwise_cache_from_wzsubs.py` builds `outputs/crossmatch/dd1_support_cache/allwise.csv` from the WZ_subjects tables (AllWISE W1–W4 + 2MASS JHK); it reproduces the J1419 round-1 check exactly (χ²_JHKW1 0.10, d ratio 0.91). `src/pipeline/recheck_sed.py` was then run on every result.
+
+| Target (tag) | χ²_red | JHKW1 χ² | d_phot/d_Gaia | W3 excess σ | W4 excess σ | Passes all |
+|---|---:|---:|---:|---:|---:|---|
+| J141909.42-565518.1 (round 1) | 0.92 | 0.1 | 0.91 | −0.1 | 8.5 | **yes** |
+| J141909.42-565518.1 (`_v2`) | 0.63 | 0.1 | 0.90 | 0.0 | 8.5 | no (sec. bias 3.1σ) |
+| J160415.99-562627.3 (`_gteff`) | 1.66 | 0.7 | 0.96 | 3.2 | 9.0 | **yes** |
+| J231201.40+532028.6 (`_gteffnoirr`) | 1.69 | 1.6 | 1.02 | 7.0 | 12.6 | **yes** |
+| J231201.40+532028.6 (`_gteffnoirrm10`) | 1.64 | 5.3 | 0.87 | 5.6 | 12.4 | **yes** |
+| J231201.40+532028.6 (`_gteffnoirrp10`) | 1.78 | 1.7 | 1.16 | 7.9 | 12.8 | **yes** |
+
+Other fits fail on the light curve (χ²_red or eclipse bias), not on the SED. J2209 (M dwarfs) has no Gaia distance ratio. J2239 now has d ratio 0.52–0.55, too luminous for the Gaia distance.
+
 
 ## Reproduce
 

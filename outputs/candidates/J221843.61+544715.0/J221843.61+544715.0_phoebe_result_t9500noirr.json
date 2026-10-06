@@ -80,10 +80,36 @@
     "pass_no_eclipse_bias": false
   },
   "blackbody_check": {
-    "status": "no AllWISE row"
+    "binary_photosphere_chi2_JHKW1": 27.042601880199935,
+    "photometric_distance_pc": 1345.3396299126337,
+    "gaia_distance_pc": 1267.9092177000127,
+    "distance_ratio_phot_over_gaia": 1.061069366112094,
+    "excess_vs_binary_photosphere": {
+      "W2": {
+        "ratio": 1.1384156297300203,
+        "sigma": 4.4003512887444245
+      },
+      "W3": {
+        "ratio": 2.5538532594965297,
+        "sigma": 20.018173245199325
+      },
+      "W4": {
+        "ratio": 29.779156448425116,
+        "sigma": 13.806271083287937
+      }
+    },
+    "pass_photosphere": true,
+    "pass_distance": true,
+    "pass_excess_survives": true
   },
   "runtime_s": 13492.374607086182,
   "q": 0.49003743087131374,
   "q_fitted": true,
-  "passes_all": false
+  "passes_all": false,
+  "distance_scaling": {
+    "luminosity_factor_vs_assumed": 0.8882034329285703,
+    "implied_sma_rsun": 8.979255425750418,
+    "implied_total_mass_msun": 2.8858143548868798,
+    "assumed_total_mass_msun": 3.4474638294977797
+  }
 }

@@ -63,3 +63,5 @@ One entry per daily cloud run. The plan for the next run is in `docs/PROJECT_CON
 - Stopped in Nelder–Mead: J1604 `_gteffm10` (χ² 410.1 so far vs 409.3 at Gaia Teff), J0739 `_v2` (454.6 vs 454.7 in round 1, no improvement).
 
 **Status.** Light-curve-passing candidates: J1419 (marginal +3.1σ secondary bias), J1604 (Gaia Teff), J2312 (Gaia Teff, robust to ±10%). All three still wait on the AllWISE SED check.
+
+**Afternoon addendum (Kyle online).** The DD1.0 MAST label table (`DD_1.0ObjectsFromMAST.csv`, from Kyle's Teams chat with Alissa Bans) and WZSubs.zip were copied from Kyle's Mac. Labels cover 115/800 cross-matches (no tier A). WZSubs gave an offline AllWISE cache, so the SED check finally ran: **J1604 (Gaia Teff) and J2312 (Gaia Teff, reflection off, also at ±10% Teff) now pass all checks**, joining J1419. Details: `docs/DD_EB_CROSSMATCH.md` → "SED check with the AllWISE cache (2026-10-06)".
