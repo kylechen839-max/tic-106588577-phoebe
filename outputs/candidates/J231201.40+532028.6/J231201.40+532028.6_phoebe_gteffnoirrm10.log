@@ -1,0 +1,39 @@
+=== J231201.40+532028.6 2026-10-06T09:55:03.730201+00:00  P=6.849530 t0=2868.13335 Teff1=8939 M1~2.09 q=0.8 distortion=sphere nbins=223
+  sma=23.59 Rsun, eclipse width 0.070 -> rsum0=0.185, teffratio0=0.98
+  grid 1: chi2=184288.4 v=[74.0, -0.0034, 0.1298, 0.5, 0.7812]
+  grid 25: chi2=184288.4 v=[74.0, -0.0034, 0.1854, 0.5, 0.7812]
+  grid 97: chi2=182252.0 v=[80.0, -0.0034, 0.2225, 0.5, 0.7812]
+  grid 98: chi2=180402.5 v=[80.0, -0.0034, 0.2225, 0.5, 0.9766]
+  grid 99: chi2=178713.7 v=[80.0, -0.0034, 0.2225, 0.5, 1.1719]
+  grid 102: chi2=178199.4 v=[80.0, -0.0034, 0.2225, 0.75, 1.1719]
+  grid 109: chi2=153347.1 v=[80.0, -0.0034, 0.2596, 0.5, 0.7812]
+  grid 110: chi2=134656.2 v=[80.0, -0.0034, 0.2596, 0.5, 0.9766]
+  grid 111: chi2=118169.6 v=[80.0, -0.0034, 0.2596, 0.5, 1.1719]
+  grid 114: chi2=115310.6 v=[80.0, -0.0034, 0.2596, 0.75, 1.1719]
+  grid 158: chi2=99376.7 v=[84.0, -0.0034, 0.2225, 0.5, 0.9766]
+  grid 159: chi2=77166.2 v=[84.0, -0.0034, 0.2225, 0.5, 1.1719]
+  grid 162: chi2=74007.4 v=[84.0, -0.0034, 0.2225, 0.75, 1.1719]
+  grid 169: chi2=69889.9 v=[84.0, -0.0034, 0.2596, 0.5, 0.7812]
+  grid 170: chi2=26596.9 v=[84.0, -0.0034, 0.2596, 0.5, 0.9766]
+  grid 171: chi2=10591.3 v=[84.0, -0.0034, 0.2596, 0.5, 1.1719]
+  grid 230: chi2=4775.0 v=[87.0, -0.0034, 0.2596, 0.5, 0.9766]
+grid best chi2=4775.02 (606s)
+  local-opt eval 25: best chi2 3156.57
+  local-opt eval 50: best chi2 3156.57
+  local-opt eval 75: best chi2 3008.42
+  local-opt eval 100: best chi2 3005.31
+  local-opt eval 125: best chi2 3005.31
+  local-opt eval 150: best chi2 3005.31
+  local-opt eval 175: best chi2 3005.31
+  local-opt eval 200: best chi2 3005.31
+  local-opt eval 225: best chi2 3005.27
+  local-opt eval 250: best chi2 3005.26
+  local-opt eval 275: best chi2 3005.26
+  local-opt eval 300: best chi2 3005.26
+  local-opt eval 325: best chi2 3005.26
+  local-opt eval 350: best chi2 3005.26
+  local-opt eval 375: best chi2 3005.26
+  local-opt eval 400: best chi2 3005.26
+  start 1/3 (grid chi2 4775.0) -> chi2 3005.26
+  local-opt eval 25: best chi2 3363.97
+  local-opt eval 50: best chi2 2700.41
