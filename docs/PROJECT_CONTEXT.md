@@ -108,6 +108,7 @@ Cloud runs: if `.venv-phoebe` is missing, run `python3 -m venv .venv-phoebe && .
 3. **Robustness of J1604 and J2312:** rerun each at Teff ±10% around the Gaia value, as was done for J1419. J1604: `--teff 12726 --tag _gteffm10` and `--teff 15554 --tag _gteffp10`. J2312: add `--no-irrad` with `--teff 8939` / `--teff 10925`.
 4. **J2218+54 (strongest SED):** the best so far is χ²_red 11.8 at 9,500 K with q fitted (`_t9500`), with bias −6.6/+7.6σ. Try `--teff 9500 --eccentric yes --tag _t9500ecc`. A spot (O'Connell asymmetry) needs a code option.
 5. **J2239:** the primary core is still 8.5σ too shallow (`_noirr2`, χ²_red 11.5). Try `--no-irrad --kmax 2.5 --eccentric yes --fit-l3 --tag _noirr3`.
+7. **DD1.0 quality labels (Kyle, 2026-10-06):** cross-reference the Disk Detective 1.0 spreadsheet's quality labels for every cross-matched star. Add them as a column to `outputs/crossmatch/dd1_candidates_scored.csv` (join on the WISE designation) and to the tier tables, and use them in grading candidacy strength. The spreadsheet is not in the repo yet; once Kyle commits it (suggested path `data/catalogs/`), build the join in `src/crossmatch/`.
 6. **If the network opens:** new EB surveys (IJspeert+2024, Howard+2025, OGLE disk, ZTF), J1122 custom aperture, WISE plane-fit background.
 
 ## Status at handoff
