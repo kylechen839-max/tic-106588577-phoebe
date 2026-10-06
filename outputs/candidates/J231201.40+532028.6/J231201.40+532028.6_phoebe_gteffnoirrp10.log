@@ -9,3 +9,41 @@
   grid 9: chi2=183966.8 v=[74.0, -0.0034, 0.1298, 1.0, 1.1719]
   grid 11: chi2=183955.7 v=[74.0, -0.0034, 0.1298, 1.3, 0.9766]
   grid 12: chi2=183933.4 v=[74.0, -0.0034, 0.1298, 1.3, 1.1719]
+  grid 97: chi2=182259.5 v=[80.0, -0.0034, 0.2225, 0.5, 0.7812]
+  grid 98: chi2=180477.6 v=[80.0, -0.0034, 0.2225, 0.5, 0.9766]
+  grid 99: chi2=178881.7 v=[80.0, -0.0034, 0.2225, 0.5, 1.1719]
+  grid 102: chi2=178050.5 v=[80.0, -0.0034, 0.2225, 0.75, 1.1719]
+  grid 105: chi2=177944.6 v=[80.0, -0.0034, 0.2225, 1.0, 1.1719]
+  grid 109: chi2=150012.2 v=[80.0, -0.0034, 0.2596, 0.5, 0.7812]
+  grid 110: chi2=132685.7 v=[80.0, -0.0034, 0.2596, 0.5, 0.9766]
+  grid 111: chi2=117686.3 v=[80.0, -0.0034, 0.2596, 0.5, 1.1719]
+  grid 114: chi2=113467.6 v=[80.0, -0.0034, 0.2596, 0.75, 1.1719]
+  grid 158: chi2=97440.1 v=[84.0, -0.0034, 0.2225, 0.5, 0.9766]
+  grid 159: chi2=77438.1 v=[84.0, -0.0034, 0.2225, 0.5, 1.1719]
+  grid 162: chi2=72666.0 v=[84.0, -0.0034, 0.2225, 0.75, 1.1719]
+  grid 169: chi2=62962.1 v=[84.0, -0.0034, 0.2596, 0.5, 0.7812]
+  grid 170: chi2=25667.0 v=[84.0, -0.0034, 0.2596, 0.5, 0.9766]
+  grid 171: chi2=10638.5 v=[84.0, -0.0034, 0.2596, 0.5, 1.1719]
+  grid 230: chi2=4661.1 v=[87.0, -0.0034, 0.2596, 0.5, 0.9766]
+grid best chi2=4661.13 (590s)
+  local-opt eval 25: best chi2 3385.40
+  local-opt eval 50: best chi2 3045.80
+  local-opt eval 75: best chi2 2372.34
+  local-opt eval 100: best chi2 2372.34
+  local-opt eval 125: best chi2 2372.34
+  local-opt eval 150: best chi2 2372.34
+  local-opt eval 175: best chi2 2372.34
+  local-opt eval 200: best chi2 2372.34
+  local-opt eval 225: best chi2 2372.34
+  local-opt eval 250: best chi2 2372.34
+  local-opt eval 275: best chi2 2372.34
+  local-opt eval 300: best chi2 2372.34
+  local-opt eval 325: best chi2 2372.34
+  local-opt eval 350: best chi2 2372.34
+  local-opt eval 375: best chi2 2372.34
+  local-opt eval 400: best chi2 2372.34
+  local-opt eval 425: best chi2 2372.34
+  start 1/3 (grid chi2 4661.1) -> chi2 2372.34
+  local-opt eval 25: best chi2 3597.85
+  local-opt eval 50: best chi2 2941.52
+  local-opt eval 75: best chi2 1643.57
