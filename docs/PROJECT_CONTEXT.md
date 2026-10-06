@@ -97,19 +97,20 @@ Everything under `outputs/` is gitignored. Selected results are force-added (`gi
   - zsh errors on unmatched globs; use `find`.
   - PHOEBE rejects short model labels such as "m" and "x".
 
-## Daily next steps (rewritten by each daily cloud run; last: 2026-10-05)
+## Daily next steps (rewritten by each daily cloud run; last: 2026-10-06)
 
 Cloud runs: if `.venv-phoebe` is missing, run `python3 -m venv .venv-phoebe && .venv-phoebe/bin/pip install phoebe==2.4.22 emcee corner scipy matplotlib numpy pandas tabulate`, then `.venv-phoebe/bin/python src/pipeline/build_tess_passband.py`. **One usage window per day** (Kyle, 2026-10-05): plan fits to finish within ~4.5 h. Do not relaunch after a container restart or once the limit resets; checkpoint and stop. Fits die when the session goes idle. The container can also restart mid-run; relaunch from the cached `_grid`/`_localopt` files. Archive hosts are blocked. See `docs/DAILY_LOG.md`.
 
-**Light-curve-passing candidates:** J1419 (all checks in round 1; the converged `_v2` fit has a marginal +3.1σ secondary bias), J1604 (`_gteff`), J2312 (`_gteffnoirr`).
+**Light-curve-passing candidates:** J1419 (all checks in round 1; the converged `_v2` fit has a marginal +3.1σ secondary bias; fitting q does not fix it), J1604 (`_gteff`), J2312 (`_gteffnoirr`, robust to Teff ±10%).
 
-1. **SED check for the three (highest value; needs Kyle):** commit `outputs/crossmatch/dd1_support_cache/allwise.csv` (or at least the tier-A rows), then run `.venv-phoebe/bin/python src/pipeline/recheck_sed.py outputs/candidates/J160415.99-562627.3/*_result_gteff.json outputs/candidates/J231201.40+532028.6/*_result_gteffnoirr.json`.
-2. **J1419 secondary bias (+3.1σ at `_v2`):** rerun `--fit-q yes --powell-maxiter 12 --tag _v3` (stopped unfinished on 10-05; grid cached) (q is fixed at 0.8 for this sphere system) and look at the secondary-eclipse residuals in `_phoebe_fit_v2.png`. Collect the other 10-05 relaunches if no result JSON was pushed: J0739 `--powell-maxiter 12 --tag _v2`, J2235 `--powell-maxiter 12 --tag _v2`.
-3. **Robustness of J1604 and J2312:** rerun each at Teff ±10% around the Gaia value, as was done for J1419. J1604: `--teff 12726 --tag _gteffm10` and `--teff 15554 --tag _gteffp10`. J2312: add `--no-irrad` with `--teff 8939` / `--teff 10925`.
-4. **J2218+54 (strongest SED):** the best so far is χ²_red 11.8 at 9,500 K with q fitted (`_t9500`), with bias −6.6/+7.6σ. Try `--teff 9500 --eccentric yes --tag _t9500ecc`. A spot (O'Connell asymmetry) needs a code option.
-5. **J2239:** the primary core is still 8.5σ too shallow (`_noirr2`, χ²_red 11.5). Try `--no-irrad --kmax 2.5 --eccentric yes --fit-l3 --tag _noirr3`.
-6. **If the network opens:** new EB surveys (IJspeert+2024, Howard+2025, OGLE disk, ZTF), J1122 custom aperture, WISE plane-fit background.
-7. **DD1.0 methodology and quality labels (Kyle, 2026-10-06):** for every cross-matched star, apply the Disk Detective 1.0 excess criteria next to ours: [W1]−[W4] > 0.25 and > 5σ, W4 S/N ≥ 10, `w4rchi2` < 1.3, clean `cc_flags`/`ext_flg`, and [W1]−[W4] > 0.9 for M stars. Also join the DD1.0 volunteer quality labels (majority "good candidate" vs Multiple / Shifted / Extended / Empty / Not round). Add both as columns to `outputs/crossmatch/dd1_candidates_scored.csv` and the tier tables, and use them in grading candidacy strength. Report disagreements with our blackbody check. Method summary: `docs/DD_EB_CROSSMATCH.md` → "Disk Detective 1.0 excess methodology vs ours". Needs the AllWISE columns (WZ_subjects tables or the AllWISE cache) and the DD1.0 label spreadsheet in `data/catalogs/`; neither is in the repo yet.
+1. **SED check for the three (highest value; needs Kyle):** commit `outputs/crossmatch/dd1_support_cache/allwise.csv` (or at least the tier-A rows), then run `.venv-phoebe/bin/python src/pipeline/recheck_sed.py outputs/candidates/J160415.99-562627.3/*_result_gteff.json outputs/candidates/J231201.40+532028.6/*_result_gteffnoirr*.json`.
+2. **DD1.0 methodology and quality labels (Kyle, 2026-10-06; needs Kyle):** for every cross-matched star, apply the Disk Detective 1.0 excess criteria next to ours: [W1]−[W4] > 0.25 and > 5σ, W4 S/N ≥ 10, `w4rchi2` < 1.3, clean `cc_flags`/`ext_flg`, and [W1]−[W4] > 0.9 for M stars. Also join the DD1.0 volunteer quality labels (majority "good candidate" vs Multiple / Shifted / Extended / Empty / Not round). Add both as columns to `outputs/crossmatch/dd1_candidates_scored.csv` and the tier tables, use them in grading candidacy strength, and report disagreements with our blackbody check. Method summary: `docs/DD_EB_CROSSMATCH.md` → "Disk Detective 1.0 excess methodology vs ours". Needs the AllWISE columns and the DD1.0 label spreadsheet in `data/catalogs/`; neither is in the repo yet.
+3. **J1604 robustness:** `--teff 12726 --tag _gteffm10` (stopped in Nelder–Mead on 10-06; grid cached) and `--teff 15554 --tag _gteffp10`. Each takes ~2–3 h.
+4. **J1419 secondary bias:** q is ruled out (`_v3`). Inspect the secondary-eclipse residuals in `_phoebe_fit_v2.png`; try `--fit-l3 --powell-maxiter 12 --tag _v4`, or accept as marginal.
+5. **J2218+54 (strongest SED):** best is χ²_red 11.8 at 9,500 K with q fitted (`_t9500`), bias −6.6/+7.6σ. Try `--teff 9500 --eccentric yes --tag _t9500ecc`. A spot (O'Connell asymmetry) needs a code option.
+6. **J2239:** primary core still 8.5σ too shallow (`_noirr2`, χ²_red 11.5). Try `--no-irrad --kmax 2.5 --eccentric yes --fit-l3 --tag _noirr3`.
+7. **Low priority:** J0739 `_v2` gave no improvement (stays a fail); J2235 `--powell-maxiter 12 --tag _v2` is still unrun.
+8. **If the network opens:** new EB surveys (IJspeert+2024, Howard+2025, OGLE disk, ZTF), J1122 custom aperture, WISE plane-fit background.
 
 ## Status at handoff
 

@@ -52,3 +52,14 @@ One entry per daily cloud run. The plan for the next run is in `docs/PROJECT_CON
 - Stopped unfinished at 16:00 UTC on Kyle's request (no work after the session limit resets): J0739 `_v2`, J2235 `_v2`, J1604 `_gteffm10`, J1419 `_v3` (q fitted). Their grid caches are pushed.
 
 **Status.** Three candidates pass or nearly pass the light-curve checks: J1419 (all checks in round 1; marginal +3.1σ secondary bias at the better `_v2` minimum), J1604 (Gaia Teff) and J2312 (Gaia Teff, reflection off). Only J1419 has had the full AllWISE SED/distance check.
+
+## 2026-10-06
+
+**Environment.** Same container; archive hosts still blocked. Neither the AllWISE cache nor the DD1.0 label spreadsheet is in the repo, so the SED check and the new DD1.0-criteria/label columns (Kyle, 10-06) could not be done. One window: fits ran 07:55–12:00 UTC and were stopped at the cutoff.
+
+**Fits** (table in `docs/DD_EB_CROSSMATCH.md` → "Cloud run 2026-10-06"):
+- **J2312 at Gaia Teff ±10% (reflection off): χ²_red 1.64 (8,939 K) and 1.78 (10,925 K), all eclipse biases < 1.5σ, est. d ratio 0.87/1.16.** Its light-curve pass is robust to Teff.
+- J1419 with q fitted (`_v3`): Nelder–Mead χ² 171.4 vs 167.8 for fixed q (`_v2`). Fitting q does not help; stopped in emcee.
+- Stopped in Nelder–Mead: J1604 `_gteffm10` (χ² 410.1 so far vs 409.3 at Gaia Teff), J0739 `_v2` (454.6 vs 454.7 in round 1, no improvement).
+
+**Status.** Light-curve-passing candidates: J1419 (marginal +3.1σ secondary bias), J1604 (Gaia Teff), J2312 (Gaia Teff, robust to ±10%). All three still wait on the AllWISE SED check.

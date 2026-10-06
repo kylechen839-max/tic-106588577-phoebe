@@ -356,6 +356,20 @@ The same caveats apply: no AllWISE cache, so "est. d ratio" is the scaled estima
 - **J1419 refit with 12 Nelder–Mead iterations (`_v2`) reaches a better minimum:** χ² 144.7 vs 210.4 (χ²_red 0.63), with i = 89.71°, r₁/r₂ = 0.0935/0.0465, T2/T1 = 0.998, e = 0.139. However, the **secondary-eclipse bias is +3.1σ**, just over the 3σ limit, as in the +10% Teff run (3.4σ). The round-1 "passes all" sat at a less converged point. J1419 is still the strongest candidate, but its light-curve pass is marginal; a small secondary-depth systematic is likely (T2/T1 ≈ 1, total secondary eclipse).
 - J2239 keeps improving (χ²_red 245 → 17.4 → 11.5) but the primary core is still 8.5σ too shallow. The best fit now has k > 1 and i = 75°, a different geometry from the albedo-1 fits. Its est. d ratio of 0.52 is at TIC Teff.
 
+### Cloud run 2026-10-06 (daily routine)
+
+The same caveats apply: no AllWISE cache, so "est. d ratio" is the scaled estimate and `passes_all` stays false. The DD1.0 excess criteria and volunteer labels were not added: the DD1.0 label spreadsheet and the AllWISE columns they need are still not in the repo.
+
+| Target (tag) | Change | T1 (K) | i (°) | r1/r2 | k | χ²_red | rms (ppt) | eclipse bias σ (pri/sec) | est. d ratio |
+|---|---|---:|---:|---|---:|---:|---:|---|---:|
+| J231201.40+532028.6 (`_gteffnoirrm10`) | Gaia Teff −10%, reflection off | 8939 | 84.42 | 0.185 / 0.098 | 0.53 | **1.64** | 4.4 | +1.4 / −1.3 | 0.87 |
+| J231201.40+532028.6 (`_gteffnoirr`, 10-05) | Gaia Teff, reflection off | 9932 | 83.05 | 0.182 / 0.109 | 0.60 | 1.69 | 4.4 | −2.1 / +1.9 | 1.02 |
+| J231201.40+532028.6 (`_gteffnoirrp10`) | Gaia Teff +10%, reflection off | 10925 | 83.56 | 0.184 / 0.104 | 0.56 | **1.78** | 4.1 | −1.3 / +1.2 | 1.16 |
+
+- **J2312+53 is robust to ±10% in Teff:** both variants pass the light-curve checks (χ²_red 1.64/1.78, all biases < 1.5σ), r₁ stays at 0.18 and i at 83–84°, and the est. d ratio stays inside 0.6–1.8 (0.87–1.16).
+- **J1419 with q fitted (`_v3`) does not help:** the Nelder–Mead stage ended at χ² 171.4 (q = 0.84, k at its lower bound 0.50), worse than the 167.8 the fixed-q `_v2` run reached at the same stage. Stopped during emcee at the cutoff. The +3.1σ secondary bias at `_v2` is not a mass-ratio problem.
+- Stopped unfinished at the 12:00 UTC cutoff (one window per day), all in the Nelder–Mead stage: J1604 `_gteffm10` (best χ² 410.1 so far vs 409.3 converged at Gaia Teff; not yet known whether it passes), J0739 `_v2` (best 454.6 vs 454.7 in round 1: no improvement, so J0739 stays a fail). Grid caches are pushed.
+
 ## Reproduce
 
 ```bash
