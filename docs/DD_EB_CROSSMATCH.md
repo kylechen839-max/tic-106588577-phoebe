@@ -407,6 +407,20 @@ Source: `data/catalogs/DD_1.0ObjectsFromMAST.csv`, the DD1.0 MAST table Alissa B
 - Not computable from this table: `w4rchi2`, `cc_flags`, `ext_flg`.
 - With AllWISE photometry from the WZSubs tables, the DD1.0 [W1]−[W4] cut (> 0.25, > 5σ, W4 S/N ≥ 10, > 0.9 for M stars) passes for all 12 tier A, 116/119 tier B and 663/669 tier C. The tier-A objects still have no volunteer labels: the WZSubs tables carry photometry only.
 
+### DD1.0 criteria and labels in the scored tables (2026-10-07)
+
+`src/crossmatch/add_dd1_criteria.py` adds `dd_*` (DD1.0 cut) and `dd1_*` (volunteer labels) columns plus a `grade` to `outputs/crossmatch/dd1_candidates_scored.csv`; `make_tables.py` now shows "DD1 cut", "DD1 label" and "grade" in `tierA_table.md` / `tierB_top40_table.md`. The DD1.0 cut uses [W1]−[W4] > 0.25 and > 5σ, W4 S/N ≥ 10, W4 `cc_flags` = 0, `ext_flg` = 0, and > 0.9 for M stars. **`w4rchi2` is not applied**: it is in neither the WZSubs tables nor the AllWISE cache.
+
+`grade` = tier, plus "+" when the DD1.0 science team marked the object YES, or "−" when the DD1.0 cut fails or the volunteer majority is not "good".
+
+| Tier | DD1 cut passes | Agrees with our excess check | grade |
+|---|---:|---:|---|
+| A (12) | 12 | 12 | 12 A (no labels exist for tier A) |
+| B (119) | 110 | 110 | 100 B, 10 B+, 9 B− |
+| C (669) | 466 | 452 | 447 C, 15 C+, 207 C− |
+
+All 9 tier-B disagreements are "ours only": our check accepts W4 `cc_flags` = `d` (diffraction spike), which DD1.0 rejects (6 objects), and 3 objects have W4 S/N just below 10 (9.95–9.99). In tier C, 75 pass only DD1.0's cut and 142 pass only ours.
+
 ### SED check with the AllWISE cache (2026-10-06)
 
 `src/crossmatch/build_allwise_cache_from_wzsubs.py` builds `outputs/crossmatch/dd1_support_cache/allwise.csv` from the WZ_subjects tables (AllWISE W1–W4 + 2MASS JHK); it reproduces the J1419 round-1 check exactly (χ²_JHKW1 0.10, d ratio 0.91). `src/pipeline/recheck_sed.py` was then run on every result.
