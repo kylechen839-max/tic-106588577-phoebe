@@ -33,3 +33,8 @@ Connection to online passbands at https://tables.phoebe-project.org could not be
   grid 164: chi2=24445.2 v=[84.0, -0.0001, 0.3515, 1.0, 0.9838, 0.0638, 0.0, 0.8]
   grid 173: chi2=6086.1 v=[84.0, -0.0001, 0.4101, 0.75, 0.9838, 0.0638, 0.0, 0.8]
   grid 176: chi2=4973.2 v=[84.0, -0.0001, 0.4101, 1.0, 0.9838, 0.0638, 0.0, 0.8]
+grid best chi2=4973.22 (3821s)
+  local-opt eval 25: best chi2 1757.22
+  local-opt eval 50: best chi2 760.46
+  local-opt eval 75: best chi2 511.82
+  local-opt eval 100: best chi2 499.71
