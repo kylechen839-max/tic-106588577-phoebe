@@ -371,6 +371,20 @@ The same caveats apply: no AllWISE cache, so "est. d ratio" is the scaled estima
 - **J1419 with q fitted (`_v3`) does not help:** the Nelder–Mead stage ended at χ² 171.4 (q = 0.84, k at its lower bound 0.50), worse than the 167.8 the fixed-q `_v2` run reached at the same stage. Stopped during emcee at the cutoff. The +3.1σ secondary bias at `_v2` is not a mass-ratio problem.
 - Stopped unfinished at the 12:00 UTC cutoff (one window per day), all in the Nelder–Mead stage: J1604 `_gteffm10` (best χ² 410.1 so far vs 409.3 converged at Gaia Teff; not yet known whether it passes), J0739 `_v2` (best 454.6 vs 454.7 in round 1: no improvement, so J0739 stays a fail). Grid caches are pushed.
 
+### Cloud run 2026-10-07 (daily routine)
+
+All four fits were stopped in the Nelder–Mead stage at the 11:56 UTC cutoff; none reached emcee, so there are no new result JSONs. Best χ² so far (same binned light curve as the comparison fit):
+
+| Target (tag) | Change | Best χ² so far | Comparison |
+|---|---|---:|---|
+| J160415.99-562627.3 (`_gteffm10`) | Teff 12,726 K (Gaia −10%) | 392.4 | 409.3 at Gaia Teff (`_gteff`, converged) |
+| J160415.99-562627.3 (`_gteffp10`) | Teff 15,554 K (Gaia +10%) | 417.7 | 409.3 |
+| J141909.42-565518.1 (`_v4`) | third light fitted | 173.1 | 167.8 without l3 (`_v2`) |
+| J221843.61+544715.0 (`_t9500ecc`) | 9,500 K, q fitted, eccentric | 3265.8 | 1936.3 circular (`_t9500`) |
+
+- J1604 at −10% Teff already fits as well as at the Gaia Teff, so its light-curve pass does not hinge on the exact Teff; the full checks need a finished run.
+- Third light does not improve J1419 so far, and eccentricity has not helped J2218 yet. Both are unfinished, so these are not final.
+
 ### Reliability of the Gaia and VSX EB labels (2026-10-06)
 
 **How they find EBs.**

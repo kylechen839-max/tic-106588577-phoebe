@@ -65,3 +65,13 @@ One entry per daily cloud run. The plan for the next run is in `docs/PROJECT_CON
 **Status.** Light-curve-passing candidates: J1419 (marginal +3.1σ secondary bias), J1604 (Gaia Teff), J2312 (Gaia Teff, robust to ±10%). All three still wait on the AllWISE SED check.
 
 **Afternoon addendum (Kyle online).** The DD1.0 MAST label table (`DD_1.0ObjectsFromMAST.csv`, from Kyle's Teams chat with Alissa Bans) and WZSubs.zip were copied from Kyle's Mac. Labels cover 115/800 cross-matches (no tier A). WZSubs gave an offline AllWISE cache, so the SED check finally ran: **J1604 (Gaia Teff) and J2312 (Gaia Teff, reflection off, also at ±10% Teff) now pass all checks**, joining J1419. Details: `docs/DD_EB_CROSSMATCH.md` → "SED check with the AllWISE cache (2026-10-06)".
+
+## 2026-10-07
+
+**Environment.** Archive hosts still blocked (CDS XMatch, VizieR, MAST, SkyView, IRSA return no connection). One window: fits ran 07:53–11:56 UTC and were stopped at the cutoff.
+
+**DD1.0 criteria and labels.** `src/crossmatch/add_dd1_criteria.py` adds the DD1.0 excess cut (without `w4rchi2`, which is unavailable), the volunteer labels and a `grade` column to `dd1_candidates_scored.csv`; the tier tables show them. Tier A: 12/12 pass the DD1.0 cut (no labels exist). Tier B: 110/119 pass; grades 100 B, 10 B+ (sci-team YES), 9 B− (W4 `cc_flags` = d, or W4 S/N 9.96). Tier C: 466/669 pass.
+
+**Fits** (all stopped in Nelder–Mead; table in `docs/DD_EB_CROSSMATCH.md` → "Cloud run 2026-10-07"): J1604 −10% Teff χ² 392.4 (vs 409.3 at Gaia Teff), +10% 417.7; J1419 with l3 173.1 (vs 167.8 without); J2218 eccentric 3265.8 (vs 1936.3 circular).
+
+**Status.** Three candidates pass all checks: J1419, J1604, J2312. Four parallel fits do not finish within one window; run fewer at a time.

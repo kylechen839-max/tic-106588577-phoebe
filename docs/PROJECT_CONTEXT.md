@@ -97,20 +97,20 @@ Everything under `outputs/` is gitignored. Selected results are force-added (`gi
   - zsh errors on unmatched globs; use `find`.
   - PHOEBE rejects short model labels such as "m" and "x".
 
-## Daily next steps (rewritten by each daily cloud run; last: 2026-10-06)
+## Daily next steps (rewritten by each daily cloud run; last: 2026-10-07)
 
 Cloud runs: if `.venv-phoebe` is missing, run `python3 -m venv .venv-phoebe && .venv-phoebe/bin/pip install phoebe==2.4.22 emcee corner scipy matplotlib numpy pandas tabulate`, then `.venv-phoebe/bin/python src/pipeline/build_tess_passband.py`. **One usage window per day** (Kyle, 2026-10-05): plan fits to finish within ~4.5 h. Do not relaunch after a container restart or once the limit resets; checkpoint and stop. Fits die when the session goes idle. The container can also restart mid-run; relaunch from the cached `_grid`/`_localopt` files. Archive hosts are blocked. See `docs/DAILY_LOG.md`.
 
 **Candidates passing all checks (2026-10-06): J1419 (round 1), J1604 (`_gteff`), J2312 (`_gteffnoirr`).** Light-curve notes: J1419 (all checks in round 1; the converged `_v2` fit has a marginal +3.1σ secondary bias; fitting q does not fix it), J1604 (`_gteff`), J2312 (`_gteffnoirr`, robust to Teff ±10%).
 
-1. ~~SED check for the three~~ **Done 2026-10-06:** `outputs/crossmatch/dd1_support_cache/allwise.csv` is now built offline from the DD1.0 WZ_subjects tables (`src/crossmatch/build_allwise_cache_from_wzsubs.py`; reproduces the J1419 round-1 SED check exactly). **J1604 `_gteff` and J2312 `_gteffnoirr` (and its ±10% Teff runs) now pass all checks.** WZSubs.zip is not committed (29 MB); unzip `~/Downloads/WZSubs.zip` to `data/catalogs/` to rebuild.
-2. **DD1.0 labels, partial (Kyle, 2026-10-06):** `data/catalogs/DD_1.0ObjectsFromMAST.csv` (DD1.0 MAST table from Alissa Bans's Teams chat; 30,659 subjects, with volunteer fractions, SciTeamFollowUp, W1–W4/2MASS photometry) is now in the repo. `src/crossmatch/join_dd1_labels.py` writes `outputs/crossmatch/dd1_labels_join.csv`. Only 115 of 800 cross-matches are in it (22 tier B, 93 tier C, **no tier A**); all 22 tier B pass the DD1.0 excess cut and have majority "good", and 10 are sci-team YES. The WZSubs tables have photometry but no volunteer labels, so the 12 tier-A objects still have no labels; ask Kyle/Alissa for a fuller label export. With the WZSubs photometry, all 12 tier A, 116/119 tier B and 663/669 tier C pass the DD1.0 [W1]−[W4] excess cut. `w4rchi2`/`cc_flags`/`ext_flg` are still missing.
-3. **J1604 robustness:** `--teff 12726 --tag _gteffm10` (stopped in Nelder–Mead on 10-06; grid cached) and `--teff 15554 --tag _gteffp10`. Each takes ~2–3 h.
-4. **J1419 secondary bias:** q is ruled out (`_v3`). Inspect the secondary-eclipse residuals in `_phoebe_fit_v2.png`; try `--fit-l3 --powell-maxiter 12 --tag _v4`, or accept as marginal.
-5. **J2218+54 (strongest SED):** best is χ²_red 11.8 at 9,500 K with q fitted (`_t9500`), bias −6.6/+7.6σ. Try `--teff 9500 --eccentric yes --tag _t9500ecc`. A spot (O'Connell asymmetry) needs a code option.
-6. **J2239:** primary core still 8.5σ too shallow (`_noirr2`, χ²_red 11.5). Try `--no-irrad --kmax 2.5 --eccentric yes --fit-l3 --tag _noirr3`.
-7. **Low priority:** J0739 `_v2` gave no improvement (stays a fail); J2235 `--powell-maxiter 12 --tag _v2` is still unrun.
-8. **If the network opens:** new EB surveys (IJspeert+2024, Howard+2025, OGLE disk, ZTF), J1122 custom aperture, WISE plane-fit background.
+1. **J1604 robustness (finish):** `--teff 12726 --tag _gteffm10` and `--teff 15554 --tag _gteffp10`. Grids are cached; Nelder–Mead reached χ² 392/418 in ~4 h on 10-07 without finishing. Run only these two today (2 cores each are not possible, but fewer parallel jobs leave more CPU per fit), or add `--powell-maxiter 6` to finish within the window.
+2. **DD1.0 labels for tier A (needs Kyle/Alissa):** the MAST label table has none of the 12 tier-A objects. A fuller DD1.0 classification export (ZooniverseID + goodFraction for all 412,729 subjects) would fill `dd1_*` for them; rerun `src/crossmatch/add_dd1_criteria.py` and `make_tables.py`. `w4rchi2` is also still missing (needs AllWISE `w4rchi2`, not in WZSubs).
+3. **Tier-B TESS confirmation (needs network or Kyle's Mac):** 98 of 119 tier-B objects rest on a single EB source (Gaia-only 41, VSX-literature-only 14). Fetch TESS light curves (`src/pipeline/fetch_tess_lc.py`) for the tier-B "B+" and "B" grades and check for eclipses at the catalogue period.
+4. **J1419 secondary bias:** q (`_v3`) and l3 (`_v4`, unfinished, χ² 173 vs 168) do not fix it. Inspect the secondary-eclipse residuals in `_phoebe_fit_v2.png`; likely accept as marginal.
+5. **Low priority:** J2218 eccentric `_t9500ecc` (unfinished, χ² 3266 vs 1936 circular); J2239 `--no-irrad --kmax 2.5 --eccentric yes --fit-l3 --tag _noirr3` (fails the distance check, d ratio 0.52); J2235 `--powell-maxiter 12 --tag _v2`.
+6. **If the network opens:** new EB surveys (IJspeert+2024, Howard+2025, OGLE disk, ZTF), J1122 custom aperture, WISE plane-fit background.
+
+Done: SED check via the WZSubs-built AllWISE cache (10-06; J1419, J1604, J2312 pass all checks); DD1.0 criteria, labels and `grade` in the scored and tier tables (10-07).
 
 ## Status at handoff
 
