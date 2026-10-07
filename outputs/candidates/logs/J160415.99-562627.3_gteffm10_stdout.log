@@ -104,3 +104,8 @@ Connection to online passbands at https://tables.phoebe-project.org could not be
   sma=14.17 Rsun, eclipse width 0.112 -> rsum0=0.293, teffratio0=0.98
   using cached grid result
 grid best chi2=5086.15 (0s)
+  local-opt eval 25: best chi2 1864.72
+  local-opt eval 50: best chi2 833.22
+  local-opt eval 75: best chi2 586.78
+  local-opt eval 100: best chi2 536.38
+  local-opt eval 125: best chi2 514.07
