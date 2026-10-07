@@ -419,7 +419,7 @@ Source: `data/catalogs/DD_1.0ObjectsFromMAST.csv`, the DD1.0 MAST table Alissa B
 | B (119) | 110 | 110 | 100 B, 10 B+, 9 B− |
 | C (669) | 466 | 452 | 447 C, 15 C+, 207 C− |
 
-All 9 tier-B disagreements are "ours only": our check accepts W4 `cc_flags` = `d` (diffraction spike), which DD1.0 rejects (6 objects), and 3 objects have W4 S/N just below 10 (9.95–9.99). In tier C, 75 pass only DD1.0's cut and 142 pass only ours.
+All 9 tier-B disagreements are "ours only": our check accepts W4 `cc_flags` = `d` (diffraction spike), which DD1.0 rejects (6 objects), and 3 objects have W4 S/N 9.96 (σ_W4 = 0.109 mag), just below 10. In tier C, 75 pass only DD1.0's cut and 142 pass only ours.
 
 ### SED check with the AllWISE cache (2026-10-06)
 
