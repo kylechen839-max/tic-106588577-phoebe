@@ -323,3 +323,14 @@ local-opt (Nelder-Mead) chi2=1774.54 after 4249 evals v=[74.76223, 0.00734, 0.22
 {"incl": 74.76223473424444, "r1_frac": 0.18116420072349737, "r2_frac": 0.041765963823749495, "teffratio": 0.30009151958107244, "chi2_final_hires": 2082.487857032823, "passes_all": false}
 photometry: {"chi2": 2082.487857032823, "dof": 135, "chi2_red": 15.42583597802091, "rms": 0.002211086437509803, "primary_mean_resid": -0.0014606943163614106, "primary_bias_sigma": -7.915277047735413, "secondary_mean_resid": -0.0028964911241070035, "secondary_bias_sigma": -8.161111069626019, "pass_fit": false, "pass_no_eclipse_bias": false}
 blackbody: {"status": "no AllWISE row"}
+=== J223553.38+500414.8 2026-10-08T07:52:21.886506+00:00  P=10.918585 t0=3382.95426 Teff1=12746 M1~4.37 q=0.8 distortion=sphere nbins=143
+  eccentric: secondary at phase 0.5860 -> ecosw0=0.1351, esinw0=0.500
+  sma=41.19 Rsun, eclipse width 0.090 -> rsum0=0.237, teffratio0=0.57
+  using cached grid result
+grid best chi2=5809.25 (0s)
+  using cached local-optimisation result
+local-opt (Nelder-Mead) chi2=1774.54 after 4249 evals v=[74.76223, 0.00734, 0.22293, 0.23054, 0.30009, 0.15926, 0.35664]
+  emcee 16x30 in 668s, acc=0.47
+{"incl": 74.76223473424444, "r1_frac": 0.18116420072349737, "r2_frac": 0.041765963823749495, "teffratio": 0.30009151958107244, "chi2_final_hires": 2082.487857032823, "passes_all": false}
+photometry: {"chi2": 2082.487857032823, "dof": 135, "chi2_red": 15.42583597802091, "rms": 0.002211086437509803, "primary_mean_resid": -0.0014606943163614106, "primary_bias_sigma": -7.915277047735413, "secondary_mean_resid": -0.0028964911241070035, "secondary_bias_sigma": -8.161111069626019, "pass_fit": false, "pass_no_eclipse_bias": false}
+blackbody: {"binary_photosphere_chi2_JHKW1": 4.344066634183676, "photometric_distance_pc": 534.4012576143168, "gaia_distance_pc": 565.7708628005657, "distance_ratio_phot_over_gaia": 0.944554222833305, "excess_vs_binary_photosphere": {"W2": {"ratio": 1.0022230851907268, "sigma": 0.08027767182441296}, "W3": {"ratio": 0.9777070662887482, "sigma": -0.8252044017115623}, "W4": {"ratio": 1.562261184208478, "sigma": 8.31401727455705}}, "pass_photosphere": true, "pass_distance": true, "pass_excess_survives": true}
