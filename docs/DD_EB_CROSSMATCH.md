@@ -371,6 +371,12 @@ The same caveats apply: no AllWISE cache, so "est. d ratio" is the scaled estima
 - **J1419 with q fitted (`_v3`) does not help:** the Nelder–Mead stage ended at χ² 171.4 (q = 0.84, k at its lower bound 0.50), worse than the 167.8 the fixed-q `_v2` run reached at the same stage. Stopped during emcee at the cutoff. The +3.1σ secondary bias at `_v2` is not a mass-ratio problem.
 - Stopped unfinished at the 12:00 UTC cutoff (one window per day), all in the Nelder–Mead stage: J1604 `_gteffm10` (best χ² 410.1 so far vs 409.3 converged at Gaia Teff; not yet known whether it passes), J0739 `_v2` (best 454.6 vs 454.7 in round 1: no improvement, so J0739 stays a fail). Grid caches are pushed.
 
+### Cloud run 2026-10-08 (daily routine)
+
+- **J2235+50 `_v2` (cached local optimum, finished):** χ²_red 15.4 (round 1: 15.2), eclipse bias −7.9/−8.2σ. It still fails the light-curve checks. Its SED check passes (JHKW1 χ² 4.3, d ratio 0.94, W4 excess 8.3σ), so the problem is the light-curve model, not the excess.
+- J1604 `_gteffm10` / `_gteffp10` with `--powell-maxiter 6` were stopped again in the second Nelder–Mead start (best χ² 392.4 and 391.5, vs 409.3 converged at the Gaia Teff). Each start takes ~2 h on this container, and before today only finished stages were cached, so every day repeated start 1.
+- **Fix:** `run_phoebe_candidate.py` now caches each finished Nelder–Mead start in `<name>_localopt_starts<tag>.json` and resumes at the next start.
+
 ### Cloud run 2026-10-07 (daily routine)
 
 All four fits were stopped in the Nelder–Mead stage at the 11:56 UTC cutoff; none reached emcee, so there are no new result JSONs. Best χ² so far (same binned light curve as the comparison fit):

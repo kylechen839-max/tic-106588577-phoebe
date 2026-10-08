@@ -502,10 +502,22 @@ def main():
         chi_pow, v_pow, nev = o["chi2"], np.array(o["v"]), o["evals"]
         log("  using cached local-optimisation result")
     else:
-        # multi-start: local optimisation from each of the top distinct grid points
+        # multi-start: local optimisation from each of the top distinct grid points.
+        # Each finished start is cached so a run stopped mid-way resumes at the next start.
         chi_pow, v_pow, nev = np.inf, v_grid, 0
+        start_cache = cdir / f"{name}_localopt_starts{tag}.json"
+        done = json.loads(start_cache.read_text()) if start_cache.exists() else {}
+        if done.get("params") != PARAMS:
+            done = {"params": PARAMS, "starts": {}}
         for i, (c0, v0) in enumerate(top):
-            c, v, n_ = powell(m, v0, B, args.powell_maxiter, log)
+            if str(i) in done["starts"]:
+                s_ = done["starts"][str(i)]
+                c, v, n_ = s_["chi2"], np.array(s_["v"]), s_["evals"]
+                log(f"  start {i + 1}/{len(top)}: using cached result")
+            else:
+                c, v, n_ = powell(m, v0, B, args.powell_maxiter, log)
+                done["starts"][str(i)] = {"chi2": float(c), "v": list(map(float, v)), "evals": int(n_)}
+                start_cache.write_text(json.dumps(done))
             nev += n_
             log(f"  start {i + 1}/{len(top)} (grid chi2 {c0:.1f}) -> chi2 {c:.2f}")
             if c < chi_pow:

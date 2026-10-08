@@ -75,3 +75,13 @@ One entry per daily cloud run. The plan for the next run is in `docs/PROJECT_CON
 **Fits** (all stopped in Nelder–Mead; table in `docs/DD_EB_CROSSMATCH.md` → "Cloud run 2026-10-07"): J1604 −10% Teff χ² 392.4 (vs 409.3 at Gaia Teff), +10% 417.7; J1419 with l3 173.1 (vs 167.8 without); J2218 eccentric 3265.8 (vs 1936.3 circular).
 
 **Status.** Three candidates pass all checks: J1419, J1604, J2312. Four parallel fits do not finish within one window; run fewer at a time.
+
+## 2026-10-08
+
+**Environment.** Archive hosts still blocked. Fits ran 07:52–11:51 UTC (one window) and were stopped at the cutoff.
+
+**Fits.** J2235 `_v2` finished from its cached optimum: χ²_red 15.4, eclipse bias −7.9/−8.2σ, fails (SED passes: d ratio 0.94, W4 8.3σ). J1604 at Teff −10%/+10% stopped in Nelder–Mead start 2 (best χ² 392.4/391.5 vs 409.3 at Gaia Teff).
+
+**Code.** Each Nelder–Mead start is now cached (`<name>_localopt_starts<tag>.json`), so stopped runs resume at the next start instead of repeating start 1 (which happened on 10-06, 10-07 and 10-08).
+
+**Status.** Unchanged: J1419, J1604, J2312 pass all checks.
