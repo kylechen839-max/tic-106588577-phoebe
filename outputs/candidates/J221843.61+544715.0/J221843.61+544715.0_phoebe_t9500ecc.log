@@ -40,3 +40,13 @@ grid best chi2=64855.50 (3704s)
   local-opt eval 750: best chi2 3289.99
   local-opt eval 775: best chi2 3265.81
   local-opt eval 800: best chi2 3265.81
+=== J221843.61+544715.0 2026-10-09T07:52:46.702608+00:00  P=1.669261 t0=3387.03039 Teff1=9500 M1~2.31 q=0.8 distortion=roche nbins=196
+  eccentric: secondary at phase 0.5000 -> ecosw0=0.0000, esinw0=-0.008
+  sma=9.53 Rsun, eclipse width 0.128 -> rsum0=0.333, teffratio0=0.84
+  using cached grid result
+grid best chi2=64855.50 (0s)
+  local-opt eval 25: best chi2 33345.24
+  local-opt eval 50: best chi2 18174.67
+  local-opt eval 75: best chi2 15616.41
+  local-opt eval 100: best chi2 12971.29
+  local-opt eval 125: best chi2 6726.97
