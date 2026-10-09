@@ -85,3 +85,11 @@ One entry per daily cloud run. The plan for the next run is in `docs/PROJECT_CON
 **Code.** Each Nelder–Mead start is now cached (`<name>_localopt_starts<tag>.json`), so stopped runs resume at the next start instead of repeating start 1 (which happened on 10-06, 10-07 and 10-08).
 
 **Status.** Unchanged: J1419, J1604, J2312 pass all checks.
+
+## 2026-10-09
+
+**Environment.** Archive hosts still blocked. Fits ran 07:52–11:51 UTC and were stopped at the cutoff. The per-start cache added on 10-08 worked: finished Nelder–Mead starts are saved for J1604 (both) and J2218.
+
+**Fits.** J1419 `_v4` (third light free, fitted l3 ≈ 0.0001) finished and **passes all checks**: χ²_red 0.67, bias −0.4/+2.5σ, d ratio 0.91, W4 8.5σ. It is a nearby solution to `_v2` (χ² 144.7 vs 151.2), which had +3.1σ secondary bias. J1604 −10%/+10% Teff: start 1 cached (457.0/435.4), start 2 reached 405.8/392.0. J2218 eccentric: start 1 χ² 3265.8, worse than circular 1936.3.
+
+**Status.** J1419, J1604, J2312 pass all checks.
