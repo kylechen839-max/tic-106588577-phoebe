@@ -371,6 +371,11 @@ The same caveats apply: no AllWISE cache, so "est. d ratio" is the scaled estima
 - **J1419 with q fitted (`_v3`) does not help:** the Nelder–Mead stage ended at χ² 171.4 (q = 0.84, k at its lower bound 0.50), worse than the 167.8 the fixed-q `_v2` run reached at the same stage. Stopped during emcee at the cutoff. The +3.1σ secondary bias at `_v2` is not a mass-ratio problem.
 - Stopped unfinished at the 12:00 UTC cutoff (one window per day), all in the Nelder–Mead stage: J1604 `_gteffm10` (best χ² 410.1 so far vs 409.3 converged at Gaia Teff; not yet known whether it passes), J0739 `_v2` (best 454.6 vs 454.7 in round 1: no improvement, so J0739 stays a fail). Grid caches are pushed.
 
+### Cloud run 2026-10-10 (daily routine)
+
+- J1604 `_gteffm10` / `_gteffp10`: start 2 finished and is cached (χ² 392.4 / 391.5). **Start 3 was much lower when stopped at the 12:15 UTC cutoff: χ² 198.1 (−10% Teff) and 281.4 (+10% Teff)**, against 409.3 for the converged Gaia-Teff fit (`_gteff`). Start 3 had not converged and its partial progress is not cached (only finished starts are), so the next run repeats it.
+- Inferred, not verified: start 3 has found a different, better minimum. If it holds, the Gaia-Teff fit (`_gteff`, a single local optimisation from before multi-start) is probably also in a worse minimum, and J1604's χ²_red of 1.66 is an upper bound.
+
 ### Cloud run 2026-10-09 (daily routine)
 
 - **J1419−56 with third light fitted (`_v4`, finished): passes all checks.** χ²_red 0.67 (χ² 151.2, 227 dof), eclipse bias −0.4/+2.5σ, JHKW1 χ² 0.09, d ratio 0.91, W4 excess 8.5σ. The fitted third light is 0.0001 (consistent with zero); i = 89.50°, r₁/r₂ = 0.0938/0.0468, k = 0.50 (at its lower bound), e = 0.138. This is a nearby minimum to `_v2` (χ² 144.7, secondary bias +3.1σ): χ² is 6.5 higher but the secondary bias drops below 3σ, so J1419's light-curve pass depends on which of two near-equal solutions is taken. Treat its secondary-eclipse fit as marginal rather than failed.

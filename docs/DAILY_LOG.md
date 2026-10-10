@@ -93,3 +93,11 @@ One entry per daily cloud run. The plan for the next run is in `docs/PROJECT_CON
 **Fits.** J1419 `_v4` (third light free, fitted l3 ≈ 0.0001) finished and **passes all checks**: χ²_red 0.67, bias −0.4/+2.5σ, d ratio 0.91, W4 8.5σ. It is a nearby solution to `_v2` (χ² 144.7 vs 151.2), which had +3.1σ secondary bias. J1604 −10%/+10% Teff: start 1 cached (457.0/435.4), start 2 reached 405.8/392.0. J2218 eccentric: start 1 χ² 3265.8, worse than circular 1936.3.
 
 **Status.** J1419, J1604, J2312 pass all checks.
+
+## 2026-10-10
+
+**Environment.** Archive hosts still blocked. Fits ran 07:52–12:15 UTC (one window) and were stopped at the cutoff. Only the two J1604 fits ran, as planned.
+
+**Fits.** J1604 −10%/+10% Teff: start 2 finished (χ² 392.4/391.5, cached). Start 3 reached χ² 198.1/281.4 before the cutoff, far below the Gaia-Teff fit's 409.3, but had not converged and is not cached. The lower minimum is inferred from the unfinished runs, not yet verified by a finished fit.
+
+**Status.** J1419, J1604, J2312 pass all checks. J1604's light-curve fit can likely improve further.

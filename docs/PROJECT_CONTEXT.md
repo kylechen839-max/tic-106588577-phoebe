@@ -97,13 +97,13 @@ Everything under `outputs/` is gitignored. Selected results are force-added (`gi
   - zsh errors on unmatched globs; use `find`.
   - PHOEBE rejects short model labels such as "m" and "x".
 
-## Daily next steps (rewritten by each daily cloud run; last: 2026-10-09)
+## Daily next steps (rewritten by each daily cloud run; last: 2026-10-10)
 
 Cloud runs: if `.venv-phoebe` is missing, run `python3 -m venv .venv-phoebe && .venv-phoebe/bin/pip install phoebe==2.4.22 emcee corner scipy matplotlib numpy pandas tabulate`, then `.venv-phoebe/bin/python src/pipeline/build_tess_passband.py`. **One usage window per day** (Kyle, 2026-10-05): plan fits to finish within ~4.5 h. Do not relaunch after a container restart or once the limit resets; checkpoint and stop. Fits die when the session goes idle. The container can also restart mid-run; relaunch from the cached `_grid`/`_localopt` files. Archive hosts are blocked. See `docs/DAILY_LOG.md`.
 
 **Candidates passing all checks (2026-10-06): J1419 (round 1), J1604 (`_gteff`), J2312 (`_gteffnoirr`).** Light-curve notes: J1419 (all checks in round 1; the converged `_v2` fit has a marginal +3.1σ secondary bias; fitting q does not fix it), J1604 (`_gteff`), J2312 (`_gteffnoirr`, robust to Teff ±10%).
 
-1. **J1604 robustness (finish):** `--teff 12726 --powell-maxiter 6 --tag _gteffm10` and `--teff 15554 --powell-maxiter 6 --tag _gteffp10`, only these two in parallel. Each Nelder–Mead start takes ~2 h; finished starts are now cached (`_localopt_starts<tag>.json`), start 1 is cached for both (10-09); starts 2–3 need about one or two more windows. Then `recheck_sed.py` is automatic (the fit runs the SED check).
+1. **J1604 robustness (finish):** `--teff 12726 --powell-maxiter 6 --tag _gteffm10` and `--teff 15554 --powell-maxiter 6 --tag _gteffp10`, only these two in parallel. Starts 1–2 are cached; start 3 needs ~2.3 h, then emcee, hi-res and the SED check run automatically. On 10-10 start 3 reached χ² 198.1/281.4 (vs 409.3 at Gaia Teff) before the cutoff. If start 3 converges low, rerun the Gaia-Teff fit with multi-start (`--teff 14140 --powell-maxiter 6 --tag _gteffms`) on a later day, since `_gteff` was a single local optimisation. Optional code fix: cache the best-so-far vector of an unfinished start so a cutoff does not lose it.
 2. **DD1.0 labels for tier A (needs Kyle/Alissa):** the MAST label table has none of the 12 tier-A objects. A fuller DD1.0 classification export (ZooniverseID + goodFraction for all 412,729 subjects) would fill `dd1_*` for them; rerun `src/crossmatch/add_dd1_criteria.py` and `make_tables.py`. `w4rchi2` is also still missing (needs AllWISE `w4rchi2`, not in WZSubs).
 3. **Tier-B TESS confirmation (needs network or Kyle's Mac):** 98 of 119 tier-B objects rest on a single EB source (Gaia-only 41, VSX-literature-only 14). Fetch TESS light curves (`src/pipeline/fetch_tess_lc.py`) for the tier-B "B+" and "B" grades and check for eclipses at the catalogue period.
 4. ~~J1419 secondary bias~~ resolved as marginal (10-09): `_v4` (l3 ≈ 0) passes all checks with secondary bias +2.5σ at χ² 151.2; `_v2` has +3.1σ at χ² 144.7.
