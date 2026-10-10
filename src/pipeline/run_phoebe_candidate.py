@@ -91,7 +91,7 @@ def phase_values(times, t0, period):
 
 # ----------------------------------------------------------------------------- bundle
 class Model:
-    def __init__(self, times, flux, sig, period, t0, teff1, mass1, q, distortion, ntri, l3=0.0):
+    def __init__(self, times, flux, sig, period, t0, teff1, mass1, q, distortion, ntri, l3=0.0, irrad=True):
         self.period, self.t0, self.teff1 = period, t0, teff1
         self.mtot = mass1 * (1 + q)
         self.sma = kepler_sma(period, self.mtot)
@@ -111,7 +111,7 @@ class Model:
         b.set_value("sma@binary", self.sma)
         b.set_value("teff@primary", teff1)
         gb = 1.0 if teff1 > 7500 else 0.32
-        alb = 1.0 if teff1 > 7500 else 0.6
+        alb = (1.0 if teff1 > 7500 else 0.6) if irrad else 0.0
         for comp in ("primary", "secondary"):
             b.set_value(f"gravb_bol@{comp}", gb)
             b.set_value(f"irrad_frac_refl_bol@{comp}", alb)
@@ -186,12 +186,12 @@ def initial_guesses(eph, flux, times):
     return rsum, tr, width
 
 
-def bounds_for(rsum0, distortion):
+def bounds_for(rsum0, distortion, kmax=1.4):
     return {
         "incl": (60.0, 90.0),
         "dt0": (-0.01, 0.01),
         "rsum": (max(0.03, 0.4 * rsum0), min(0.78 if distortion == "roche" else 0.9, 2.2 * rsum0)),
-        "k": (0.2, 1.4),
+        "k": (0.2, kmax),
         "teffratio": (0.3, 1.25),
         "l3": (0.0, 0.8),
         "ecosw": (-0.6, 0.6),
@@ -209,7 +209,7 @@ def grid_search(m, rsum0, tr0, B, log, ntop=3):
     results = []
     incls = [74, 80, 84, 87, 89.5]
     rsums = [rsum0 * f for f in (0.7, 0.85, 1.0, 1.2, 1.4)]
-    ks = [0.5, 0.75, 1.0, 1.3]
+    ks = [0.5, 0.75, 1.0, 1.3, 1.7, 2.2]  # points above --kmax are skipped by in_bounds
     trs = sorted(set([float(np.clip(tr0 * f, 0.3, 1.2)) for f in (0.8, 1.0, 1.2)]))
     best = np.inf
     for incl in incls:
@@ -319,6 +319,8 @@ def planck(T, lam_um):
 
 
 def read_rows(path, name):
+    if not Path(path).exists():  # e.g. cloud container without the AllWISE support cache
+        return []
     with open(path, newline="") as fh:
         return [r for r in csv.DictReader(fh) if r["designation"] == name]
 
@@ -432,6 +434,8 @@ def main():
                     help="fit ecosw/esinw; auto = when the secondary eclipse is >0.01 in phase from 0.5")
     ap.add_argument("--period", type=float, default=None, help="override ephemeris period")
     ap.add_argument("--t0", type=float, default=None, help="override ephemeris t0")
+    ap.add_argument("--no-irrad", action="store_true", help="switch off reflection (irradiation albedo 0)")
+    ap.add_argument("--kmax", type=float, default=1.4, help="upper bound on k = r2/r1")
     ap.add_argument("--tag", default="", help="suffix for output file names")
     args = ap.parse_args()
     name = args.designation
@@ -469,8 +473,8 @@ def main():
         f"M1~{m1:.2f} q={q} distortion={distortion} nbins={len(times)}")
 
     rsum0, tr0, width = initial_guesses(eph, flux, times)
-    B = bounds_for(rsum0, distortion)
-    m = Model(times, flux, sig, period, t0, teff1, m1, q, distortion, args.ntri, l3=args.l3)
+    B = bounds_for(rsum0, distortion, args.kmax)
+    m = Model(times, flux, sig, period, t0, teff1, m1, q, distortion, args.ntri, l3=args.l3, irrad=not args.no_irrad)
     m.l3_start, m.ecosw_start, m.esinw_start, m.q_start = args.l3, ecosw0, esinw0, q
     m.dt0_start = float(np.clip(ecl.get("phase1", 0.0) * period, -0.009, 0.009))
     if eccentric:
@@ -498,10 +502,22 @@ def main():
         chi_pow, v_pow, nev = o["chi2"], np.array(o["v"]), o["evals"]
         log("  using cached local-optimisation result")
     else:
-        # multi-start: local optimisation from each of the top distinct grid points
+        # multi-start: local optimisation from each of the top distinct grid points.
+        # Each finished start is cached so a run stopped mid-way resumes at the next start.
         chi_pow, v_pow, nev = np.inf, v_grid, 0
+        start_cache = cdir / f"{name}_localopt_starts{tag}.json"
+        done = json.loads(start_cache.read_text()) if start_cache.exists() else {}
+        if done.get("params") != PARAMS:
+            done = {"params": PARAMS, "starts": {}}
         for i, (c0, v0) in enumerate(top):
-            c, v, n_ = powell(m, v0, B, args.powell_maxiter, log)
+            if str(i) in done["starts"]:
+                s_ = done["starts"][str(i)]
+                c, v, n_ = s_["chi2"], np.array(s_["v"]), s_["evals"]
+                log(f"  start {i + 1}/{len(top)}: using cached result")
+            else:
+                c, v, n_ = powell(m, v0, B, args.powell_maxiter, log)
+                done["starts"][str(i)] = {"chi2": float(c), "v": list(map(float, v)), "evals": int(n_)}
+                start_cache.write_text(json.dumps(done))
             nev += n_
             log(f"  start {i + 1}/{len(top)} (grid chi2 {c0:.1f}) -> chi2 {c:.2f}")
             if c < chi_pow:
@@ -519,7 +535,7 @@ def main():
         v_best = v_pow
     np.save(cdir / f"{name}_emcee_chain{tag}.npy", chain)
 
-    hi = Model(times, flux, sig, period, t0, teff1, m1, q, distortion, args.ntri_final, l3=args.l3)
+    hi = Model(times, flux, sig, period, t0, teff1, m1, q, distortion, args.ntri_final, l3=args.l3, irrad=not args.no_irrad)
     chi_hi, pred = hi.evaluate(v_best, label="final", keep=True)
     hi.b.save(str(cdir / f"{name}_phoebe_best{tag}.phoebe"))
     vb = dict(zip(PARAMS, v_best))
