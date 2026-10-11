@@ -338,3 +338,8 @@ grid best chi2=5086.15 (0s)
   local-opt eval 600: best chi2 195.67
   local-opt eval 625: best chi2 194.54
   local-opt eval 650: best chi2 194.54
+  local-opt eval 675: best chi2 190.65
+  local-opt eval 700: best chi2 190.65
+  local-opt eval 725: best chi2 190.65
+  start 3/3 (grid chi2 6482.9) -> chi2 190.65
+local-opt (Nelder-Mead) chi2=190.65 after 2103 evals v=[86.14015, 0.00063, 0.38097, 0.73277, 0.97166, 0.06288, 0.00168, 0.50092]
