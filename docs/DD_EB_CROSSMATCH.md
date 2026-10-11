@@ -371,6 +371,14 @@ The same caveats apply: no AllWISE cache, so "est. d ratio" is the scaled estima
 - **J1419 with q fitted (`_v3`) does not help:** the Nelder–Mead stage ended at χ² 171.4 (q = 0.84, k at its lower bound 0.50), worse than the 167.8 the fixed-q `_v2` run reached at the same stage. Stopped during emcee at the cutoff. The +3.1σ secondary bias at `_v2` is not a mass-ratio problem.
 - Stopped unfinished at the 12:00 UTC cutoff (one window per day), all in the Nelder–Mead stage: J1604 `_gteffm10` (best χ² 410.1 so far vs 409.3 converged at Gaia Teff; not yet known whether it passes), J0739 `_v2` (best 454.6 vs 454.7 in round 1: no improvement, so J0739 stays a fail). Grid caches are pushed.
 
+### Cloud run 2026-10-11 (daily routine)
+
+- **J1604 `_gteffm10` / `_gteffp10`: Nelder–Mead finished. Start 3 converged at χ² 190.65 (−10% Teff) and 280.11 (+10% Teff)**, against 409.3 for the Gaia-Teff fit at the same stage (`_gteff`, a single local optimisation). Both are cached in `_localopt<tag>.json`. emcee (about 2 h) was running at the cutoff and was stopped, so there is no hi-res χ²_red, eclipse bias or SED result yet.
+- Rough scale (inferred): `_gteff` went from 409.3 (local opt) to 324.1 (hi-res, χ²_red 1.66, so about 195 dof). On that dof, the new local optima correspond to χ²_red ≈ 0.98 and ≈ 1.44 before hi-res.
+- The start-3 solutions are a different minimum from start 1 or 2: i ≈ 86.1° (vs 85.0°), k ≈ 0.73 (vs 0.81–0.96), esinw ≈ 0.001 (vs 0.006–0.011). q is 0.50 at −10% and 0.65 at +10%, both inside the bounds (0.15–1.5).
+- Verified: the Nelder–Mead runs are deterministic. Start 3 retraced the 10-10 trajectory exactly (χ² 198.15 at eval 525 both days).
+- **Code:** an unfinished start now saves its best vector so far every 25 evaluations (`partial` in `_localopt_starts<tag>.json`), and the next run resumes from it instead of from the grid point.
+
 ### Cloud run 2026-10-10 (daily routine)
 
 - J1604 `_gteffm10` / `_gteffp10`: start 2 finished and is cached (χ² 392.4 / 391.5). **Start 3 was much lower when stopped at the 12:15 UTC cutoff: χ² 198.1 (−10% Teff) and 281.4 (+10% Teff)**, against 409.3 for the converged Gaia-Teff fit (`_gteff`). Start 3 had not converged and its partial progress is not cached (only finished starts are), so the next run repeats it.

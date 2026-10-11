@@ -237,7 +237,7 @@ def grid_search(m, rsum0, tr0, B, log, ntop=3):
     return (top[0] if top else (np.inf, None)), top
 
 
-def powell(m, v0, B, maxiter, log, maxfev=None):
+def powell(m, v0, B, maxiter, log, maxfev=None, on_progress=None):
     """Local optimisation from the grid point (name kept for the pipeline stage).
 
     Nelder-Mead in normalised [0, 1] coordinates with a small initial simplex
@@ -262,6 +262,8 @@ def powell(m, v0, B, maxiter, log, maxfev=None):
             best.update(chi2=c, v=v.copy())
         if n["evals"] % 25 == 0:
             log(f"  local-opt eval {n['evals']}: best chi2 {best['chi2']:.2f}")
+            if on_progress is not None and np.isfinite(best["chi2"]):
+                on_progress(best["chi2"], best["v"], n["evals"])
         return c if np.isfinite(c) else 1e15
 
     x0 = np.clip((np.asarray(v0, float) - lo) / span, 1e-4, 1 - 1e-4)
@@ -515,8 +517,20 @@ def main():
                 c, v, n_ = s_["chi2"], np.array(s_["v"]), s_["evals"]
                 log(f"  start {i + 1}/{len(top)}: using cached result")
             else:
-                c, v, n_ = powell(m, v0, B, args.powell_maxiter, log)
+                # an unfinished start (stopped at a cutoff) resumes from its best vector so far
+                part = done.get("partial", {}).get(str(i))
+                if part is not None:
+                    log(f"  start {i + 1}/{len(top)}: resuming from partial best chi2 {part['chi2']:.2f}")
+                    v0 = np.array(part["v"])
+
+                def save_partial(c_, v_, n_, i=i):
+                    done.setdefault("partial", {})[str(i)] = {"chi2": float(c_), "v": list(map(float, v_)),
+                                                              "evals": int(n_)}
+                    start_cache.write_text(json.dumps(done))
+
+                c, v, n_ = powell(m, v0, B, args.powell_maxiter, log, on_progress=save_partial)
                 done["starts"][str(i)] = {"chi2": float(c), "v": list(map(float, v)), "evals": int(n_)}
+                done.get("partial", {}).pop(str(i), None)
                 start_cache.write_text(json.dumps(done))
             nev += n_
             log(f"  start {i + 1}/{len(top)} (grid chi2 {c0:.1f}) -> chi2 {c:.2f}")

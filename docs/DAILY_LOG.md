@@ -101,3 +101,13 @@ One entry per daily cloud run. The plan for the next run is in `docs/PROJECT_CON
 **Fits.** J1604 −10%/+10% Teff: start 2 finished (χ² 392.4/391.5, cached). Start 3 reached χ² 198.1/281.4 before the cutoff, far below the Gaia-Teff fit's 409.3, but had not converged and is not cached. The lower minimum is inferred from the unfinished runs, not yet verified by a finished fit.
 
 **Status.** J1419, J1604, J2312 pass all checks. J1604's light-curve fit can likely improve further.
+
+## 2026-10-11
+
+**Environment.** Archive hosts still blocked. Fits ran 07:55–11:52 UTC. They were stopped early in emcee, which takes about 2 h and could not finish before the cutoff.
+
+**Fits.** J1604 −10%/+10% Teff: Nelder–Mead start 3 converged at χ² 190.65/280.11, against 409.3 for the Gaia-Teff fit's local optimum. Both optima are cached. emcee, the hi-res χ²_red and the SED check have not run yet, so whether J1604 still passes at ±10% Teff is not verified.
+
+**Code.** `run_phoebe_candidate.py` now saves an unfinished Nelder–Mead start's best vector every 25 evaluations and resumes from it.
+
+**Status.** J1419, J1604, J2312 pass all checks. The Gaia-Teff J1604 fit is likely not at its best minimum (inferred from the ±10% runs).
