@@ -111,3 +111,11 @@ One entry per daily cloud run. The plan for the next run is in `docs/PROJECT_CON
 **Code.** `run_phoebe_candidate.py` now saves an unfinished Nelder–Mead start's best vector every 25 evaluations and resumes from it.
 
 **Status.** J1419, J1604, J2312 pass all checks. The Gaia-Teff J1604 fit is likely not at its best minimum (inferred from the ±10% runs).
+
+## 2026-10-12
+
+**Environment.** Archive hosts still blocked. Fits ran 07:52–11:58 UTC and were stopped at the cutoff.
+
+**Fits.** J1604 robustness finished. At +10% Teff it passes all checks (χ²_red 1.01, bias +2.0/+1.0σ, d ratio 1.10, W4 9.0σ). At −10% Teff the SED check passes (d ratio 0.83, W4 8.9σ) and χ²_red is 0.75, but the primary-eclipse bias is +3.6σ, just over the 3σ limit. J1604 `_gteffms` (Gaia Teff, multi-start): grid done, start 1 χ² 413.4, start 2 partial. J2239 `_noirr3`: χ²_red 12.7, d ratio 0.51, fails.
+
+**Status.** J1419, J1604, J2312 pass all checks. J1604's W4 excess (≈ 9σ) is robust to ±10% Teff. Its light-curve pass holds at the Gaia Teff and +10% and fails marginally at −10%.

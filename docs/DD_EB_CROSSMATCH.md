@@ -371,6 +371,22 @@ The same caveats apply: no AllWISE cache, so "est. d ratio" is the scaled estima
 - **J1419 with q fitted (`_v3`) does not help:** the Nelder–Mead stage ended at χ² 171.4 (q = 0.84, k at its lower bound 0.50), worse than the 167.8 the fixed-q `_v2` run reached at the same stage. Stopped during emcee at the cutoff. The +3.1σ secondary bias at `_v2` is not a mass-ratio problem.
 - Stopped unfinished at the 12:00 UTC cutoff (one window per day), all in the Nelder–Mead stage: J1604 `_gteffm10` (best χ² 410.1 so far vs 409.3 converged at Gaia Teff; not yet known whether it passes), J0739 `_v2` (best 454.6 vs 454.7 in round 1: no improvement, so J0739 stays a fail). Grid caches are pushed.
 
+### Cloud run 2026-10-12 (daily routine)
+
+J1604 robustness fits finished (hi-res, 195 dof, same binned light curve):
+
+| Setup | χ²_red | Primary / secondary bias | JHKW1 χ² | d_phot/d_Gaia | W3 / W4 excess | All checks |
+|---|---:|---|---:|---:|---|---|
+| Gaia Teff 14,140 K (`_gteff`, single local opt) | 1.66 | (pass) | | 0.96 | 3.2σ / 9.0σ | pass |
+| −10% Teff 12,726 K (`_gteffm10`) | 0.75 | **+3.64σ** / −0.00σ | 0.18 | 0.83 | 2.4σ / 8.9σ | fails eclipse bias |
+| +10% Teff 15,554 K (`_gteffp10`) | 1.01 | +2.03σ / +0.97σ | 2.55 | 1.10 | 4.0σ / 9.0σ | **pass** |
+
+- Both ±10% fits land in the same new minimum (i ≈ 86.1°, r₁/r₂ ≈ 0.220/0.161, teffratio ≈ 0.972), which fits better than the Gaia-Teff solution (χ²_red 0.75–1.01 vs 1.66).
+- At −10% the primary eclipse model is 3.6σ too deep on average, just over the 3σ limit, while χ²_red is 0.75. That is a marginal failure on one criterion.
+- The SED result (W4 excess ≈ 9σ, d ratio 0.83–1.10) holds across ±10% Teff. Verified from the finished fits.
+- J1604 `_gteffms` (Gaia Teff, multi-start): grid done (best 5023.7), start 1 → χ² 413.4 (cached), start 2 partial best 522.1 after 100 evals (cached), stopped at the cutoff.
+- J2239 `_noirr3` (reflection off, eccentric, l3 fitted, k ≤ 2.5): χ²_red 12.7, primary bias −6.8σ, secondary +2.9σ, l3 = 0.002, d ratio 0.51, W4 5.2σ. It fails the light-curve and distance checks, and is no better than `_noirr2` (χ²_red 11.5). Third light does not rescue J2239.
+
 ### Cloud run 2026-10-11 (daily routine)
 
 - **J1604 `_gteffm10` / `_gteffp10`: Nelder–Mead finished. Start 3 converged at χ² 190.65 (−10% Teff) and 280.11 (+10% Teff)**, against 409.3 for the Gaia-Teff fit at the same stage (`_gteff`, a single local optimisation). Both are cached in `_localopt<tag>.json`. emcee (about 2 h) was running at the cutoff and was stopped, so there is no hi-res χ²_red, eclipse bias or SED result yet.
