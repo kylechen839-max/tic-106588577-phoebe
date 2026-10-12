@@ -278,3 +278,7 @@ Connection to online passbands at https://tables.phoebe-project.org could not be
 grid best chi2=4973.22 (0s)
   using cached local-optimisation result
 local-opt (Nelder-Mead) chi2=280.11 after 2191 evals v=[86.07359, 0.00081, 0.38169, 0.72728, 0.97502, 0.06295, 0.00077, 0.64917]
+  emcee 18x30 in 7304s, acc=0.28
+{"incl": 86.13664723875718, "r1_frac": 0.22030253206875322, "r2_frac": 0.1605109929349271, "teffratio": 0.9730537691789143, "chi2_final_hires": 197.71966552606824, "passes_all": true}
+photometry: {"chi2": 197.71966552606824, "dof": 195, "chi2_red": 1.013947002697786, "rms": 0.001614631937254817, "primary_mean_resid": 0.002809727958971067, "primary_bias_sigma": 2.0259116059556024, "secondary_mean_resid": 0.001130821839945964, "secondary_bias_sigma": 0.9736032002174404, "pass_fit": true, "pass_no_eclipse_bias": true}
+blackbody: {"binary_photosphere_chi2_JHKW1": 2.552150981753723, "photometric_distance_pc": 1046.2265081590172, "gaia_distance_pc": 950.3589, "distance_ratio_phot_over_gaia": 1.1008751621719093, "excess_vs_binary_photosphere": {"W2": {"ratio": 0.9968165154060521, "sigma": -0.11558210320953548}, "W3": {"ratio": 1.136481261349135, "sigma": 3.9511282645720835}, "W4": {"ratio": 4.138572274207325, "sigma": 9.048248461454277}}, "pass_photosphere": true, "pass_distance": true, "pass_excess_survives": true}
