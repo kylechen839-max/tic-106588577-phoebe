@@ -371,6 +371,13 @@ The same caveats apply: no AllWISE cache, so "est. d ratio" is the scaled estima
 - **J1419 with q fitted (`_v3`) does not help:** the Nelder–Mead stage ended at χ² 171.4 (q = 0.84, k at its lower bound 0.50), worse than the 167.8 the fixed-q `_v2` run reached at the same stage. Stopped during emcee at the cutoff. The +3.1σ secondary bias at `_v2` is not a mass-ratio problem.
 - Stopped unfinished at the 12:00 UTC cutoff (one window per day), all in the Nelder–Mead stage: J1604 `_gteffm10` (best χ² 410.1 so far vs 409.3 converged at Gaia Teff; not yet known whether it passes), J0739 `_v2` (best 454.6 vs 454.7 in round 1: no improvement, so J0739 stays a fail). Grid caches are pushed.
 
+### Cloud run 2026-10-13 (daily routine)
+
+- J1604 `_gteffms` (Gaia Teff 14,140 K, multi-start). Start 2 resumed from its partial best (522.1) and converged at **χ² 336.4** (i 85.06°, k 0.81, q 0.71). That beats the single-start `_gteff` (409.3) and start 1 (413.4).
+- Start 2 is in the i ≈ 85° family, not the i ≈ 86.1°, k ≈ 0.73 minimum the ±10% fits found (χ² 190.7 / 280.1).
+- Start 3 partial best: 696.1 after 300 evals (cached), stopped at the cutoff.
+- Inferred: whether the Gaia-Teff fit also reaches the i ≈ 86° minimum depends on start 3.
+
 ### Cloud run 2026-10-12 (daily routine)
 
 J1604 robustness fits finished (hi-res, 195 dof, same binned light curve):
