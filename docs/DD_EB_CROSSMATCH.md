@@ -371,6 +371,21 @@ The same caveats apply: no AllWISE cache, so "est. d ratio" is the scaled estima
 - **J1419 with q fitted (`_v3`) does not help:** the Nelder–Mead stage ended at χ² 171.4 (q = 0.84, k at its lower bound 0.50), worse than the 167.8 the fixed-q `_v2` run reached at the same stage. Stopped during emcee at the cutoff. The +3.1σ secondary bias at `_v2` is not a mass-ratio problem.
 - Stopped unfinished at the 12:00 UTC cutoff (one window per day), all in the Nelder–Mead stage: J1604 `_gteffm10` (best χ² 410.1 so far vs 409.3 converged at Gaia Teff; not yet known whether it passes), J0739 `_v2` (best 454.6 vs 454.7 in round 1: no improvement, so J0739 stays a fail). Grid caches are pushed.
 
+### Cloud run 2026-10-14 (daily routine)
+
+J1604 at the Gaia Teff (14,140 K), local optimisation only (emcee was running at the cutoff, so no hi-res, bias or SED numbers yet):
+
+| Tag | Start | Local-opt χ² |
+|---|---|---:|
+| `_gteff` (2026-10-05) | single start from the grid | 409.3 |
+| `_gteffms` | best of 3 grid starts (413.4 / 336.4 / 454.3) | 336.4 |
+| `_gteffseedm10` | seeded from the −10% Teff optimum (`--start-from`) | **180.1** |
+| `_gteffseedp10` | seeded from the +10% Teff optimum | 248.8 |
+
+- **Verified:** at the Gaia Teff, J1604 has a much deeper minimum than any grid start found: χ² 180.1 against 336.4. It is the same geometry as the ±10% fits: i 86.13°, k 0.731, teffratio 0.972, q 0.50. The 3 grid starts all landed in the i ≈ 85° family.
+- The two seeded runs ended at different χ² (180.1 vs 248.8) from nearby vectors. The surface is rugged, so Nelder–Mead does not fully converge from every point; the lower value is the better estimate.
+- **Code:** `run_phoebe_candidate.py --start-from <json>` skips the grid and starts the local optimisation from another fit's vector (params must match).
+
 ### Cloud run 2026-10-13 (daily routine)
 
 - J1604 `_gteffms` (Gaia Teff 14,140 K, multi-start). Start 2 resumed from its partial best (522.1) and converged at **χ² 336.4** (i 85.06°, k 0.81, q 0.71). That beats the single-start `_gteff` (409.3) and start 1 (413.4).

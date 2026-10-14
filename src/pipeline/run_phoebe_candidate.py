@@ -439,6 +439,9 @@ def main():
     ap.add_argument("--no-irrad", action="store_true", help="switch off reflection (irradiation albedo 0)")
     ap.add_argument("--kmax", type=float, default=1.4, help="upper bound on k = r2/r1")
     ap.add_argument("--tag", default="", help="suffix for output file names")
+    ap.add_argument("--start-from", default=None,
+                    help="skip the grid and run the local optimisation from the 'v' of this JSON "
+                         "(e.g. another fit's _localopt<tag>.json; its params must match)")
     args = ap.parse_args()
     name = args.designation
     cdir, eph, times, flux, sig = load_inputs(name)
@@ -485,7 +488,14 @@ def main():
 
     t_start = time.time()
     grid_cache = cdir / f"{name}_grid{tag}.json"
-    if grid_cache.exists() and json.loads(grid_cache.read_text()).get("params") == PARAMS:
+    if args.start_from:
+        sf = json.loads(Path(args.start_from).read_text())
+        if sf.get("params") != PARAMS:
+            raise SystemExit(f"--start-from params {sf.get('params')} do not match {PARAMS}")
+        chi_grid, v_grid = float("nan"), np.array(sf["v"], float)
+        top = [(chi_grid, v_grid)]
+        log(f"  skipping grid: starting from {args.start_from} (its chi2 {sf.get('chi2', float('nan')):.2f})")
+    elif grid_cache.exists() and json.loads(grid_cache.read_text()).get("params") == PARAMS:
         g = json.loads(grid_cache.read_text())
         chi_grid, v_grid = g["chi2"], np.array(g["v"])
         top = [(c, np.array(v)) for c, v in g.get("top", [[chi_grid, g["v"]]])]

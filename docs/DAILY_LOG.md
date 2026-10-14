@@ -127,3 +127,16 @@ One entry per daily cloud run. The plan for the next run is in `docs/PROJECT_CON
 **Fits.** J1604 `_gteffms` (Gaia Teff, multi-start). Start 2 resumed from its cached partial best and converged at χ² 336.4, against 409.3 for the old single-start fit. Start 3 reached 696.1 (partial, cached). Resuming from a partial start worked as intended.
 
 **Status.** J1419, J1604, J2312 pass all checks.
+
+## 2026-10-14
+
+**Environment.** Archive hosts still blocked. Fits ran 07:53–11:51 UTC and were stopped in emcee at the cutoff.
+
+**Fits.** J1604 at the Gaia Teff:
+- multi-start `_gteffms` best χ² 336.4;
+- seeded from the −10% Teff optimum (`_gteffseedm10`, new `--start-from` option): **χ² 180.1**, the deep i ≈ 86.1° minimum;
+- seeded from +10%: 248.8.
+
+All local optima are cached; emcee, hi-res and the SED check run next.
+
+**Status.** J1419, J1604, J2312 pass all checks. J1604's current Gaia-Teff fit (χ²_red 1.66) is not its best solution. A finished `_gteffseedm10` should give a lower χ²_red at the same Teff (inferred; it needs emcee and hi-res).
