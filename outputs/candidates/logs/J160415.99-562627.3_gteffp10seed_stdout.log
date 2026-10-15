@@ -6,3 +6,9 @@ Connection to online passbands at https://tables.phoebe-project.org could not be
 grid best chi2=nan (0s)
   local-opt eval 25: best chi2 188.15
   local-opt eval 50: best chi2 188.15
+  local-opt eval 75: best chi2 186.08
+  local-opt eval 100: best chi2 181.71
+  local-opt eval 125: best chi2 181.71
+  local-opt eval 150: best chi2 181.71
+  local-opt eval 175: best chi2 177.60
+  local-opt eval 200: best chi2 177.60
