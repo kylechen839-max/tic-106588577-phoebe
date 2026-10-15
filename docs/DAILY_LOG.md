@@ -140,3 +140,13 @@ One entry per daily cloud run. The plan for the next run is in `docs/PROJECT_CON
 All local optima are cached; emcee, hi-res and the SED check run next.
 
 **Status.** J1419, J1604, J2312 pass all checks. J1604's current Gaia-Teff fit (χ²_red 1.66) is not its best solution. A finished `_gteffseedm10` should give a lower χ²_red at the same Teff (inferred; it needs emcee and hi-res).
+
+## 2026-10-15
+
+**Environment.** Archive hosts still blocked. Fits ran 07:53–10:11 UTC and all finished; no cutoff needed.
+
+**Fits.**
+- J1604 at the Gaia Teff, three finished fits, all passing all checks: seeded from −10% χ²_red **0.70** (bias +2.8/+0.2σ), seeded from +10% 1.01, multi-start 1.41 (old `_gteff` 1.66). `_gteffseedm10` is J1604's new reference fit. The SED check is identical in all: d ratio 0.96, W4 9.0σ.
+- J2312 seeded from its ±10% optima: χ²_red 1.68/1.80 against 1.69, so there is no hidden deeper minimum. It still passes all checks.
+
+**Status.** Three candidates pass all checks, with best fits: J1419 (`_v4` χ²_red 0.67), J1604 (`_gteffseedm10` 0.70), J2312 (`_gteffnoirr` 1.69). The PHOEBE work on these three is complete. What remains is blocked on data: DD1.0 tier-A labels, `w4rchi2`, and TESS or archive access for tier B and new surveys.

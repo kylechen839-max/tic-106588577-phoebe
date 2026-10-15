@@ -371,6 +371,22 @@ The same caveats apply: no AllWISE cache, so "est. d ratio" is the scaled estima
 - **J1419 with q fitted (`_v3`) does not help:** the Nelder–Mead stage ended at χ² 171.4 (q = 0.84, k at its lower bound 0.50), worse than the 167.8 the fixed-q `_v2` run reached at the same stage. Stopped during emcee at the cutoff. The +3.1σ secondary bias at `_v2` is not a mass-ratio problem.
 - Stopped unfinished at the 12:00 UTC cutoff (one window per day), all in the Nelder–Mead stage: J1604 `_gteffm10` (best χ² 410.1 so far vs 409.3 converged at Gaia Teff; not yet known whether it passes), J0739 `_v2` (best 454.6 vs 454.7 in round 1: no improvement, so J0739 stays a fail). Grid caches are pushed.
 
+### Cloud run 2026-10-15 (daily routine)
+
+J1604 at the Gaia Teff, finished (hi-res, 195 dof):
+
+| Tag | Local-opt χ² | Hi-res χ² | χ²_red | Bias prim / sec | JHKW1 χ² | d ratio | W3 / W4 | All checks |
+|---|---:|---:|---:|---|---:|---:|---|---|
+| `_gteff` (10-05) | 409.3 | 324.1 | 1.66 | +1.7 / −1.1σ | 0.7 | 0.96 | 3.2 / 9.0σ | pass |
+| `_gteffms` | 336.4 | 274.9 | 1.41 | +1.5 / −1.2σ | 0.7 | 0.96 | 3.2 / 9.0σ | pass |
+| `_gteffseedp10` | 248.8 | 197.2 | 1.01 | +0.8 / −0.1σ | 0.8 | 0.96 | 3.3 / 9.0σ | pass |
+| **`_gteffseedm10`** | 180.1 | **136.2** | **0.70** | +2.8 / +0.2σ | 0.8 | 0.96 | 3.3 / 9.0σ | **pass** |
+
+- **Verified:** J1604's best Gaia-Teff solution is `_gteffseedm10`: χ²_red 0.70, i = 86.13°, k = 0.731, q = 0.50, passing every check. It replaces `_gteff` as the reference fit.
+- The SED result does not depend on which light-curve minimum is used: d ratio 0.96 and W4 9.0σ in all four.
+- Its primary-eclipse bias (+2.8σ) is the closest to the 3σ limit. The +10%-seeded fit (χ²_red 1.01, bias +0.8σ) is a cleaner but worse-χ² alternative.
+- **J2312, same seeding test:** seeded from its ±10% optima, J2312 at the Gaia Teff gives χ²_red 1.68 / 1.80 against 1.69 for `_gteffnoirr`. There is no deeper minimum, so its fit is already at its best, and it still passes all checks (d ratio 1.00, W3 6.9σ, W4 12.6σ).
+
 ### Cloud run 2026-10-14 (daily routine)
 
 J1604 at the Gaia Teff (14,140 K), local optimisation only (emcee was running at the cutoff, so no hi-res, bias or SED numbers yet):
@@ -506,8 +522,16 @@ All 9 tier-B disagreements are "ours only": our check accepts W4 `cc_flags` = `d
 |---|---:|---:|---:|---:|---:|---|
 | J141909.42-565518.1 (round 1) | 0.92 | 0.1 | 0.91 | −0.1 | 8.5 | **yes** |
 | J141909.42-565518.1 (`_v2`) | 0.63 | 0.1 | 0.90 | 0.0 | 8.5 | no (sec. bias 3.1σ) |
+| J141909.42-565518.1 (`_v4`, l3 fitted, 10-09) | 0.67 | 0.1 | 0.91 | −0.1 | 8.5 | **yes** (sec. bias 2.5σ) |
 | J160415.99-562627.3 (`_gteff`) | 1.66 | 0.7 | 0.96 | 3.2 | 9.0 | **yes** |
+| J160415.99-562627.3 (`_gteffseedm10`, 10-15, **new reference**) | 0.70 | 0.8 | 0.96 | 3.3 | 9.0 | **yes** (prim. bias 2.8σ) |
+| J160415.99-562627.3 (`_gteffseedp10`, 10-15) | 1.01 | 0.8 | 0.96 | 3.3 | 9.0 | **yes** |
+| J160415.99-562627.3 (`_gteffms`, 10-15) | 1.41 | 0.7 | 0.96 | 3.2 | 9.0 | **yes** |
+| J160415.99-562627.3 (`_gteffm10`, 10-12) | 0.75 | 0.2 | 0.83 | 2.4 | 8.9 | no (prim. bias 3.6σ) |
+| J160415.99-562627.3 (`_gteffp10`, 10-12) | 1.01 | 2.6 | 1.10 | 4.0 | 9.0 | **yes** |
 | J231201.40+532028.6 (`_gteffnoirr`) | 1.69 | 1.6 | 1.02 | 7.0 | 12.6 | **yes** |
+| J231201.40+532028.6 (`_gteffnoirrseedm10`, 10-15) | 1.68 | 1.7 | 1.00 | 6.9 | 12.6 | **yes** |
+| J231201.40+532028.6 (`_gteffnoirrseedp10`, 10-15) | 1.80 | 1.6 | 1.01 | 6.9 | 12.6 | **yes** |
 | J231201.40+532028.6 (`_gteffnoirrm10`) | 1.64 | 5.3 | 0.87 | 5.6 | 12.4 | **yes** |
 | J231201.40+532028.6 (`_gteffnoirrp10`) | 1.78 | 1.7 | 1.16 | 7.9 | 12.8 | **yes** |
 
