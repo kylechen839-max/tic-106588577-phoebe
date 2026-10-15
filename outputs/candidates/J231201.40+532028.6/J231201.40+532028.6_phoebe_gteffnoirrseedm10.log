@@ -1,0 +1,11 @@
+=== J231201.40+532028.6 2026-10-15T09:45:50.468532+00:00  P=6.849530 t0=2868.13335 Teff1=9932 M1~2.50 q=0.8 distortion=sphere nbins=223
+  sma=25.04 Rsun, eclipse width 0.070 -> rsum0=0.185, teffratio0=0.98
+  skipping grid: starting from outputs/candidates/J231201.40+532028.6/J231201.40+532028.6_localopt_gteffnoirrm10.json (its chi2 478.00)
+grid best chi2=nan (0s)
+  local-opt eval 25: best chi2 607.18
+  local-opt eval 50: best chi2 583.91
+  local-opt eval 75: best chi2 583.87
+  local-opt eval 100: best chi2 583.87
+  local-opt eval 125: best chi2 576.00
+  local-opt eval 150: best chi2 569.63
+  local-opt eval 175: best chi2 559.71
