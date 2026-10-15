@@ -387,6 +387,8 @@ J1604 at the Gaia Teff, finished (hi-res, 195 dof):
 - Its primary-eclipse bias (+2.8σ) is the closest to the 3σ limit. The +10%-seeded fit (χ²_red 1.01, bias +0.8σ) is a cleaner but worse-χ² alternative.
 - **J2312, same seeding test:** seeded from its ±10% optima, J2312 at the Gaia Teff gives χ²_red 1.68 / 1.80 against 1.69 for `_gteffnoirr`. There is no deeper minimum, so its fit is already at its best, and it still passes all checks (d ratio 1.00, W3 6.9σ, W4 12.6σ).
 
+- J1604 ±10% Teff reseeded from the new reference (`_gteffm10seed` / `_gteffp10seed`) was stopped in local optimisation at the 12:12 UTC cutoff. Partial bests: χ² 184.8 at −10% (vs 190.65 before) and **174.4 at +10%** (vs 280.1 before), both cached. The +10% fit was also stuck in a shallower minimum.
+
 ### Cloud run 2026-10-14 (daily routine)
 
 J1604 at the Gaia Teff (14,140 K), local optimisation only (emcee was running at the cutoff, so no hi-res, bias or SED numbers yet):

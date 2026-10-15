@@ -150,3 +150,5 @@ All local optima are cached; emcee, hi-res and the SED check run next.
 - J2312 seeded from its ±10% optima: χ²_red 1.68/1.80 against 1.69, so there is no hidden deeper minimum. It still passes all checks.
 
 **Status.** Three candidates pass all checks, with best fits: J1419 (`_v4` χ²_red 0.67), J1604 (`_gteffseedm10` 0.70), J2312 (`_gteffnoirr` 1.69). The PHOEBE work on these three is complete. What remains is blocked on data: DD1.0 tier-A labels, `w4rchi2`, and TESS or archive access for tier B and new surveys.
+
+**Late (10:15–12:12 UTC).** J1604 ±10% Teff reseeded from the new reference ran until the cutoff, still in local optimisation. Partial bests (cached): χ² 184.8 at −10% (was 190.65) and 174.4 at +10% (was 280.1).
