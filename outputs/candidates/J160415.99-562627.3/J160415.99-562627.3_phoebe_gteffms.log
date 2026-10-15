@@ -152,3 +152,10 @@ grid best chi2=5023.66 (0s)
   local-opt eval 650: best chi2 454.28
   start 3/3 (grid chi2 6526.8) -> chi2 454.28
 local-opt (Nelder-Mead) chi2=336.44 after 2064 evals v=[85.05757, 0.00086, 0.38374, 0.8119, 0.96618, 0.06242, 0.0061, 0.70552]
+=== J160415.99-562627.3 2026-10-15T07:52:41.396613+00:00  P=2.207665 t0=4138.07428 Teff1=14140 M1~5.55 q=0.8 distortion=roche nbins=204
+  eccentric: secondary at phase 0.5406 -> ecosw0=0.0638, esinw0=0.000
+  sma=15.36 Rsun, eclipse width 0.112 -> rsum0=0.293, teffratio0=0.98
+  using cached grid result
+grid best chi2=5023.66 (0s)
+  using cached local-optimisation result
+local-opt (Nelder-Mead) chi2=336.44 after 2064 evals v=[85.05757, 0.00086, 0.38374, 0.8119, 0.96618, 0.06242, 0.0061, 0.70552]
