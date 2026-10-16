@@ -1,0 +1,57 @@
+J231201.40+532028.6 eclipse comparison; P=6.849530274 d, T0=BTJD 2868.13335; raw file /private/tmp/claude-501/-Users-kylechen-Documents/513dd8eb-cd9b-4d76-83ec-f021e20ada6f/scratchpad/J231201.40+532028.6_raw.txt
+window +/-0.08 phase; OOT 0.045-0.08 linear normalisation; eclipse |dphase|<0.037; depth from quadratic in |dphase|<0.01
+events used: 19; skipped: 4 -> (-326, 'P', 16, 0.47, 0, 12); (-322, 'P', 17, 0.99, 1, 2); (-315, 'S', 17, 0.96, 12, 2); (4, 'P', 57, 1.0, 104, 0)
+
+Per-event: k type sector depth err  FWHM(phase)  vertex_offset(phase)  coverage
+  -329 S S16  0.2121 0.0002  0.0456  -0.0020  1.00
+  -328 P S16  0.2422 0.0002  0.0456  -0.0005  1.00
+  -327 S S16  0.2121 0.0000  0.0456  -0.0020  1.00
+  -325 S S16  0.2123 0.0001  0.0457  -0.0020  1.00
+  -324 P S16  0.2426 0.0001  0.0456  -0.0005  1.00
+  -323 S S16  0.2116 0.0001  0.0456  -0.0020  1.00
+  -321 S S17  0.2030 0.0002  0.0457  -0.0020  0.96
+  -320 P S17  0.2314 0.0001  0.0456  -0.0006  1.00
+  -319 S S17  0.2015 0.0000  0.0455  -0.0020  1.00
+  -318 P S17  0.2317 0.0002  0.0456  -0.0005  1.00
+  -317 S S17  0.2034 0.0001  0.0456  -0.0021  1.00
+  -316 P S17  0.2324 0.0001  0.0455  -0.0006  0.96
+    -4 P S57  0.2158 0.0001  0.0450  -0.0003  1.00
+    -3 S S57  0.1857 0.0001  0.0460  -0.0017  1.00
+    -2 P S57  0.2237 0.0001  0.0456  -0.0007  1.00
+     0 P S57  0.2095 0.0001  0.0447  +0.0005  1.00
+     1 S S57  0.2082 0.0001  0.0462  -0.0022  1.00
+     2 P S57  0.1927 0.0001  0.0539  -0.0004  0.82
+     3 S S57  0.1954 0.0001  0.0453  -0.0023  1.00
+
+Group | nP nS | depth_P +/- SE | depth_S +/- SE | dDepth sigma | FWHM_P +/- SE | FWHM_S +/- SE | dFWHM sigma | odd-even primary depth (sigma)
+S16 | 2 4 | 0.2424 +/- 0.0002 | 0.2120 +/- 0.0001 | 109.3 | 0.0456 +/- 0.0000 | 0.0456 +/- 0.0000 | -0.6 | odd nan+/-nan (n=0) even 0.2424+/-0.0002 (n=2) -> nan
+S17 | 3 3 | 0.2318 +/- 0.0003 | 0.2026 +/- 0.0006 | 45.3 | 0.0456 +/- 0.0000 | 0.0456 +/- 0.0000 | -0.7 | odd 0.2317+/-nan (n=1) even 0.2319+/-0.0005 (n=2) -> nan
+S57 | 4 3 | 0.2104 +/- 0.0066 | 0.1964 +/- 0.0065 | 1.5 | 0.0473 +/- 0.0022 | 0.0458 +/- 0.0003 | 0.6 | odd 0.2082+/-0.0155 (n=2) even 0.2127+/-0.0032 (n=2) -> -0.3
+ALL | 9 10 | 0.2247 +/- 0.0054 | 0.2045 +/- 0.0028 | 3.3 | 0.0463 +/- 0.0009 | 0.0457 +/- 0.0001 | 0.7 | odd 0.2160+/-0.0119 (n=3) even 0.2290+/-0.0056 (n=6) -> -1.0
+Inverse-variance combination of per-sector (P - S) depth differences: 0.0302 +/- 0.0003 (118 sigma); depth ratio S/P per sector: S16 0.875, S17 0.874, S57 0.934
+Note: per-event depth errors are white-noise only; group SEs use the event-to-event scatter (S57 scatter ~0.01 is systematics).
+
+S16: secondary minus primary minimum time = -14.8 +/- 0.3 min
+S17: secondary minus primary minimum time = -14.7 +/- 0.2 min
+S57: secondary minus primary minimum time = -18.3 +/- 3.2 min
+ALL: mean quadratic-vertex offset P: -0.00039 +/- 0.00011 phase (-3.9 +/- 1.1 min), n=9
+ALL: mean quadratic-vertex offset S: -0.00203 +/- 0.00005 phase (-20.0 +/- 0.5 min), n=10
+ALL: secondary at phase 0.49836 +/- 0.00013 -> offset -16.1 +/- 1.3 min (-13 sigma) (a 3.42 d period with identical eclipses requires 0)
+
+Stacked comparison: each event binned (0.002 phase S57, 0.004 QLP), bin value = mean over events, error = event-to-event std/sqrt(n_events) (needs >=2 events);
+chi2 of primary-minus-secondary over |dphase|<0.037; 'aligned' = each event shifted to its own fitted minimum (removes the timing offset, tests shape+depth only)
+  ephemeris S16 (nP=2, nS=4): chi2 = 6852.7 / 18 -> chi2_red = 380.71   [OOT control chi2_red = 3.66, 18 bins]
+  ephemeris S17 (nP=3, nS=3): chi2 = 6213.2 / 18 -> chi2_red = 345.18   [OOT control chi2_red = 2.65, 18 bins]
+  ephemeris S57 (nP=4, nS=3): chi2 = 180.6 / 37 -> chi2_red = 4.88   [OOT control chi2_red = 0.87, 35 bins]
+  ephemeris ALL sectors: chi2 = 13246.6 / 73 -> chi2_red = 181.46, p(identical) = 0.00e+00 (~37.0 sigma)
+  aligned S16 (nP=2, nS=4): chi2 = 6523.3 / 18 -> chi2_red = 362.40   [OOT control chi2_red = 2.56, 18 bins]
+  aligned S17 (nP=3, nS=3): chi2 = 4579.9 / 18 -> chi2_red = 254.44   [OOT control chi2_red = 2.70, 18 bins]
+  aligned S57 (nP=4, nS=3): chi2 = 91.3 / 37 -> chi2_red = 2.47   [OOT control chi2_red = 0.89, 34 bins]
+  aligned ALL sectors: chi2 = 11194.4 / 73 -> chi2_red = 153.35, p(identical) = 0.00e+00 (~37.0 sigma)
+
+Provenance: the original outputs/candidates/J231201.40+532028.6/J231201.40+532028.6_raw.txt is iCloud-evicted on this Mac and could not be read
+(reads time out; .venv-tess is evicted too). It was rebuilt on 2026-10-16 from the same MAST products (TIC 252741805: QLP S16/S17 KSPSAP_FLUX,
+TESS-SPOC S57 PDCSAP_FLUX, lightkurve-default quality mask) with the fetch_tess_lc.py normalise step minus the later-added 6-sigma running-median
+clip (build_raw.py --no-local-clip). The rebuilt file is 12,998 rows and byte-for-byte the same size (623,932 B) as the original.
+Note: the current fetch_tess_lc.py running-median clip removes the bottom 4-5 points of every QLP (30-min) eclipse; re-running it would corrupt depths.
+Scripts: build_raw.py, eclipse_compare.py (run with ~/phoebe-env/bin/python).
