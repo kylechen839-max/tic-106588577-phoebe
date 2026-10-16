@@ -371,6 +371,28 @@ The same caveats apply: no AllWISE cache, so "est. d ratio" is the scaled estima
 - **J1419 with q fitted (`_v3`) does not help:** the Nelder–Mead stage ended at χ² 171.4 (q = 0.84, k at its lower bound 0.50), worse than the 167.8 the fixed-q `_v2` run reached at the same stage. Stopped during emcee at the cutoff. The +3.1σ secondary bias at `_v2` is not a mass-ratio problem.
 - Stopped unfinished at the 12:00 UTC cutoff (one window per day), all in the Nelder–Mead stage: J1604 `_gteffm10` (best χ² 410.1 so far vs 409.3 converged at Gaia Teff; not yet known whether it passes), J0739 `_v2` (best 454.6 vs 454.7 in round 1: no improvement, so J0739 stays a fail). Grid caches are pushed.
 
+### W3/W4 image check of the modelled objects (2026-10-16, Kyle's request)
+
+Visual inspection of the 2′×2′ AllWISE atlas cutouts (`outputs/crossmatch/wise_cutouts/<designation>_wise.png`, SkyView, fetched 2026-10-02 on Kyle's Mac; the cloud container cannot reach IRSA or SkyView to refetch). The automated centring check (`wise_centring_tierA.csv`) passes all ten, and all ten have clean AllWISE flags (ccf 0, ext 0, W4 S/N ≥ 10). The images still separate them:
+
+| Object | Fit status | W3 image (S/N, offset) | W4 image (S/N, offset) | Verdict |
+|---|---|---|---|---|
+| **J231201.40+532028.6** | passes all | compact, centred (38, 1.1″) | compact, centred (15, 1.1″); faint halo | **clean**: excess is a point source at the star |
+| **J141909.42-565518.1** | passes all | compact, centred (16, 0.9″) | compact peak on the star (6, 2.2″), sits on moderate extended background to the SE | **plausible**: centred, but W4 is low-S/N against structured background |
+| **J160415.99-562627.3** | passes all | weak compact source (8, 0.2″); a brighter star 40″ NE | **no distinct point source**: diffuse nebulosity fills the field, brightest near but not on the star (5, 3.1″) | **suspect**: the 9σ W4 excess may be nebular background, not a disk |
+| J073937.23-363011.8 | fails LC | compact, centred (102) | compact, centred (30) | clean |
+| J223553.38+500414.8 | fails LC | compact, centred (440) | compact, centred (26) | clean |
+| J033226.58+520357.1 | fails LC | compact, centred (133) | centred peak (12, 0.6″) with diffuse halo | plausible |
+| J024542.12+480837.8 | fails LC | compact, centred (92) | centred peak (21, 1.4″) on an elongated diffuse structure | plausible |
+| J221843.61+544715.0 | fails LC | compact (9, 2.1″) on extended emission to the SE | compact, centred (11, 2.4″) | plausible |
+| J223949.47+583254.4 | fails LC | compact (72); two stars 25″ S | centred peak (10, 0.8″), patchy background | plausible |
+| J173224.94-364153.9 | fails LC | compact (6) in nebulosity | **no point source** (3, 2.4″): bright nebulosity | **fails**: W4 is background |
+
+- **J1604 is the main change.** Its light-curve and SED fits pass, but the W4 image does not show a compact source at the star. The catalogue W4 (7.26 ± 0.09 mag) is probably a profile-fit measurement on top of nebulosity, so the 9σ "excess" over the binary photosphere is not secure. Its W3 excess (3.2σ) is below the 5σ requirement. J1604 is demoted from "passes all checks" to **"passes the fits, W4 excess suspect (nebular)"**.
+- J1732's W4 is nebular as well. It already fails the light curve.
+- The automated 4″ centring test missed both, because a nebulous peak can sit within 4″ of the star. A diffuseness measure would catch them, for example the ratio of W4 flux in a 12″ aperture to that in a 12–30″ annulus. That needs the FITS cutouts, which need IRSA or SkyView access.
+- **Not verified:** these are visual judgements on display-stretched PNGs, not photometry. Higher-resolution W4 data (unWISE or Spitzer MIPS 24 µm, if any) would settle J1604.
+
 ### Cloud run 2026-10-16 (daily routine)
 
 J1604 at ±10% Teff, reseeded from the new reference `_gteffseedm10` (hi-res, 195 dof):
