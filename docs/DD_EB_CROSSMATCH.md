@@ -371,6 +371,20 @@ The same caveats apply: no AllWISE cache, so "est. d ratio" is the scaled estima
 - **J1419 with q fitted (`_v3`) does not help:** the Nelder–Mead stage ended at χ² 171.4 (q = 0.84, k at its lower bound 0.50), worse than the 167.8 the fixed-q `_v2` run reached at the same stage. Stopped during emcee at the cutoff. The +3.1σ secondary bias at `_v2` is not a mass-ratio problem.
 - Stopped unfinished at the 12:00 UTC cutoff (one window per day), all in the Nelder–Mead stage: J1604 `_gteffm10` (best χ² 410.1 so far vs 409.3 converged at Gaia Teff; not yet known whether it passes), J0739 `_v2` (best 454.6 vs 454.7 in round 1: no improvement, so J0739 stays a fail). Grid caches are pushed.
 
+### Cloud run 2026-10-16 (daily routine)
+
+J1604 at ±10% Teff, reseeded from the new reference `_gteffseedm10` (hi-res, 195 dof):
+
+| Teff | Tag | χ² | χ²_red | Bias prim / sec | JHKW1 χ² | d ratio | W3 / W4 | All checks |
+|---|---|---:|---:|---|---:|---:|---|---|
+| 12,726 K (−10%) | `_gteffm10seed` | 137.3 | 0.70 | +1.6 / −0.4σ | 0.18 | 0.83 | 2.4 / 8.9σ | **pass** |
+| 14,140 K (Gaia) | `_gteffseedm10` | 136.2 | 0.70 | +2.8 / +0.2σ | 0.79 | 0.96 | 3.3 / 9.0σ | **pass** |
+| 15,554 K (+10%) | `_gteffp10seed` | 128.1 | 0.66 | +1.6 / +0.3σ | 2.56 | 1.10 | 4.0 / 9.0σ | **pass** |
+
+- **Verified:** J1604 now passes every check at −10%, Gaia and +10% Teff. The −10% failure from 10-12 (primary bias +3.6σ) came from a worse local minimum, not from the temperature.
+- All three fits share one geometry: i 86.1°, r₁/r₂ ≈ 0.221/0.161, teffratio ≈ 0.975.
+- J1604 is now as robust to ±10% Teff as J1419 and J2312.
+
 ### Cloud run 2026-10-15 (daily routine)
 
 J1604 at the Gaia Teff, finished (hi-res, 195 dof):
@@ -531,6 +545,8 @@ All 9 tier-B disagreements are "ours only": our check accepts W4 `cc_flags` = `d
 | J160415.99-562627.3 (`_gteffms`, 10-15) | 1.41 | 0.7 | 0.96 | 3.2 | 9.0 | **yes** |
 | J160415.99-562627.3 (`_gteffm10`, 10-12) | 0.75 | 0.2 | 0.83 | 2.4 | 8.9 | no (prim. bias 3.6σ) |
 | J160415.99-562627.3 (`_gteffp10`, 10-12) | 1.01 | 2.6 | 1.10 | 4.0 | 9.0 | **yes** |
+| J160415.99-562627.3 (`_gteffm10seed`, −10% Teff, 10-16) | 0.70 | 0.2 | 0.83 | 2.4 | 8.9 | **yes** |
+| J160415.99-562627.3 (`_gteffp10seed`, +10% Teff, 10-16) | 0.66 | 2.6 | 1.10 | 4.0 | 9.0 | **yes** |
 | J231201.40+532028.6 (`_gteffnoirr`) | 1.69 | 1.6 | 1.02 | 7.0 | 12.6 | **yes** |
 | J231201.40+532028.6 (`_gteffnoirrseedm10`, 10-15) | 1.68 | 1.7 | 1.00 | 6.9 | 12.6 | **yes** |
 | J231201.40+532028.6 (`_gteffnoirrseedp10`, 10-15) | 1.80 | 1.6 | 1.01 | 6.9 | 12.6 | **yes** |

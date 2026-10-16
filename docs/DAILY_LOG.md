@@ -152,3 +152,15 @@ All local optima are cached; emcee, hi-res and the SED check run next.
 **Status.** Three candidates pass all checks, with best fits: J1419 (`_v4` χ²_red 0.67), J1604 (`_gteffseedm10` 0.70), J2312 (`_gteffnoirr` 1.69). The PHOEBE work on these three is complete. What remains is blocked on data: DD1.0 tier-A labels, `w4rchi2`, and TESS or archive access for tier B and new surveys.
 
 **Late (10:15–12:12 UTC).** J1604 ±10% Teff reseeded from the new reference ran until the cutoff, still in local optimisation. Partial bests (cached): χ² 184.8 at −10% (was 190.65) and 174.4 at +10% (was 280.1).
+
+## 2026-10-16
+
+**Environment.** Archive hosts still blocked. Fits ran 07:53–10:41 UTC and both finished.
+
+**Fits.** J1604 at ±10% Teff, reseeded from the 10-15 reference, both pass all checks:
+- −10%: χ²_red 0.70, bias +1.6/−0.4σ, d ratio 0.83, W4 8.9σ;
+- +10%: χ²_red 0.66, bias +1.6/+0.3σ, d ratio 1.10, W4 9.0σ.
+
+The earlier −10% failure was a worse local minimum.
+
+**Status.** J1419, J1604 and J2312 pass all checks at the Gaia Teff and at ±10% Teff. The PHOEBE work on these three is complete. Remaining items need data: DD1.0 tier-A labels, AllWISE `w4rchi2`, and archive or TESS access for tier B and new surveys.
