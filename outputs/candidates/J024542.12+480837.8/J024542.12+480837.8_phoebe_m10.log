@@ -60,3 +60,28 @@ grid best chi2=762.29 (436s)
   local-opt eval 375: best chi2 616.71
   start 2/3 (grid chi2 786.8) -> chi2 616.71
   local-opt eval 25: best chi2 709.96
+  local-opt eval 50: best chi2 695.46
+  local-opt eval 75: best chi2 653.19
+  local-opt eval 100: best chi2 642.80
+  local-opt eval 125: best chi2 636.27
+  local-opt eval 150: best chi2 635.18
+  local-opt eval 175: best chi2 634.94
+  local-opt eval 200: best chi2 634.89
+  local-opt eval 225: best chi2 634.82
+  local-opt eval 250: best chi2 634.82
+  local-opt eval 275: best chi2 633.92
+  local-opt eval 300: best chi2 632.70
+  local-opt eval 325: best chi2 623.19
+  local-opt eval 350: best chi2 618.57
+  local-opt eval 375: best chi2 616.84
+  local-opt eval 400: best chi2 616.72
+  local-opt eval 425: best chi2 616.68
+  local-opt eval 450: best chi2 616.58
+  local-opt eval 475: best chi2 616.51
+  local-opt eval 500: best chi2 616.50
+  start 3/3 (grid chi2 812.2) -> chi2 616.50
+local-opt (Nelder-Mead) chi2=616.26 after 1303 evals v=[89.99989, 0.01, 0.48973, 0.84151, 0.64914]
+  emcee 12x30 in 461s, acc=0.51
+{"incl": 89.99989160095137, "r1_frac": 0.2659365745487906, "r2_frac": 0.22378936008895325, "teffratio": 0.6491445522670132, "chi2_final_hires": 623.0488683265276, "passes_all": false}
+photometry: {"chi2": 623.0488683265276, "dof": 164, "chi2_red": 3.799078465405656, "rms": 0.026404972620324325, "primary_mean_resid": -0.021749081407762817, "primary_bias_sigma": -1.8574530036928352, "secondary_mean_resid": 0.05113500590813928, "secondary_bias_sigma": 3.492423863817137, "pass_fit": true, "pass_no_eclipse_bias": false}
+blackbody: {"binary_photosphere_chi2_JHKW1": 18.372815613056847, "photometric_distance_pc": 642.2928048708047, "gaia_distance_pc": 906.9472156720478, "distance_ratio_phot_over_gaia": 0.7081920466505494, "excess_vs_binary_photosphere": {"W2": {"ratio": 0.8865167465848234, "sigma": -4.632846374730407}, "W3": {"ratio": 0.8967657187222716, "sigma": -4.1662757029827535}, "W4": {"ratio": 2.418073267131081, "sigma": 9.7958060439938}}, "pass_photosphere": true, "pass_distance": true, "pass_excess_survives": true}
