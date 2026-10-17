@@ -175,7 +175,7 @@ The earlier −10% failure was a worse local minimum.
 - J0332: `_gteffm10` χ²_red 77.5; seeded at the Gaia Teff, χ²_red 96.1 (local opt 16,501 vs 18,891). Still fails.
 - J1732 `_m10`: start 1 reached χ² 1,348 (nominal 1,002); stopped during start 2.
 
-**Clip check.** Every light curve was built with the running-median clip (present since 19e6290). A simulation shows it removes eclipse cores only at 30-min cadence (J1604: about 95% of core points at 30 min, none at 200 s). The binned J1604 eclipse core still uses all 5 sectors. J2312's deepest primary bins use 2 of 3 sectors (possible clip loss, unconfirmed). See `docs/DD_EB_CROSSMATCH.md`, "Cloud run 2026-10-17".
+**Clip check.** The running-median clip has been in the script since 19e6290, the same commit that added every candidate light curve, so they were probably all built with it (assumed; git can't prove which version ran). A simulation shows it removes eclipse cores only at 30-min cadence (J1604: about 95% of core points at 30 min, none at 200 s). The binned J1604 eclipse core still uses all 5 sectors. J2312's deepest primary bins use 2 of 3 sectors (possible clip loss, unconfirmed). See `docs/DD_EB_CROSSMATCH.md`, "Cloud run 2026-10-17".
 
 **Status.** J1419 (`_v4` 0.67), J2312 (`_gteffnoirrecc` 0.65) and J1604 (`_gteffseedm10` 0.70) pass all fit and SED checks. J1604's W4 excess is suspect (nebular W4 image).
 
