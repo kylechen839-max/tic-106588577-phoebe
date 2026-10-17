@@ -1,0 +1,91 @@
+Connection to online passbands at https://tables.phoebe-project.org could not be established.  Check your internet connection or try again later (can manually call phoebe.list_online_passbands(refresh=True) to retry).  If the problem persists and you're using a Mac, you may need to update openssl (see https://phoebe-project.org/help/faq). Original error from urlopen: URLError <urlopen error Tunnel connection failed: 403 Forbidden>
+=== J231201.40+532028.6 2026-10-03T15:50:34.999269+00:00  P=6.849530 t0=2868.13335 Teff1=9932 M1~2.50 q=0.8 distortion=sphere nbins=223
+  sma=25.04 Rsun, eclipse width 0.070 -> rsum0=0.185, teffratio0=0.98
+  grid 1: chi2=186899.8 v=[74.0, -0.0034, 0.1298, 0.5, 0.7812]
+  grid 2: chi2=184941.5 v=[74.0, -0.0034, 0.1298, 0.5, 0.9766]
+  grid 3: chi2=183502.2 v=[74.0, -0.0034, 0.1298, 0.5, 1.1719]
+  grid 6: chi2=183299.0 v=[74.0, -0.0034, 0.1298, 0.75, 1.1719]
+  grid 9: chi2=183249.4 v=[74.0, -0.0034, 0.1298, 1.0, 1.1719]
+  grid 18: chi2=183087.8 v=[74.0, -0.0034, 0.1576, 0.75, 1.1719]
+  grid 21: chi2=183047.1 v=[74.0, -0.0034, 0.1576, 1.0, 1.1719]
+  grid 30: chi2=182952.4 v=[74.0, -0.0034, 0.1854, 0.75, 1.1719]
+  grid 33: chi2=182923.0 v=[74.0, -0.0034, 0.1854, 1.0, 1.1719]
+  grid 99: chi2=177617.2 v=[80.0, -0.0034, 0.2225, 0.5, 1.1719]
+  grid 102: chi2=176958.7 v=[80.0, -0.0034, 0.2225, 0.75, 1.1719]
+  grid 109: chi2=162924.0 v=[80.0, -0.0034, 0.2596, 0.5, 0.7812]
+  grid 110: chi2=135523.3 v=[80.0, -0.0034, 0.2596, 0.5, 0.9766]
+  grid 111: chi2=116115.9 v=[80.0, -0.0034, 0.2596, 0.5, 1.1719]
+  grid 114: chi2=112775.9 v=[80.0, -0.0034, 0.2596, 0.75, 1.1719]
+  grid 158: chi2=99268.7 v=[84.0, -0.0034, 0.2225, 0.5, 0.9766]
+  grid 159: chi2=75937.6 v=[84.0, -0.0034, 0.2225, 0.5, 1.1719]
+  grid 162: chi2=71842.4 v=[84.0, -0.0034, 0.2225, 0.75, 1.1719]
+  grid 170: chi2=26747.1 v=[84.0, -0.0034, 0.2596, 0.5, 0.9766]
+  grid 171: chi2=11824.0 v=[84.0, -0.0034, 0.2596, 0.5, 1.1719]
+  grid 230: chi2=5318.1 v=[87.0, -0.0034, 0.2596, 0.5, 0.9766]
+grid best chi2=5318.06 (560s)
+  local-opt eval 25: best chi2 3872.40
+  local-opt eval 50: best chi2 2832.95
+  local-opt eval 75: best chi2 2146.97
+  local-opt eval 100: best chi2 1630.86
+  local-opt eval 125: best chi2 1352.14
+  local-opt eval 150: best chi2 1279.35
+  local-opt eval 175: best chi2 1261.25
+  local-opt eval 200: best chi2 1205.09
+  local-opt eval 225: best chi2 1196.51
+  local-opt eval 250: best chi2 1196.32
+  local-opt eval 275: best chi2 1196.32
+  local-opt eval 300: best chi2 1196.32
+  local-opt eval 325: best chi2 1196.32
+  local-opt eval 350: best chi2 1196.32
+  local-opt eval 375: best chi2 1196.32
+  local-opt eval 400: best chi2 1196.32
+  local-opt eval 425: best chi2 1196.32
+  local-opt eval 450: best chi2 1196.32
+  local-opt eval 475: best chi2 1196.32
+  local-opt eval 500: best chi2 1196.32
+  local-opt eval 525: best chi2 1196.32
+  local-opt eval 550: best chi2 1196.32
+  start 1/3 (grid chi2 5318.1) -> chi2 1196.32
+  local-opt eval 25: best chi2 4289.59
+  local-opt eval 50: best chi2 3471.72
+  local-opt eval 75: best chi2 3226.84
+  local-opt eval 100: best chi2 3226.84
+  local-opt eval 125: best chi2 3226.84
+  local-opt eval 150: best chi2 3225.65
+  local-opt eval 175: best chi2 3225.65
+  local-opt eval 200: best chi2 3225.65
+  local-opt eval 225: best chi2 3225.65
+  local-opt eval 250: best chi2 3225.65
+  local-opt eval 275: best chi2 3225.65
+  local-opt eval 300: best chi2 3225.65
+  local-opt eval 325: best chi2 3225.65
+  local-opt eval 350: best chi2 3225.65
+  local-opt eval 375: best chi2 3225.65
+  local-opt eval 400: best chi2 3225.65
+  local-opt eval 425: best chi2 3225.65
+  start 2/3 (grid chi2 7961.7) -> chi2 3225.65
+  local-opt eval 25: best chi2 4805.67
+  local-opt eval 50: best chi2 2356.26
+  local-opt eval 75: best chi2 1457.74
+  local-opt eval 100: best chi2 1245.41
+  local-opt eval 125: best chi2 1181.06
+  local-opt eval 150: best chi2 1167.83
+  local-opt eval 175: best chi2 1166.90
+  local-opt eval 200: best chi2 1166.90
+  local-opt eval 225: best chi2 1166.90
+  local-opt eval 250: best chi2 1166.90
+  local-opt eval 275: best chi2 1166.90
+  local-opt eval 300: best chi2 1166.90
+  local-opt eval 325: best chi2 1166.90
+  local-opt eval 350: best chi2 1166.90
+  local-opt eval 375: best chi2 1166.90
+  local-opt eval 400: best chi2 1166.90
+  local-opt eval 425: best chi2 1166.90
+  local-opt eval 450: best chi2 1166.90
+  local-opt eval 475: best chi2 1166.90
+  start 3/3 (grid chi2 11824.0) -> chi2 1166.90
+local-opt (Nelder-Mead) chi2=1166.90 after 1474 evals v=[82.54928, -0.00998, 0.29649, 0.62131, 0.99557]
+  emcee 12x30 in 613s, acc=0.42
+{"incl": 82.70513169780382, "r1_frac": 0.18297068615669393, "r2_frac": 0.11034197070913138, "teffratio": 1.0029815160662074, "chi2_final_hires": 1064.398980571815, "passes_all": false}
+photometry: {"chi2": 1064.398980571815, "dof": 217, "chi2_red": 4.9050644265982255, "rms": 0.0056498306599766885, "primary_mean_resid": -0.01719138322649698, "primary_bias_sigma": -4.295268752128002, "secondary_mean_resid": 0.003424843740097855, "secondary_bias_sigma": 2.170011729804966, "pass_fit": true, "pass_no_eclipse_bias": false}
+blackbody: {"status": "no AllWISE row"}

@@ -1,0 +1,23 @@
+Connection to online passbands at https://tables.phoebe-project.org could not be established.  Check your internet connection or try again later (can manually call phoebe.list_online_passbands(refresh=True) to retry).  If the problem persists and you're using a Mac, you may need to update openssl (see https://phoebe-project.org/help/faq). Original error from urlopen: URLError <urlopen error Tunnel connection failed: 403 Forbidden>
+=== J024542.12+480837.8 2026-10-17T08:46:18.740644+00:00  P=6.863976 t0=2899.13117 Teff1=8664 M1~1.98 q=0.8 distortion=sphere nbins=170
+  sma=23.21 Rsun, eclipse width 0.162 -> rsum0=0.414, teffratio0=0.64
+  skipping grid: starting from outputs/candidates/J024542.12+480837.8/J024542.12+480837.8_localopt_m10.json (its chi2 616.26)
+grid best chi2=nan (0s)
+  local-opt eval 25: best chi2 624.21
+  local-opt eval 50: best chi2 623.99
+  local-opt eval 75: best chi2 623.94
+  local-opt eval 100: best chi2 623.87
+  local-opt eval 125: best chi2 623.79
+  local-opt eval 150: best chi2 623.79
+  local-opt eval 175: best chi2 623.77
+  local-opt eval 200: best chi2 623.77
+  local-opt eval 225: best chi2 623.77
+  local-opt eval 250: best chi2 623.64
+  local-opt eval 275: best chi2 623.61
+  local-opt eval 300: best chi2 623.59
+  start 1/1 (grid chi2 nan) -> chi2 623.59
+local-opt (Nelder-Mead) chi2=623.59 after 320 evals v=[89.98497, 0.01, 0.48755, 0.8437, 0.63533]
+  emcee 12x30 in 528s, acc=0.52
+{"incl": 89.9849677310821, "r1_frac": 0.2644412844352898, "r2_frac": 0.22310985643016398, "teffratio": 0.6353341067529321, "chi2_final_hires": 630.4599874625369, "passes_all": false}
+photometry: {"chi2": 630.4599874625369, "dof": 164, "chi2_red": 3.844268216234981, "rms": 0.02675296214849244, "primary_mean_resid": -0.023548670920283492, "primary_bias_sigma": -2.011144687620809, "secondary_mean_resid": 0.055814584136988143, "secondary_bias_sigma": 3.81203017633796, "pass_fit": true, "pass_no_eclipse_bias": false}
+blackbody: {"binary_photosphere_chi2_JHKW1": 8.478282505477747, "photometric_distance_pc": 734.9545553491749, "gaia_distance_pc": 906.9472156720478, "distance_ratio_phot_over_gaia": 0.8103608927280004, "excess_vs_binary_photosphere": {"W2": {"ratio": 0.9206886861925742, "sigma": -3.117635966027437}, "W3": {"ratio": 0.9449034561186922, "sigma": -2.110279523324713}, "W4": {"ratio": 2.55894111631754, "sigma": 10.176076949466156}}, "pass_photosphere": true, "pass_distance": true, "pass_excess_survives": true}

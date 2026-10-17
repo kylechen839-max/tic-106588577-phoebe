@@ -23,6 +23,11 @@ def fmt(df):
         "TESS sect.": df.n_tess_sectors.map(lambda x: "–" if pd.isna(x) else f"{x:.0f}"),
         "SIMBAD": df.simbad_otype.fillna(""),
         "failed checks": df.fail_reasons.fillna(""),
+        "DD1 cut": df.dd_excess_pass.map({True: "pass", False: "fail"}) if "dd_excess_pass" in df else "",
+        "DD1 label (good frac, sci team)": [("–" if pd.isna(g) else f"{g:.2f}, {t}") for g, t in
+                                            zip(df.get("dd1_good_fraction", pd.Series(index=df.index, dtype=float)),
+                                                df.get("dd1_sciteam", pd.Series(index=df.index, dtype=object)))],
+        "grade": df.get("grade", df.tier),
     })
     return out.to_markdown(index=False) + "\n"
 
