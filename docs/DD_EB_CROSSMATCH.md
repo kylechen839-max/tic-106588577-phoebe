@@ -393,6 +393,41 @@ Visual inspection of the 2′×2′ AllWISE atlas cutouts (`outputs/crossmatch/w
 - The automated 4″ centring test missed both, because a nebulous peak can sit within 4″ of the star. A diffuseness measure would catch them, for example the ratio of W4 flux in a 12″ aperture to that in a 12–30″ annulus. That needs the FITS cutouts, which need IRSA or SkyView access.
 - **Not verified:** these are visual judgements on display-stretched PNGs, not photometry. Higher-resolution W4 data (unWISE or Spitzer MIPS 24 µm, if any) would settle J1604.
 
+### Cloud run 2026-10-17 (daily routine)
+
+**J2312 small-eccentricity refit** (`--teff 9932 --no-irrad --eccentric yes --tag _gteffnoirrecc`, 215 dof, 1.7 h):
+
+| Fit | Local-opt χ² | Hi-res χ² | χ²_red | Bias prim / sec | d ratio | W3 / W4 | All checks |
+|---|---:|---:|---:|---|---:|---|---|
+| `_gteffnoirr` (circular, old reference) | 546.1 | 367.3 | 1.69 | −2.1 / +1.9σ | 1.02 | 7.0 / 12.6σ | pass |
+| `_gteffnoirrecc` (eccentric) | 269.6 | **139.3** | **0.65** | −0.1 / +0.4σ | 0.93 | 7.0 / 12.6σ | **pass** |
+
+- **Verified:** adding e cos ω and e sin ω lowers χ² by 228 for 2 extra parameters, at both resolutions. Fitted e cos ω = −0.0024, which agrees with the 16-min-early secondary (e cos ω ≈ −0.003) found in the two-week summary thread. i = 83.8°, k = 0.62, teffratio 1.01, l3 = 0 (not fitted).
+- **Assumed / weakly constrained:** e sin ω = 0.100 (e ≈ 0.10, ω ≈ 91°) is set only by the ratio of the eclipse durations, so treat it as a model value, not a measurement. The earlier eccentric run with reflection on and l3 fitted (`_gteffecc`, 10-04) ended in a worse minimum (χ²_red 2.00, secondary bias −9.2σ).
+- `_gteffnoirrecc` is J2312's new reference fit. The SED check is unchanged.
+
+**Seeding test on the light-curve failures** (Teff −10% first, then seed the nominal Teff from it):
+
+| Object | Fit | Local-opt χ² | Hi-res χ²_red | Bias prim / sec | d ratio | Result |
+|---|---|---:|---:|---|---:|---|
+| J0245 | nominal (round 1) | 623.6 | 3.84 | −2.0 / +3.8σ | — | fail |
+| J0245 | `_m10` (7,798 K) | 616.3 | 3.80 | −1.9 / +3.5σ | 0.71 | fail (sec. bias, d ratio) |
+| J0245 | `_seedm10` (nominal, seeded) | 623.6 | 3.84 | −2.0 / +3.8σ | 0.81 | fail; same optimum as before |
+| J0332 | `_gteff` (18,920 K) | 18,891 | 125 | — | — | fail |
+| J0332 | `_gteffm10` (17,028 K) | 16,597 | 77.5 | +9.4σ prim. | 1.49 | fail |
+| J0332 | `_gteffseedm10` (18,920 K, seeded) | 16,501 | 96.1 | +33σ prim. | 1.50 | fail |
+| J1732 | `_m10` (8,820 K) | start 1: 1,348; start 2 partial 1,848 | — | — | — | stopped at the window limit (nominal 1,002.3) |
+
+- **Verified:** seeding finds no hidden minimum that rescues J0245 or J0332. J0245 returns to the same optimum. J0332 improves from χ² 18,891 to 16,501 but stays at χ²_red ~100. Both remain failures.
+- J1732 `_m10` was stopped at 11:50 UTC in the second local-opt start. Its cache (`_localopt_starts_m10.json`) holds start 1 and the start-2 partial best, so a relaunch resumes.
+
+**Running-median clip check** (`src/checks/median_clip_sim.py`, output `outputs/checks/median_clip_sim.json`):
+
+- **Verified from git:** the clip in `fetch_tess_lc.normalise()` has been there since the first commit (19e6290, 10-02), so every candidate light curve was built with it, including J2312 (the note that J2312 predates it was wrong).
+- **Simulated:** each candidate's own binned eclipse profile was injected at TESS cadences with white noise of 2, 5 and 10 ppt, then the same clip was applied. At 200 s and 120 s cadence the clip removes essentially no eclipse points for J1604, J1419 or J2312. At 30-min cadence it removes 92–100% of J1604's eclipse-core points (its eclipses last 6 h, and the 9-point window spans 4.5 h). The 10-min cadence removes up to 30% (at 2 ppt noise). At 30 min it removes up to 20% of J2312's core points (at 2 ppt noise). J1419's long eclipses are barely touched.
+- **Verified in the binned data:** J1604's eclipse-core bins still draw on all 5 sectors (N ≈ 240 per bin, same as out of eclipse). So no sector's eclipse core was lost completely, and the J1604 fit rests mostly on its 200 s sectors. J2312's 4 deepest primary bins draw on 2 sectors instead of 3 (N 49 vs a median of 62). That fits the clip removing its 30-min QLP cores, but data gaps can't be ruled out without the raw points (`_raw.txt` is not in the repo).
+- **Not verified:** the raw light curves are needed to measure the actual loss. Until the clip is fixed (for example, exempting points inside the known eclipse windows), do not regenerate light curves.
+
 ### Cloud run 2026-10-16 (daily routine)
 
 J1604 at ±10% Teff, reseeded from the new reference `_gteffseedm10` (hi-res, 195 dof):
@@ -574,6 +609,7 @@ All 9 tier-B disagreements are "ours only": our check accepts W4 `cc_flags` = `d
 | J231201.40+532028.6 (`_gteffnoirrseedp10`, 10-15) | 1.80 | 1.6 | 1.01 | 6.9 | 12.6 | **yes** |
 | J231201.40+532028.6 (`_gteffnoirrm10`) | 1.64 | 5.3 | 0.87 | 5.6 | 12.4 | **yes** |
 | J231201.40+532028.6 (`_gteffnoirrp10`) | 1.78 | 1.7 | 1.16 | 7.9 | 12.8 | **yes** |
+| J231201.40+532028.6 (`_gteffnoirrecc`, eccentric, 10-17, **new reference**) | 0.65 | 1.5 | 0.93 | 7.0 | 12.6 | **yes** |
 
 Other fits fail on the light curve (χ²_red or eclipse bias), not on the SED. J2209 (M dwarfs) has no Gaia distance ratio. J2239 now has d ratio 0.52–0.55, too luminous for the Gaia distance.
 

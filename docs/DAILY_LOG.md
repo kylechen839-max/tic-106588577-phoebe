@@ -164,3 +164,18 @@ All local optima are cached; emcee, hi-res and the SED check run next.
 The earlier −10% failure was a worse local minimum.
 
 **Status.** J1419, J1604 and J2312 pass all checks at the Gaia Teff and at ±10% Teff. The PHOEBE work on these three is complete. Remaining items need data: DD1.0 tier-A labels, AllWISE `w4rchi2`, and archive or TESS access for tier B and new surveys.
+
+## 2026-10-17
+
+**Environment.** Archive hosts still blocked (all 000). Fits ran 07:53–11:50 UTC. J1732 `_m10` was stopped at the window limit; the others finished.
+
+**Fits.**
+- **J2312 eccentric** (`_gteffnoirrecc`): χ² 139.3/215, **χ²_red 0.65** (was 1.69), bias −0.1/+0.4σ, d ratio 0.93, W3/W4 7.0/12.6σ, passes all checks. e cos ω = −0.0024 matches the eclipse timing. e sin ω = 0.10 is weakly constrained. New J2312 reference.
+- J0245: `_m10` χ²_red 3.80; seeded nominal returns to the same optimum (χ²_red 3.84). Still fails on the +3.5–3.8σ secondary bias.
+- J0332: `_gteffm10` χ²_red 77.5; seeded at the Gaia Teff, χ²_red 96.1 (local opt 16,501 vs 18,891). Still fails.
+- J1732 `_m10`: start 1 reached χ² 1,348 (nominal 1,002); stopped during start 2.
+
+**Clip check.** Every light curve was built with the running-median clip (present since 19e6290). A simulation shows it removes eclipse cores only at 30-min cadence (J1604: about 95% of core points at 30 min, none at 200 s). The binned J1604 eclipse core still uses all 5 sectors. J2312's deepest primary bins use 2 of 3 sectors (possible clip loss, unconfirmed). See `docs/DD_EB_CROSSMATCH.md`, "Cloud run 2026-10-17".
+
+**Status.** J1419 (`_v4` 0.67), J2312 (`_gteffnoirrecc` 0.65) and J1604 (`_gteffseedm10` 0.70) pass all fit and SED checks. J1604's W4 excess is suspect (nebular W4 image).
+
