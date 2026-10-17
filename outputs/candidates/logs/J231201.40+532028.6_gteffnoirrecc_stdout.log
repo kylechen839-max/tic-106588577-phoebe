@@ -84,3 +84,35 @@ grid best chi2=3485.51 (511s)
   local-opt eval 650: best chi2 556.26
   local-opt eval 675: best chi2 556.26
   local-opt eval 700: best chi2 556.26
+  local-opt eval 725: best chi2 556.26
+  local-opt eval 750: best chi2 556.26
+  local-opt eval 775: best chi2 556.26
+  start 2/3 (grid chi2 3776.7) -> chi2 556.26
+  local-opt eval 25: best chi2 1352.64
+  local-opt eval 50: best chi2 461.79
+  local-opt eval 75: best chi2 333.93
+  local-opt eval 100: best chi2 326.53
+  local-opt eval 125: best chi2 323.67
+  local-opt eval 150: best chi2 291.88
+  local-opt eval 175: best chi2 291.88
+  local-opt eval 200: best chi2 291.88
+  local-opt eval 225: best chi2 291.84
+  local-opt eval 250: best chi2 291.84
+  local-opt eval 275: best chi2 291.84
+  local-opt eval 300: best chi2 291.84
+  local-opt eval 325: best chi2 291.54
+  local-opt eval 350: best chi2 290.10
+  local-opt eval 375: best chi2 289.80
+  local-opt eval 400: best chi2 289.80
+  local-opt eval 425: best chi2 289.77
+  local-opt eval 450: best chi2 289.77
+  local-opt eval 475: best chi2 289.77
+  local-opt eval 500: best chi2 289.77
+  local-opt eval 525: best chi2 289.77
+  local-opt eval 550: best chi2 289.77
+  local-opt eval 575: best chi2 289.77
+  local-opt eval 600: best chi2 289.77
+  local-opt eval 625: best chi2 289.77
+  local-opt eval 650: best chi2 289.77
+  start 3/3 (grid chi2 3863.0) -> chi2 289.77
+local-opt (Nelder-Mead) chi2=269.55 after 2155 evals v=[83.78652, -0.00341, 0.26603, 0.62031, 1.01066, -0.00237, 0.09974]
