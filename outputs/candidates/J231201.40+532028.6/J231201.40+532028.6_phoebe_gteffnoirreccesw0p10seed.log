@@ -1,0 +1,29 @@
+=== J231201.40+532028.6 2026-10-18T09:54:56.694670+00:00  P=6.849530 t0=2868.13335 Teff1=10925 M1~3.06 q=0.8 distortion=sphere nbins=223
+  eccentric: secondary at phase 0.4990 -> ecosw0=-0.0016, esinw0=0.041
+  sma=26.82 Rsun, eclipse width 0.070 -> rsum0=0.185, teffratio0=0.98
+  skipping grid: starting from outputs/candidates/J231201.40+532028.6/J231201.40+532028.6_localopt_gteffnoirreccesw0.json (its chi2 239.51)
+grid best chi2=nan (0s)
+  local-opt eval 25: best chi2 254.75
+  local-opt eval 50: best chi2 242.35
+  local-opt eval 75: best chi2 242.35
+  local-opt eval 100: best chi2 242.35
+  local-opt eval 125: best chi2 242.35
+  local-opt eval 150: best chi2 242.18
+  local-opt eval 175: best chi2 242.18
+  local-opt eval 200: best chi2 242.18
+  local-opt eval 225: best chi2 242.18
+  local-opt eval 250: best chi2 242.18
+  local-opt eval 275: best chi2 242.08
+  local-opt eval 300: best chi2 242.08
+  local-opt eval 325: best chi2 242.06
+  local-opt eval 350: best chi2 242.06
+  local-opt eval 375: best chi2 242.06
+  local-opt eval 400: best chi2 242.06
+  local-opt eval 425: best chi2 242.06
+  local-opt eval 450: best chi2 242.06
+  local-opt eval 475: best chi2 242.06
+  local-opt eval 500: best chi2 242.06
+  local-opt eval 525: best chi2 242.06
+  local-opt eval 550: best chi2 242.06
+  start 1/1 (grid chi2 nan) -> chi2 242.06
+local-opt (Nelder-Mead) chi2=242.06 after 562 evals v=[83.21282, -0.00335, 0.28108, 0.61165, 1.00094, -0.00232, 0.03758]
