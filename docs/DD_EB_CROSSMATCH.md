@@ -393,6 +393,37 @@ Visual inspection of the 2′×2′ AllWISE atlas cutouts (`outputs/crossmatch/w
 - The automated 4″ centring test missed both, because a nebulous peak can sit within 4″ of the star. A diffuseness measure would catch them, for example the ratio of W4 flux in a 12″ aperture to that in a 12–30″ annulus. That needs the FITS cutouts, which need IRSA or SkyView access.
 - **Not verified:** these are visual judgements on display-stretched PNGs, not photometry. Higher-resolution W4 data (unWISE or Spitzer MIPS 24 µm, if any) would settle J1604.
 
+### Cloud run 2026-10-18 (daily routine)
+
+**Running-median clip fixed** (`src/pipeline/fetch_tess_lc.py`, new `clip_mask()`). A > 6σ deviation from the 9-point running median is now dropped only if it is isolated, meaning neither neighbour deviates the same way by > 3σ. Re-running `src/checks/median_clip_sim.py --new` gives:
+
+| Case (2 ppt noise) | Old clip: eclipse-core points removed | New clip |
+|---|---:|---:|
+| J1604, 30-min cadence | 95% / 100% (prim / sec) | 0% / 0% |
+| J1604, 10-min cadence | 30% / 26% | 0% / 0% |
+| J2312, 30-min cadence | 19% / 20% | 4.8% / 0% |
+| Injected isolated bad cadences (40, −50 ppt) | 40 removed | 39 removed |
+
+- The light curves themselves were **not** regenerated, because MAST is blocked. Existing `_binned.txt` files are unchanged.
+
+**J2312 eccentric fits.** All have reflection off, 215 dof, and seeds from earlier optima (`--start-from`):
+
+| Tag | Teff | Seed e sin ω | Hi-res χ² | χ²_red | Bias prim / sec | e cos ω | e sin ω (fit) | i | d ratio | All checks |
+|---|---:|---:|---:|---:|---|---:|---:|---:|---:|---|
+| `_gteffnoirrecc` (10-17, grid) | 9,932 | grid | 139.3 | 0.65 | −0.1 / +0.4σ | −0.0024 | 0.100 | 83.8° | 0.93 | pass |
+| `_gteffnoirreccm10seed` | 8,939 | 0.100 | 139.8 | 0.65 | +0.8 / +1.6σ | −0.0023 | 0.102 | 83.7° | 0.81 | pass |
+| `_gteffnoirreccp10seed` | 10,925 | 0.100 | 129.2 | 0.60 | +0.2 / +1.3σ | −0.0024 | 0.095 | 83.9° | 1.06 | pass |
+| `_gteffnoirreccesw0` | 9,932 | 0.0 | 98.4 | 0.46 | −0.7 / +2.2σ | −0.0026 | 0.029 | 83.5° | 0.97 | pass |
+| `_gteffnoirreccesm003` | 9,932 | −0.03 | **84.6** | **0.39** | −0.1 / +2.5σ | −0.0024 | 0.010 | 82.8° | 0.99 | pass |
+| `_gteffnoirrecces006` | 9,932 | +0.06 | 90.5 | 0.42 | −0.0 / +2.7σ | −0.0024 | 0.052 | 83.4° | 0.96 | pass |
+| `_gteffnoirreccesw0m10seed` | 8,939 | 0.033 | 80.3 | 0.37 | −0.2 / +1.7σ | −0.0024 | 0.043 | 83.2° | 0.85 | pass |
+| `_gteffnoirreccesw0p10seed` | 10,925 | 0.033 | 81.5 | 0.38 | −0.5 / +2.3σ | −0.0024 | 0.040 | 83.3° | 1.11 | pass |
+
+- **Verified:** e cos ω = −0.0023 to −0.0026 in every fit, matching the eclipse timing. Every fit passes every check. W4 excess is 12.4–12.8σ and W3 is 5.8–8.0σ.
+- **Not constrained:** e sin ω ends between 0.010 and 0.102, depending on the seed. χ² changes by 55 across that range, but the minimiser stops near each seed, so the surface is not mapped. The low e sin ω fits (0.01–0.05) have lower χ² than the e ≈ 0.10 one. **Treat e as ≲ 0.1 with e sin ω unmeasured.**
+- The new reference is `_gteffnoirreccesm003` (χ²_red 0.39, e ≈ 0.010). All the eccentric fits have χ²_red well below 1, so the binned flux errors are probably overestimated (inferred). That would also mean χ² differences understate the real significance.
+- J1732 `_m10` (stopped again at the window limit): start 1 1,348, start 2 1,529, start 3 partial 1,267. All are above the nominal 1,002.3 and the fit still fails.
+
 ### Cloud run 2026-10-17 (daily routine)
 
 **J2312 small-eccentricity refit** (`--teff 9932 --no-irrad --eccentric yes --tag _gteffnoirrecc`, 215 dof, 1.7 h):
@@ -609,7 +640,10 @@ All 9 tier-B disagreements are "ours only": our check accepts W4 `cc_flags` = `d
 | J231201.40+532028.6 (`_gteffnoirrseedp10`, 10-15) | 1.80 | 1.6 | 1.01 | 6.9 | 12.6 | **yes** |
 | J231201.40+532028.6 (`_gteffnoirrm10`) | 1.64 | 5.3 | 0.87 | 5.6 | 12.4 | **yes** |
 | J231201.40+532028.6 (`_gteffnoirrp10`) | 1.78 | 1.7 | 1.16 | 7.9 | 12.8 | **yes** |
-| J231201.40+532028.6 (`_gteffnoirrecc`, eccentric, 10-17, **new reference**) | 0.65 | 1.5 | 0.93 | 7.0 | 12.6 | **yes** |
+| J231201.40+532028.6 (`_gteffnoirrecc`, eccentric, 10-17) | 0.65 | 1.5 | 0.93 | 7.0 | 12.6 | **yes** |
+| J231201.40+532028.6 (`_gteffnoirreccesm003`, eccentric, 10-18, **new reference**) | 0.39 | 1.6 | 0.99 | 7.0 | 12.6 | **yes** |
+| J231201.40+532028.6 (`_gteffnoirreccesw0m10seed`, −10% Teff, 10-18) | 0.37 | 4.9 | 0.85 | 5.8 | 12.4 | **yes** |
+| J231201.40+532028.6 (`_gteffnoirreccesw0p10seed`, +10% Teff, 10-18) | 0.38 | 1.8 | 1.11 | 8.0 | 12.8 | **yes** |
 
 Other fits fail on the light curve (χ²_red or eclipse bias), not on the SED. J2209 (M dwarfs) has no Gaia distance ratio. J2239 now has d ratio 0.52–0.55, too luminous for the Gaia distance.
 

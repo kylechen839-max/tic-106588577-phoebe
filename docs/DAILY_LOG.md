@@ -179,3 +179,20 @@ The earlier −10% failure was a worse local minimum.
 
 **Status.** J1419 (`_v4` 0.67), J2312 (`_gteffnoirrecc` 0.65) and J1604 (`_gteffseedm10` 0.70) pass all fit and SED checks. J1604's W4 excess is suspect (nebular W4 image).
 
+## 2026-10-18
+
+**Environment.** Archive hosts still blocked (all 000). Fits ran 07:53–11:32 UTC. J1732 `_m10` was stopped at the cutoff; all others finished.
+
+**Clip fix.** `fetch_tess_lc.clip_mask()` no longer drops runs of consecutive same-sign deviations. In simulation, J1604's eclipse-core loss at 30-min cadence falls from 95% to 0%, and isolated bad cadences are still removed (39/40). Light curves were not regenerated (MAST blocked).
+
+**J2312 eccentric.**
+- ±10% Teff from the 10-17 optimum: χ²_red 0.65 / 0.60, both pass.
+- Seeds at e sin ω = 0, −0.03 and +0.06 reached χ² 98.4, **84.6** and 90.5 (e sin ω 0.029 / 0.010 / 0.052).
+- ±10% from the e sin ω ≈ 0.03 optimum: χ² 80.3 / 81.5, both pass.
+- e cos ω = −0.0024 in every fit. e sin ω is not constrained (0.01–0.10).
+- New reference `_gteffnoirreccesm003`: χ²_red 0.39, bias −0.1/+2.5σ, d ratio 0.99, W4 12.6σ.
+
+**J1732 `_m10`:** three starts at χ² 1,267–1,529, all worse than nominal (1,002). Still fails.
+
+**Status.** J1419 (`_v4` 0.67), J2312 (`_gteffnoirreccesm003` 0.39) and J1604 (`_gteffseedm10` 0.70) pass all fit and SED checks. J1604's W4 excess is suspect (nebular image).
+
