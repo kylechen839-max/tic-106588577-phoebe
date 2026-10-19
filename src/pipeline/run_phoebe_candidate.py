@@ -442,6 +442,9 @@ def main():
     ap.add_argument("--start-from", default=None,
                     help="skip the grid and run the local optimisation from the 'v' of this JSON "
                          "(e.g. another fit's _localopt<tag>.json; its params must match)")
+    ap.add_argument("--bound", action="append", default=[], metavar="NAME=LO,HI",
+                    help="override the bounds of one fitted parameter (repeatable); a narrow range "
+                         "effectively fixes it, e.g. --bound esinw=0.048,0.052 to map chi2 against esinw")
     args = ap.parse_args()
     name = args.designation
     cdir, eph, times, flux, sig = load_inputs(name)
@@ -479,6 +482,12 @@ def main():
 
     rsum0, tr0, width = initial_guesses(eph, flux, times)
     B = bounds_for(rsum0, distortion, args.kmax)
+    for spec in args.bound:
+        pname, rng_ = spec.split("=")
+        if pname not in PARAMS:
+            raise SystemExit(f"--bound {pname}: not a fitted parameter ({PARAMS})")
+        B[pname] = tuple(float(x) for x in rng_.split(","))
+        log(f"  bound override: {pname} in {B[pname]}")
     m = Model(times, flux, sig, period, t0, teff1, m1, q, distortion, args.ntri, l3=args.l3, irrad=not args.no_irrad)
     m.l3_start, m.ecosw_start, m.esinw_start, m.q_start = args.l3, ecosw0, esinw0, q
     m.dt0_start = float(np.clip(ecl.get("phase1", 0.0) * period, -0.009, 0.009))
