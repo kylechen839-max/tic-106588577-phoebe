@@ -103,14 +103,14 @@ Cloud runs: if `.venv-phoebe` is missing, run `python3 -m venv .venv-phoebe && .
 
 **Best fits (all pass the light-curve and SED checks):**
 - J1419 `_v4` (χ²_red 0.67);
-- J2312 `_gteffnoirreccesm003` (0.39; eccentric, e cos ω −0.0024, e sin ω unconstrained);
+- J2312 `_gteffnoirreccesm003` (0.39; eccentric, e cos ω −0.0024, e sin ω unconstrained; **W4 excess possibly contaminated** by diffuse W3/W4 emission running off the 2′ cutout, 10-19);
 - J1604 `_gteffseedm10` (0.70; **W4 excess suspect, nebular W4 image**).
 
 1. **When MAST opens: regenerate light curves with the fixed clip** (`clip_mask()`, 10-18). Start with J2312 and J1604 (`.venv-tess/bin/python src/pipeline/fetch_tess_lc.py --designation <..> --ra .. --dec .. --period <P> --fixed-period`). Then refit from the current references with `--start-from`. Compare N/NSector in the eclipse-core bins with the old `_binned.txt`.
 2. **J2312 e sin ω (offline, ~0.7 h per fit, 4 in parallel):** the minimiser stops near each seed. Map χ² against fixed e sin ω (−0.05, 0, +0.02, +0.08) by seeding from `outputs/candidates/J231201.40+532028.6/J231201.40+532028.6_localopt_gteffnoirreccesm003.json` with esinw edited (see the `_seed_*.json` files), or add a `--fix` option to `run_phoebe_candidate.py`. Also consider shrinking the binned errors, since χ²_red ≈ 0.4.
 3. **Flux-error scale (offline):** every recent best fit has χ²_red < 1 (0.39–0.70). Check how `sector_consensus_bin` sets `Flux_Err`. If it is conservative, the pass thresholds (χ²_red < 5, bias < 3σ) are looser than intended.
 4. **DD1.0 labels for tier A (needs Kyle/Alissa):** a fuller DD1.0 classification export would fill `dd1_*`; rerun `src/crossmatch/add_dd1_criteria.py` and `make_tables.py`. AllWISE `w4rchi2` is also still missing.
-5. **W3/W4 images:** J2312 clean, J1419 plausible, J1604 suspect. If IRSA opens, add a W4 diffuseness metric to `src/crossmatch/wise_cutouts.py`.
+5. **W3/W4 images:** J2312 possibly contaminated (10-19, Dr. Bans: nebulosity just outside the cutout; run `src/crossmatch/w4_neighbours.py` on Kyle's Mac, see `DD_EB_CROSSMATCH.md`), J1419 plausible, J1604 suspect. If IRSA opens, add a W4 diffuseness metric to `src/crossmatch/wise_cutouts.py`.
 6. **Tier-B TESS confirmation and new surveys (need network):** TESS light curves for tier-B "B+"/"B" (now with the fixed clip); IJspeert+2024, Howard+2025, OGLE disk, ZTF.
 7. **Low priority:** J1732 `_m10` (three starts at χ² 1,267–1,529 vs nominal 1,002, cached; drop unless spare cores), J0739 `_m10` (~4 h).
 

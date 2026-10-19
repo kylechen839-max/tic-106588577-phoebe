@@ -377,7 +377,7 @@ Visual inspection of the 2′×2′ AllWISE atlas cutouts (`outputs/crossmatch/w
 
 | Object | Fit status | W3 image (S/N, offset) | W4 image (S/N, offset) | Verdict |
 |---|---|---|---|---|
-| **J231201.40+532028.6** | passes all | compact, centred (38, 1.1″) | compact, centred (15, 1.1″); faint halo | **clean**: excess is a point source at the star |
+| **J231201.40+532028.6** | passes all | compact, centred (38, 1.1″) | compact, centred (15, 1.1″); faint halo | ~~clean~~ **possibly contaminated** (10-19): lopsided diffuse W3/W4 emission to the S and E runs off the cutout; see below |
 | **J141909.42-565518.1** | passes all | compact, centred (16, 0.9″) | compact peak on the star (6, 2.2″), sits on moderate extended background to the SE | **plausible**: centred, but W4 is low-S/N against structured background |
 | **J160415.99-562627.3** | passes all | weak compact source (8, 0.2″); a brighter star 40″ NE | **no distinct point source**: diffuse nebulosity fills the field, brightest near but not on the star (5, 3.1″) | **suspect**: the 9σ W4 excess may be nebular background, not a disk |
 | J073937.23-363011.8 | fails LC | compact, centred (102) | compact, centred (30) | clean |
@@ -392,6 +392,22 @@ Visual inspection of the 2′×2′ AllWISE atlas cutouts (`outputs/crossmatch/w
 - J1732's W4 is nebular as well. It already fails the light curve.
 - The automated 4″ centring test missed both, because a nebulous peak can sit within 4″ of the star. A diffuseness measure would catch them, for example the ratio of W4 flux in a 12″ aperture to that in a 12–30″ annulus. That needs the FITS cutouts, which need IRSA or SkyView access.
 - **Not verified:** these are visual judgements on display-stretched PNGs, not photometry. Higher-resolution W4 data (unWISE or Spitzer MIPS 24 µm, if any) would settle J1604.
+
+
+### J2312 W4 neighbour/nebulosity check (2026-10-19, Kyle's emailed request after meeting Dr. Bans)
+
+Dr. Bans suspects a nebulous or W4-bright source just outside the 2′ cutout is boosting J2312's W4 excess, and that this is why DD1.0 volunteers marked J2312 as extended. **Until a wider field rules it out, treat J2312's W4 excess as possibly contaminated.**
+
+What could be checked from the cloud container (IRSA, SkyView, VizieR, SIMBAD, Gaia and MAST are all blocked; the only image is the 2′×2′ atlas PNG from 10-02):
+
+- **Diffuse W3/W4 emission is present and lopsided.** Inverting the PNG's colour map (linear 5–99.5 percentile stretch, so values are relative), the median in a 20–55″ annulus is 0.22 to the S, 0.16–0.18 to the SW/E/NW and 0.02 to the W. The S edge of the cutout is at 0.14 and the W edge at 0.02. W3 shows the same pattern (S 0.11, W 0.01), so the structure is real rather than W4 noise. W1/W2 show nothing there. The emission reaches the S edge of the cutout, so it continues outside the field, consistent with Dr. Bans's suggestion. The 10-16 "faint halo, clean" verdict understated this.
+- **The compact W3/W4 peak is broader than expected.** Fitting a Gaussian to the unsaturated wings gives FWHM 10.0″/11.1″/18.5″/29.8″ in W1–W4. Against the atlas-image resolution (about 8.4/9.2/11.2/17″, from memory of the AllWISE docs), W1/W2 come out about 1.2× wide (the method's bias) but W3/W4 about 1.7×, so the 15–30″ region around the star carries extra emission (inferred; the PNG is a coarse proxy).
+- **No discrete neighbour is seen.** Gaia DR3 has no source within 12″ brighter than the flux cut (`n_gaia_12as_bright` 0, flux fraction 2×10⁻⁵). The only other source in the 2′ field is a faint W1/W2 star about 1′ SW, which is not visible in W4. No DD1.0, DDv2.1 or previous-EB object lies within 30′. AllWISE flags are clean (`ex` 0, `cc_flags` 0000), but `w4rchi2` is still missing and a low-S/N W4 profile fit can stay under the extension threshold.
+- **Size of the possible bias.** A plane fit outside the core puts the local W4 background about 0.04 (stretch units) above the cutout's far edge, roughly 3% of the compact flux inside one FWHM (crude). For the background to explain the whole excess, about 70% of the W4 flux would have to be nebular (W4 is 3.6× the photosphere). The PNG does not support that much, but it cannot rule out a bias of tens of percent, because AllWISE sky (50–70″ annulus) samples the same uneven structure and the broadened core may itself be nebular.
+- **DD1.0 "extended" label.** J2312 has no row in `DD_1.0ObjectsFromMAST.csv` (labels cover 115 of 800 cross-matches), so the volunteers' `extendedFraction` could not be checked here.
+- **TESS light curve.** Low risk (inferred). J2312 is G = 8.7 with no comparably bright Gaia source within 12″, the reference fit needs no third light (l3 = 0), and a cold dust nebula adds negligible flux in the TESS band. `tic_contratio` is empty; check it when MAST opens.
+
+**To settle it (needs IRSA/SkyView, so Kyle's Mac):** run `.venv-tess/bin/python src/crossmatch/w4_neighbours.py J231201.40+532028.6`. It saves 10′×10′ W3/W4 atlas images (`<designation>_wise_10arcmin.png`), lists AllWISE sources within 3′ with `w4snr`, `w4rchi2`, `ext_flg` (`<designation>_allwise_3arcmin.csv`), and compares the W3/W4 aperture flux with a near (50–70″) and a far (150–200″) sky annulus. A near/far ratio well below 1 or a W4-bright neighbour within ~1′ would confirm contamination; a ratio near 1 with no neighbour would clear it. If unWISE or a Planck/IRAS map shows a large nebula, redo the SED with the far-sky W4 flux.
 
 ### Cloud run 2026-10-18 (daily routine)
 
