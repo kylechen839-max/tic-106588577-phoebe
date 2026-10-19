@@ -33,3 +33,7 @@ grid best chi2=nan (0s)
   local-opt eval 650: best chi2 259.90
   start 1/1 (grid chi2 nan) -> chi2 259.90
 local-opt (Nelder-Mead) chi2=259.90 after 659 evals v=[83.44014, -0.00288, 0.26904, 0.73869, 1.00729, -0.0025, 0.09988]
+  emcee 16x30 in 1080s, acc=0.37
+{"incl": 83.44014308132779, "r1_frac": 0.15473706692879863, "r2_frac": 0.11430329879749025, "teffratio": 1.0072917192738648, "chi2_final_hires": 140.82849925834037, "passes_all": true}
+photometry: {"chi2": 140.82849925834037, "dof": 215, "chi2_red": 0.6550162756201878, "rms": 0.006183832269511308, "primary_mean_resid": 0.009592605506856366, "primary_bias_sigma": 2.3967134082373014, "secondary_mean_resid": 0.0032191368110771243, "secondary_bias_sigma": 2.0396739734714786, "pass_fit": true, "pass_no_eclipse_bias": true}
+blackbody: {"binary_photosphere_chi2_JHKW1": 1.5278468647340988, "photometric_distance_pc": 685.9838984491809, "gaia_distance_pc": 741.7925, "distance_ratio_phot_over_gaia": 0.924765211901146, "excess_vs_binary_photosphere": {"W2": {"ratio": 0.9552038100489535, "sigma": -1.6972589079385714}, "W3": {"ratio": 1.2406260580678727, "sigma": 7.019478092090512}, "W4": {"ratio": 3.5762884019327212, "sigma": 12.615212619395205}}, "pass_photosphere": true, "pass_distance": true, "pass_excess_survives": true}
