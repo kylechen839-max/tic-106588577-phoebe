@@ -1,0 +1,27 @@
+Connection to online passbands at https://tables.phoebe-project.org could not be established.  Check your internet connection or try again later (can manually call phoebe.list_online_passbands(refresh=True) to retry).  If the problem persists and you're using a Mac, you may need to update openssl (see https://phoebe-project.org/help/faq). Original error from urlopen: URLError <urlopen error Tunnel connection failed: 403 Forbidden>
+=== J231201.40+532028.6 2026-10-19T08:32:53.163176+00:00  P=6.849530 t0=2868.13335 Teff1=9932 M1~2.50 q=0.8 distortion=sphere nbins=223
+  bound override: esinw in (0.033, 0.037)
+  eccentric: secondary at phase 0.4990 -> ecosw0=-0.0016, esinw0=0.041
+  sma=25.04 Rsun, eclipse width 0.070 -> rsum0=0.185, teffratio0=0.98
+  skipping grid: starting from outputs/candidates/J231201.40+532028.6/J231201.40+532028.6_seed_fixesinw+0.035.json (its chi2 nan)
+grid best chi2=nan (0s)
+  local-opt eval 25: best chi2 397.93
+  local-opt eval 50: best chi2 331.98
+  local-opt eval 75: best chi2 277.69
+  local-opt eval 100: best chi2 265.56
+  local-opt eval 125: best chi2 262.80
+  local-opt eval 150: best chi2 261.84
+  local-opt eval 175: best chi2 261.84
+  local-opt eval 200: best chi2 261.84
+  local-opt eval 225: best chi2 261.84
+  local-opt eval 250: best chi2 261.84
+  local-opt eval 275: best chi2 261.83
+  local-opt eval 300: best chi2 261.83
+  local-opt eval 325: best chi2 261.83
+  local-opt eval 350: best chi2 261.83
+  local-opt eval 375: best chi2 261.83
+  local-opt eval 400: best chi2 261.83
+  local-opt eval 425: best chi2 261.83
+  local-opt eval 450: best chi2 261.83
+  local-opt eval 475: best chi2 261.83
+  local-opt eval 500: best chi2 261.83
