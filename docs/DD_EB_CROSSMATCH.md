@@ -393,6 +393,44 @@ Visual inspection of the 2′×2′ AllWISE atlas cutouts (`outputs/crossmatch/w
 - The automated 4″ centring test missed both, because a nebulous peak can sit within 4″ of the star. A diffuseness measure would catch them, for example the ratio of W4 flux in a 12″ aperture to that in a 12–30″ annulus. That needs the FITS cutouts, which need IRSA or SkyView access.
 - **Not verified:** these are visual judgements on display-stretched PNGs, not photometry. Higher-resolution W4 data (unWISE or Spitzer MIPS 24 µm, if any) would settle J1604.
 
+### Cloud run 2026-10-19 (daily routine)
+
+**J2312: χ² against fixed e sin ω.** New option `--bound esinw=LO,HI` (±0.002 here). Teff 9,932 K, reflection off, 215 dof, hi-res χ². Each value was run twice: once seeded from `_gteffnoirreccesm003`, and once from the optimum at a neighbouring e sin ω (`_fix2*`). The lower of the two is the profile:
+
+| e sin ω | χ² (seed from best) | χ² (seed from neighbour) | Profile χ² | χ²_red | Bias prim / sec (better run) | All checks |
+|---:|---:|---:|---:|---:|---|---|
+| −0.02 | 195.9 | 198.1 | 195.9 | 0.91 | −0.6 / +4.5σ | fail (sec. bias) |
+| 0.00 | 116.3 | 91.3 | 91.3 | 0.42 | −0.3 / +3.2σ | fail (sec. bias) |
+| 0.01 | — | **83.9** | **83.9** | 0.39 | −0.2 / +2.4σ | pass |
+| 0.02 | 98.8 | — | 98.8 | 0.46 | +0.2 / +1.4σ | pass |
+| 0.035 | 92.5 | 88.5 | 88.5 | 0.41 | +1.3 / +2.6σ | pass |
+| 0.05 | 89.8 | — | 89.8 | 0.42 | +0.4 / +2.1σ | pass |
+| 0.065 | — | 101.4 | 101.4 | 0.47 | +1.0 / +1.8σ | pass |
+| 0.08 | 131.6 | 116.0 | 116.0 | 0.54 | −1.0 / +1.2σ | pass |
+| 0.10 | 162.9 | 140.8 | 140.8 | 0.66 | +2.4 / +2.0σ | pass |
+| 0.13 | 201.6 | 202.4 | 201.6 | 0.94 | +2.5 / +1.2σ | pass |
+
+- **Verified:** χ² has a broad minimum of 84–101 for e sin ω between 0.00 and 0.065. It rises to 116 at 0.08, 141 at 0.10, 202 at 0.13 and 196 at −0.02. e cos ω stays at −0.0023 to −0.0026 throughout.
+- The two seeds disagree by up to 25 at the same e sin ω, so the minimiser leaves about ±10–25 of noise in each point (verified from the repeats).
+- **Inferred:** 0 ≲ e sin ω ≲ 0.07 (e ≲ 0.07), with e sin ω ≈ 0.01 preferred. This uses the pipeline's flux errors, which are systematics-dominated (see below), so Δχ² is not a formal confidence level.
+- The best fit (`_fix2esw0d010`, χ² 83.9) matches `_gteffnoirreccesm003` (84.6, free e sin ω 0.010), which stays the reference.
+
+**Flux-error scale** (`src/checks/flux_error_scale.py`, output `outputs/checks/flux_error_scale.json`). It uses the stored best-fit models and `_binned.txt`:
+
+| Fit | χ²_red (pipeline errors) | Median error in / out of eclipse | Bin-to-bin white noise | Residual rms in / out | χ²_red if errors = white noise (in / out) |
+|---|---:|---|---:|---|---|
+| J1419 `_v4` | 0.64 | 2.81 / 0.91 ppt | 0.13 ppt | 7.26 / 0.86 ppt | 2,983 / 42 |
+| J1604 `_gteffseedm10` | 0.67 | 2.64 / 0.56 ppt | 0.24 ppt | 3.23 / 0.45 ppt | 182 / 3.6 |
+| J2312 `_gteffnoirreccesm003` | 0.38 | 7.36 / 0.30 ppt | 0.12 ppt | 4.66 / 1.53 ppt | 1,583 / 171 |
+| J2312 `_gteffnoirr` (circular) | 1.65 | 7.36 / 0.30 ppt | 0.12 ppt | 8.79 / 2.05 ppt | 5,634 / 307 |
+| J0245 (round 1) | 3.71 | 14.8 / 11.3 ppt | 2.22 ppt | 35.1 / 22.8 ppt | 250 / 106 |
+| J0739 (round 1) | 2.79 | 4.18 / 1.81 ppt | 1.85 ppt | 7.06 / 3.36 ppt | 15 / 3.3 |
+
+- **Verified (from the code):** `sector_consensus_bin()` in `fetch_tess_lc.py` sets each bin's error from the scatter of the per-sector medians. Half the bins sit at the floor (the median error).
+- Inside eclipses that scatter is 3–25× larger than outside. Sectors disagree on the eclipse depth there, probably from different dilution in QLP, SPOC and TESS-SPOC apertures (inferred; the raw per-sector data are not in the repo).
+- **Consequence:** χ²_red < 1 does not mean the eclipses are fitted to the photon noise. Against the white noise of the binned curve, the in-eclipse residuals of all three passing fits are 13–55× too large. The χ²_red < 5 and bias < 3σ tests therefore measure agreement within the sector-to-sector depth spread, not a precise fit. Depths and radii carry that spread as a systematic.
+- **Next (needs the raw light curves):** fit per-sector dilution (third light per sector or per pipeline), or bin each sector separately and fit them jointly. This would also bring the errors down to the white-noise level.
+
 ### Cloud run 2026-10-18 (daily routine)
 
 **Running-median clip fixed** (`src/pipeline/fetch_tess_lc.py`, new `clip_mask()`). A > 6σ deviation from the 9-point running median is now dropped only if it is isolated, meaning neither neighbour deviates the same way by > 3σ. Re-running `src/checks/median_clip_sim.py --new` gives:

@@ -196,3 +196,17 @@ The earlier −10% failure was a worse local minimum.
 
 **Status.** J1419 (`_v4` 0.67), J2312 (`_gteffnoirreccesm003` 0.39) and J1604 (`_gteffseedm10` 0.70) pass all fit and SED checks. J1604's W4 excess is suspect (nebular image).
 
+## 2026-10-19
+
+**Environment.** Archive hosts still blocked (all 000). Sixteen J2312 fits ran 07:53–10:45 UTC, two rounds of 8, and all finished.
+
+**J2312 e sin ω profile** (new `--bound` option):
+- χ² is 84–101 for e sin ω between 0.00 and 0.065, the minimum being 83.9 at 0.01.
+- It rises to 116 at 0.08, 141 at 0.10, 202 at 0.13 and 196 at −0.02.
+- Repeats from different seeds differ by up to 25 at the same e sin ω.
+- **Inferred:** e sin ω between 0 and 0.07. The reference stays `_gteffnoirreccesm003` (χ²_red 0.39).
+
+**Flux errors.** The binned errors come from sector-to-sector scatter, and in eclipse that scatter is 3–25× larger than out of eclipse (depth differences between sectors, probably dilution). χ²_red < 1 therefore reflects large in-eclipse errors, not a photon-noise-level fit. With white-noise errors, the in-eclipse χ²_red of the passing fits would be J1419 2,983, J1604 182 and J2312 1,583. The pass criteria test consistency with the sector spread. See `docs/DD_EB_CROSSMATCH.md`, "Cloud run 2026-10-19".
+
+**Status.** J1419, J1604 and J2312 still pass all checks as defined (J1604 W4 suspect). The error-model finding means the pass is relative to sector-to-sector systematics.
+
