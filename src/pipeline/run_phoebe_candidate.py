@@ -388,6 +388,20 @@ def photometry_check(times, obs, pred, sig, t0, period, nparams, phase2=0.5):
             err = float(np.sqrt(np.mean(sig[m] ** 2)) / np.sqrt(m.sum()))
             out[f"{lab}_mean_resid"] = mean
             out[f"{lab}_bias_sigma"] = mean / err if err > 0 else np.nan
+    # Informational (not a pass criterion): the binned errors are the sector-to-sector scatter,
+    # which is much larger in eclipse than the bin-to-bin noise (2026-10-19 check). Estimate the
+    # white noise from second differences of the phase-sorted residuals (smooth misfit cancels)
+    # and report chi2_red against it, overall and within +-0.02 phase of each eclipse.
+    o = np.argsort(ph)
+    ro = r[o]
+    d2 = (ro[1:-1] - 0.5 * (ro[:-2] + ro[2:])) / np.sqrt(1.5)
+    white = float(1.4826 * np.median(np.abs(d2 - np.median(d2))))
+    if white > 0:
+        out["white_noise"] = white
+        out["chi2_red_white"] = float(np.mean((r / white) ** 2))
+        ecl = (np.abs(ph) < 0.02) | (np.abs(ph - (phase2 if phase2 < 0.8 else phase2 - 1)) < 0.02)
+        if ecl.any():
+            out["chi2_red_white_eclipse"] = float(np.mean((r[ecl] / white) ** 2))
     out["pass_fit"] = bool(out["chi2_red"] < 5)
     out["pass_no_eclipse_bias"] = bool(all(abs(out.get(f"{l}_bias_sigma", 0)) < 3 for l in ("primary", "secondary")))
     return out
