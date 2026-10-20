@@ -97,26 +97,25 @@ Everything under `outputs/` is gitignored. Selected results are force-added (`gi
   - zsh errors on unmatched globs; use `find`.
   - PHOEBE rejects short model labels such as "m" and "x".
 
-## Daily next steps (rewritten by each daily cloud run; last: 2026-10-19)
+## Daily next steps (rewritten by each daily cloud run; last: 2026-10-20)
 
 Cloud runs: if `.venv-phoebe` is missing, run `python3 -m venv .venv-phoebe && .venv-phoebe/bin/pip install phoebe==2.4.22 emcee corner scipy matplotlib numpy pandas tabulate`, then `.venv-phoebe/bin/python src/pipeline/build_tess_passband.py`. **One usage window per day** (Kyle, 2026-10-05): plan fits to finish within ~4.5 h. Do not relaunch after a container restart or once the limit resets; checkpoint and stop. Fits die when the session goes idle. Archive hosts are blocked. See `docs/DAILY_LOG.md`.
 
 **Best fits (all pass the light-curve and SED checks as defined):**
 - J1419 `_v4` (χ²_red 0.67);
-- J2312 `_gteffnoirreccesm003` (0.39; e cos ω −0.0024, 0 ≲ e sin ω ≲ 0.07);
+- J2312 `_gteffnoirreccesm003` (0.39; e cos ω −0.0024, 0 ≲ e sin ω ≲ 0.07; reflection off is preferred);
 - J1604 `_gteffseedm10` (0.70; **W4 excess suspect, nebular W4 image**).
 
-**Caveat (10-19):** the binned errors are sector-to-sector scatter. They are 3–25× larger in eclipse than out of eclipse, so χ²_red < 1 is not a photon-noise-level fit (see `src/checks/flux_error_scale.py`).
+**Caveat:** the binned errors are sector-to-sector scatter. Against white noise, the χ²_red of these fits is 25–330 (`outputs/checks/white_chi2_table.csv`), so the fits agree within the sector spread, not to photon noise.
 
-1. **When MAST opens: rebuild the light curves** with the fixed clip, and keep the per-sector data (commit `_raw.txt` or per-sector binned files). Then fit with a per-sector or per-pipeline dilution term. This needs a code change in `run_phoebe_candidate.py`, for example one l3 per sector group, with the model evaluated per sector. Start with J2312 and J1604.
-2. **Offline, without raw data:** add the white-noise χ²_red (in and out of eclipse) to the photometry check output and to the tables, next to the pipeline χ²_red. Run `src/checks/flux_error_scale.py` for every fitted candidate (`.venv-phoebe/bin/python src/checks/flux_error_scale.py <des>:<tag> ...`; ~1 min each).
-3. **J2312 out-of-eclipse residuals:** 1.5 ppt rms against 0.12 ppt white noise. Check whether turning reflection back on lowers it, with eccentricity kept free and l3 fixed at 0: `--designation J231201.40+532028.6 --teff 9932 --eccentric yes --tag _gteffecc2` (a grid run, ~2 h; `--start-from` the no-reflection fit works too, because the fitted params are the same).
+1. **When MAST opens: rebuild the light curves** with the fixed clip, keeping the per-sector data (`_raw.txt` or per-sector binned files). Then add per-sector or per-pipeline dilution to `run_phoebe_candidate.py`, for example one l3 per sector group with the model evaluated per group. Start with J2312, J1419 and J1604.
+2. **Offline prep for step 1:** write the code for multi-dataset fitting (one PHOEBE lc dataset per sector group, each with its own l3/pblum) and test it on J1122. J1122 has the 7-sector light curves in `outputs/j1122_tess_multisector_s10_s11_s37/` and `outputs/j1122_robust_binning_phoebe/`; check whether those hold per-sector points.
+3. **Grading:** add `chi2_red_white` to the candidate tables in `docs/DD_EB_CROSSMATCH.md` as a light-curve quality column. Consider tightening the pass rule for the bright systems once per-sector dilution is in.
 4. **DD1.0 labels for tier A (needs Kyle/Alissa):** a fuller DD1.0 classification export would fill `dd1_*`; rerun `src/crossmatch/add_dd1_criteria.py` and `make_tables.py`. AllWISE `w4rchi2` is also still missing.
 5. **W3/W4 images:** J2312 clean, J1419 plausible, J1604 suspect. If IRSA opens, add a W4 diffuseness metric to `src/crossmatch/wise_cutouts.py`.
 6. **Tier-B TESS confirmation and new surveys (need network):** TESS light curves for tier-B "B+"/"B"; IJspeert+2024, Howard+2025, OGLE disk, ZTF.
-7. **Low priority:** J1732 `_m10` (cached, worse than nominal), J0739 `_m10` (~4 h).
 
-Done: SED check (10-06); DD1.0 criteria, labels and `grade` (10-07); ±10% Teff robustness for J1419, J1604 and J2312 (10-09 to 10-18); W3/W4 image check (10-16); clip fix (10-18); J2312 e sin ω profile and flux-error check (10-19).
+Done: SED check (10-06); DD1.0 criteria, labels and `grade` (10-07); ±10% Teff robustness for J1419, J1604 and J2312 (10-09 to 10-18); W3/W4 image check (10-16); clip fix (10-18); J2312 e sin ω profile and flux-error check (10-19); white-noise χ², J2312 reflection test, J0739 seeding (10-20). Seeding for J0245, J0332, J1732 and J0739 found no better optimum; all four still fail.
 
 ## Status at handoff
 

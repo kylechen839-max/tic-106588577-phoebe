@@ -210,3 +210,15 @@ The earlier −10% failure was a worse local minimum.
 
 **Status.** J1419, J1604 and J2312 still pass all checks as defined (J1604 W4 suspect). The error-model finding means the pass is relative to sector-to-sector systematics.
 
+## 2026-10-20
+
+**Environment.** The 07:51 fire was skipped while the routine was paused. Kyle reset the usage and the run started at 07:53 UTC. Archive hosts still blocked (all 000). Fits ran 07:54–11:39 UTC and all finished.
+
+**White-noise χ².** The photometry check now reports χ²_red against the bin-to-bin white noise; this is informational only. Recomputed for all 67 stored fits: the pipeline χ²_red is reproduced exactly. For the reference fits, χ²_red against white noise is J1604 25, J2312 260 and J1419 331 (eclipse windows 116 / 1,058 / 1,915). No fit reaches the white-noise level. The closest are J1122 (1.9) and J0739 (4.8).
+
+**J2312, reflection on:** grid fit χ²_red 1.91 (secondary bias −3.5σ), seeded fit 3.54 (primary bias −4.2σ). Both fail and are worse than reflection off (0.39).
+
+**J0739 seeding:** `_m10` χ²_red 2.60, seeded at nominal 2.83 (round 1: 2.90). Both fail the eclipse bias (> 3.7σ).
+
+**Status.** Unchanged: J1419, J2312 and J1604 pass all checks as defined (J1604 W4 suspect). Against white noise, none fits to the photon level, which points to per-sector dilution as the next model change (needs raw light curves).
+

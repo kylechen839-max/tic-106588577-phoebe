@@ -393,6 +393,49 @@ Visual inspection of the 2′×2′ AllWISE atlas cutouts (`outputs/crossmatch/w
 - The automated 4″ centring test missed both, because a nebulous peak can sit within 4″ of the star. A diffuseness measure would catch them, for example the ratio of W4 flux in a 12″ aperture to that in a 12–30″ annulus. That needs the FITS cutouts, which need IRSA or SkyView access.
 - **Not verified:** these are visual judgements on display-stretched PNGs, not photometry. Higher-resolution W4 data (unWISE or Spitzer MIPS 24 µm, if any) would settle J1604.
 
+### Cloud run 2026-10-20 (daily routine)
+
+Run started at 07:53 UTC after Kyle reset the usage (the 07:51 fire was skipped while paused). Archive hosts still blocked.
+
+**White-noise χ² for every stored fit.** `photometry_check()` now also reports `white_noise`, `chi2_red_white` and `chi2_red_white_eclipse`. These are informational, not pass criteria. The white noise is estimated from second differences of the phase-sorted residuals, and the eclipse window is ±0.02 in phase. `src/checks/white_chi2_table.py` recomputes them from the 67 stored bundles; the pipeline χ²_red is reproduced exactly for all 67. Full table: `outputs/checks/white_chi2_table.csv`.
+
+| Object (fit) | χ²_red (pipeline) | White noise | χ²_red (white) | χ²_red (white, eclipses) | Passes all |
+|---|---:|---:|---:|---:|---|
+| J1122 `_7sector` | 1.77 | 1.36 ppt | 1.9 | 6.2 | no |
+| J0739 (round 1) | 2.90 | 2.13 ppt | 4.8 | 18.5 | no |
+| J1604 `_gteffseedm10` (ref.) | 0.70 | 0.32 ppt | 25.4 | 116 | yes |
+| J2209 (round 1) | 1.03 | 1.40 ppt | 30.7 | 18.3 | yes (RUWE 43, no parallax) |
+| J2218 `_t9500` | 11.8 | 0.30 ppt | 25.2 | 20.0 | no |
+| J2239 `_noirr2` | 11.5 | 0.50 ppt | 24.8 | 147 | no |
+| J2235 (round 1) | 15.2 | 0.38 ppt | 33.6 | 39.4 | no |
+| J0245 `_m10` | 3.80 | 3.03 ppt | 76.1 | 182 | no |
+| J1732 (round 1) | 5.52 | 0.59 ppt | 83.7 | 434 | no |
+| J2312 `_gteffnoirreccesm003` (ref.) | 0.39 | 0.16 ppt | 260 | 1,058 | yes |
+| J1419 `_v4` (ref.) | 0.67 | 0.18 ppt | 331 | 1,915 | yes |
+
+- **Verified:** no fit matches its light curve at the white-noise level. The bright, low-noise systems (J1419, J2312) have the largest misfit relative to their noise, J1604 is moderate, and J1122 and J0739 are closest.
+- **Inferred:** this matches the 10-19 finding that the eclipse residuals are dominated by sector-to-sector depth differences, which the single-dilution model cannot absorb.
+
+**J2312 with reflection on** (eccentric, l3 = 0, 215 dof):
+
+| Tag | Start | Hi-res χ² | χ²_red | Bias prim / sec | All checks |
+|---|---|---:|---:|---|---|
+| `_gteffecc2seed` | from `_gteffnoirreccesm003` | 761.8 | 3.54 | −4.2 / +2.0σ | fail (prim. bias) |
+| `_gteffecc2` | grid, 3 starts | 410.4 | 1.91 | −0.3 / −3.5σ | fail (sec. bias) |
+| `_gteffnoirreccesm003` (ref., reflection off) | | 84.6 | 0.39 | −0.1 / +2.5σ | pass |
+
+- **Verified:** reflection on fits worse by χ² ≥ 326. Reflection stays off for J2312. Its out-of-eclipse residual (1.5 ppt rms) is not explained by reflection.
+
+**J0739 seeding test** (Teff −10%, then the nominal Teff seeded from the −10% start-1 optimum):
+
+| Fit | Local-opt χ² | Hi-res χ² (169 dof) | χ²_red | Bias prim / sec | d ratio | Result |
+|---|---:|---:|---:|---|---:|---|
+| nominal (round 1) | 454.7 | 490.2 | 2.90 | — | — | fail |
+| `_m10` (12,470 K) | 410.0 | 439.5 | 2.60 | −3.8 / +4.5σ | 1.16 | fail (bias) |
+| `_seedm10` (13,856 K) | 455.7 | 478.0 | 2.83 | −4.6 / +5.1σ | 1.35 | fail (bias) |
+
+- **Verified:** seeding finds no better optimum at the nominal Teff. J0739 still fails on its eclipse bias, and its W3 excess is ≤ 1.5σ.
+
 ### Cloud run 2026-10-19 (daily routine)
 
 **J2312: χ² against fixed e sin ω.** New option `--bound esinw=LO,HI` (±0.002 here). Teff 9,932 K, reflection off, 215 dof, hi-res χ². Each value was run twice: once seeded from `_gteffnoirreccesm003`, and once from the optimum at a neighbouring e sin ω (`_fix2*`). The lower of the two is the profile:
