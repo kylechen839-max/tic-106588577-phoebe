@@ -1,2 +1,13 @@
 === J112238.89-592027.5 per-sector dilution fit: sectors [10, 11, 37], 589 sector-bins, Teff1=7705, start outputs/candidates/J112238.89-592027.5/J112238.89-592027.5_persector_persector.json
   start: chi2 per-sector 774.5, common 853.6 (589 bins)
+  eval 25: best chi2 768.2
+  eval 50: best chi2 766.0
+  eval 75: best chi2 765.9
+  eval 100: best chi2 765.9
+  eval 125: best chi2 765.9
+  eval 150: best chi2 765.9
+  eval 175: best chi2 765.9
+  eval 200: best chi2 765.9
+  eval 225: best chi2 765.9
+  done: chi2 per-sector 765.9 (red 1.33), common 846.9 (red 1.46); depth scales S10 0.771, S11 1.184, S37 1.045
+  params {'incl': np.float64(90.43259), 'dt0': np.float64(0.00822), 'rsum': np.float64(0.17394), 'k': np.float64(0.38918), 'teffratio': np.float64(0.63334)}

@@ -1,0 +1,32 @@
+=== J112238.89-592027.5 per-sector dilution fit: sectors [10, 11, 37], 589 sector-bins, Teff1=7705, start outputs/checks/persector_injection_start.json
+  start: chi2 per-sector 3613.5, common 14767.5 (589 bins)
+  eval 25: best chi2 783.9
+  eval 50: best chi2 719.6
+  eval 75: best chi2 709.5
+  eval 100: best chi2 708.0
+  eval 125: best chi2 707.4
+  eval 150: best chi2 704.1
+  eval 175: best chi2 698.8
+  eval 200: best chi2 698.1
+  eval 225: best chi2 697.6
+  eval 250: best chi2 697.5
+  eval 275: best chi2 697.5
+  eval 300: best chi2 697.5
+  eval 325: best chi2 697.5
+  eval 350: best chi2 697.5
+  eval 375: best chi2 697.5
+  eval 400: best chi2 697.5
+  eval 425: best chi2 697.5
+  eval 450: best chi2 697.5
+  eval 475: best chi2 697.5
+  eval 500: best chi2 697.5
+  eval 525: best chi2 697.5
+  eval 550: best chi2 697.5
+  eval 575: best chi2 697.5
+  eval 600: best chi2 697.5
+  eval 625: best chi2 697.5
+  eval 650: best chi2 697.5
+  eval 675: best chi2 697.5
+  eval 700: best chi2 697.5
+  done: chi2 per-sector 697.5 (red 1.21), common 8219.2 (red 14.12); depth scales S10 0.707, S11 1.389, S37 0.904
+  params {'incl': np.float64(89.56623), 'dt0': np.float64(0.00252), 'rsum': np.float64(0.13464), 'k': np.float64(0.3284), 'teffratio': np.float64(0.59215)}
