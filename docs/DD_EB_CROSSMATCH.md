@@ -393,6 +393,38 @@ Visual inspection of the 2′×2′ AllWISE atlas cutouts (`outputs/crossmatch/w
 - The automated 4″ centring test missed both, because a nebulous peak can sit within 4″ of the star. A diffuseness measure would catch them, for example the ratio of W4 flux in a 12″ aperture to that in a 12–30″ annulus. That needs the FITS cutouts, which need IRSA or SkyView access.
 - **Not verified:** these are visual judgements on display-stretched PNGs, not photometry. Higher-resolution W4 data (unWISE or Spitzer MIPS 24 µm, if any) would settle J1604.
 
+### Cloud run 2026-10-21 (daily routine)
+
+**Per-sector dilution fitter** (`src/pipeline/fit_per_sector_dilution.py`, new):
+- Each TESS sector is binned on its own, on the candidate's adaptive phase bins. The errors are white noise: std/√n per bin, floored at the sector's median bin error.
+- PHOEBE is evaluated at each sector bin's mean phase.
+- Each sector gets its own affine map, flux_s = a_s + b_s · model, solved by linear least squares inside the Nelder–Mead objective. b_s / mean(b) is the sector's relative eclipse-depth scale.
+- The free geometry is incl, dt0, r_sum, k and T₂/T₁. Global l3 is degenerate with the affine terms and is not fitted.
+- Only J1122 has per-sector points in the repo: `outputs/j1122_tess_multisector_s10_s11_s37/` (sectors 10, 11 and 37; 5,625 points; 589 sector-bins).
+
+**Injection test** (`src/checks/persector_injection.py`). A synthetic J1122 light curve on the real time stamps, with injected depth scales 0.70 / 1.40 / 0.90 and white noise at each sector's scatter, fitted from perturbed parameters with ntri 1500:
+
+| | incl | dt0 (d) | r_sum | k | T₂/T₁ | Depth scale S10 / S11 / S37 | χ²_red |
+|---|---:|---:|---:|---:|---:|---|---:|
+| Injected | 89.50 | 0.0026 | 0.134 | 0.320 | 0.590 | 0.70 / 1.40 / 0.90 | — |
+| Start | 89.00 | 0.0020 | 0.128 | 0.360 | 0.550 | — | 6.25 |
+| **Recovered** | 89.57 | 0.0025 | 0.135 | 0.328 | 0.592 | **0.707 / 1.389 / 0.904** | 1.21 |
+
+- **Verified:** the fitter recovers the geometry and the per-sector dilution. A shared dilution on the same data gives χ²_red 14.1.
+- **Verified:** mesh resolution matters at white-noise precision. χ²_red at the true parameters is 3.10 with ntri 400 (the pipeline's optimisation mesh) and 1.22 with ntri 1500. Per-sector fits should use `--ntri 1500` (~13 s per evaluation for 589 points, ~2 h for 600 evaluations).
+
+**J1122, real data** (Teff 7,705 K, 578 dof):
+
+| Start | ntri | χ² per-sector (χ²_red) | χ² shared dilution, same model | Depth scale S10 / S11 / S37 | incl | r_sum | k | T₂/T₁ |
+|---|---:|---:|---:|---|---:|---:|---:|---:|
+| `_7sector` result | 400 | 760.8 (1.32) | 833.9 | 0.77 / 1.22 / 1.01 | 89.8 | 0.186 | 0.512 | 0.632 |
+| previous row | 1500 | 765.9 (1.33) | 846.9 | 0.77 / 1.18 / 1.05 | 90.4 (≡ 89.6) | 0.174 | 0.389 | 0.633 |
+| `_7sector` result | 1500 | 769.5 (1.33) | 844.2 | 0.78 / 1.17 / 1.05 | 84.7 | 0.192 | 0.256 | 0.622 |
+
+- **Verified:** the sectors need different dilutions. Sector 10's eclipse is about 0.77× the mean depth and sector 11's about 1.18×, the same in all three fits. Per-sector dilution lowers χ² by 75–81 for 4 extra parameters.
+- **Not constrained:** the geometry. Two fits with χ² within 4 have k = 0.26 and 0.39 and incl 84.7° and 89.6°. With the dilution free per sector, the eclipse depth no longer pins the radii, so these data alone can't separate the solutions. That needs the 4 other sectors (64, 90, 99, 100, not in the repo) or a constraint on the total dilution (TIC contamination ratio 0.58).
+- **Caveat:** sectors 10 and 11 are 30-min data, and the model does not integrate over the exposure (not yet implemented).
+
 ### Cloud run 2026-10-20 (daily routine)
 
 Run started at 07:53 UTC after Kyle reset the usage (the 07:51 fire was skipped while paused). Archive hosts still blocked.

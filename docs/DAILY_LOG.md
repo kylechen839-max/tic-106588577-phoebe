@@ -222,3 +222,14 @@ The earlier −10% failure was a worse local minimum.
 
 **Status.** Unchanged: J1419, J2312 and J1604 pass all checks as defined (J1604 W4 suspect). Against white noise, none fits to the photon level, which points to per-sector dilution as the next model change (needs raw light curves).
 
+## 2026-10-21
+
+**Environment.** Archive hosts still blocked (all 000). Work ran 07:54–11:01 UTC.
+
+**Per-sector dilution fitter** (`src/pipeline/fit_per_sector_dilution.py`):
+- Each sector is binned separately with white-noise errors and gets its own flux offset and depth scale against one PHOEBE model.
+- **Injection test on J1122's time stamps:** geometry recovered within 0.07° in incl, 0.001 in r_sum, 0.008 in k and 0.002 in T₂/T₁. Injected depth scales 0.70/1.40/0.90 came back as 0.707/1.389/0.904, at χ²_red 1.21. Needs ntri 1500: ntri 400 gives χ²_red 3.10 even at the true parameters.
+- **J1122 (sectors 10, 11, 37):** χ²_red 1.33 against white noise. Depth scales are S10 0.77, S11 1.18 and S37 1.05, consistent across 3 fits, and Δχ² is 75–81 against a shared dilution. The geometry is degenerate: k is 0.26–0.51 at nearly equal χ². Needs the other 4 sectors or a total-dilution prior.
+
+**Status.** The per-sector approach works and is tested. It can't be applied to J2312, J1604 or J1419 until their per-sector light curves are fetched (MAST blocked; `_raw.txt` not in the repo).
+
