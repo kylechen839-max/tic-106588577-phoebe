@@ -105,6 +105,38 @@ def affine_chi2(pred, bins, common=False, scale_prior=None):
     return total, coefs
 
 
+def plot_sectors(path, name, bins, pred, coefs, res, phase2=0.5):
+    """Per-sector data and model (after each sector's affine map) around both eclipses, with
+    residuals in units of each bin's error."""
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    p2 = phase2 if phase2 < 0.8 else phase2 - 1
+    fig, axes = plt.subplots(2, 2, figsize=(11, 6.5), sharex="col", gridspec_kw={"height_ratios": [3, 1.3]})
+    for col, (centre, lab) in enumerate(((0.0, "primary"), (p2, "secondary"))):
+        ax, rx = axes[0, col], axes[1, col]
+        for k, (s, (ph, f, e, _)) in enumerate(bins.items()):
+            a, b = coefs[s]
+            mod = a + b * pred(s)
+            o = np.argsort(ph)
+            m = np.abs(ph - centre) < 0.08
+            off = -0.004 * k
+            ax.errorbar(ph[m], f[m] + off, yerr=e[m], fmt=".", ms=3, lw=0.5, color=f"C{k}", label=f"S{s} (scale {b / res['mean_depth_scale_b']:.2f})")
+            mo = o[np.abs(ph[o] - centre) < 0.08]
+            ax.plot(ph[mo], mod[mo] + off, color=f"C{k}", lw=1.2)
+            rx.plot(ph[m], (f[m] - mod[m]) / e[m], ".", ms=3, color=f"C{k}")
+        ax.set_title(f"{lab} eclipse")
+        rx.axhline(0, color="0.5", lw=0.8)
+        rx.set_xlabel("phase"); rx.set_ylabel("resid / err")
+    axes[0, 0].set_ylabel("flux (sectors offset)")
+    axes[0, 0].legend(fontsize=8)
+    fig.suptitle(f"{name}: per-sector dilution fit, chi2_red {res['chi2_red_per_sector']:.2f} "
+                 f"(shared dilution {res['chi2_red_common_same_model']:.2f})", fontsize=10)
+    fig.tight_layout()
+    fig.savefig(path, dpi=110)
+    plt.close(fig)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--designation", required=True)
@@ -224,6 +256,7 @@ def main():
         "evals": n["evals"], "runtime_s": time.time() - t_start,
     }
     (cdir / f"{name}_persector{args.tag}.json").write_text(json.dumps(res, indent=1))
+    plot_sectors(cdir / f"{name}_persector{args.tag}.png", name, bins, pred, coefs, res, phase2=eph.get("eclipses", {}).get("phase2", 0.5))
     log(f"  done: chi2 per-sector {c_ps:.1f} (red {res['chi2_red_per_sector']:.2f}), "
         f"common {c_common:.1f} (red {res['chi2_red_common_same_model']:.2f}); "
         "depth scales " + ", ".join(f"S{s} {x['depth_scale']:.3f}" for s, x in res['sector_affine'].items()))

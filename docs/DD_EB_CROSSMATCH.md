@@ -393,6 +393,37 @@ Visual inspection of the 2′×2′ AllWISE atlas cutouts (`outputs/crossmatch/w
 - The automated 4″ centring test missed both, because a nebulous peak can sit within 4″ of the star. A diffuseness measure would catch them, for example the ratio of W4 flux in a 12″ aperture to that in a 12–30″ annulus. That needs the FITS cutouts, which need IRSA or SkyView access.
 - **Not verified:** these are visual judgements on display-stretched PNGs, not photometry. Higher-resolution W4 data (unWISE or Spitzer MIPS 24 µm, if any) would settle J1604.
 
+### Cloud run 2026-10-22 (daily routine)
+
+**Fitter additions** (`src/pipeline/fit_per_sector_dilution.py`):
+- `--eccentric` fits ecosw/esinw.
+- Sectors with cadence > 5 min are averaged over the exposure (3 sub-exposures); `--no-smear` turns this off.
+- `--l3 L` sets the model's third light, and `--scale-prior SIG` adds a penalty that pulls the mean per-sector depth scale towards 1. Together they mean "on average the model's l3 is right".
+- The model is now normalised to 1 out of eclipse before the affine fit, so the depth scales are relative to the model's own dilution.
+- **Regression (verified):** χ² at the injection truth is 703.8, and J1122's best fit gives 765.9, both as on 10-21.
+- **Exposure smearing for J1122:** χ² 765.9 → 765.7 at its best fit, so it is negligible for its 5–6 h eclipse with 30-min cadence. It also triples the model points, so the J1122 runs below use `--no-smear`.
+
+**Prior injection test** (l3 = 0, prior σ 0.05, from perturbed start). Recovered incl 88.7° (true 89.5), r_sum 0.136 (0.134), k 0.313 (0.320), T₂/T₁ 0.590 (0.590). Depth scales came back as 0.707 / 1.389 / 0.905 (true 0.70 / 1.40 / 0.90), with mean b 1.049 and χ²_red 1.22. **Verified:** the prior code works and doesn't bias the geometry.
+
+**J1122 with the TIC dilution prior.** l3 = 0.367 (from TIC contamination ratio 0.58), prior σ 0.05, ntri 1500, 578 dof, sma 17.09 R☉:
+
+| Start | χ² (χ²_red) | Depth scale S10 / S11 / S37 | incl | r_sum | k | T₂/T₁ | R₁ / R₂ (R☉) |
+|---|---:|---|---:|---:|---:|---:|---|
+| free-dilution solution, k 0.39 | 815.3 (1.41) | 0.82 / 1.10 / 1.08 | 93.7 (≡ 86.3) | 0.160 | 0.115 | 0.636 | 2.45 / 0.28 |
+| free-dilution solution, k 0.26 | 806.1 (1.39) | 0.82 / 1.12 / 1.06 | 84.4 | 0.179 | 0.118 | 0.634 | 2.74 / 0.32 |
+| `_7sector` result | 848.7 (1.47) | 0.85 / 1.07 / 1.09 | 89.5 | 0.151 | 0.107 | 0.651 | 2.33 / 0.25 |
+| free dilution, no prior (10-21, best) | 765.9 (1.33) | 0.77 / 1.18 / 1.05 | 89.6 | 0.174 | 0.389 | 0.633 | — |
+
+- **Verified:** with the TIC dilution, all three starts converge to a small companion: k = 0.11–0.12, R₂ ≈ 0.25–0.32 R☉ (R₁ 2.3–2.7 R☉).
+- **Verified:** the free-dilution solutions from 10-21 need far more dilution than TIC gives. Evaluated with l3 = 0, their mean depth scale is 0.06 (k 0.39) and 0.15 (k 0.26). That means 85–94% of the light would come from other stars, against 37% from TIC. Those solutions are probably unphysical (inferred).
+- The TIC prior costs Δχ² = 40–83 against the free-dilution fits. So either the TIC contamination is underestimated, or the remaining misfit is model-limited (inferred; not separable with 3 sectors).
+- Sector 10's depth is about 0.82× and sector 11's about 1.10× the mean in every fit, so per-sector dilution is needed either way.
+- **Per-sector plot** (new, `outputs/candidates/J112238.89-592027.5/J112238.89-592027.5_persector_psl3b_plot.png`; the script now writes one per run):
+  - Sector 11 has **no points at the bottom of the primary eclipse**, only ingress and egress, so its 1.10–1.18 depth scale is an extrapolation.
+  - Sectors 10 and 37 each have only about 2 bins at primary minimum.
+  - The k ≈ 0.11 model gives a flat-bottomed (total) secondary eclipse. Sector 37's secondary looks rounder and about 0.5 ppt deeper at mid-eclipse (residuals −1 to −2σ), which mildly disfavours the small-companion solution (visual, not quantified).
+- **Inferred:** the light curve alone doesn't fix J1122's radii. Under the TIC dilution the companion is small (k ≈ 0.11). The 7-sector fit's k = 0.34 depended on its fitted l3 = 0.16.
+
 ### Cloud run 2026-10-21 (daily routine)
 
 **Per-sector dilution fitter** (`src/pipeline/fit_per_sector_dilution.py`, new):

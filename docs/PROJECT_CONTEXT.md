@@ -97,7 +97,7 @@ Everything under `outputs/` is gitignored. Selected results are force-added (`gi
   - zsh errors on unmatched globs; use `find`.
   - PHOEBE rejects short model labels such as "m" and "x".
 
-## Daily next steps (rewritten by each daily cloud run; last: 2026-10-21)
+## Daily next steps (rewritten by each daily cloud run; last: 2026-10-22)
 
 Cloud runs: if `.venv-phoebe` is missing, run `python3 -m venv .venv-phoebe && .venv-phoebe/bin/pip install phoebe==2.4.22 emcee corner scipy matplotlib numpy pandas tabulate`, then `.venv-phoebe/bin/python src/pipeline/build_tess_passband.py`. **One usage window per day** (Kyle, 2026-10-05): plan fits to finish within ~4.5 h. Do not relaunch after a container restart or once the limit resets; checkpoint and stop. Fits die when the session goes idle. Archive hosts are blocked. See `docs/DAILY_LOG.md`.
 
@@ -108,17 +108,20 @@ Cloud runs: if `.venv-phoebe` is missing, run `python3 -m venv .venv-phoebe && .
 
 **Caveat:** against white noise these fits have χ²_red 25–330 (`outputs/checks/white_chi2_table.csv`), because sector depths differ. The per-sector dilution fitter (10-21) fixes this, but needs per-sector data.
 
-1. **When MAST opens:** fetch TESS light curves for J2312, J1604 and J1419 with the fixed clip (`.venv-tess/bin/python src/pipeline/fetch_tess_lc.py ... --fixed-period`). Commit `_raw.txt`, which has a sector column. Then run `.venv-phoebe/bin/python src/pipeline/fit_per_sector_dilution.py --designation <des> --raw outputs/candidates/<des>/<des>_raw.txt --start-from <reference result json> --teff <Teff> --ntri 1500 --maxfev 600 --tag _persector` (~2 h each). For J2312 the eccentric parameters still need adding to the fitter (it fits a circular orbit only).
-2. **Offline, fitter improvements (no network needed):**
-   - add ecosw/esinw to `FREE` when `--eccentric`;
-   - add exposure-time integration for 30-min sectors (PHOEBE `exptime`/`fti_method`, or oversample the phase grid);
-   - add an optional prior on the mean dilution, e.g. from the TIC contamination ratio, to break the depth–geometry degeneracy seen in J1122.
-3. **J1122 geometry:** the per-sector fit is degenerate (k 0.26–0.51). Try a fit with mean dilution fixed from the TIC contamination ratio (0.58 → l3 ≈ 0.37), and with all 7 sectors when MAST opens.
+1. **When MAST opens:** fetch TESS light curves for J2312, J1604 and J1419 with the fixed clip (`.venv-tess/bin/python src/pipeline/fetch_tess_lc.py ... --fixed-period`), and commit `_raw.txt` (it has a sector column). Then run, ~2 h each:
+
+   `.venv-phoebe/bin/python src/pipeline/fit_per_sector_dilution.py --designation <des> --raw outputs/candidates/<des>/<des>_raw.txt --start-from <reference result json> --teff <Teff> --ntri 1500 --maxfev 600 --no-smear --tag _persector`
+
+   - For J2312 add `--eccentric`.
+   - Run once with free dilution, and once with `--l3 <TIC contamination fraction> --scale-prior 0.05`.
+   - Use smearing (drop `--no-smear`) only for short eclipses with 30-min data.
+2. **J1122:** with 3 sectors, the radii depend on the assumed dilution: k 0.11 with the TIC l3, k 0.26–0.51 with free dilution (which implies 85–94% third light). Fetch the other 4 sectors (64, 90, 99, 100) when MAST opens and refit both ways. Offline, there is nothing more to do for J1122.
+3. **Offline:** add a per-sector residual plot to `fit_per_sector_dilution.py` (residuals by sector and phase), and a final emcee step for uncertainties on k, r_sum and the depth scales (~12 s per evaluation at ntri 1500, so keep walkers × steps ≤ 600).
 4. **DD1.0 labels for tier A (needs Kyle/Alissa):** a fuller DD1.0 classification export would fill `dd1_*`; rerun `src/crossmatch/add_dd1_criteria.py` and `make_tables.py`. AllWISE `w4rchi2` is also still missing.
 5. **W3/W4 images:** J2312 clean, J1419 plausible, J1604 suspect. If IRSA opens, add a W4 diffuseness metric to `src/crossmatch/wise_cutouts.py`.
 6. **Tier-B TESS confirmation and new surveys (need network):** TESS light curves for tier-B "B+"/"B"; IJspeert+2024, Howard+2025, OGLE disk, ZTF.
 
-Done: SED check (10-06); DD1.0 criteria, labels and `grade` (10-07); ±10% Teff robustness (10-09 to 10-18); W3/W4 image check (10-16); clip fix (10-18); J2312 e sin ω profile and flux-error check (10-19); white-noise χ², J2312 reflection test, J0739 seeding (10-20); per-sector dilution fitter with injection test (10-21).
+Done: SED check (10-06); DD1.0 criteria, labels and `grade` (10-07); ±10% Teff robustness (10-09 to 10-18); W3/W4 image check (10-16); clip fix (10-18); J2312 e sin ω profile and flux-error check (10-19); white-noise χ², J2312 reflection test, J0739 seeding (10-20); per-sector dilution fitter with injection test (10-21); fitter eccentricity, smearing and dilution prior, J1122 with the TIC prior (10-22).
 
 ## Status at handoff
 

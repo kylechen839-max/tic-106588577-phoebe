@@ -233,3 +233,21 @@ The earlier −10% failure was a worse local minimum.
 
 **Status.** The per-sector approach works and is tested. It can't be applied to J2312, J1604 or J1419 until their per-sector light curves are fetched (MAST blocked; `_raw.txt` not in the repo).
 
+## 2026-10-22
+
+**Environment.** Archive hosts still blocked (all 000). Work ran 07:54–10:25 UTC.
+
+**Per-sector fitter additions.**
+- New options: eccentricity, exposure smearing for long cadences, and a model l3 with a prior on the mean depth scale.
+- The 10-21 results reproduce exactly.
+- Smearing changes J1122's best χ² by only 0.2.
+- Injection with the prior recovers the geometry (k 0.313 vs 0.320) and the depth scales (0.707/1.389/0.905).
+
+**J1122 with the TIC dilution** (l3 0.367, σ 0.05).
+- All 3 starts converge to k = 0.11–0.12 (R₂ ≈ 0.25–0.32 R☉) at χ² 806–849 (χ²_red 1.39–1.47).
+- That is Δχ² 40–83 worse than free dilution.
+- The free-dilution solutions imply 85–94% third light, against 37% from TIC, so they are probably unphysical.
+- Per-sector depth scales are S10 ≈ 0.82, S11 ≈ 1.10 and S37 ≈ 1.07.
+
+**Status.** The per-sector tools are ready. Applying them to J2312, J1604 and J1419 needs their per-sector light curves (MAST blocked).
+
