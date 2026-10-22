@@ -116,7 +116,7 @@ Cloud runs: if `.venv-phoebe` is missing, run `python3 -m venv .venv-phoebe && .
    - Run once with free dilution, and once with `--l3 <TIC contamination fraction> --scale-prior 0.05`.
    - Use smearing (drop `--no-smear`) only for short eclipses with 30-min data.
 2. **J1122:** with 3 sectors, the radii depend on the assumed dilution: k 0.11 with the TIC l3, k 0.26–0.51 with free dilution (which implies 85–94% third light). Fetch the other 4 sectors (64, 90, 99, 100) when MAST opens and refit both ways. Offline, there is nothing more to do for J1122.
-3. **Offline:** add a per-sector residual plot to `fit_per_sector_dilution.py` (residuals by sector and phase), and a final emcee step for uncertainties on k, r_sum and the depth scales (~12 s per evaluation at ntri 1500, so keep walkers × steps ≤ 600).
+3. **Offline:** add a final emcee step to `fit_per_sector_dilution.py` (the per-sector plot is done, 10-22) for uncertainties on k, r_sum and the depth scales (~12 s per evaluation at ntri 1500, so keep walkers × steps ≤ 600).
 4. **DD1.0 labels for tier A (needs Kyle/Alissa):** a fuller DD1.0 classification export would fill `dd1_*`; rerun `src/crossmatch/add_dd1_criteria.py` and `make_tables.py`. AllWISE `w4rchi2` is also still missing.
 5. **W3/W4 images:** J2312 clean, J1419 plausible, J1604 suspect. If IRSA opens, add a W4 diffuseness metric to `src/crossmatch/wise_cutouts.py`.
 6. **Tier-B TESS confirmation and new surveys (need network):** TESS light curves for tier-B "B+"/"B"; IJspeert+2024, Howard+2025, OGLE disk, ZTF.
