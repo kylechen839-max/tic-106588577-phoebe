@@ -32,7 +32,8 @@ sys.path.insert(0, str(ROOT / "src" / "pipeline"))
 import run_phoebe_candidate as rpc  # noqa: E402
 
 FREE = ["incl", "dt0", "rsum", "k", "teffratio"]
-STEP = {"incl": 0.3, "dt0": 0.0005, "rsum": 0.004, "k": 0.03, "teffratio": 0.03}
+STEP = {"incl": 0.3, "dt0": 0.0005, "rsum": 0.004, "k": 0.03, "teffratio": 0.03, "ecosw": 0.001, "esinw": 0.01}
+SMEAR = (-1 / 3, 0.0, 1 / 3)  # exposure average: 3 sub-exposures at the centres of its thirds
 
 
 def robust_sigma(x):
@@ -68,17 +69,35 @@ def sector_bins(raw, edges, t0, period, min_points=3):
     return out
 
 
-def affine_chi2(pred, bins, common=False):
+def affine_chi2(pred, bins, common=False, scale_prior=None):
     """chi2 of flux_s = a_s + b_s * model, per sector (or one shared a, b if common).
-    pred is a callable phase -> model flux."""
+    pred is a callable sector -> model flux at that sector's bins (exposure-averaged).
+    scale_prior = sigma adds a penalty ((mean_s b_s - 1) / sigma)^2, i.e. on average the
+    model's own dilution (its l3) is right and sectors only scatter around it; pred must
+    then be normalised to 1 out of eclipse."""
+    if scale_prior:
+        ss = list(bins)
+        ncol = 2 * len(ss)
+        Xs, ys = [], []
+        for i, s in enumerate(ss):
+            j, f, e, _ = bins[s]
+            X = np.zeros((len(j), ncol))
+            X[:, 2 * i] = 1 / e
+            X[:, 2 * i + 1] = pred(s) / e
+            Xs.append(X); ys.append(f / e)
+        prow = np.zeros((1, ncol))
+        prow[0, 1::2] = 1 / (len(ss) * scale_prior)
+        X = np.vstack(Xs + [prow]); y = np.concatenate(ys + [[1 / scale_prior]])
+        coef, *_ = np.linalg.lstsq(X, y, rcond=None)
+        return float(np.sum((y - X @ coef) ** 2)), {s: (coef[2 * i], coef[2 * i + 1]) for i, s in enumerate(ss)}
     if common:
-        X = np.concatenate([np.c_[np.ones(len(j)), pred(j)] / e[:, None] for j, _, e, _ in bins.values()])
+        X = np.concatenate([np.c_[np.ones(len(b[0])), pred(s)] / b[2][:, None] for s, b in bins.items()])
         y = np.concatenate([f / e for _, f, e, _ in bins.values()])
         coef, *_ = np.linalg.lstsq(X, y, rcond=None)
         return float(np.sum((y - X @ coef) ** 2)), {s: tuple(coef) for s in bins}
     total, coefs = 0.0, {}
     for s, (j, f, e, _) in bins.items():
-        X = np.c_[np.ones(len(j)), pred(j)] / e[:, None]
+        X = np.c_[np.ones(len(j)), pred(s)] / e[:, None]
         y = f / e
         coef, *_ = np.linalg.lstsq(X, y, rcond=None)
         total += float(np.sum((y - X @ coef) ** 2))
@@ -97,13 +116,20 @@ def main():
     ap.add_argument("--maxfev", type=int, default=400)
     ap.add_argument("--no-irrad", action="store_true")
     ap.add_argument("--tag", default="_persector")
+    ap.add_argument("--eccentric", action="store_true", help="also fit ecosw, esinw (start values from --start-from)")
+    ap.add_argument("--no-smear", action="store_true",
+                    help="do not average the model over the exposure for sectors with cadence > 5 min")
+    ap.add_argument("--l3", type=float, default=0.0, help="third-light fraction in the model (e.g. from TIC contamination)")
+    ap.add_argument("--scale-prior", type=float, default=None,
+                    help="sigma of a prior that the mean per-sector depth scale is 1 (needs a realistic --l3)")
     args = ap.parse_args()
 
     name = args.designation
     cdir, eph, times, flux, sig = rpc.load_inputs(name)
     period = eph["period"]
     t0 = eph["t0"]
-    rpc.PARAMS[:] = list(FREE)
+    free = FREE + (["ecosw", "esinw"] if args.eccentric else [])
+    rpc.PARAMS[:] = list(free)
     m1, _ = rpc.ms_mass_radius(args.teff)
     distortion = "roche" if period < 3 else "sphere"
     sf = json.loads(Path(args.start_from).read_text())
@@ -112,7 +138,7 @@ def main():
     else:  # a _phoebe_result json
         d = dict(sf)
         d["dt0"] = sf["t0"] - t0
-    v0 = np.array([d[n] for n in FREE], float)
+    v0 = np.array([d[n] for n in free], float)
 
     # phase bins: midpoints between the candidate's adaptive _binned.txt phases
     gph = np.sort(rpc.phase_values(times, t0, period))
@@ -121,21 +147,26 @@ def main():
     raw = np.genfromtxt(args.raw, comments="#")
     raw = raw[np.isfinite(raw).all(axis=1)]
     bins = sector_bins(raw, edges, t0, period)
-    # PHOEBE is evaluated exactly at every sector bin's mean phase (no interpolation)
-    allph = np.concatenate([j for j, *_ in bins.values()])
-    uph, inv = np.unique(np.round(allph, 7), return_inverse=True)
-    starts = np.cumsum([0] + [len(j) for j, *_ in bins.values()])
-    where = {s: inv[starts[i]:starts[i + 1]] for i, s in enumerate(bins)}
+    # PHOEBE is evaluated exactly at every sector bin's mean phase (no interpolation). For long
+    # cadences (> 5 min) the model is averaged over the exposure (sub-exposure offsets SMEAR).
+    secs = raw[:, 3]
+    cadence = {s: float(np.median(np.diff(np.sort(raw[secs == s, 0])))) for s in bins}
+    offs = {s: (np.array(SMEAR) * cadence[s] / period if (cadence[s] > 5 / 1440 and not args.no_smear)
+                else np.array([0.0])) for s in bins}
+    want = {s: (bins[s][0][:, None] + offs[s][None, :]) for s in bins}   # (nbin, nsub)
+    allph = np.concatenate([w.ravel() for w in want.values()])
+    uph, inv = np.unique(np.round(allph, 8), return_inverse=True)
+    starts = np.cumsum([0] + [w.size for w in want.values()])
+    where = {s: inv[starts[i]:starts[i + 1]].reshape(want[s].shape) for i, s in enumerate(bins)}
     gt = t0 + uph * period
     m = rpc.Model(gt, np.ones_like(gt), np.full_like(gt, 1e-3), period, t0, args.teff, m1, args.q, distortion,
-                  args.ntri, l3=0.0, irrad=not args.no_irrad)
+                  args.ntri, l3=args.l3, irrad=not args.no_irrad)
     m.b.set_value("pblum_mode@lc01", "component-coupled")
-    phase_index = {}
-    for s, (j, *_r) in bins.items():
-        phase_index.update(zip(np.round(j, 7), where[s]))
+    oot_idx = np.abs(rpc.phase_values(gt, t0, period)) > 0.15   # for normalising to 1 out of eclipse
 
     def interp_model(pred_grid):
-        return lambda phase: pred_grid[[phase_index[x] for x in np.round(phase, 7)]]
+        pg = pred_grid / np.median(pred_grid[oot_idx]) if oot_idx.any() else pred_grid
+        return lambda s: pg[where[s]].mean(axis=1)
     nbin = sum(len(j) for j, *_ in bins.values())
     log_path = cdir / f"{name}_phoebe{args.tag}.log"
     logf = log_path.open("a")
@@ -146,7 +177,9 @@ def main():
         logf.flush()
 
     log(f"=== {name} per-sector dilution fit: sectors {sorted(bins)}, {nbin} sector-bins, "
-        f"Teff1={args.teff:.0f}, start {args.start_from}")
+        f"{len(uph)} model phases, Teff1={args.teff:.0f}, l3={args.l3}, scale prior {args.scale_prior}, "
+        f"free {free}, cadence (min) {({s: round(c * 1440, 1) for s, c in cadence.items()})}, "
+        f"smeared {[s for s in bins if len(offs[s]) > 1]}, start {args.start_from}")
     best = {"chi2": np.inf, "v": v0}
     n = {"evals": 0}
 
@@ -157,7 +190,7 @@ def main():
             pred = interp_model(np.asarray(m.b.get_value("fluxes@lc01@ps@model"), float))
         except Exception:
             return 1e12
-        c, _ = affine_chi2(pred, bins)
+        c, _ = affine_chi2(pred, bins, scale_prior=args.scale_prior)
         n["evals"] += 1
         if c < best["chi2"]:
             best.update(chi2=c, v=np.array(v), pred=pred)
@@ -170,17 +203,19 @@ def main():
     pred0 = best["pred"]
     c0_common, _ = affine_chi2(pred0, bins, common=True)
     log(f"  start: chi2 per-sector {c0:.1f}, common {c0_common:.1f} ({nbin} bins)")
-    simplex = np.array([v0] + [v0 + np.eye(len(v0))[i] * STEP[p] for i, p in enumerate(FREE)])
+    simplex = np.array([v0] + [v0 + np.eye(len(v0))[i] * STEP[p] for i, p in enumerate(free)])
     minimize(objective, v0, method="Nelder-Mead",
              options={"initial_simplex": simplex, "maxfev": args.maxfev, "xatol": 1e-5, "fatol": 0.05})
     v, pred = best["v"], best["pred"]
-    c_ps, coefs = affine_chi2(pred, bins)
+    c_ps, coefs = affine_chi2(pred, bins, scale_prior=args.scale_prior)
     c_common, coef_c = affine_chi2(pred, bins, common=True)
-    nfree_ps = len(FREE) + 2 * len(bins)
-    nfree_c = len(FREE) + 2
+    nfree_ps = len(free) + 2 * len(bins)
+    nfree_c = len(free) + 2
     bmean = np.mean([b for _, b in coefs.values()])
     res = {
-        "designation": name, "teff1": args.teff, "params": FREE, "v": list(map(float, v)),
+        "designation": name, "teff1": args.teff, "params": free, "v": list(map(float, v)),
+        "l3": args.l3, "scale_prior": args.scale_prior, "smeared_sectors": [s for s in bins if len(offs[s]) > 1],
+        "mean_depth_scale_b": float(np.mean([b for _, b in coefs.values()])),
         "start_from": args.start_from, "n_sector_bins": nbin, "sectors": sorted(bins),
         "chi2_start_per_sector": c0, "chi2_start_common": c0_common,
         "chi2_per_sector": c_ps, "dof_per_sector": nbin - nfree_ps, "chi2_red_per_sector": c_ps / (nbin - nfree_ps),
@@ -192,7 +227,7 @@ def main():
     log(f"  done: chi2 per-sector {c_ps:.1f} (red {res['chi2_red_per_sector']:.2f}), "
         f"common {c_common:.1f} (red {res['chi2_red_common_same_model']:.2f}); "
         "depth scales " + ", ".join(f"S{s} {x['depth_scale']:.3f}" for s, x in res['sector_affine'].items()))
-    log(f"  params {dict(zip(FREE, np.round(v, 5)))}")
+    log(f"  params {dict(zip(free, np.round(v, 5)))}; mean b {res['mean_depth_scale_b']:.3f}")
 
 
 if __name__ == "__main__":
