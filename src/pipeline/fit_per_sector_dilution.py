@@ -154,6 +154,8 @@ def main():
     ap.add_argument("--l3", type=float, default=0.0, help="third-light fraction in the model (e.g. from TIC contamination)")
     ap.add_argument("--scale-prior", type=float, default=None,
                     help="sigma of a prior that the mean per-sector depth scale is 1 (needs a realistic --l3)")
+    ap.add_argument("--walkers", type=int, default=0, help="emcee walkers after the optimisation (0 = no emcee)")
+    ap.add_argument("--steps", type=int, default=0, help="emcee steps per walker")
     args = ap.parse_args()
 
     name = args.designation
@@ -215,11 +217,14 @@ def main():
     best = {"chi2": np.inf, "v": v0}
     n = {"evals": 0}
 
+    def model_pred(v):
+        m.set(v)
+        m.b.run_compute(compute="phoebe01", model="ps", overwrite=True, progressbar=False)
+        return interp_model(np.asarray(m.b.get_value("fluxes@lc01@ps@model"), float))
+
     def objective(v):
         try:
-            m.set(v)
-            m.b.run_compute(compute="phoebe01", model="ps", overwrite=True, progressbar=False)
-            pred = interp_model(np.asarray(m.b.get_value("fluxes@lc01@ps@model"), float))
+            pred = model_pred(v)
         except Exception:
             return 1e12
         c, _ = affine_chi2(pred, bins, scale_prior=args.scale_prior)
@@ -236,8 +241,9 @@ def main():
     c0_common, _ = affine_chi2(pred0, bins, common=True)
     log(f"  start: chi2 per-sector {c0:.1f}, common {c0_common:.1f} ({nbin} bins)")
     simplex = np.array([v0] + [v0 + np.eye(len(v0))[i] * STEP[p] for i, p in enumerate(free)])
-    minimize(objective, v0, method="Nelder-Mead",
-             options={"initial_simplex": simplex, "maxfev": args.maxfev, "xatol": 1e-5, "fatol": 0.05})
+    if args.maxfev > 1:
+        minimize(objective, v0, method="Nelder-Mead",
+                 options={"initial_simplex": simplex, "maxfev": args.maxfev, "xatol": 1e-5, "fatol": 0.05})
     v, pred = best["v"], best["pred"]
     c_ps, coefs = affine_chi2(pred, bins, scale_prior=args.scale_prior)
     c_common, coef_c = affine_chi2(pred, bins, common=True)
@@ -261,6 +267,54 @@ def main():
         f"common {c_common:.1f} (red {res['chi2_red_common_same_model']:.2f}); "
         "depth scales " + ", ".join(f"S{s} {x['depth_scale']:.3f}" for s, x in res['sector_affine'].items()))
     log(f"  params {dict(zip(free, np.round(v, 5)))}; mean b {res['mean_depth_scale_b']:.3f}")
+    if args.walkers and args.steps:
+        run_mcmc(args, name, cdir, free, v, c_ps, res, bins, model_pred, log)
+
+
+def run_mcmc(args, name, cdir, free, v_best, chi2_best, res, bins, model_pred, log):
+    """emcee around the optimum. The chi2 is divided by max(1, chi2_red) so the posterior width
+    reflects the actual misfit, as in run_phoebe_candidate.py. Depth scales are stored as blobs."""
+    import emcee
+    dof = res["dof_per_sector"]
+    scale = max(1.0, chi2_best / dof)
+    secs = list(bins)
+    lo = {"incl": 60.0, "dt0": -0.05, "rsum": 0.01, "k": 0.02, "teffratio": 0.1, "ecosw": -0.2, "esinw": -0.7}
+    hi = {"incl": 120.0, "dt0": 0.05, "rsum": 0.8, "k": 3.0, "teffratio": 2.0, "ecosw": 0.2, "esinw": 0.7}
+    nblob = len(secs)
+
+    def lnp(v):
+        if any(not (lo[p] < x < hi[p]) for p, x in zip(free, v)):
+            return -np.inf, np.full(nblob, np.nan)
+        try:
+            pred = model_pred(v)
+        except Exception:
+            return -np.inf, np.full(nblob, np.nan)
+        c, coefs = affine_chi2(pred, bins, scale_prior=args.scale_prior)
+        bs = np.array([coefs[s][1] for s in secs])
+        return -0.5 * c / scale, bs / bs.mean()
+
+    rng = np.random.default_rng(3)
+    step = np.array([0.2 * STEP[p] for p in free])
+    p0 = v_best + step * rng.normal(size=(args.walkers, len(free)))
+    t = time.time()
+    sampler = emcee.EnsembleSampler(args.walkers, len(free), lnp)
+    for i, _ in enumerate(sampler.sample(p0, iterations=args.steps)):
+        if (i + 1) % 5 == 0:
+            log(f"  emcee step {i + 1}/{args.steps}, acc {np.mean(sampler.acceptance_fraction):.2f}")
+    burn = args.steps // 2
+    chain = sampler.get_chain(discard=burn, flat=True)
+    blobs = sampler.get_blobs(discard=burn, flat=True)
+    np.save(cdir / f"{name}_persector_chain{args.tag}.npy", sampler.get_chain())
+    pct = {p: list(map(float, np.percentile(chain[:, i], [16, 50, 84]))) for i, p in enumerate(free)}
+    ok = np.isfinite(blobs).all(axis=1)
+    pct.update({f"depth_scale_S{s}": list(map(float, np.percentile(blobs[ok, i], [16, 50, 84])))
+                for i, s in enumerate(secs)})
+    res["mcmc"] = {"walkers": args.walkers, "steps": args.steps, "burn": burn, "chi2_scale": scale,
+                   "acceptance": float(np.mean(sampler.acceptance_fraction)), "percentiles_16_50_84": pct,
+                   "runtime_s": time.time() - t}
+    (cdir / f"{name}_persector{args.tag}.json").write_text(json.dumps(res, indent=1))
+    log(f"  emcee {args.walkers}x{args.steps} (chi2 scale {scale:.2f}, acc {res['mcmc']['acceptance']:.2f}): "
+        + "; ".join(f"{p} {v[1]:.4g} +{v[2] - v[1]:.2g} -{v[1] - v[0]:.2g}" for p, v in pct.items()))
 
 
 if __name__ == "__main__":
