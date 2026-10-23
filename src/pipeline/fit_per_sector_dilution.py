@@ -296,21 +296,41 @@ def run_mcmc(args, name, cdir, free, v_best, chi2_best, res, bins, model_pred, l
     rng = np.random.default_rng(3)
     step = np.array([0.2 * STEP[p] for p in free])
     p0 = v_best + step * rng.normal(size=(args.walkers, len(free)))
+    # checkpoint the chain every 5 steps; a container restart (10-23) lost three chains at step 20/60.
+    # On a rerun with the same tag, the walkers restart from the last saved positions and the
+    # saved steps are kept (prepended) in the final chain.
+    ck = cdir / f"{name}_persector_chainpart{args.tag}.npz"
+    prev_chain = prev_blobs = None
+    if ck.exists():
+        z = np.load(ck)
+        prev_chain, prev_blobs = z["chain"], z["blobs"]
+        p0 = prev_chain[-1]
+        log(f"  emcee: resuming from {ck.name} ({len(prev_chain)} saved steps)")
+    nsteps = args.steps - (0 if prev_chain is None else len(prev_chain))
     t = time.time()
     sampler = emcee.EnsembleSampler(args.walkers, len(free), lnp)
-    for i, _ in enumerate(sampler.sample(p0, iterations=args.steps)):
+    for i, _ in enumerate(sampler.sample(p0, iterations=max(nsteps, 0))):
         if (i + 1) % 5 == 0:
-            log(f"  emcee step {i + 1}/{args.steps}, acc {np.mean(sampler.acceptance_fraction):.2f}")
-    burn = args.steps // 2
-    chain = sampler.get_chain(discard=burn, flat=True)
-    blobs = sampler.get_blobs(discard=burn, flat=True)
-    np.save(cdir / f"{name}_persector_chain{args.tag}.npy", sampler.get_chain())
+            log(f"  emcee step {i + 1}/{nsteps}, acc {np.mean(sampler.acceptance_fraction):.2f}")
+            ch, bl = sampler.get_chain(), sampler.get_blobs()
+            if prev_chain is not None:
+                ch, bl = np.concatenate([prev_chain, ch]), np.concatenate([prev_blobs, bl])
+            np.savez(ck, chain=ch, blobs=bl)
+    full_chain, full_blobs = sampler.get_chain(), sampler.get_blobs()
+    if prev_chain is not None:
+        full_chain = np.concatenate([prev_chain, full_chain]) if nsteps > 0 else prev_chain
+        full_blobs = np.concatenate([prev_blobs, full_blobs]) if nsteps > 0 else prev_blobs
+    burn = len(full_chain) // 2
+    chain = full_chain[burn:].reshape(-1, len(free))
+    blobs = full_blobs[burn:].reshape(-1, nblob)
+    np.save(cdir / f"{name}_persector_chain{args.tag}.npy", full_chain)
     pct = {p: list(map(float, np.percentile(chain[:, i], [16, 50, 84]))) for i, p in enumerate(free)}
     ok = np.isfinite(blobs).all(axis=1)
     pct.update({f"depth_scale_S{s}": list(map(float, np.percentile(blobs[ok, i], [16, 50, 84])))
                 for i, s in enumerate(secs)})
     res["mcmc"] = {"walkers": args.walkers, "steps": args.steps, "burn": burn, "chi2_scale": scale,
-                   "acceptance": float(np.mean(sampler.acceptance_fraction)), "percentiles_16_50_84": pct,
+                   "acceptance": float(np.mean(sampler.acceptance_fraction)) if nsteps > 0 else float("nan"),
+                   "percentiles_16_50_84": pct,
                    "runtime_s": time.time() - t}
     (cdir / f"{name}_persector{args.tag}.json").write_text(json.dumps(res, indent=1))
     log(f"  emcee {args.walkers}x{args.steps} (chi2 scale {scale:.2f}, acc {res['mcmc']['acceptance']:.2f}): "

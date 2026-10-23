@@ -251,3 +251,15 @@ The earlier −10% failure was a worse local minimum.
 
 **Status.** The per-sector tools are ready. Applying them to J2312, J1604 and J1419 needs their per-sector light curves (MAST blocked).
 
+## 2026-10-23
+
+**Environment.** Archive hosts still blocked. Work ran 07:51 to about 09:15 UTC.
+
+**Emcee step added** to `fit_per_sector_dilution.py` (`--walkers`, `--steps`; commit 3c0c65f).
+
+**J1122 emcee runs lost.** Three 12×60 runs (`_mcfreea`, `_mcfreeb`, `_mcl3`) were at step 20/60 when the container restarted at about 09:05 UTC. No chains survived. Per the one-window rule, nothing was relaunched.
+
+**Fix.** The chain is now checkpointed every 5 steps (`*_persector_chainpart{tag}.npz`), and a rerun with the same tag resumes from it. The code compiles; resume has not been exercised yet.
+
+**Status.** No new science results today. The next run should rerun the three J1122 emcee jobs with the same commands and tags (each about 2.5 h at 4 cores in parallel).
+

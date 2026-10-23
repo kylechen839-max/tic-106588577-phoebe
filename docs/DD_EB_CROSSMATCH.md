@@ -393,6 +393,17 @@ Visual inspection of the 2′×2′ AllWISE atlas cutouts (`outputs/crossmatch/w
 - The automated 4″ centring test missed both, because a nebulous peak can sit within 4″ of the star. A diffuseness measure would catch them, for example the ratio of W4 flux in a 12″ aperture to that in a 12–30″ annulus. That needs the FITS cutouts, which need IRSA or SkyView access.
 - **Not verified:** these are visual judgements on display-stretched PNGs, not photometry. Higher-resolution W4 data (unWISE or Spitzer MIPS 24 µm, if any) would settle J1604.
 
+### Cloud run 2026-10-23 (daily routine)
+
+**Fitter addition** (`src/pipeline/fit_per_sector_dilution.py`): `--walkers N --steps M` runs a final emcee step from the optimum. χ² is scaled by max(1, χ²_red), the depth scales are stored as blobs, and the percentiles are written to the result JSON. The chain is now checkpointed every 5 steps to `{name}_persector_chainpart{tag}.npz`, and a rerun with the same tag resumes from it.
+
+**J1122 emcee runs lost.** Three 12-walker × 60-step runs (ntri 1500, `--no-smear`) were started at about 07:56 UTC:
+- `_mcfreea` (free dilution, from the k 0.39 solution);
+- `_mcfreeb` (free dilution, from the k 0.26 solution);
+- `_mcl3` (l3 0.367, prior σ 0.05, from `_psl3b`).
+
+A container restart at about 09:05 UTC killed all three at step 20/60 (acceptance 0.57–0.63). No chain was saved, because checkpointing was added only after the restart. Following the one-window rule, they were not relaunched. The `_mc*` JSON and PNG files only hold the start-point evaluation, which reproduces the 10-21/10-22 optima exactly (`_mcl3`: χ² 806.1, χ²_red 1.39, depth scales 0.82 / 1.12 / 1.06). **No new uncertainties today.**
+
 ### Cloud run 2026-10-22 (daily routine)
 
 **Fitter additions** (`src/pipeline/fit_per_sector_dilution.py`):
