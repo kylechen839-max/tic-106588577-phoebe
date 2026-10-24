@@ -316,10 +316,13 @@ def run_mcmc(args, name, cdir, free, v_best, chi2_best, res, bins, model_pred, l
             if prev_chain is not None:
                 ch, bl = np.concatenate([prev_chain, ch]), np.concatenate([prev_blobs, bl])
             np.savez(ck, chain=ch, blobs=bl)
-    full_chain, full_blobs = sampler.get_chain(), sampler.get_blobs()
-    if prev_chain is not None:
-        full_chain = np.concatenate([prev_chain, full_chain]) if nsteps > 0 else prev_chain
-        full_blobs = np.concatenate([prev_blobs, full_blobs]) if nsteps > 0 else prev_blobs
+    if nsteps > 0:
+        full_chain, full_blobs = sampler.get_chain(), sampler.get_blobs()
+        if prev_chain is not None:
+            full_chain = np.concatenate([prev_chain, full_chain])
+            full_blobs = np.concatenate([prev_blobs, full_blobs])
+    else:
+        full_chain, full_blobs = prev_chain, prev_blobs
     burn = len(full_chain) // 2
     chain = full_chain[burn:].reshape(-1, len(free))
     blobs = full_blobs[burn:].reshape(-1, nblob)
