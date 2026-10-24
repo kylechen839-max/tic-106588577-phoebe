@@ -12,3 +12,11 @@
   params {'incl': np.float64(84.40744), 'dt0': np.float64(0.00932), 'rsum': np.float64(0.17913), 'k': np.float64(0.11808), 'teffratio': np.float64(0.63373)}; mean b 0.975
   emcee step 5/60, acc 0.62
   emcee step 10/60, acc 0.53
+  emcee step 15/60, acc 0.57
+  emcee step 20/60, acc 0.56
+  emcee step 25/60, acc 0.56
+  emcee step 30/60, acc 0.55
+  emcee step 35/60, acc 0.54
+  emcee step 40/60, acc 0.55
+  emcee step 45/60, acc 0.54
+  emcee step 50/60, acc 0.54
