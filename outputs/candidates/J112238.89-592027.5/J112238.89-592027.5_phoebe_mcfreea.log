@@ -11,3 +11,4 @@
   done: chi2 per-sector 765.9 (red 1.33), common 846.9 (red 1.46); depth scales S10 0.771, S11 1.184, S37 1.045
   params {'incl': np.float64(90.43259), 'dt0': np.float64(0.00822), 'rsum': np.float64(0.17394), 'k': np.float64(0.38918), 'teffratio': np.float64(0.63334)}; mean b 0.062
   emcee step 5/60, acc 0.62
+  emcee step 10/60, acc 0.67
