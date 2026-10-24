@@ -1,0 +1,25 @@
+=== J112238.89-592027.5 per-sector dilution fit: sectors [10, 11, 37], 589 sector-bins, 589 model phases, Teff1=7705, l3=0.0, scale prior None, free ['incl', 'dt0', 'rsum', 'k', 'teffratio'], cadence (min) {10: 30.0, 11: 30.0, 37: 10.0}, smeared [], start outputs/candidates/J112238.89-592027.5/J112238.89-592027.5_persector_persector1500.json
+  start: chi2 per-sector 769.5, common 844.2 (589 bins)
+  done: chi2 per-sector 769.5 (red 1.33), common 844.2 (red 1.45); depth scales S10 0.782, S11 1.167, S37 1.050
+  params {'incl': np.float64(84.74933), 'dt0': np.float64(0.00733), 'rsum': np.float64(0.19242), 'k': np.float64(0.25613), 'teffratio': np.float64(0.62228)}; mean b 0.151
+  emcee step 5/60, acc 0.62
+  emcee step 10/60, acc 0.63
+  emcee step 15/60, acc 0.62
+  emcee step 20/60, acc 0.63
+=== J112238.89-592027.5 per-sector dilution fit: sectors [10, 11, 37], 589 sector-bins, 589 model phases, Teff1=7705, l3=0.0, scale prior None, free ['incl', 'dt0', 'rsum', 'k', 'teffratio'], cadence (min) {10: 30.0, 11: 30.0, 37: 10.0}, smeared [], start outputs/candidates/J112238.89-592027.5/J112238.89-592027.5_persector_persector1500.json
+  start: chi2 per-sector 769.5, common 844.2 (589 bins)
+  done: chi2 per-sector 769.5 (red 1.33), common 844.2 (red 1.45); depth scales S10 0.782, S11 1.167, S37 1.050
+  params {'incl': np.float64(84.74933), 'dt0': np.float64(0.00733), 'rsum': np.float64(0.19242), 'k': np.float64(0.25613), 'teffratio': np.float64(0.62228)}; mean b 0.151
+  emcee step 5/60, acc 0.60
+  emcee step 10/60, acc 0.57
+  emcee step 15/60, acc 0.55
+  emcee step 20/60, acc 0.55
+  emcee step 25/60, acc 0.56
+  emcee step 30/60, acc 0.55
+  emcee step 35/60, acc 0.57
+  emcee step 40/60, acc 0.58
+  emcee step 45/60, acc 0.58
+  emcee step 50/60, acc 0.57
+  emcee step 55/60, acc 0.56
+  emcee step 60/60, acc 0.55
+  emcee 12x60 (chi2 scale 1.33, acc 0.55): incl 84.86 +0.69 -0.59; dt0 0.007883 +0.00082 -0.00096; rsum 0.1928 +0.0076 -0.0065; k 0.2858 +0.05 -0.038; teffratio 0.6177 +0.011 -0.017; depth_scale_S10 0.7693 +0.018 -0.021; depth_scale_S11 1.185 +0.035 -0.037; depth_scale_S37 1.049 +0.013 -0.017

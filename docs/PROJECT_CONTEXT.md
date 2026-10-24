@@ -97,9 +97,35 @@ Everything under `outputs/` is gitignored. Selected results are force-added (`gi
   - zsh errors on unmatched globs; use `find`.
   - PHOEBE rejects short model labels such as "m" and "x".
 
+## Daily next steps (rewritten by each daily cloud run; last: 2026-10-24)
+
+Cloud runs: if `.venv-phoebe` is missing, run `python3 -m venv .venv-phoebe && .venv-phoebe/bin/pip install phoebe==2.4.22 emcee corner scipy matplotlib numpy pandas tabulate`, then `.venv-phoebe/bin/python src/pipeline/build_tess_passband.py`. **One usage window per day** (Kyle, 2026-10-05): plan fits to finish within ~4.5 h. Do not relaunch after a container restart or once the limit resets; checkpoint and stop. Fits die when the session goes idle. Archive hosts are blocked. See `docs/DAILY_LOG.md`.
+
+**Best fits (all pass the light-curve and SED checks as defined):**
+- J1419 `_v4` (χ²_red 0.67);
+- J2312 `_gteffnoirreccesm003` (0.39; e cos ω −0.0024, 0 ≲ e sin ω ≲ 0.07);
+- J1604 `_gteffseedm10` (0.70; **W4 excess suspect, nebular W4 image**).
+
+**Caveat:** against white noise these fits have χ²_red 25–330 (`outputs/checks/white_chi2_table.csv`), because sector depths differ. The per-sector dilution fitter (10-21) fixes this, but needs per-sector data.
+
+1. **When MAST opens:** fetch TESS light curves for J2312, J1604 and J1419 with the fixed clip (`.venv-tess/bin/python src/pipeline/fetch_tess_lc.py ... --fixed-period`), and commit `_raw.txt` (it has a sector column). Then run, ~2 h each:
+
+   `.venv-phoebe/bin/python src/pipeline/fit_per_sector_dilution.py --designation <des> --raw outputs/candidates/<des>/<des>_raw.txt --start-from <reference result json> --teff <Teff> --ntri 1500 --maxfev 600 --no-smear --tag _persector`
+
+   - For J2312 add `--eccentric`.
+   - Run once with free dilution, and once with `--l3 <TIC contamination fraction> --scale-prior 0.05`.
+   - Use smearing (drop `--no-smear`) only for short eclipses with 30-min data.
+2. **J1122:** done offline (10-24 emcee). With free dilution, k is bimodal (0.29 or 0.41); with the TIC dilution, k = 0.122 (+0.008/−0.005). The light curve can't choose between them with 3 sectors. When MAST opens, fetch sectors 64, 90, 99 and 100 and rerun both ways with emcee (`--walkers 12 --steps 60`; with 7 sectors each evaluation is about 2× slower, so run at most 3 jobs and expect about 5 h, so split them over two days).
+3. **Offline, optional:** a longer J1122 chain started from both free-dilution modes (24 walkers, half from each), to measure their relative weight. It costs about 5 h for 24×60, so give it a whole run. **When waiting on fits, poll with PIDs from `$!`, not `pgrep -f`** (10-24 lost 1.5 h because the wait loop matched itself).
+4. **DD1.0 labels for tier A (needs Kyle/Alissa):** a fuller DD1.0 classification export would fill `dd1_*`; rerun `src/crossmatch/add_dd1_criteria.py` and `make_tables.py`. AllWISE `w4rchi2` is also still missing.
+5. **W3/W4 images:** J2312 clean, J1419 plausible, J1604 suspect. If IRSA opens, add a W4 diffuseness metric to `src/crossmatch/wise_cutouts.py`.
+6. **Tier-B TESS confirmation and new surveys (need network):** TESS light curves for tier-B "B+"/"B"; IJspeert+2024, Howard+2025, OGLE disk, ZTF.
+
+Done: SED check (10-06); DD1.0 criteria, labels and `grade` (10-07); ±10% Teff robustness (10-09 to 10-18); W3/W4 image check (10-16); clip fix (10-18); J2312 e sin ω profile and flux-error check (10-19); white-noise χ², J2312 reflection test, J0739 seeding (10-20); per-sector dilution fitter with injection test (10-21); fitter eccentricity, smearing and dilution prior, J1122 with the TIC prior (10-22); emcee step and chain checkpointing (10-23); J1122 emcee posteriors (10-24).
+
 ## Status at handoff
 
-See **`docs/HANDOFF.md`** for the latest status (PHOEBE round-1 results, round-2 runs in flight, exact next steps). It supersedes the status and open-task lists below.
+Latest daily cloud results: `docs/DAILY_LOG.md` and the "Cloud run" section of `docs/DD_EB_CROSSMATCH.md`. See **`docs/HANDOFF.md`** for the Mac-session status (PHOEBE round-1 results, round-2 runs in flight, exact next steps). It supersedes the status and open-task lists below.
 
 ## Open tasks (priority order)
 
