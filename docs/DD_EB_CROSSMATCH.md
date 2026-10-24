@@ -393,6 +393,22 @@ Visual inspection of the 2′×2′ AllWISE atlas cutouts (`outputs/crossmatch/w
 - The automated 4″ centring test missed both, because a nebulous peak can sit within 4″ of the star. A diffuseness measure would catch them, for example the ratio of W4 flux in a 12″ aperture to that in a 12–30″ annulus. That needs the FITS cutouts, which need IRSA or SkyView access.
 - **Not verified:** these are visual judgements on display-stretched PNGs, not photometry. Higher-resolution W4 data (unWISE or Spitzer MIPS 24 µm, if any) would settle J1604.
 
+### Cloud run 2026-10-24 (daily routine)
+
+**J1122 per-sector emcee** (sectors 10, 11, 37; 589 bins; 578 dof; ntri 1500; 12 walkers × 60 steps, second half kept; χ² scaled by χ²_red). These are the three 10-23 runs, rerun in full. Medians with 16–84% ranges; R from sma 17.09 R☉ (R₁ = sma·r_sum/(1+k), R₂ = k·R₁, computed from the medians):
+
+| Run | Start χ² (χ²_red) | incl | r_sum | k | T₂/T₁ | Depth scale S10 / S11 / S37 | R₁ / R₂ (R☉) | acc |
+|---|---:|---|---|---|---|---|---|---:|
+| `_mcfreea` free dilution, from k 0.39 | 765.9 (1.33) | 90.2 +3.0/−1.6 | 0.178 +0.015/−0.006 | 0.405 +0.052/−0.035 | 0.633 +0.008/−0.021 | 0.77 / 1.18 / 1.05 | 2.17 / 0.88 | 0.55 |
+| `_mcfreeb` free dilution, from k 0.26 | 769.5 (1.33) | 84.9 +0.7/−0.6 | 0.193 +0.008/−0.007 | 0.286 +0.050/−0.038 | 0.618 +0.011/−0.017 | 0.77 / 1.19 / 1.05 | 2.56 / 0.73 | 0.55 |
+| `_mcl3` l3 0.367, prior σ 0.05 | 806.1 (1.39) | 84.2 +0.3/−0.5 | 0.183 +0.005/−0.005 | 0.122 +0.008/−0.005 | 0.614 ± 0.014 | 0.80 / 1.16 / 1.04 | 2.79 / 0.34 | 0.51 |
+
+- **Verified:** the two free-dilution chains stay in separate modes (k 0.41 vs 0.29, incl 90° vs 85°) at almost the same χ² (Δχ² 3.6). So the free-dilution posterior is at least bimodal, and each chain's range understates the real k uncertainty. Free dilution allows k ≈ 0.25–0.46.
+- **Verified:** with the TIC dilution prior, k = 0.122 (+0.008/−0.005), R₂ ≈ 0.34 R☉. This is far from the free-dilution modes.
+- **Verified:** the depth scales are robust across all three runs: S10 0.77–0.80, S11 1.16–1.19, S37 1.04–1.05 (±0.01–0.04).
+- **Caveat (assumed adequate, not tested):** 60 steps with 12 walkers is short. The chains were not checked for convergence (no autocorrelation time, 30-step burn-in). Treat the ranges as indicative.
+- The checkpoint/resume code wrote `chainpart` files every 5 steps. Resume itself was not exercised, because nothing was killed.
+
 ### Cloud run 2026-10-23 (daily routine)
 
 **Fitter addition** (`src/pipeline/fit_per_sector_dilution.py`): `--walkers N --steps M` runs a final emcee step from the optimum. χ² is scaled by max(1, χ²_red), the depth scales are stored as blobs, and the percentiles are written to the result JSON. The chain is now checkpointed every 5 steps to `{name}_persector_chainpart{tag}.npz`, and a rerun with the same tag resumes from it.

@@ -263,3 +263,17 @@ The earlier −10% failure was a worse local minimum.
 
 **Status.** No new science results today. The next run should rerun the three J1122 emcee jobs with the same commands and tags (each about 2.5 h at 4 cores in parallel).
 
+## 2026-10-24
+
+**Environment.** Archive hosts still blocked (all 000). Work ran 07:52 to about 12:20 UTC.
+
+**J1122 emcee reruns** (12×60, 3 in parallel, about 2.7 h each, all finished by 10:35 UTC):
+- Free dilution: two separate modes at nearly the same χ² (765.9 vs 769.5). One has k 0.405 (+0.052/−0.035) at incl 90°; the other has k 0.286 (+0.050/−0.038) at incl 85°.
+- TIC dilution prior: k 0.122 (+0.008/−0.005), R₂ ≈ 0.34 R☉, χ²_red 1.39.
+- Depth scales are consistent across all runs: S10 ≈ 0.78, S11 ≈ 1.17, S37 ≈ 1.05.
+- Chains are short and were not convergence-tested.
+
+**Lost time.** My wait loop used `pgrep -f` on a pattern that matched the loop's own shell. So it never saw the fits finish, and about 1.5 h of the window went idle. Use `pgrep -f "^.venv-phoebe/bin/python src/pipeline/fit_per"` or the PIDs from `$!` next time.
+
+**Fix.** Resume with zero steps left no longer crashes (`afd6d37`).
+
