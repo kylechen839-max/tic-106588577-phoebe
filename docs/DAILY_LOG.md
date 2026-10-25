@@ -277,3 +277,17 @@ The earlier −10% failure was a worse local minimum.
 
 **Fix.** Resume with zero steps left no longer crashes (`afd6d37`).
 
+## 2026-10-25
+
+**Environment.** Archive hosts still blocked (all 000). Work ran 07:52 to about 11:00 UTC.
+
+**J1122 emcee extended to 120 steps.** All three chains resumed from the 10-24 checkpoints, so checkpoint/resume is now verified in a real run. They finished at 10:45 UTC, about 2.9 h for 60 steps.
+- **TIC dilution prior:** k = 0.125 (+0.004/−0.005), R₂ ≈ 0.36 R☉. This is stable between the two halves of the kept chain.
+- **Free dilution:** the two chains now overlap (k 0.40 and 0.32), and one walker has drifted out to k 1.3. The 10-24 "bimodality" is a single poorly constrained region, roughly k 0.27–0.6+.
+- **Convergence:** τ ≈ 10–15 steps, so the chains are about 9 τ long. They are not converged.
+- **Depth scales:** unchanged, S10 0.77–0.80, S11 1.16–1.18, S37 1.04–1.05.
+
+**Wait loop.** This time it watched the fits by PID, with no idle gap.
+
+**Note.** The `_mc*` result JSONs are rewritten with the 120-step percentiles. The 60-step versions are in commit 2666e03.
+

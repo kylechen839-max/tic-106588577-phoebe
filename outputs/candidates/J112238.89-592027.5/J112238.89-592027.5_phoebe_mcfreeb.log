@@ -38,3 +38,6 @@
   emcee step 40/60, acc 0.49
   emcee step 45/60, acc 0.49
   emcee step 50/60, acc 0.50
+  emcee step 55/60, acc 0.50
+  emcee step 60/60, acc 0.50
+  emcee 12x120 (chi2 scale 1.33, acc 0.50): incl 84.84 +0.8 -0.65; dt0 0.007801 +0.00089 -0.0011; rsum 0.1952 +0.0097 -0.0083; k 0.3191 +0.047 -0.05; teffratio 0.6143 +0.016 -0.013; depth_scale_S10 0.7703 +0.02 -0.02; depth_scale_S11 1.175 +0.034 -0.027; depth_scale_S37 1.051 +0.015 -0.01

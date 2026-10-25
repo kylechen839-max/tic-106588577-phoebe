@@ -393,6 +393,21 @@ Visual inspection of the 2′×2′ AllWISE atlas cutouts (`outputs/crossmatch/w
 - The automated 4″ centring test missed both, because a nebulous peak can sit within 4″ of the star. A diffuseness measure would catch them, for example the ratio of W4 flux in a 12″ aperture to that in a 12–30″ annulus. That needs the FITS cutouts, which need IRSA or SkyView access.
 - **Not verified:** these are visual judgements on display-stretched PNGs, not photometry. Higher-resolution W4 data (unWISE or Spitzer MIPS 24 µm, if any) would settle J1604.
 
+### Cloud run 2026-10-25 (daily routine)
+
+**J1122 emcee extended from 60 to 120 steps** (same three runs, resumed from the 10-24 `chainpart` checkpoints; **verified:** all three logged "resuming ... (60 saved steps)"). Steps 60–120 kept. R from sma 17.09 R☉, computed per sample:
+
+| Run | incl | r_sum | k | R₁ / R₂ (R☉) | Depth scale S10 / S11 / S37 | acc | τ (steps) |
+|---|---|---|---|---|---|---:|---|
+| `_mcfreea` free dilution | 90.6 +3.2/−2.0 | 0.181 +0.019/−0.008 | 0.400 +0.21/−0.049 | 2.16 / 0.90 (0.77–1.25) | 0.77 / 1.18 / 1.05 | 0.40 | 9.5–13.3 |
+| `_mcfreeb` free dilution | 84.8 +0.8/−0.7 | 0.195 +0.010/−0.008 | 0.319 +0.047/−0.050 | 2.53 / 0.81 (0.69–0.91) | 0.77 / 1.18 / 1.05 | 0.50 | 9.5–13.4 |
+| `_mcl3` TIC l3 0.367, σ 0.05 | 83.7 +0.4/−1.3 | 0.189 +0.016/−0.006 | 0.125 +0.004/−0.005 | 2.88 / 0.36 (0.34–0.39) | 0.80 / 1.16 / 1.04 | 0.36 | 11.3–14.5 |
+
+- **Not converged (verified):** the autocorrelation time τ grew from about 6 (at 60 steps) to 10–15. So the chains are only about 8–9 τ long, against emcee's recommended ≥ 50 τ. The ranges are still indicative only.
+- **Free dilution is weakly constrained (verified):** the two free chains now overlap (k medians 0.40 and 0.32). `_mcfreea` has a long tail to high k: the 84th percentile is 0.61, and at the end one walker sits at 1.32 and two at about 0.7. So the "two modes" of 10-24 are better read as one broad, poorly constrained region spanning k ≈ 0.27–0.6+, plus a high-k tail.
+- **TIC prior is stable (verified):** with the TIC dilution prior, k = 0.125 (+0.004/−0.005) and R₂ ≈ 0.36 R☉. The medians for steps 60–90 and 90–120 agree (0.125 / 0.125), and all walkers end at 0.11–0.13.
+- **Depth scales (verified):** unchanged from 10-24 to within 0.01 in all runs.
+
 ### Cloud run 2026-10-24 (daily routine)
 
 **J1122 per-sector emcee** (sectors 10, 11, 37; 589 bins; 578 dof; ntri 1500; 12 walkers × 60 steps, second half kept; χ² scaled by χ²_red). These are the three 10-23 runs, rerun in full. Medians with 16–84% ranges; R from sma 17.09 R☉ (R₁ = sma·r_sum/(1+k), R₂ = k·R₁, computed from the medians):
