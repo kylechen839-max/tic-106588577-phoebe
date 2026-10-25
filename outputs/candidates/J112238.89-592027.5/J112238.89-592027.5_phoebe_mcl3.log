@@ -30,3 +30,5 @@
   emcee: resuming from J112238.89-592027.5_persector_chainpart_mcl3.npz (60 saved steps)
   emcee step 5/60, acc 0.40
   emcee step 10/60, acc 0.40
+  emcee step 15/60, acc 0.37
+  emcee step 20/60, acc 0.35

@@ -29,3 +29,6 @@
   params {'incl': np.float64(90.43259), 'dt0': np.float64(0.00822), 'rsum': np.float64(0.17394), 'k': np.float64(0.38918), 'teffratio': np.float64(0.63334)}; mean b 0.062
   emcee: resuming from J112238.89-592027.5_persector_chainpart_mcfreea.npz (60 saved steps)
   emcee step 5/60, acc 0.42
+  emcee step 10/60, acc 0.49
+  emcee step 15/60, acc 0.48
+  emcee step 20/60, acc 0.44
