@@ -28,3 +28,4 @@
   done: chi2 per-sector 769.5 (red 1.33), common 844.2 (red 1.45); depth scales S10 0.782, S11 1.167, S37 1.050
   params {'incl': np.float64(84.74933), 'dt0': np.float64(0.00733), 'rsum': np.float64(0.19242), 'k': np.float64(0.25613), 'teffratio': np.float64(0.62228)}; mean b 0.151
   emcee: resuming from J112238.89-592027.5_persector_chainpart_mcfreeb.npz (60 saved steps)
+  emcee step 5/60, acc 0.35
