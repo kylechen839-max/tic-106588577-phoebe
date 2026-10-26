@@ -9,3 +9,8 @@
   eval 175: best chi2 819.6
   eval 200: best chi2 819.6
   eval 225: best chi2 819.6
+  eval 250: best chi2 808.0
+  eval 275: best chi2 808.0
+  eval 300: best chi2 808.0
+  done: chi2 per-sector 808.0 (red 1.40), common 865.1 (red 1.49); depth scales S10 0.812, S11 1.129, S37 1.058
+  params {'incl': np.float64(84.37183), 'dt0': np.float64(0.00872), 'rsum': np.float64(0.178), 'k': np.float64(0.10977), 'teffratio': np.float64(0.62605)}; mean b 0.961

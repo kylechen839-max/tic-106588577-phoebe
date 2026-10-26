@@ -291,3 +291,15 @@ The earlier −10% failure was a worse local minimum.
 
 **Note.** The `_mc*` result JSONs are rewritten with the 120-step percentiles. The 60-step versions are in commit 2666e03.
 
+## 2026-10-26
+
+**Environment.** Archive hosts still blocked (all 000). Work ran 07:52 to about 11:20 UTC.
+
+**J1122 l3 sensitivity** (Nelder–Mead with depth-scale prior σ 0.05):
+- l3 0.25: k 0.110, χ² 808.0. The first start stalled at 817.2; a second start from the 0.50 fit fixed it.
+- l3 0.367 (TIC): k 0.118, χ² 806.1.
+- l3 0.50: k 0.136, χ² 797.1.
+- So R₂ ≈ 0.30–0.37 R☉ across this range, and the small companion is robust to the exact TIC dilution.
+
+**J1122 TIC-prior chain extended to 180 steps.** k stays at 0.125 ± 0.005. But incl (83.7 → 82.3) and r_sum are still drifting, and τ is 14–23 steps, so the chain is not converged. R₂ = 0.38 (0.35–0.41) R☉.
+

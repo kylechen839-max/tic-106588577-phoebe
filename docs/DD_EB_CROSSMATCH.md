@@ -393,6 +393,26 @@ Visual inspection of the 2′×2′ AllWISE atlas cutouts (`outputs/crossmatch/w
 - The automated 4″ centring test missed both, because a nebulous peak can sit within 4″ of the star. A diffuseness measure would catch them, for example the ratio of W4 flux in a 12″ aperture to that in a 12–30″ annulus. That needs the FITS cutouts, which need IRSA or SkyView access.
 - **Not verified:** these are visual judgements on display-stretched PNGs, not photometry. Higher-resolution W4 data (unWISE or Spitzer MIPS 24 µm, if any) would settle J1604.
 
+### Cloud run 2026-10-26 (daily routine)
+
+**J1122 sensitivity of the companion size to the assumed third light.** Nelder–Mead fits with the prior on the mean depth scale (σ 0.05), started from `_psl3b`; ntri 1500; 578 dof:
+
+| l3 | Run | χ² (χ²_red) | Mean b | incl | r_sum | k | R₁ / R₂ (R☉) |
+|---:|---|---:|---:|---:|---:|---:|---|
+| 0.25 | `_psl3lo2` (started from the l3 0.50 fit) | 808.0 (1.40) | 0.961 | 84.4 | 0.178 | 0.110 | 2.74 / 0.30 |
+| 0.367 | `_psl3b` (10-22, TIC) | 806.1 (1.39) | 0.975 | 84.4 | 0.179 | 0.118 | 2.74 / 0.32 |
+| 0.50 | `_psl3hi` | 797.1 (1.38) | 0.965 | 84.5 | 0.180 | 0.136 | 2.71 / 0.37 |
+
+- **Verified:** over l3 = 0.25–0.50, k changes only from 0.110 to 0.136, so R₂ stays at 0.30–0.37 R☉. The small-companion result does not hinge on the exact TIC value.
+- **Verified:** χ² mildly prefers more dilution (Δχ² = 11 from l3 0.25 to 0.50). This is the same direction as the free-dilution fits, which want 85–94%.
+- The first l3 = 0.25 run (`_psl3lo`, started at the TIC solution) never moved from its start in 386 evaluations (χ² 817.2, mean b 0.84). That was a Nelder–Mead stall: the second start reached 808.0.
+
+**J1122 TIC-prior emcee extended to 180 steps** (`_mcl3`, resumed from 120 saved steps). Steps 90–180 kept:
+- k = 0.125 (+0.004/−0.005), the same as at 120 steps.
+- incl = 82.7 (+1.1/−0.7) and r_sum = 0.201 (+0.010/−0.014), both drifting: incl has gone from 83.7 for steps 60–120 to 82.3 for steps 135–180.
+- R₂ = 0.38 (0.35–0.41) R☉.
+- τ is now 14–23 steps (N/τ ≈ 8), so it is **still not converged**. The drift is in incl and r_sum, not in k.
+
 ### Cloud run 2026-10-25 (daily routine)
 
 **J1122 emcee extended from 60 to 120 steps** (same three runs, resumed from the 10-24 `chainpart` checkpoints; **verified:** all three logged "resuming ... (60 saved steps)"). Steps 60–120 kept. R from sma 17.09 R☉, computed per sample:
