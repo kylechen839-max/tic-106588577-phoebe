@@ -16,7 +16,25 @@ The slide shows only the title and the two catalogues that list J2312 as an ecli
   - Gaia DR3's variability classifier also labels it ECL. VSX gives its spectral type as A2, which fits the ~9,900 K temperature.
   - A VizieR search of 18 catalogues within 5″ (run 26 Oct from Kyle's PC) found it in no others. That search covered ASAS-SN, ZTF, ATLAS, the TESS EB catalogues (Prša+2022, IJspeert+2021), GCVS and SB9. At G = 8.7 it is probably too bright for most ground surveys; this is a guess, not checked.
 
-## Slide 2: Summary
+## Slide 2: How we found it (cross-match)
+
+The four cards are the steps of the Disk Detective × eclipsing-binary cross-match (details in `docs/DD_EB_CROSSMATCH.md`):
+- **412,729**: all Disk Detective 1.0 objects (AllWISE + 2MASS photometry).
+- **800**: those within 3″ of an eclipsing binary in 15 catalogues: 14 from VizieR (Gaia DR3 classifier, VSX, ZTF, ATLAS, ASAS-3, the TESS EB catalogues, OGLE, CRTS, WISE, NSVS, Kepler, DEBCat) plus ASAS-SN, matched locally.
+- **12**: tier A, after scoring each match on 18 checks. The checks cover:
+  - confirmation by ≥ 2 independent surveys;
+  - a plausible, consistent period;
+  - clean WISE photometry;
+  - a W3/W4 excess above a stellar photosphere, better fitted by dust than by free-free emission;
+  - no confusing neighbours;
+  - usable TESS data;
+  - not evolved or a wind source;
+  - nearby;
+  - a compact W3/W4 source in the images.
+  119 matches are tier B and 669 tier C.
+- **J2312**: one of the 12 tier-A objects, scoring 18 of 18.
+
+## Slide 3: Summary
 
 There are three headline numbers.
 
@@ -26,12 +44,12 @@ There are three headline numbers.
 - **χ²ᵣ 0.39** is the reduced chi-squared of our PHOEBE model fit to the TESS light curve.
   - PHOEBE is the eclipsing-binary modelling code.
   - χ²ᵣ ≈ 1 means the model matches the data to within the error bars, and below 1 means it matches better than the error bars.
-  - The low value partly reflects how we estimated those errors; slide 4 explains this.
+  - The low value partly reflects how we estimated those errors; slide 5 explains this.
 - **12.6σ** is how far the measured 22 µm (WISE W4) flux sits above what the two stars alone should emit. It is 12.6 times the measurement uncertainty, which is far beyond chance.
 
 **Bottom line:** the extra infrared light is real and does not come from a neighbouring star. However, the star sits on a patch of extended dust emission. The excess may therefore be from interstellar or nebular dust rather than a disk around the binary.
 
-## Slide 3: Period
+## Slide 4: Period
 
 **Figure.** TESS light curves from sectors 16, 17 (QLP pipeline) and 57 (SPOC pipeline), folded on the period and stacked eclipse by eclipse.
 - Blue curves are the primary eclipses, when the hotter or larger star is blocked.
@@ -46,7 +64,7 @@ There are three headline numbers.
 
 **"Secondary is 16 min early."** On a perfectly circular orbit the secondary falls exactly at phase 0.5. Here it falls at phase 0.4984, which is 16 ± 1 minutes early. That means the orbit is very slightly elongated (eccentric).
 
-## Slide 4: Binary fit
+## Slide 5: Binary fit
 
 **Figure.** The TESS light curve (black points, sectors combined and binned) with the PHOEBE model on top (red). The lower panel shows the residuals (data minus model). They are flat, so the model leaves no systematic misfit.
 
@@ -74,7 +92,7 @@ The light curve alone cannot pin down the masses. Radial velocities would be nee
 - Against photon noise alone χ²ᵣ would be about 260.
 - The fix is a per-sector fit, with a separate dilution term for each sector. We built and tested that on J1122. For J2312 it needs the raw light curves from MAST, which the cloud setup can't download.
 
-## Slide 5: Infrared excess (SED)
+## Slide 6: Infrared excess (SED)
 
 **Figure.** The spectral energy distribution (SED): brightness against wavelength.
 - Black points are the measured photometry:
@@ -91,7 +109,7 @@ The light curve alone cannot pin down the masses. Radial velocities would be nee
   - The excess holds if the temperatures are changed by ±10% (W4 stays at 12.4–12.8σ).
   - Warm dust is the usual cause: a debris or circumbinary disk, or nearby nebular dust.
 
-## Slide 6: AllWISE sky images
+## Slide 7: AllWISE sky images
 
 **Figure.** 10′ × 10′ cutouts of the AllWISE all-sky images, centred on J2312, with north up and east left.
 - Left: W3 (12 µm). Right: W4 (22 µm).
@@ -104,9 +122,9 @@ The light curve alone cannot pin down the masses. Radial velocities would be nee
 - At 22 µm it sits on a north–south ridge of diffuse emission that extends ~3′ south.
 - The sky is brighter near the star than farther out: near/far flux ratio 0.88 at W3 and 0.82 at W4.
 
-This is the visual evidence for possible nebular contamination, and slide 7 quantifies it.
+This is the visual evidence for possible nebular contamination, and slide 8 quantifies it.
 
-## Slide 7: Extended emission
+## Slide 8: Extended emission
 
 **Figure.** 4′ × 4′ WISE images at 12 µm (W3) and 22 µm (W4), centred on the star, with radial profiles. A radial profile is the median brightness at each distance from the star, as a fraction of the peak.
 
@@ -114,11 +132,11 @@ This is the visual evidence for possible nebular contamination, and slide 7 quan
 - WISE's beam at 22 µm is about 12″ wide.
 - A point source (the star plus a compact disk) would fade to a few percent of peak within ~30″.
 - At W4, the light stays at **15–20% of peak out to 100″**, so there is real extended dust emission around the star.
-- The 10′ images on slide 6 show the star on a north–south ridge of 22 µm emission. The sky near the star is brighter than the sky farther out in every direction (near/far ratio 0.82 at W4).
+- The 10′ images on slide 7 show the star on a north–south ridge of 22 µm emission. The sky near the star is brighter than the sky farther out in every direction (near/far ratio 0.82 at W4).
 
 This is the reason the excess may be contaminated. Part or all of the W4 flux in the photometry aperture could be this nebular dust rather than a disk.
 
-## Slide 8: Neighbours
+## Slide 9: Neighbours
 
 These checks rule out other stars as the source of the excess or of the eclipse dilution. They were run on 26 October from Kyle's PC against IRSA, SkyView, MAST and the Gaia archive.
 
@@ -131,7 +149,7 @@ These checks rule out other stars as the source of the excess or of the eclipse 
   - About 2% dilution is small and does not change the fit.
   - TIC gives no official contamination ratio for this star, because it is outside the Candidate Target List.
 
-## Slide 9: Verdict and next steps
+## Slide 10: Verdict and next steps
 
 **Excess real, origin uncertain.**
 - Verified:
