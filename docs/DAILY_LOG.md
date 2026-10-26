@@ -303,3 +303,10 @@ The earlier −10% failure was a worse local minimum.
 
 **J1122 TIC-prior chain extended to 180 steps.** k stays at 0.125 ± 0.005. But incl (83.7 → 82.3) and r_sum are still drifting, and τ is 14–23 steps, so the chain is not converged. R₂ = 0.38 (0.35–0.41) R☉.
 
+**2026-10-26 evening (extra routine fire at 22:13 UTC after Kyle added the J2312 checks; no fits run).**
+- No PC results from Kyle yet: none on any branch, and nothing new in `/mnt/project-files/J2312`.
+- MAST, IRSA, Gaia and VizieR still return 000, so checks (a) and (b) are blocked.
+- Check (c), by eye, `/mnt/project-files/wise_w3w4_check/J231201.40+532028.6_wise.png`: the W4 source is a compact peak at the star (offset 1.1″, S/N 15). It sits on a diffuse plateau that extends S and E and runs off the 2′ field. The 10-16 label "clean" was too generous, so it is now "possibly contaminated", as 081ab9c says.
+- A faint source about 50″ SW is visible in W1–W3 but not clearly in W4.
+- No verdict until the wide-field check runs.
+
