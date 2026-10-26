@@ -377,7 +377,7 @@ Visual inspection of the 2′×2′ AllWISE atlas cutouts (`outputs/crossmatch/w
 
 | Object | Fit status | W3 image (S/N, offset) | W4 image (S/N, offset) | Verdict |
 |---|---|---|---|---|
-| **J231201.40+532028.6** | passes all | compact, centred (38, 1.1″) | compact peak (15, 1.1″) on diffuse emission that extends S and E off the 2′ field | **possibly contaminated** (re-inspected 10-26): compact peak at the star, but on a diffuse plateau; needs the wide-field W4 check |
+| **J231201.40+532028.6** | passes all | compact, centred (38, 1.1″) | compact peak (15, 1.1″) on diffuse emission that extends S and E off the 2′ field | **possibly contaminated by extended dust** (10-26 wide-field check, `outputs/j2312_contamination/`): no neighbour can supply the W4 flux, but the star sits on a N–S 22 µm ridge (near/far sky ratio 0.82) |
 | **J141909.42-565518.1** | passes all | compact, centred (16, 0.9″) | compact peak on the star (6, 2.2″), sits on moderate extended background to the SE | **plausible**: centred, but W4 is low-S/N against structured background |
 | **J160415.99-562627.3** | passes all | weak compact source (8, 0.2″); a brighter star 40″ NE | **no distinct point source**: diffuse nebulosity fills the field, brightest near but not on the star (5, 3.1″) | **suspect**: the 9σ W4 excess may be nebular background, not a disk |
 | J073937.23-363011.8 | fails LC | compact, centred (102) | compact, centred (30) | clean |

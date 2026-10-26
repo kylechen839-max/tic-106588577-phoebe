@@ -310,3 +310,12 @@ The earlier −10% failure was a worse local minimum.
 - A faint source about 50″ SW is visible in W1–W3 but not clearly in W4.
 - No verdict until the wide-field check runs.
 
+**2026-10-26 late: J2312 checks run on Kyle's PC** (Remote Control session; commit f953daa, `outputs/j2312_contamination/`).
+- **AllWISE:** target W4 6.84, SNR 17.5, w4rchi2 1.14, cc_flags 0000. Neighbours within 3′ are at 23–34″ with W4 SNR ≤ 4.1, so none can supply the W4 flux. **Verified.**
+- **Gaia DR3:** none within 12″; 52 sources at 12–60″, none within 5 mag of the target, summing to 1.8% of its flux. So TESS dilution from neighbours is about 2%. **Verified.**
+- **TIC:** contamratio is null (the star is not in the CTL). The nearest TIC neighbour is Tmag 14.46 at 12.8″.
+- **Sky test:** near/far sky flux ratio is 0.88 in W3 and 0.82 in W4. The W4 near-annulus sky is above the far sky in all four quadrants.
+- **By eye** (I checked the 4′ zoom too): the compact source sits on a N–S 22 µm ridge running about 3′ south. The W4 radial profile is about 15–20% of peak at 50–100″.
+- **Interpretation (not proven):** the W4 excess may be partly heated nebular dust rather than a disk. The 18% shift from the choice of sky annulus does not remove the W4/photosphere ratio of 3.6, but emission peaked on the star can't be separated by this test.
+- The PC session ran its own reimplementation of `w4_neighbours.py` (same method and parameters), because the PC's permission policy blocked running the clone's script. Both scripts are in the commit. Commit 081ab9c is still not merged.
+
