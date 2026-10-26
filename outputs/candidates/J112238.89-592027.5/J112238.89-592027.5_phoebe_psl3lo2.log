@@ -1,1 +1,6 @@
 === J112238.89-592027.5 per-sector dilution fit: sectors [10, 11, 37], 589 sector-bins, 589 model phases, Teff1=7705, l3=0.25, scale prior 0.05, free ['incl', 'dt0', 'rsum', 'k', 'teffratio'], cadence (min) {10: 30.0, 11: 30.0, 37: 10.0}, smeared [], start outputs/candidates/J112238.89-592027.5/J112238.89-592027.5_persector_psl3hi.json
+  start: chi2 per-sector 844.2, common 857.2 (589 bins)
+  eval 25: best chi2 823.6
+  eval 50: best chi2 820.0
+  eval 75: best chi2 819.9
+  eval 100: best chi2 819.7

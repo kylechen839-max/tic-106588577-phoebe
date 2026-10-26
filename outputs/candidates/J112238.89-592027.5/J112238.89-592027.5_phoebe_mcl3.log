@@ -53,3 +53,5 @@
   emcee step 25/60, acc 0.31
   emcee step 30/60, acc 0.32
   emcee step 35/60, acc 0.33
+  emcee step 40/60, acc 0.33
+  emcee step 45/60, acc 0.34
