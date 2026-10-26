@@ -4,3 +4,8 @@
   eval 50: best chi2 807.2
   eval 75: best chi2 806.9
   eval 100: best chi2 805.5
+  eval 125: best chi2 797.2
+  eval 150: best chi2 797.2
+  eval 175: best chi2 797.1
+  eval 200: best chi2 797.1
+  eval 225: best chi2 797.1
