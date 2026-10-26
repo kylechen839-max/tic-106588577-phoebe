@@ -13,6 +13,29 @@ run instead of the repo script only because this PC's permission policy would no
 code from the fresh clone. `zoom.py` makes the 4' linear cutouts and radial profile.
 Python 3.12, astroquery from PyPI, run live against IRSA, SkyView, MAST and the Gaia archive.
 
+## Eclipsing-binary catalogues
+
+Live VizieR cone search, radius 5", on 2026-10-26 (`eb_catalogues.py`, output in
+`eb_catalogues_log.txt`). J2312 is listed as an eclipsing binary in:
+
+| catalogue | VizieR | ID | entry |
+|---|---|---|---|
+| Gaia DR3 variability classifier | I/358/vclassre | 1995545679513855744 | Class ECL, score 0.48 (0.02") |
+| Gaia DR3 eclipsing binaries | I/358/veb | 1995545679513855744 | P = 6.8494 ± 0.0003 d (freq 0.145999 c/d); two Gaussian eclipses, depths 0.29 / 0.25 mag at phases 0.239 / 0.739; ellipsoidal term on eclipse 1 |
+| VSX (AAVSO) | B/vsx/vsx | PMAK V105 (OID 2223897) | EA, P = 6.84952 d, epoch HJD 2458758.51, V 8.75-0.31 mag (TESS-band depth), Sp A2 (0.07") |
+
+Gaia DR3's variability summary (I/358/varisum) also flags it VEB = 1. The amplitude is 0.30 mag in G
+from 52 epochs.
+
+It is **not** in any of the other EB catalogues searched: ASAS-SN (II/366), TESS EBs of
+Prša+2022 (J/ApJS/258/16), TESS OBA EBs of IJspeert+2021 (J/A+A/652/A120), ZTF
+(J/ApJS/249/18), ATLAS (J/AJ/156/241), WISE variables (J/ApJS/237/28), CRTS
+(J/ApJS/213/9), Kepler EBs (J/AJ/151/68), ASAS-3 (II/264), NSVS (J/AJ/138/466),
+Avvakumova+2013 (J/AN/334/860), GCVS (B/gcvs), SB9 (B/sb9), or J/ApJS/247/56. This matches
+the pipeline's `surveys = gaia_dr3;vsx`. The two catalogue periods agree to 0.0001 d (about
+0.5σ). The star is at G = 8.7, which is bright enough to saturate ASAS-SN, ZTF, ATLAS
+and CRTS. That probably explains why it is missing from those surveys (assumed, not checked).
+
 ## Results
 
 **AllWISE within 3'** (`*_allwise_3arcmin.csv`): the target is W4 = 6.84, SNR 17.5,
