@@ -1,0 +1,12 @@
+
+== W3: sky far 324.224, near(50-70") 327.175, inner(25-40") 328.651, halo-extrapolated(r~8") 330.490  [DN]
+  far sky 150-200" (no halo removal)               flux/AllWISE 1.138  W3= 7.922 | free: F/F*  1.43,  10.9 sigma
+  AllWISE near sky 50-70" (catalogue)              flux/AllWISE 1.000  W3= 8.062 | free: F/F*  1.26,   7.4 sigma
+  inner sky 25-40"                                 flux/AllWISE 0.931  W3= 8.140 | free: F/F*  1.17,   5.3 sigma
+  halo extrapolated to star (25-70" linear fit)    flux/AllWISE 0.845  W3= 8.245 | free: F/F*  1.06,   2.1 sigma
+
+== W4: sky far 93.173, near(50-70") 93.286, inner(25-40") 93.352, halo-extrapolated(r~8") 93.414  [DN]
+  far sky 150-200" (no halo removal)               flux/AllWISE 1.213  W4= 6.630 | free: F/F*  4.40,  13.5 sigma | fixed: F/F*  4.05,  13.2 sigma
+  AllWISE near sky 50-70" (catalogue)              flux/AllWISE 1.000  W4= 6.840 | free: F/F*  3.63,  12.7 sigma | fixed: F/F*  3.34,  12.3 sigma
+  inner sky 25-40"                                 flux/AllWISE 0.875  W4= 6.984 | free: F/F*  3.18,  12.0 sigma | fixed: F/F*  2.93,  11.5 sigma
+  halo extrapolated to star (25-70" linear fit)    flux/AllWISE 0.757  W4= 7.142 | free: F/F*  2.75,  11.1 sigma | fixed: F/F*  2.53,  10.6 sigma

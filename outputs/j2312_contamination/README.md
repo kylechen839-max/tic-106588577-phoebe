@@ -105,3 +105,31 @@ Scaling the catalogue flux by these factors gives the excess above the binary ph
 | 20–30″ | 2.66 | 8.2σ | 1.07 | 2.1σ |
 
 Most of the W4 excess survives local background subtraction (still 2.7–3.0× the photosphere, 8–10σ). The W3 excess mostly does not.
+
+## Excess after subtracting the W4 background halo (2026-10-27)
+
+`w4_bgsub.py`, output in `w4_bgsub_log.txt` and `*_w4_background_subtraction.png`. The 16.5"
+aperture flux is re-measured with four estimates of the background under the star, scaled
+to the AllWISE magnitude (which uses the 50-70" sky), and divided by the same photospheres
+as `dd1_candidates_scored.csv`. That is the free blackbody (10,325 K) and, for W4, the
+catalogue Teff (8,547 K). Errors use the pipeline's rule: catalogue error with a 0.03 mag
+floor. W4 is 0.062 mag (SNR 17.5).
+
+| background under the star | W4 mag | W4 / photosphere (free, fixed Teff) | W4 excess σ | W3 / photosphere | W3 excess σ |
+|---|---|---|---|---|---|
+| far sky 150-200" (no halo removed) | 6.63 | 4.40, 4.05 | 13.5, 13.2 | 1.43 | 10.9 |
+| 50-70" sky (AllWISE catalogue) | 6.84 | 3.63, 3.34 | 12.7, 12.3 | 1.26 | 7.4 |
+| 25-40" sky | 6.98 | 3.18, 2.93 | 12.0, 11.5 | 1.17 | 5.3 |
+| halo extrapolated to the star (linear fit 25-70") | 7.14 | 2.75, 2.53 | 11.1, 10.6 | 1.06 | 2.1 |
+
+- **W4:** after removing the halo, W4 is fainter by up to 0.30 mag (flux × 0.76). The excess
+  drops from 3.6× to about 2.5-2.8× the photosphere, but it stays above 10σ in every case.
+  The W4 excess is not explained by the background halo alone.
+- **W3:** the excess is small to begin with. With the most aggressive subtraction it falls to
+  1.06× (2.1σ), i.e. the W3 excess may be entirely background.
+- The two inner estimates probably over-subtract. At 25-40" the W4 profile still contains the
+  star's PSF wings, so those rows are lower limits on the excess. What they cannot exclude is
+  halo emission that rises steeply inside 16.5", which is invisible under the PSF (assumed
+  not to happen).
+- The excess σ shown is photometric only. Adding the spread of the background estimates
+  (±0.25 mag in W4) as a systematic error would lower the bottom row to roughly 3-4σ.
