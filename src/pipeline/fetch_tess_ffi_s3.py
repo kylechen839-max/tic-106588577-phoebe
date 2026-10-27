@@ -41,7 +41,7 @@ BG_EXCESS = 0.08   # drop cadences whose background rises > 8% of the star's flu
 APER_FRAC = 0.3    # aperture: pixels within 1.6 px of the target above 30% of the peak (background-subtracted)
 
 
-def cutouts(ra, dec, tic, outdir):
+def cutouts(ra, dec, tic, outdir, max_sectors=99):
     tic_id = int(tic) if tic and tic != "nan" else 0
     res = tess_stars2px_function_entry(tic_id, ra, dec)
     sectors, cams, ccds = res[3], res[4], res[5]
@@ -50,7 +50,7 @@ def cutouts(ra, dec, tic, outdir):
     files = {}
     for sec, cam, ccd in zip(sectors, cams, ccds):
         sec, cam, ccd = int(sec), int(cam), int(ccd)
-        if sec < 1:
+        if sec < 1 or len(files) >= max_sectors:
             continue
         hits = list(outdir.glob(f"tess-s{sec:04d}-{cam}-{ccd}_*.fits"))
         if hits:
@@ -124,7 +124,7 @@ def detrend(t, f, bg, period, gap=0.75, deg=2, nharm=4):
 
 def make_download(ra, dec, tic, period, outdir, name):
     def download(target, coord, max_sectors=12):
-        files = cutouts(ra, dec, tic, outdir / "ffi_cutouts")
+        files = cutouts(ra, dec, tic, outdir / "ffi_cutouts", max_sectors)
         out = {}
         n = len(files)
         fig, axes = plt.subplots(1, max(n, 1), figsize=(3.2 * max(n, 1), 3.4), squeeze=False)
