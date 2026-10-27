@@ -89,3 +89,19 @@ TIC contratio: dilution of the TESS light curve is about 2% or less.
 Verified here: catalogue numbers, aperture fluxes, profile and the visual inspection
 above. Assumed or interpretive: the physical origin of the halo, and that Gaia flux ratio
 stands in for the TIC contratio.
+
+## Excess after subtracting the local W4/W3 background (2026-10-27, cloud)
+
+The AllWISE catalogue fluxes subtract the sky measured 50–70″ from the star. The extended emission is brighter closer in, so I re-measured the 16.5″-aperture flux in the 10′ images with the sky taken from tighter annuli.
+- Flux relative to the 50–70″ sky: W4 0.97 (35–50″), 0.84 (25–35″), 0.75 (20–30″); W3 0.96, 0.91, 0.87.
+- The 20–30″ annulus still holds a little PSF wing, so it over-subtracts slightly.
+
+Scaling the catalogue flux by these factors gives the excess above the binary photosphere (reference fit; ratio 3.56 and 12.6σ at W4, 1.24 and 6.9σ at W3). The catalogue error is kept:
+
+| Sky annulus | W4 ratio | W4 excess | W3 ratio | W3 excess |
+|---|---:|---:|---:|---:|
+| 50–70″ (catalogue) | 3.56 | 12.6σ | 1.24 | 6.9σ |
+| 25–35″ | 2.98 | 9.7σ | 1.12 | 3.5σ |
+| 20–30″ | 2.66 | 8.2σ | 1.07 | 2.1σ |
+
+Most of the W4 excess survives local background subtraction (still 2.7–3.0× the photosphere, 8–10σ). The W3 excess mostly does not.

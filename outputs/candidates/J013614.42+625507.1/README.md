@@ -26,3 +26,10 @@ Built 2026-10-26 in the cloud from the public AWS mirrors, because MAST and IRSA
 - `_ffi_stamps.png`, `_diff_image.png`
 - `_wise_10arcmin.png`, `_W3/W4_10arcmin.fits`, `_wise_2arcmin.png`
 - The FFI cutouts (`ffi_cutouts/`, 120 MB) are not committed; rerun the script to rebuild them.
+
+## Excess after subtracting the local background (2026-10-27)
+Same method as `outputs/j2312_contamination/README.md`. Aperture flux relative to the 50–70″ sky: W4 0.90 / 0.72 / 0.56 and W3 0.85 / 0.74 / 0.71 for the 35–50″, 25–35″ and 20–30″ annuli.
+
+Against the blackbody photosphere (W4 62.7×, 14.4σ; W3 2.28×, 7.2σ):
+- 25–35″ sky: W4 45× (10.3σ), W3 1.68× (3.8σ).
+- 20–30″ sky: W4 35× (8.0σ), W3 1.61× (3.4σ).
