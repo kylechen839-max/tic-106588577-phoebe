@@ -393,6 +393,30 @@ Visual inspection of the 2′×2′ AllWISE atlas cutouts (`outputs/crossmatch/w
 - The automated 4″ centring test missed both, because a nebulous peak can sit within 4″ of the star. A diffuseness measure would catch them, for example the ratio of W4 flux in a 12″ aperture to that in a 12–30″ annulus. That needs the FITS cutouts, which need IRSA or SkyView access.
 - **Not verified:** these are visual judgements on display-stretched PNGs, not photometry. Higher-resolution W4 data (unWISE or Spitzer MIPS 24 µm, if any) would settle J1604.
 
+### Cloud run 2026-10-27 (daily routine)
+
+**Per-sector dilution fits on uniform FFI photometry** (AWS TESScut cubes; `outputs/candidates/<des>/ffi/`; white-noise errors):
+
+| Object | Sectors | evals | χ²_red per-sector / shared | Depth scales | incl | k | T₂/T₁ |
+|---|---|---:|---|---|---:|---:|---:|
+| J2312 `_persectorffi` | 16, 17, 57 | 600 | 121.5 / 121.2 | 0.996–1.006 | 83.48 | 0.640 | 0.953 |
+| J1419 `_persectorffi` | 11, 38, 65, 99–102 | 200 | 137.8 / 148.6 | 0.993–1.011 | 89.39 | 0.486 | 1.019 |
+| J1604 `_persectorffi` | 12, 39, 65, 102, 103 | 100 | J1604_RESULT | | | | |
+
+The sector-to-sector eclipse depth differences in the QLP/SPOC products (up to ~3% for J2312) are absent in the FFI photometry, so they were product artefacts. The remaining χ² is mostly out-of-eclipse structure; see `docs/DAILY_LOG.md` 2026-10-27.
+
+**Tier-B TESS check** (`outputs/candidates/tierB_tess/tierB_tess_eclipse_check.csv`). Of 87 checked, the by-eye classes are:
+
+| Class | N |
+|---|---:|
+| E detached eclipses | 30 |
+| C close-binary-like continuous | 10 |
+| P eclipses seen, period/fold needs work | 5 |
+| V variable, not eclipse-like | 5 |
+| N no signal / too faint / systematics | 37 |
+
+The 30 class-E objects are now TESS-confirmed EBs: J0323+51, J0325+31, J0454−67, J0505−68, J0537−66, J0546−70, J0654−01, J0707−09, J0719−24, J0738−22, J0838−46, J0857−48, J0924−46, J0924−05, J1022−62, J1129−59, J1207−60, J1246−65 (both), J1251−57, J1955+25, J2041+46, J2104+50, J2130+57, J2143+51, J2250+60, J2308+59, J2325+61, J2330+66 and J2351+60. Their IR excess and W3/W4 images still decide candidacy.
+
 ### Cloud run 2026-10-26 (daily routine)
 
 **J1122 sensitivity of the companion size to the assumed third light.** Nelder–Mead fits with the prior on the mean depth scale (σ 0.05), started from `_psl3b`; ntri 1500; 578 dof:

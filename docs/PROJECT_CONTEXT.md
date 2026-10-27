@@ -97,35 +97,39 @@ Everything under `outputs/` is gitignored. Selected results are force-added (`gi
   - zsh errors on unmatched globs; use `find`.
   - PHOEBE rejects short model labels such as "m" and "x".
 
-## Daily next steps (rewritten by each daily cloud run; last: 2026-10-26)
+## Daily next steps (rewritten by each daily cloud run; last: 2026-10-27)
 
-Cloud runs: if `.venv-phoebe` is missing, run `python3 -m venv .venv-phoebe && .venv-phoebe/bin/pip install phoebe==2.4.22 emcee corner scipy matplotlib numpy pandas tabulate`, then `.venv-phoebe/bin/python src/pipeline/build_tess_passband.py`. **One usage window per day** (Kyle, 2026-10-05): plan fits to finish within ~4.5 h. Do not relaunch after a container restart or once the limit resets; checkpoint and stop. Fits die when the session goes idle. Archive hosts are blocked. See `docs/DAILY_LOG.md`.
+Cloud runs: if `.venv-phoebe` is missing, run `python3 -m venv .venv-phoebe && .venv-phoebe/bin/pip install phoebe==2.4.22 emcee corner scipy matplotlib numpy pandas tabulate`, then `.venv-phoebe/bin/python src/pipeline/build_tess_passband.py`. `.venv-tess` needs `astrocut s3fs tess-point` for the AWS route. **One usage window per day** (Kyle, 2026-10-05): plan fits to finish within ~4.5 h. Do not relaunch after a container restart or once the limit resets; checkpoint and stop. Fits die when the session goes idle. Poll fits by PID (`kill -0`).
 
-**Best fits (all pass the light-curve and SED checks as defined):**
+**Archive hosts are still blocked, but the AWS mirrors work** (verified 10-26/27):
+- TESS FFI cubes, via `src/pipeline/fetch_tess_ffi_s3.py`.
+- AllWISE Atlas tiles, via `src/crossmatch/wise_atlas_s3.py`.
+
+Pipeline products (QLP/SPOC) and catalogue queries still need MAST/VizieR, or Kyle's PC.
+
+**Best fits:**
 - J1419 `_v4` (χ²_red 0.67);
-- J2312 `_gteffnoirreccesm003` (0.39; e cos ω −0.0024, 0 ≲ e sin ω ≲ 0.07);
-- J1604 `_gteffseedm10` (0.70; **W4 excess suspect, nebular W4 image**).
+- J2312 `_gteffnoirreccesm003` (0.39);
+- J1604 `_gteffseedm10` (0.70; W4 nebular).
 
-**Caveat:** against white noise these fits have χ²_red 25–330 (`outputs/checks/white_chi2_table.csv`), because sector depths differ. The per-sector dilution fitter (10-21) fixes this, but needs per-sector data.
+Per-sector FFI fits (10-27, white-noise χ²_red): J2312 121 and J1419 138, with sector depth scales within ±1%. The QLP/SPOC depth disagreements were product artefacts. J1604: see `docs/DAILY_LOG.md` 10-27.
 
-1. **When MAST opens:** fetch TESS light curves for J2312, J1604 and J1419 with the fixed clip (`.venv-tess/bin/python src/pipeline/fetch_tess_lc.py ... --fixed-period`), and commit `_raw.txt` (it has a sector column). Then run, ~2 h each:
+1. **FFI continuum check (J2312, J1419):** the per-sector χ² is dominated by out-of-eclipse structure. To test whether J2312's ~0.8% continuum curvature is real, compare a FFI light curve detrended with `nharm=0` (poly only, eclipses masked) against the current one. If it is real, try reflection on with a lower albedo, or a Roche model. The command is `fetch_tess_ffi_s3.py ... --fixed-period --outdir outputs/candidates/<des>/ffi` after editing `detrend()`.
+2. **Finish the per-sector fits:**
+   - J1604 needs more than 100 evals; resume from `_persector_persectorffi.json` with `--start-from`.
+   - J1419: 200 evals; give it a second start (two-start rule).
+   - About 55 s per eval with 5–7 sectors, so cap `--maxfev` at about 200 per day.
+3. **Tier B from the 10-27 TESS check** (`outputs/candidates/tierB_tess/tierB_tess_eclipse_check.csv`, column `eye_class`):
+   - Promote the 30 "E detached eclipses" objects that pass the other checks to a "B (TESS-confirmed)" grade in `make_tables.py`, then view their W3/W4 images (`wise_atlas_s3.py`) before any PHOEBE run.
+   - J0009+58 needs a BLS period (fold smeared).
+   - 29 tier-B objects have no catalogue period: run a BLS on their FFI light curves.
+4. **J1122:** with the TIC prior, k = 0.125 ± 0.005; with free dilution k is unconstrained. Fetch S64, S90, S99 and S100 from the FFI cubes and rerun the TIC-prior fit. The optional `--steps 240` chain extension is still open.
+5. **J0136+62:** add it to the tier tables as TESS-confirmed (2.7895 d, single 2.5–3% eclipse, no secondary).
+   - The secondary may be undetected (cool companion), or this may be a 2P twin pair; odd/even 0.3σ does not separate them.
+   - The W4 excess is 8–10σ after local-background subtraction, but it sits on a nebula edge.
+6. **Needs Kyle:** the merge decision on PR #2 and the 081ab9c flag; the DD1.0 label export for tier A. **J2312 verdict:** W4 excess likely real but reduced (2.5–3× photosphere; 2.5–3σ including background systematics).
 
-   `.venv-phoebe/bin/python src/pipeline/fit_per_sector_dilution.py --designation <des> --raw outputs/candidates/<des>/<des>_raw.txt --start-from <reference result json> --teff <Teff> --ntri 1500 --maxfev 600 --no-smear --tag _persector`
-
-   - For J2312 add `--eccentric`.
-   - Run once with free dilution, and once with `--l3 <TIC contamination fraction> --scale-prior 0.05`.
-   - Use smearing (drop `--no-smear`) only for short eclipses with 30-min data.
-2. **J1122:** under any l3 from 0.25 to 0.50, k = 0.11–0.14 and R₂ ≈ 0.30–0.39 R☉ (10-26 fits and the 180-step TIC-prior chain). With free dilution k is unconstrained (about 0.27–0.6+). The TIC-prior chain is not converged: incl and r_sum still drift, with τ 14–23. When MAST opens, fetch sectors 64, 90, 99 and 100 and rerun with the TIC prior and free. With 7 sectors each evaluation is about 2× slower, so run about 60 steps per day and resume. Give each Nelder–Mead fit two starts: on 10-26 one start stalled at its initial point.
-3. **Offline, optional:** continue the TIC-prior chain with `--steps 240` (same `_mcl3` command as in `outputs/candidates/J112238.89-592027.5/J112238.89-592027.5_phoebe_mcl3.log`, plus `--l3 0.367 --scale-prior 0.05`; about 2 h alone). It resumes automatically. Converging needs about 50 τ, roughly 1000 steps, so this only tracks the drift; consider more walkers on a free day. Poll fits by PID (`kill -0`), not `pgrep -f`.
-4. **DD1.0 labels for tier A (needs Kyle/Alissa):** a fuller DD1.0 classification export would fill `dd1_*`; rerun `src/crossmatch/add_dd1_criteria.py` and `make_tables.py`. AllWISE `w4rchi2` is also still missing.
-5. **J2312 contamination checks: done 10-26 on Kyle's PC** (`outputs/j2312_contamination/README.md`, commit f953daa).
-   - Neighbours and TESS dilution are ruled out: no AllWISE neighbour above W4 SNR 4.1 within 3′, no Gaia DR3 source within 12″, and the 52 sources at 12–60″ add 1.8% of the target's flux. TIC contamratio is null (the star is not in the CTL).
-   - The W4 excess sits on extended 22 µm emission: a N–S ridge running about 3′ south of the star. Near/far sky flux ratio is 0.82 in W4; the W4 radial profile is about 15–20% of peak at 50–100″.
-   - Verdict: possibly contaminated by extended dust, not settled. Next tests: W4 excess vs aperture size (needs IRSA, or run on Kyle's PC), and Spitzer MIPS 24 µm or Herschel archive imaging.
-   - W3/W4 images for the others: J1419 plausible, J1604 suspect.
-6. **Tier-B TESS confirmation and new surveys (need network):** TESS light curves for tier-B "B+"/"B"; IJspeert+2024, Howard+2025, OGLE disk, ZTF.
-
-Done: SED check (10-06); DD1.0 criteria, labels and `grade` (10-07); ±10% Teff robustness (10-09 to 10-18); W3/W4 image check (10-16); clip fix (10-18); J2312 e sin ω profile and flux-error check (10-19); white-noise χ², J2312 reflection test, J0739 seeding (10-20); per-sector dilution fitter with injection test (10-21); fitter eccentricity, smearing and dilution prior, J1122 with the TIC prior (10-22); emcee step and chain checkpointing (10-23); J1122 emcee posteriors (10-24, extended to 120 steps 10-25); J1122 l3 sensitivity and 180-step chain (10-26).
+Done: SED check (10-06); DD1.0 criteria, labels and `grade` (10-07); ±10% Teff robustness (10-09 to 10-18); W3/W4 image check (10-16); clip fix (10-18); J2312 e sin ω profile and flux-error check (10-19); white-noise χ², J2312 reflection test, J0739 seeding (10-20); per-sector dilution fitter with injection test (10-21); fitter eccentricity, smearing and dilution prior, J1122 with the TIC prior (10-22); emcee step and chain checkpointing (10-23); J1122 emcee posteriors (10-24, extended to 120 steps 10-25); J1122 l3 sensitivity and 180-step chain (10-26); J2312 contamination checks and background-subtracted excess (10-26); AWS FFI/WISE route, per-sector FFI fits, tier-B TESS check (10-27).
 
 ## Status at handoff
 

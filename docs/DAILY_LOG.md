@@ -319,3 +319,61 @@ The earlier −10% failure was a worse local minimum.
 - **Interpretation (not proven):** the W4 excess may be partly heated nebular dust rather than a disk. The 18% shift from the choice of sky annulus does not remove the W4/photosphere ratio of 3.6, but emission peaked on the star can't be separated by this test.
 - The PC session ran its own reimplementation of `w4_neighbours.py` (same method and parameters), because the PC's permission policy blocked running the clone's script. Both scripts are in the commit. Commit 081ab9c is still not merged.
 
+
+**2026-10-26 night (Kyle's requests, cloud and PC).**
+- **J2312 W4 excess with the local nebular background subtracted** (`outputs/j2312_contamination/README.md`):
+  - W4 drops from 3.6× to 2.5–3.0× the photosphere: 8–12σ on photometric error alone.
+  - The spread between background estimates is about ±0.25 mag, so the honest significance is about 2.5–3σ.
+  - W3 drops to 2–3.5σ, so it is not significant.
+- **J0136+62** (J013614.42+625507.1, tier B on `mac-run-2026-10-04`; TESS 10k EB P = 2.78951 d):
+  - FFI light curve from S18, S24, S25, S58 and S85 gives P = 2.789497 d. The primary is 2.5–3% deep, odd and even eclipses agree (0.3σ), and there is no secondary. A once-per-orbit 1.3% modulation is present.
+  - The difference image centres on the target.
+  - W3/W4 sit on the edge of a nebula. W4 is 8–10σ after local-background subtraction; W3 is about 3.5σ.
+- **J0131−00** (DD2, PC session): no eclipses at the VSX 0.351 d period. TESS shows a 0.488 d spot-like modulation, and W4 is an upper limit. Not an EB candidate.
+- **J2312 deck:** `outputs/j2312_deck/` (10 slides, plus the explainer).
+
+## 2026-10-27
+
+**Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive still return 000. The public AWS mirrors work, and they unblock most of the TESS and WISE work:
+- TESScut FFI cubes on `s3://stpubdata/tess/public/mast/`. These cover sectors up to about 108; no QLP or SPOC HLSP products are there.
+- AllWISE Atlas tiles on `nasa-irsa-wise`.
+
+Work ran 07:52 to about 12:00 UTC.
+
+**New tools** (committed 10-26 evening, extended today):
+- `src/pipeline/fetch_tess_ffi_s3.py`: 15×15 px FFI cutouts with astrocut (a few seconds per sector), aperture photometry with a per-cadence background, and dropping of scattered-light cadences. Then per-orbit trend removal that keeps the periodic signal; the phase model is skipped when an orbit is shorter than 1.5 P, which fixes J1419. Finally `fetch_tess_lc.py` cleaning and binning (new `--outdir`).
+  - Sectors missing from tess-point's pointing table (J2312 S77/S84, J1604 S66) could not be cut. A brute-force camera/CCD search gave garbage stamps for J2312, and was killed for memory on J1604.
+- `src/crossmatch/wise_atlas_s3.py`: 10′ W3/W4 images, near/far sky, and radial profiles.
+
+**FFI light curves for the per-sector dilution fits** (`outputs/candidates/<des>/ffi/`):
+- J2312: S16, S17, S57.
+- J1604: S12, S39, S65, S102, S103.
+- J1419: S11, S38, S65, S99–S102.
+
+All fold cleanly at the reference periods.
+
+**Per-sector dilution fits on the FFI data** (`fit_per_sector_dilution.py`, `--ntri 1500 --no-smear --eccentric`, tag `_persectorffi`):
+- **J2312** (reflection off, 600 evals; the l3 = 0.018 + scale-prior run gave the same optimum):
+  - χ² 77,142, χ²_red 121.5 against white noise. The QLP/SPOC data gave 260.
+  - Depth scales S16 0.998, S17 1.006, S57 0.996. **The ~3% sector depth disagreement in the QLP/SPOC products is absent in uniform FFI photometry**, so it came from the pipeline products, not the star.
+  - incl 83.48°, r_sum 0.294, k 0.640 (was 0.70), T₂/T₁ 0.953 (was 0.974), e cos ω −0.0028, e sin ω 0.017.
+  - The optimum stopped improving after about 100 evals. A second start (`_persectorffi2`) is reported below.
+  - Most of the remaining χ² is out of eclipse. The FFI continuum has about 0.8% peak-to-peak curvature, faint near the eclipses, that the reflection-off sphere model does not have. It is not settled whether this is real or left by the detrending; QLP did not show it at this level.
+- **J1419** (200 evals, capped because each eval takes about 55 s with 7 sectors):
+  - χ²_red 137.8 per-sector vs 148.6 with shared dilution.
+  - Depth scales 0.993–1.011.
+  - incl 89.39°, r_sum 0.142, k 0.486, T₂/T₁ 1.019, e cos ω 0.134, e sin ω 0.036. This is close to `_v4` (k 0.499, T₂/T₁ 0.994).
+  - Residuals are dominated by out-of-eclipse steps between sectors (detrending), not by the eclipses.
+- **J1604:** the 600-eval run was too slow (125 evals in 2 h), so it was restarted at 100 evals. Result below.
+
+**Fitter.** Now writes `<des>_persector<tag>_partial.json` (best χ² and parameters) every 25 evals, so a run stopped at the end of the window keeps its optimum.
+
+**Tier-B TESS confirmation** (`outputs/candidates/tierB_tess/`, `tierB_tess_eclipse_check.csv`, `montage_yes.png`, `montage_no.png`). FFI light curves, at most 3 sectors for B+ and 2 for B/B−, were folded at the catalogue period. Checked: 87 of 119. Not checked: 29 with no catalogue period, and 3 whose sectors are not on the mirror.
+- **Automatic flag** (primary depth ≥ 5× profile noise, half-width ≥ 0.003): 43 yes.
+- **By-eye class:** 30 detached eclipses, 10 close-binary-like continuous variation, 5 eclipses seen but the fold needs a better period, 5 variable but not eclipse-like, 37 no signal, too faint or systematics.
+  - The by-eye class is the one to use: it rescues J0924−05 and the contact-like systems, and rejects pulsators and systematics.
+  - Faintness drives the "no signal" group: 21 of 44 at Tmag > 13.
+- **B+:** only J0009+58 shows eclipses, and they smear in the fold, so it needs a period search. J0408+32 is a 2% double wave with no eclipse (ellipsoidal or contact-like). J0604−07 shows a short-period pulsation.
+- **Nebular-demoted tier-A objects:** J1022, J1246−65 and J2041 eclipse clearly, so they are EBs, but their W4 remains suspect.
+
+**Daily-routine bookkeeping.** PR #2 is still open; Kyle's "merge it" (10-26) is awaiting his choice of what to merge. Nothing has been merged.

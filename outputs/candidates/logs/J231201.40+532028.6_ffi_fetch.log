@@ -1,0 +1,48 @@
+J231201.40+532028.6: downloading TESS data (TIC 252741805)
+  sector 16: cut from camera 1 CCD 1
+  sector 17: cut from camera 2 CCD 2
+  sector 57: cut from camera 2 CCD 2
+  sector 122: no cube (stpubdata/tess/public/mast/tess-s0122-1-1-cube.fits)
+  sector 123: no cube (stpubdata/tess/public/mast/tess-s0123-1-2-cube.fits)
+  sector 129: no cube (stpubdata/tess/public/mast/tess-s0129-4-3-cube.fits)
+  sector 16: 4 px aperture, 1118/1118 cadences kept
+  sector 17: 6 px aperture, 1080/1126 cadences kept
+  sector 57: 4 px aperture, 10791/10791 cadences kept
+  odd/even depth test at P: 1.5 sigma (odd 0.2164, even 0.2178), phase-0.5 dip / primary = 0.85
+  eclipses: {"phase1": -4.055368877775578e-05, "phase2": 0.49838408745580454, "depth1": 0.2237543805223129, "depth2": 0.19665435089090355, "halfwidth1": 0.038, "halfwidth2": 0.039, "secondary_detected": true, "continuum_amplitude": 0.009496001494717188, "profile_noise": 0.0002834265746188262}; 223 adaptive bins
+{
+  "designation": "J231201.40+532028.6",
+  "catalog_period": 6.849530274279999,
+  "period": 6.849530274279999,
+  "t0": 2868.1275814477053,
+  "odd_even_sigma": 1.4996791250569401,
+  "odd_depth": 0.21642424184954523,
+  "even_depth": 0.21780070620878367,
+  "phase05_dip_over_primary": 0.8465859286881847,
+  "sectors": [
+    16,
+    17,
+    57
+  ],
+  "authors": [
+    "FFI-S3"
+  ],
+  "n_points": 12929,
+  "n_bins": 223,
+  "oot_flux": 1.0026354859206308,
+  "primary_depth": 0.23037359355288167,
+  "secondary_depth": 0.20173081674935167,
+  "raw_rms": 0.0045474632528299305,
+  "eclipses": {
+    "phase1": -4.055368877775578e-05,
+    "phase2": 0.49838408745580454,
+    "depth1": 0.2237543805223129,
+    "depth2": 0.19665435089090355,
+    "halfwidth1": 0.038,
+    "halfwidth2": 0.039,
+    "secondary_detected": true,
+    "continuum_amplitude": 0.009496001494717188,
+    "profile_noise": 0.0002834265746188262
+  },
+  "ecosw_estimate": -0.00253826948884403
+}
