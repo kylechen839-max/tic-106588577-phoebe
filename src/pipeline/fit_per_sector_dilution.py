@@ -233,6 +233,10 @@ def main():
             best.update(chi2=c, v=np.array(v), pred=pred)
         if n["evals"] % 25 == 0:
             log(f"  eval {n['evals']}: best chi2 {best['chi2']:.1f}")
+            # best-so-far, so a run stopped at the end of the daily window still leaves its optimum
+            (cdir / f"{name}_persector{args.tag}_partial.json").write_text(json.dumps(
+                {"evals": n["evals"], "chi2": float(best["chi2"]),
+                 "params": dict(zip(free, map(float, best["v"])))}, indent=1))
         return c
 
     t_start = time.time()
