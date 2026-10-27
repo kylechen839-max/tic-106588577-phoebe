@@ -361,11 +361,12 @@ def main():
     ap.add_argument("--bins", type=int, default=200)
     ap.add_argument("--max-sectors", type=int, default=12)
     ap.add_argument("--no-double", action="store_true", help="do not test 2P")
+    ap.add_argument("--outdir", default=None, help="output folder (default outputs/candidates/<designation>)")
     ap.add_argument("--fixed-period", action="store_true",
                     help="use --period as given (e.g. from an eclipse-timing O-C fit) instead of refining")
     args = ap.parse_args()
 
-    out = ROOT / "outputs" / "candidates" / args.designation
+    out = Path(args.outdir) if args.outdir else ROOT / "outputs" / "candidates" / args.designation
     out.mkdir(parents=True, exist_ok=True)
     coord = SkyCoord(args.ra, args.dec, unit="deg")
     target = f"TIC {args.tic}" if args.tic and args.tic != "nan" else None

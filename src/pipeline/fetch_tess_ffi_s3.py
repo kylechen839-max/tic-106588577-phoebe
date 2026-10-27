@@ -61,6 +61,9 @@ def cutouts(ra, dec, tic, outdir):
             print(f"  sector {sec}: cut from camera {cam} CCD {ccd}")
         except Exception as exc:
             print(f"  sector {sec}: no cube ({str(exc).splitlines()[0]})")
+    # cutouts added by hand (sectors the pointing model misses, found by trying every camera/CCD)
+    for fn in outdir.glob("tess-s*_astrocut.fits"):
+        files.setdefault(int(fn.name[6:10]), fn)
     return files
 
 
@@ -103,7 +106,9 @@ def detrend(t, f, bg, period, gap=0.75, deg=2, nharm=4):
         tt = (t[idx] - t[idx].mean()) / max(np.ptp(t[idx]), 1e-3)
         ph = 2 * np.pi * (t[idx] / period)
         cols = [tt ** k for k in range(deg + 1)]
-        cols += [fn(h * ph) for h in range(1, nharm + 1) for fn in (np.cos, np.sin)]
+        # the phase model is only separable from the time trend when the orbit covers > 1.5 periods
+        nh = nharm if np.ptp(t[idx]) > 1.5 * period else 0
+        cols += [fn(h * ph) for h in range(1, nh + 1) for fn in (np.cos, np.sin)]
         A = np.vstack(cols).T
         y = f[idx] / np.nanmedian(f[idx])
         m = np.ones(len(idx), bool)
@@ -146,6 +151,6 @@ if __name__ == "__main__":
     get = lambda k: argv[argv.index(k) + 1]
     name, ra, dec, period = get("--designation"), float(get("--ra")), float(get("--dec")), float(get("--period"))
     tic = get("--tic") if "--tic" in argv else None
-    outdir = ROOT / "outputs" / "candidates" / name
+    outdir = Path(get("--outdir")) if "--outdir" in argv else ROOT / "outputs" / "candidates" / name
     base.download = make_download(ra, dec, tic, period, outdir, name)
     base.main()
