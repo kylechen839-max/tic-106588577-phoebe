@@ -132,4 +132,4 @@ floor. W4 is 0.062 mag (SNR 17.5).
   halo emission that rises steeply inside 16.5", which is invisible under the PSF (assumed
   not to happen).
 - The excess σ shown is photometric only. Adding the spread of the background estimates
-  (±0.25 mag in W4) as a systematic error gives about 2.6-2.7σ for the bottom row and 3.0-3.1σ for the AllWISE row.
+  (±0.25 mag in W4) as a systematic error gives about 2.5-2.6σ for the bottom row and 2.9-3.0σ for the AllWISE row.
