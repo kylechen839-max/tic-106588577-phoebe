@@ -6,3 +6,4 @@
   eval 100: best chi2 7648.5
   eval 125: best chi2 7632.6
 === J160415.99-562627.3 per-sector dilution fit: sectors [12, 39, 65, 102, 103], 966 sector-bins, 966 model phases, Teff1=14140, l3=0.0, scale prior None, free ['incl', 'dt0', 'rsum', 'k', 'teffratio', 'ecosw', 'esinw'], cadence (min) {12: 30.0, 39: 10.0, 65: 3.3, 102: 3.3, 103: 3.3}, smeared [], start outputs/candidates/J160415.99-562627.3/J160415.99-562627.3_phoebe_result_gteffseedm10.json
+  start: chi2 per-sector 13165.3, common 16517.4 (966 bins)
