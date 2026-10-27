@@ -54,3 +54,11 @@ classification and 0.351 d period are not confirmed by TESS. CROWDSAP 0.81-0.87 
 cannot be ruled out that the modulation belongs to a neighbour. A pixel-level check
 (TESScut difference image) would settle it. Either way, this star is not a usable EB for the
 PHOEBE pipeline from TESS data.
+
+## W3/W4 imagery (`wise/`)
+
+AllWISE atlas images from SkyView, 2' and 10' squares (PNG + FITS); script `scripts/j0131_wise.py`.
+In W3 the target is a clean, isolated point source (w3mpro 10.39, SNR 15.9). In W4 there is only
+a faint bump at the position, no stronger than the noise peaks around it (w4mpro 8.58, SNR 1.7,
+ph_qual AAAU, so an upper limit). No AllWISE neighbour within 20"; the nearest at 21-35" are faint
+and undetected in W3/W4. By eye: there is no W4 detection to support an IR excess, consistent with tier C.
