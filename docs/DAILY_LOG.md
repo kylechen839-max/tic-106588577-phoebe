@@ -364,7 +364,11 @@ All fold cleanly at the reference periods.
   - Depth scales 0.993–1.011.
   - incl 89.39°, r_sum 0.142, k 0.486, T₂/T₁ 1.019, e cos ω 0.134, e sin ω 0.036. This is close to `_v4` (k 0.499, T₂/T₁ 0.994).
   - Residuals are dominated by out-of-eclipse steps between sectors (detrending), not by the eclipses.
-- **J1604:** the 600-eval run was too slow (125 evals in 2 h), so it was restarted at 100 evals. Result below.
+- **J2312 second start** (`_persectorffi2`, from the first optimum, 200 evals): χ² 76,636 (χ²_red 120.7), down 0.7% from 77,142. No improvement after eval 100. incl 83.04°, r_sum 0.298, k 0.672, T₂/T₁ 0.948, e cos ω −0.0024, e sin ω 0.010. Depth scales S16 0.997, S17 1.006, S57 0.996, unchanged. k moves by 0.03 between starts for a 0.7% χ² change, so k is poorly constrained by this data; the geometry otherwise holds.
+- **J1604** (the 600-eval run was too slow, 125 evals in 2 h, so it was restarted at 100 evals; **not converged**: best χ² still fell 7,697 → 7,649 over the last 25 evals):
+  - χ² 7,649, χ²_red 8.06 per-sector vs 11.26 with shared dilution (966 bins).
+  - Depth scales S12 1.004, S39 1.005, S65 0.979, S102 1.011, S103 1.001. S65 is 2% shallow; the rest agree within 1.1%.
+  - incl 86.27°, r_sum 0.384, k 0.778, T₂/T₁ 0.978, e cos ω 0.062, e sin ω −0.016, mean b 0.885. The 10-24 `_gteff` fit had i 85.1°, T₂/T₁ 0.97 and e 0.063, so the FFI fit agrees so far.
 
 **Fitter.** Now writes `<des>_persector<tag>_partial.json` (best χ² and parameters) every 25 evals, so a run stopped at the end of the window keeps its optimum.
 

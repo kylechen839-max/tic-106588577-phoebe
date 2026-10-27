@@ -401,7 +401,8 @@ Visual inspection of the 2′×2′ AllWISE atlas cutouts (`outputs/crossmatch/w
 |---|---|---:|---|---|---:|---:|---:|
 | J2312 `_persectorffi` | 16, 17, 57 | 600 | 121.5 / 121.2 | 0.996–1.006 | 83.48 | 0.640 | 0.953 |
 | J1419 `_persectorffi` | 11, 38, 65, 99–102 | 200 | 137.8 / 148.6 | 0.993–1.011 | 89.39 | 0.486 | 1.019 |
-| J1604 `_persectorffi` | 12, 39, 65, 102, 103 | 100 | J1604_RESULT | | | | |
+| J2312 `_persectorffi2` (2nd start) | 16, 17, 57 | 200 | 120.7 / 120.4 | 0.996–1.006 | 83.04 | 0.672 | 0.948 |
+| J1604 `_persectorffi` (not converged) | 12, 39, 65, 102, 103 | 100 | 8.06 / 11.26 | 0.979–1.011 | 86.27 | 0.778 | 0.978 |
 
 The sector-to-sector eclipse depth differences in the QLP/SPOC products (up to ~3% for J2312) are absent in the FFI photometry, so they were product artefacts. The remaining χ² is mostly out-of-eclipse structure; see `docs/DAILY_LOG.md` 2026-10-27.
 

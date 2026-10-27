@@ -112,7 +112,7 @@ Pipeline products (QLP/SPOC) and catalogue queries still need MAST/VizieR, or Ky
 - J2312 `_gteffnoirreccesm003` (0.39);
 - J1604 `_gteffseedm10` (0.70; W4 nebular).
 
-Per-sector FFI fits (10-27, white-noise χ²_red): J2312 121 and J1419 138, with sector depth scales within ±1%. The QLP/SPOC depth disagreements were product artefacts. J1604: see `docs/DAILY_LOG.md` 10-27.
+Per-sector FFI fits (10-27, white-noise χ²_red): J2312 121 and J1419 138, with sector depth scales within ±1%. The QLP/SPOC depth disagreements were product artefacts. J1604 8.06 per-sector vs 11.26 shared after only 100 evals (not converged; S65 depth 2% shallow, the rest within 1.1%). A second J2312 start lowered χ² by 0.7% (k 0.640 → 0.672), so k is weakly constrained.
 
 1. **FFI continuum check (J2312, J1419):** the per-sector χ² is dominated by out-of-eclipse structure. To test whether J2312's ~0.8% continuum curvature is real, compare a FFI light curve detrended with `nharm=0` (poly only, eclipses masked) against the current one. If it is real, try reflection on with a lower albedo, or a Roche model. The command is `fetch_tess_ffi_s3.py ... --fixed-period --outdir outputs/candidates/<des>/ffi` after editing `detrend()`.
 2. **Finish the per-sector fits:**
