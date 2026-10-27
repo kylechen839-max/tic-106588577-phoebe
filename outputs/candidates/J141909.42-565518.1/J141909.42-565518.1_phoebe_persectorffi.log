@@ -1,0 +1,12 @@
+=== J141909.42-565518.1 per-sector dilution fit: sectors [11, 38, 65, 99, 100, 101, 102], 1515 sector-bins, 1514 model phases, Teff1=10875, l3=0.0, scale prior None, free ['incl', 'dt0', 'rsum', 'k', 'teffratio', 'ecosw', 'esinw'], cadence (min) {11: 30.0, 38: 10.0, 65: 3.3, 99: 3.3, 100: 3.3, 101: 3.3, 102: 3.3}, smeared [], start outputs/candidates/J141909.42-565518.1/J141909.42-565518.1_phoebe_result_v4.json
+  start: chi2 per-sector 254654.6, common 287814.7 (1515 bins)
+  eval 25: best chi2 209133.5
+=== J141909.42-565518.1 per-sector dilution fit: sectors [11, 38, 65, 99, 100, 101, 102], 1515 sector-bins, 1514 model phases, Teff1=10875, l3=0.0, scale prior None, free ['incl', 'dt0', 'rsum', 'k', 'teffratio', 'ecosw', 'esinw'], cadence (min) {11: 30.0, 38: 10.0, 65: 3.3, 99: 3.3, 100: 3.3, 101: 3.3, 102: 3.3}, smeared [], start outputs/candidates/J141909.42-565518.1/J141909.42-565518.1_phoebe_result_v4.json
+  start: chi2 per-sector 254654.6, common 287814.7 (1515 bins)
+  eval 25: best chi2 209133.5
+  eval 50: best chi2 206434.5
+  eval 75: best chi2 205870.1
+  eval 100: best chi2 205825.3
+  eval 125: best chi2 205825.3
+  eval 150: best chi2 205821.2
+  eval 175: best chi2 205818.7
