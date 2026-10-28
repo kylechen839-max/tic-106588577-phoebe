@@ -1,7 +1,7 @@
 """Light-curve products from lightkurve_pipeline_s3.py output, mirroring the
 outputs of Kyle's Colab notebook (light curve, Lomb-Scargle periodogram, fold).
 
-Usage: lk_pipeline_products.py LKDIR DESIGNATION P T0 [good sectors, comma-separated]
+Usage: lk_pipeline_products.py LKDIR DESIGNATION P T0 [good sectors, comma-separated] [file suffix, e.g. _eclap]
 """
 import sys, glob, os, re
 import numpy as np
@@ -11,17 +11,18 @@ import matplotlib.pyplot as plt
 from astropy.timeseries import LombScargle
 
 lkdir, des, P, T0 = sys.argv[1], sys.argv[2], float(sys.argv[3]), float(sys.argv[4])
-good = [int(s) for s in sys.argv[5].split(",")] if len(sys.argv) > 5 else None
+good = [int(s) for s in sys.argv[5].split(",")] if len(sys.argv) > 5 and sys.argv[5] else None
+suf = sys.argv[6] if len(sys.argv) > 6 else ""
 
 secs = {}
-for fn in sorted(glob.glob(os.path.join(lkdir, f"{des}_S*_lk.txt"))):
+for fn in sorted(glob.glob(os.path.join(lkdir, f"{des}_S*_lk{suf}.txt")), key=lambda x: int(re.search(r"_S(\d+)_lk", x).group(1))):
     s = int(re.search(r"_S(\d+)_lk", fn).group(1))
     t, f, e, fn_ = np.loadtxt(fn, unpack=True)
     ok = np.isfinite(t) & np.isfinite(fn_)
     med = np.median(f[ok])
     secs[s] = dict(t=t[ok], f=fn_[ok], e=e[ok] / med, raw=f[ok])
 good = good or sorted(secs)
-out = lambda name: os.path.join(lkdir, f"{des}_{name}")
+out = lambda name: os.path.join(lkdir, f"{des}{suf}_{name}")
 
 def phase(t):
     return ((t - T0) / P + 0.25) % 1 - 0.25          # primary at 0, range -0.25..0.75
