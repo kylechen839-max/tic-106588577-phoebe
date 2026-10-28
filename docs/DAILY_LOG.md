@@ -415,3 +415,45 @@ All fold cleanly at the reference periods.
 **J0136+62** (Kyle's request): clean light curve from S58 alone and from the S58 + S85 stack (the 30-min sectors disagree on depth, 1.5–2.5%). Files are in `outputs/candidates/J013614.42+625507.1/` and `/mnt/project-files/J0136/`.
 
 **Daily-routine bookkeeping.** PR #2 is still open. The merge question (PR #2 vs the 081ab9c flag) is still waiting on Kyle; nothing has been merged.
+
+## 2026-10-28 (morning run)
+
+**Environment.** The archives still return 000; the AWS mirrors work. The run fired at 07:52 UTC; fits were stopped at 11:45 UTC.
+
+**J2312 Roche + reflection: optimum confirmed, q near 0.8.**
+- A third start from the 01:14 run's optimum (`_persectorffirocheirr2`) and a run with q free (`_persectorffirocheirrq`) both found nothing below χ² 5,215.1 (χ²_red 8.21) in 150 evals each. Both were stopped early to free cores.
+- A final evaluation (`_rocheirr_q0.8`) gives depth scales S16 0.995, S17 1.007 and S57 0.998, and χ²_red 9.17 with shared dilution.
+- With the other parameters fixed, changing q gives: q 0.6 → χ² 8,582.5 (red 13.5); q 0.8 → 5,215.1 (8.21); q 1.0 → 9,913.0 (15.6).
+  - The ellipsoidal amplitude therefore pins q near 0.8 at this geometry.
+  - This is not a profile: radii were not re-optimised, and the amplitude scales roughly as q·r³.
+- Remaining residuals are largest in S57's primary eclipse: −10σ on ingress, +5–10σ on egress.
+  - Eclipse centres from the light curve: S17 +5.3 min, S57 −1.3 min. S16 is unreliable because of a data gap in its primary eclipse.
+  - Possible causes are a small timing offset or the linear limb darkening; neither has been tested.
+
+**J1604 resumed** (`_persectorffi3`, 175 evals, stopped): χ² 7,462 → 7,407 (χ²_red 7.81). incl 86.14°, r_sum 0.386, k 0.801, T₂/T₁ 0.977, e cos ω 0.062, e sin ω −0.012. Gains are now under 0.1% per 25 evals, so it is close to converged.
+
+**J1122: FFI photometry fails.**
+- Seven sectors were cut (S10, S11, S37, S64, S90, S99, S100). The target (Tmag 12.7, TIC contamination ratio 0.58) is not a distinct source in the 15×15 px stamps; it sits in a dark gap between brighter neighbours.
+- The per-sector primary depths come out at 25, 31, 42, 84, 15, 12 and 22%, against ~3% in QLP. The aperture is mostly background, so normalising inflates the depths.
+- **Verified:** the AWS route cannot replace QLP for J1122. Its per-sector fit still needs QLP or SPOC light curves (Kyle's PC or MAST).
+
+**J0009+58 across all 9 available sectors** (S17, 18, 24, 57, 58, 77, 78, 84, 85; S123 and S129 are not on the mirror; `outputs/candidates/tierB_tess/J000904.86+581647.9/ffi_all/`):
+- S17–S18: dips of 5–10% near the 4.2922 d ephemeris.
+- S24: 4–5%, and shallower later in the sector.
+- **S57–S58: no dips** (≤ 0.8% at the predicted times). Instead there is a ~2% quasi-sinusoidal modulation at roughly the same period.
+- S77, S84, S85: dips of 3–8% that are not on the ephemeris (O−C up to ±25 h).
+- An eclipsing binary's eclipses cannot vanish for two sectors and come back off-phase. This supports the dipper interpretation: episodic occultations by circumstellar dust, plus rotational modulation at P ≈ 4.3 d.
+- Dip-depth table: `_dip_depths.txt`.
+
+**WISE images of the six new BLS EBs** (`wise_atlas_s3.py`, now with automatic tile lookup; `noperiod/wise_new_ebs.png`):
+
+| Object | W3/W4 at the star | Catalogue W4 excess | Verdict |
+|---|---|---|---|
+| J1108−56 | compact in both | 15.4σ (no Teff, BB fit) | plausible |
+| J2110+47 | compact in both, flat sky (near/far 0.96/0.95) | 21σ, 2.5×; fails `dust_over_ff` and the DD1 cut | compact but free-free favoured (B star, 12,735 K) |
+| J2048+49 | compact in both | 5.9σ, 1.6×; W3 0.8σ | weak but clean |
+| J0612+09 | compact W3; W4 has a halo (profile 20% of peak at 75″) | 6.7σ | suspect (nebular) |
+| J1710−44 | no W3 source; W4 on structured nebulosity | 15σ | suspect (nebular) |
+| J1220−62 | no source at the star in W3 or W4 | 14σ | fail |
+
+BLS periods for E and C objects are now in `tess_bls_period`, and fill `period_d` in the scored table.

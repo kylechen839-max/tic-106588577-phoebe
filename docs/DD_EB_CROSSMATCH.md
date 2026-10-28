@@ -393,6 +393,19 @@ Visual inspection of the 2′×2′ AllWISE atlas cutouts (`outputs/crossmatch/w
 - The automated 4″ centring test missed both, because a nebulous peak can sit within 4″ of the star. A diffuseness measure would catch them, for example the ratio of W4 flux in a 12″ aperture to that in a 12–30″ annulus. That needs the FITS cutouts, which need IRSA or SkyView access.
 - **Not verified:** these are visual judgements on display-stretched PNGs, not photometry. Higher-resolution W4 data (unWISE or Spitzer MIPS 24 µm, if any) would settle J1604.
 
+### Cloud run 2026-10-28 morning (daily routine)
+
+| Object | Fit | evals | χ²_red per-sector / shared | Depth scales | incl | k | T₂/T₁ | q |
+|---|---|---:|---|---|---:|---:|---:|---:|
+| J2312 | Roche + reflection, final (`_rocheirr_q0.8`) | 300 + 2 × 150 | **8.21** / 9.17 | 0.995–1.007 | 82.93 | 0.638 | 0.939 | 0.8 (fixed; 0.6 → 13.5, 1.0 → 15.6) |
+| J1604 | `_persectorffi3` (stopped, nearly converged) | 455 total | 7.81 / – | – | 86.14 | 0.801 | 0.977 | 0.8 |
+
+**New tier-B EBs: W3/W4 image check.** Plausible: J1108−56, J2048+49 (weak). Compact but free-free favoured: J2110+47. Suspect (nebular): J0612+09, J1710−44. No source: J1220−62. Details are in `docs/DAILY_LOG.md` 2026-10-28 (morning).
+
+**J0009+58 (class D):** dips are absent in S57–S58 and off-ephemeris in S77/S84/S85, so it is not an EB. It is a dipper candidate.
+
+**J1122:** FFI aperture photometry is unusable (crowded; depths 12–84%), so it needs QLP or SPOC light curves.
+
 ### Cloud run 2026-10-28 (daily routine)
 
 **J2312: the out-of-eclipse curvature is ellipsoidal variation.** The per-sector fitter used spherical stars for P > 3 d, which have none (`src/checks/ffi_continuum_check.py`, `src/checks/ooe_model_curves.py`; `outputs/candidates/J231201.40+532028.6/ffi/*_continuum_check.*`):

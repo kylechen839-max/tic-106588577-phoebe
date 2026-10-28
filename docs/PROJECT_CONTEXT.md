@@ -97,7 +97,7 @@ Everything under `outputs/` is gitignored. Selected results are force-added (`gi
   - zsh errors on unmatched globs; use `find`.
   - PHOEBE rejects short model labels such as "m" and "x".
 
-## Daily next steps (rewritten by each daily cloud run; last: 2026-10-28)
+## Daily next steps (rewritten by each daily cloud run; last: 2026-10-28 morning)
 
 Cloud runs: if `.venv-phoebe` is missing, run `python3 -m venv .venv-phoebe && .venv-phoebe/bin/pip install phoebe==2.4.22 emcee corner scipy matplotlib numpy pandas tabulate`, then `.venv-phoebe/bin/python src/pipeline/build_tess_passband.py`. `.venv-tess` needs `astrocut s3fs tess-point` for the AWS route. **One usage window per day** (Kyle, 2026-10-05): plan fits to finish within ~4.5 h. Do not relaunch after a container restart or once the limit resets; checkpoint and stop. Fits die when the session goes idle. Poll fits by PID (`kill -0`), and stop waiter loops by PID, not `pgrep -f` (it matches itself).
 
@@ -111,24 +111,22 @@ Cloud runs: if `.venv-phoebe` is missing, run `python3 -m venv .venv-phoebe && .
 - J1604 `_gteffseedm10` (0.70; W4 nebular).
 
 Per-sector FFI fits, white-noise χ²_red:
-- **J2312 Roche + reflection 8.2** (sphere: 120.7);
-- J1604 7.86;
+- **J2312 Roche + reflection 8.21**, q ≈ 0.8 (sphere: 120.7);
+- J1604 7.81;
 - J1419 137.3 (two starts agree).
 
-1. **J2312 with Roche stars.** The 10-28 out-of-eclipse check showed J2312's continuum curvature is ellipsoidal variation (a₂ ≈ −4.3 ppt; Roche + reflection predicts −4.2). Continue the Roche + reflection per-sector fit from its partial optimum (third start), then rerun the SED check and the radii with it:
-   `.venv-phoebe/bin/python src/pipeline/fit_per_sector_dilution.py --designation J231201.40+532028.6 --raw outputs/candidates/J231201.40+532028.6/ffi/J231201.40+532028.6_raw.txt --start-from outputs/candidates/J231201.40+532028.6/J231201.40+532028.6_persector_persectorffirocheirr_partial.json --teff 9932 --ntri 1500 --maxfev 300 --no-smear --eccentric --distortion roche --tag _persectorffirocheirr2`
-   - `--start-from` needs the `v`/`params` list format, so convert the partial json's `params` dict first.
-   - About 43 s per eval (300 evals took 3.6 h with four fits running).
-   - Also consider a Roche run with q free.
-2. **J1604:** still improving at 280 total evals; resume `_persectorffi2` (`--maxfev 180`). J1419 is done.
-3. **J0009+58 (dipper-like, inferred):** grade it as a disk candidate rather than an EB.
-   - Measure the dip-depth history in S17, S18 and S24 and check sectors 57/58 via tess-point.
-   - Ask Kyle whether a spectrum (Hα, Li) or SIMBAD/YSO-catalogue lookup can be done from his PC.
-4. **Six new tier-B EBs from BLS** (J1710−44, J1220−62, J1108−56, J0612+09, J2110+47, J2048+49): add their BLS periods to the scored table, then run the SED and W3/W4 image checks. The nine TESS-confirmed tier-B objects that failed only `multi_survey` are candidates for tier A after their W3/W4 images are checked (list in `docs/DD_EB_CROSSMATCH.md` 10-28).
-5. **J1122:** fetch S64, S90, S99 and S100 from the FFI cubes and rerun the TIC-prior per-sector fit.
+1. **J2312 with Roche stars: next steps.** The Roche + reflection optimum (χ²_red 8.21, `_persector_rocheirr_q0.8.json`) survived a third start and a free-q run.
+   - (a) Do a q profile with the radii re-optimised (`--q 0.6/0.7/0.9/1.0`, `--maxfev 150` each, starting from `_persector_persectorffirocheirr_partial.json`).
+   - (b) Investigate the S57 primary-eclipse residual (±10σ on ingress and egress): try quadratic limb darkening, or a per-sector dt0.
+   - (c) Recompute the J2312 radii and SED check with the Roche solution.
+   Command template: `.venv-phoebe/bin/python src/pipeline/fit_per_sector_dilution.py --designation J231201.40+532028.6 --raw outputs/candidates/J231201.40+532028.6/ffi/J231201.40+532028.6_raw.txt --start-from outputs/candidates/J231201.40+532028.6/J231201.40+532028.6_persector_persectorffirocheirr_partial.json --teff 9932 --q 0.7 --ntri 1500 --maxfev 150 --no-smear --eccentric --distortion roche --tag _rocheirr_q0.7fit`
+2. **J1604:** χ²_red 7.81 and nearly converged (`_persectorffi3_partial.json`). Run a final `--maxfev 1` evaluation from it to get depth scales and a plot; partial json is accepted by `--start-from` since 10-28.
+3. **J0009+58 (dipper candidate):** dips are absent in S57–S58, and in S77/S84/S85 they are off the ephemeris and vary 3–8%. Grade it as a disk candidate, not an EB. Ask Kyle whether a SIMBAD/YSO-catalogue lookup or a spectrum (Hα, Li) is possible from his PC.
+4. **New tier-B EBs:** J1108−56 and J2048+49 pass the W3/W4 image check, and J2110+47 is compact but favours free-free emission. Run PHOEBE grid fits on the first two (`run_phoebe_candidate.py`, with periods from `tess_bls_period`), after building their FFI light curves with `fetch_tess_ffi_s3.py --period <P>`.
+5. **J1122:** FFI photometry is unusable (crowded), so the per-sector fit needs QLP or SPOC light curves from Kyle's PC.
 6. **Needs Kyle:** the merge decision on PR #2 and the 081ab9c flag; the DD1.0 label export for tier A. **J2312 verdict:** W4 excess likely real but reduced (2.5–3× photosphere; 2.5–3σ including background systematics).
 
-Done: SED check (10-06); DD1.0 criteria, labels and `grade` (10-07); ±10% Teff robustness (10-09 to 10-18); W3/W4 image check (10-16); clip fix (10-18); J2312 e sin ω profile and flux-error check (10-19); white-noise χ², J2312 reflection test, J0739 seeding (10-20); per-sector dilution fitter with injection test (10-21); fitter eccentricity, smearing and dilution prior, J1122 with the TIC prior (10-22); emcee step and chain checkpointing (10-23); J1122 emcee posteriors (10-24, extended to 120 steps 10-25); J1122 l3 sensitivity and 180-step chain (10-26); J2312 contamination checks and background-subtracted excess (10-26); AWS FFI/WISE route, per-sector FFI fits, tier-B TESS check (10-27); J2312 ellipsoidal check and Roche fits, J1419 two-start, tier-B BLS, TESS class in tables, J0136 clean LC (10-28).
+Done: SED check (10-06); DD1.0 criteria, labels and `grade` (10-07); ±10% Teff robustness (10-09 to 10-18); W3/W4 image check (10-16); clip fix (10-18); J2312 e sin ω profile and flux-error check (10-19); white-noise χ², J2312 reflection test, J0739 seeding (10-20); per-sector dilution fitter with injection test (10-21); fitter eccentricity, smearing and dilution prior, J1122 with the TIC prior (10-22); emcee step and chain checkpointing (10-23); J1122 emcee posteriors (10-24, extended to 120 steps 10-25); J1122 l3 sensitivity and 180-step chain (10-26); J2312 contamination checks and background-subtracted excess (10-26); AWS FFI/WISE route, per-sector FFI fits, tier-B TESS check (10-27); J2312 ellipsoidal check and Roche fits, J1419 two-start, tier-B BLS, TESS class in tables, J0136 clean LC (10-28); J2312 q check and Roche restarts, J0009 all sectors, WISE images of new EBs, J1122 FFI (fails) (10-28 morning).
 
 ## Status at handoff
 

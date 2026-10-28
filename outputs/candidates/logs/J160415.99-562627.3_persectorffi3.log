@@ -5,3 +5,6 @@ Connection to online passbands at https://tables.phoebe-project.org could not be
   eval 50: best chi2 7462.3
   eval 75: best chi2 7424.1
   eval 100: best chi2 7409.7
+  eval 125: best chi2 7409.7
+  eval 150: best chi2 7409.7
+  eval 175: best chi2 7407.3
