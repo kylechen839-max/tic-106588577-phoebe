@@ -1,7 +1,8 @@
 """10' AllWISE W3/W4 images and radial profiles from the IRSA AWS mirror (no IRSA/SkyView access needed).
 
   python src/crossmatch/wise_atlas_s3.py NAME RA DEC TILE OUTDIR
-TILE is the AllWISE Atlas coadd_id covering the target, e.g. 0231p636_ac51.
+TILE is the AllWISE Atlas coadd_id covering the target, e.g. 0231p636_ac51, or "auto" to pick the
+tile whose centre is nearest (needs s3fs; lists the mirror).
 Same near/far-sky aperture test as outputs/j2312_contamination/j2312_checks.py.
 """
 import sys, urllib.request
@@ -16,6 +17,27 @@ from astropy.coordinates import SkyCoord
 import astropy.units as u
 
 name, ra, dec, tile, out = sys.argv[1], float(sys.argv[2]), float(sys.argv[3]), sys.argv[4], Path(sys.argv[5])
+
+
+def nearest_tile(ra, dec):
+    import s3fs
+    fs = s3fs.S3FileSystem(anon=True)
+    root = "nasa-irsa-wise/wise/allwise/images/p3am_cdd/"
+    pref = {f"{int(r * 10) % 3600:04d}"[:2] for r in (ra - 1.6, ra, ra + 1.6)}
+    best = (9e9, None)
+    for p in pref:
+        for sub in fs.ls(root + p + "/"):
+            for q in fs.ls(sub):
+                n = q.split("/")[-1]
+                tra, tdec = int(n[:4]) / 10, int(n[5:8]) / 10 * (1 if n[4] == "p" else -1)
+                sep = SkyCoord(tra, tdec, unit="deg").separation(SkyCoord(ra, dec, unit="deg")).deg
+                best = min(best, (sep, n))
+    return best[1]
+
+
+if tile == "auto":
+    tile = nearest_tile(ra, dec)
+    print("tile", tile)
 out.mkdir(parents=True, exist_ok=True)
 c = SkyCoord(ra, dec, unit="deg")
 URL = "https://nasa-irsa-wise.s3.us-west-2.amazonaws.com/wise/allwise/images/p3am_cdd/{0}/{1}/{2}/{2}-{3}-int-3.fits"

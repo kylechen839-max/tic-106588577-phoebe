@@ -32,7 +32,7 @@ sys.path.insert(0, str(ROOT / "src" / "pipeline"))
 import run_phoebe_candidate as rpc  # noqa: E402
 
 FREE = ["incl", "dt0", "rsum", "k", "teffratio"]
-STEP = {"incl": 0.3, "dt0": 0.0005, "rsum": 0.004, "k": 0.03, "teffratio": 0.03, "ecosw": 0.001, "esinw": 0.01}
+STEP = {"incl": 0.3, "dt0": 0.0005, "rsum": 0.004, "k": 0.03, "teffratio": 0.03, "ecosw": 0.001, "esinw": 0.01, "q": 0.08}
 SMEAR = (-1 / 3, 0.0, 1 / 3)  # exposure average: 3 sub-exposures at the centres of its thirds
 
 
@@ -151,6 +151,7 @@ def main():
     ap.add_argument("--distortion", choices=["roche", "sphere"], default=None,
                     help="star shapes (default: roche for P < 3 d, else sphere; spheres have no ellipsoidal variation)")
     ap.add_argument("--eccentric", action="store_true", help="also fit ecosw, esinw (start values from --start-from)")
+    ap.add_argument("--fit-q", action="store_true", help="also fit the mass ratio (starts at --q unless --start-from has q)")
     ap.add_argument("--no-smear", action="store_true",
                     help="do not average the model over the exposure for sectors with cadence > 5 min")
     ap.add_argument("--l3", type=float, default=0.0, help="third-light fraction in the model (e.g. from TIC contamination)")
@@ -164,16 +165,19 @@ def main():
     cdir, eph, times, flux, sig = rpc.load_inputs(name)
     period = eph["period"]
     t0 = eph["t0"]
-    free = FREE + (["ecosw", "esinw"] if args.eccentric else [])
+    free = FREE + (["ecosw", "esinw"] if args.eccentric else []) + (["q"] if args.fit_q else [])
     rpc.PARAMS[:] = list(free)
     m1, _ = rpc.ms_mass_radius(args.teff)
     distortion = args.distortion or ("roche" if period < 3 else "sphere")
     sf = json.loads(Path(args.start_from).read_text())
     if "v" in sf:
         d = dict(zip(sf["params"], sf["v"]))
+    elif isinstance(sf.get("params"), dict):  # a _persector*_partial.json checkpoint
+        d = dict(sf["params"])
     else:  # a _phoebe_result json
         d = dict(sf)
         d["dt0"] = sf["t0"] - t0
+    d.setdefault("q", args.q)
     v0 = np.array([d[n] for n in free], float)
 
     # phase bins: midpoints between the candidate's adaptive _binned.txt phases
