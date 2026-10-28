@@ -118,7 +118,7 @@ Per-sector FFI fits, white-noise χ²_red:
 1. **J2312 with Roche stars.** The 10-28 out-of-eclipse check showed J2312's continuum curvature is ellipsoidal variation (a₂ ≈ −4.3 ppt; Roche + reflection predicts −4.2). Continue the Roche + reflection per-sector fit from its partial optimum (third start), then rerun the SED check and the radii with it:
    `.venv-phoebe/bin/python src/pipeline/fit_per_sector_dilution.py --designation J231201.40+532028.6 --raw outputs/candidates/J231201.40+532028.6/ffi/J231201.40+532028.6_raw.txt --start-from outputs/candidates/J231201.40+532028.6/J231201.40+532028.6_persector_persectorffirocheirr_partial.json --teff 9932 --ntri 1500 --maxfev 300 --no-smear --eccentric --distortion roche --tag _persectorffirocheirr2`
    - `--start-from` needs the `v`/`params` list format, so convert the partial json's `params` dict first.
-   - About 25 s per eval.
+   - About 43 s per eval (300 evals took 3.6 h with four fits running).
    - Also consider a Roche run with q free.
 2. **J1604:** still improving at 280 total evals; resume `_persectorffi2` (`--maxfev 180`). J1419 is done.
 3. **J0009+58 (dipper-like, inferred):** grade it as a disk candidate rather than an EB.
