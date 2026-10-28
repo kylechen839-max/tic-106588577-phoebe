@@ -84,3 +84,15 @@ Verified: Kyle's Colab export (`kyle_colab_S25_LightCurve.txt`; its time range 1
 Numbers from the combined fold: primary depth 1.51% at the binned core (per sector S18 1.62, S24 1.13, S25 1.16, S58 1.59, S85 1.08%); out-of-eclipse wave 0.78% peak to peak, minimum near phase 0.5; no secondary distinct from that wave (see secondary search, upper limit about 2 ppt). LS top peak is 1.3947 d = P/2 (the wave), with P itself at 2.7899 d.
 
 Caveat: adding back median(model) includes background and neighbour flux, so depths here are diluted relative to the FFI aperture photometry (2.3–2.7%). Use relative shapes and timings from this curve, not absolute depths. S85 has scattered-light spikes near BTJD 3627–3629 and is excluded from the combined files.
+
+## Is it an eclipsing binary, and what can be modelled without a secondary? (2026-10-28 evening)
+
+**Eclipse is on the target (verified).** Difference image (median out-of-eclipse minus in-eclipse, per pixel) on the TESScut cubes, S/N-weighted centroid within 2.5 px, bootstrap errors: offset from the target's position S18 2″ ± 4″, S58 2″ ± 1″, S85 1″ ± 2″ (S24/S25 too noisy for an error). Any blend would have to be within a few arcsec. Gaia neighbours could not be checked from the cloud.
+
+**Shape fit** (`src/checks/transit_shape_fit.py`, dark-companion batman model with fixed quadratic LD u = 0.30, 0.25, plus a 2-harmonic out-of-eclipse wave; clean S58 FFI series, 10,956 points, σ 6.42 ppt, β 1.18). Output `J013614.42+625507.1_shape_fit_S58.txt/.png`.
+- χ²_red 1.103. Best b 1.20, k 0.43, a/R1 3.57, i 70.3°; eclipse centre 0.0069 ± 0.0008 in phase (28 ± 3 min) before T0 = 2900.40752.
+- **Grazing (verified within this model):** χ² profile in b (Δχ²/β²): b ≤ 0.8 is ruled out at ≥ 34; the 2σ range is b 1.0–1.3, with k 0.27–0.52 (no upper bound within the 2σ range: grazing k–b degeneracy). r1 = R1/a ≈ 0.28.
+- Unknown dilution makes the measured depth a lower limit, so k is too (it gets larger with third light).
+- **Surface-brightness limit (dilution-independent):** with a circular orbit the overlap area is the same at both conjunctions, so S2/S1 ≈ secondary/primary depth < 2.0 ppt / 2.72% = **0.073** in the TESS band. Blackbody T2 upper limit: T1 5000 K → 2980 K; 6500 K → 3500 K; 8000 K → 3940 K; 10000 K → 4460 K. No Teff for the primary is available in the cloud.
+
+**Period P or 2P (inferred, not proven).** The wave fitted with the eclipse has c1 = +5.5 ± 0.1 ppt on cos 2πφ (maximum at the eclipse, minimum at 0.5) and c2 = −3.5 ± 0.1 ppt on cos 4πφ (minima at 0 and 0.5). The same wave shape is in S18, S24, S25 and S58 (lightkurve-pipeline folds), so it is locked to the orbit over 3 years rather than drifting like spots. At P, the c2 term is ordinary ellipsoidal variation. If the true period were 2P = 5.579 d with twin eclipses, ellipsoidal variation would appear as cos 2πφ with **negative** c1 (minima at both eclipses) and no cos 4πφ term; the observed signs are the opposite. This favours P = 2.789 d with a cool companion, but systematics in the FFI detrending have not been excluded and the c1 term itself is not explained.
