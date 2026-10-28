@@ -6,3 +6,7 @@ Connection to online passbands at https://tables.phoebe-project.org could not be
   eval 75: best chi2 7479.3
   eval 100: best chi2 7477.7
   eval 125: best chi2 7471.7
+  eval 150: best chi2 7462.3
+  eval 175: best chi2 7462.3
+  done: chi2 per-sector 7462.3 (red 7.86), common 10647.7 (red 11.13); depth scales S12 1.005, S39 1.004, S65 0.979, S102 1.011, S103 1.001
+  params {'incl': np.float64(86.28272), 'dt0': np.float64(0.00105), 'rsum': np.float64(0.38518), 'k': np.float64(0.79213), 'teffratio': np.float64(0.9782), 'ecosw': np.float64(0.06203), 'esinw': np.float64(-0.01348)}; mean b 0.875

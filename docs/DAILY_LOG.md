@@ -381,3 +381,37 @@ All fold cleanly at the reference periods.
 - **Nebular-demoted tier-A objects:** J1022, J1246−65 and J2041 eclipse clearly, so they are EBs, but their W4 remains suspect.
 
 **Daily-routine bookkeeping.** PR #2 is still open; Kyle's "merge it" (10-26) is awaiting his choice of what to merge. Nothing has been merged.
+
+## 2026-10-28
+
+**Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive still return 000; the AWS mirrors work. The run fired at 01:14 UTC and stopped at 05:16 UTC.
+
+**J2312 out-of-eclipse structure: solved.** It is ellipsoidal variation, which the sphere model (the fitter's default for P > 3 d) cannot make.
+- The out-of-eclipse cos 4πφ amplitude a₂ is −3.8 to −5.1 ppt in all three sectors, and the same within 0.4 ppt whether the per-orbit trend is the current poly + Fourier, a straight line, or a median (`_continuum_check.csv`). So it is in the star, not left by detrending.
+- PHOEBE at the `_persectorffi2` parameters gives a₂ = −0.04 ppt (sphere), −5.28 (Roche) and −4.17 (Roche + reflection).
+- New `--distortion` option in `fit_per_sector_dilution.py`. The Roche per-sector fits, started from `_persectorffi2`:
+  - no reflection: χ² 15,275 at start → 7,286 (χ²_red 11.5) after 300 evals;
+  - with reflection: χ² 8,819 at start → **5,215 (χ²_red 8.2)** after 300 evals, vs 120.7 for the sphere fit. Reflection on is now better, unlike with spheres (10-20).
+  - Parameters (reflection on): incl 82.93°, r_sum 0.2886, k 0.638, T₂/T₁ 0.939, e cos ω −0.0024, e sin ω 0.0043.
+  - Both stalled after eval ~150 and were stopped at the cutoff. Parameters are in `_persector_persectorffiroche{,irr}_partial.json`. Not converged in the two-start sense.
+- The published best fit (`_gteffnoirreccesm003`, sphere, sector-scatter errors) is therefore missing the ellipsoidal term. Its radii and T₂/T₁ should be rechecked with Roche.
+
+**J1604 resumed** (`_persectorffi2`, 180 evals): χ² 7,649 → 7,462 (χ²_red 7.86 vs 11.13 shared). Still improving slowly (7,472 → 7,462 over the last 50 evals).
+- incl 86.28°, r_sum 0.385, k 0.792, T₂/T₁ 0.978, e cos ω 0.062, e sin ω −0.013.
+- Depth scales unchanged; S65 is 0.979.
+
+**J1419 second start** (`_persectorffi2`, 180 evals): χ² 205,819 → 205,067 (−0.4%, χ²_red 137.3). Parameters are within 0.02° / 0.0002 of the first start, so the optimum is confirmed. With P = 16.6 d, spheres are probably adequate; this is inferred from the period, and no a₂ check was run.
+
+**Tier B without a catalogue period** (`src/checks/bls_ffi.py`, 30 objects, 2 FFI sectors each). By eye after BLS: 6 detached EBs with new periods (J1710−44 6.8638 d, J1220−62 10.040 d, J1108−56 4.8776 d, J0612+09 2.5213 d, J2110+47 12.146 d, J2048+49 3.2350 d), 1 close binary, 6 eclipses with unknown period, 9 variables, 8 no signal.
+
+**J0009+58 is dipper-like, not an EB.**
+- Its dips recur near 4.2922 d (O−C within ±5 h for 7 of 10), but depths vary 4.4–9.7%, each dip lasts 0.6–1.3 d, and there is no secondary.
+- It is a K star (4513 K) with excess from W1 onward (JHKW1 χ² 820 against the photosphere; W2 26σ; W4 74×).
+- W3/W4 show a compact source on flat sky.
+- **Inferred, not verified:** an AA Tau-type dipper with an inner disk. Spectroscopy (Hα, Li) would test this.
+
+**Tables.** The TESS FFI class has been added to the scored and tier tables (`add_tess_ffi_check.py`). 47 tier B are now TESS-confirmed (E or C); 9 of them failed only `multi_survey`.
+
+**J0136+62** (Kyle's request): clean light curve from S58 alone and from the S58 + S85 stack (the 30-min sectors disagree on depth, 1.5–2.5%). Files are in `outputs/candidates/J013614.42+625507.1/` and `/mnt/project-files/J0136/`.
+
+**Daily-routine bookkeeping.** PR #2 is still open. The merge question (PR #2 vs the 081ab9c flag) is still waiting on Kyle; nothing has been merged.

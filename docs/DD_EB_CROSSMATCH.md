@@ -393,6 +393,41 @@ Visual inspection of the 2′×2′ AllWISE atlas cutouts (`outputs/crossmatch/w
 - The automated 4″ centring test missed both, because a nebulous peak can sit within 4″ of the star. A diffuseness measure would catch them, for example the ratio of W4 flux in a 12″ aperture to that in a 12–30″ annulus. That needs the FITS cutouts, which need IRSA or SkyView access.
 - **Not verified:** these are visual judgements on display-stretched PNGs, not photometry. Higher-resolution W4 data (unWISE or Spitzer MIPS 24 µm, if any) would settle J1604.
 
+### Cloud run 2026-10-28 (daily routine)
+
+**J2312: the out-of-eclipse curvature is ellipsoidal variation.** The per-sector fitter used spherical stars for P > 3 d, which have none (`src/checks/ffi_continuum_check.py`, `src/checks/ooe_model_curves.py`; `outputs/candidates/J231201.40+532028.6/ffi/*_continuum_check.*`):
+- Out-of-eclipse cos 4πφ amplitude a₂ (ppt), by sector and detrending (current / linear / median): S16 −4.09 / −3.87 / −3.84, S17 −4.96 / −5.06 / −4.85, S57 −3.93 / −3.99 / −4.37 (errors 0.02–0.15).
+- PHOEBE at the `_persectorffi2` parameters: sphere −0.04, Roche −5.28, Roche + reflection −4.17.
+
+| Object | Fit | Sectors | evals | χ²_red per-sector / shared | Depth scales | incl | k | T₂/T₁ | e sin ω |
+|---|---|---|---:|---|---|---:|---:|---:|---:|
+| J2312 | `_persectorffiroche` (Roche, no reflection; stopped) | 16, 17, 57 | 300 | 11.47 / – | – | 83.24 | 0.723 | 0.939 | −0.0026 |
+| J2312 | `_persectorffirocheirr` (Roche + reflection; stopped) | 16, 17, 57 | 300 | **8.21** / – | – | 82.93 | 0.638 | 0.939 | 0.0043 |
+| J1604 | `_persectorffi2` (resumed) | 12, 39, 65, 102, 103 | 180 (+100) | 7.86 / 11.13 | 0.979–1.011 | 86.28 | 0.792 | 0.978 | −0.013 |
+| J1419 | `_persectorffi2` (2nd start) | 11, 38, 65, 99–102 | 180 | 137.3 / 148.2 | 0.993–1.011 | 89.41 | 0.486 | 1.019 | 0.036 |
+
+The Roche runs were stopped at the window cutoff; neither improved after eval ~150. Their parameters are in `_persector<tag>_partial.json`, and no depth scales were written.
+
+**Tier-B objects without a catalogue period** (`outputs/candidates/tierB_tess/noperiod/`, `src/checks/bls_ffi.py`). BLS was run on FFI light curves, 2 sectors each, and every fold was classed by eye:
+
+| Class | N | Objects |
+|---|---:|---|
+| E detached eclipses at the BLS period | 6 | J1710−44 (6.8638 d, 12%, secondary at φ 0.39), J1220−62 (10.040 d, 9% / 6%), J1108−56 (4.8776 d, 3.5%), J0612+09 (2.5213 d, 2%), J2110+47 (12.146 d, 1.4%, secondary at φ 0.33), J2048+49 (3.2350 d, 1.5%) |
+| C close binary | 1 | J0701−13 (3.755 d) |
+| P eclipses seen, period unknown | 6 | J0731−22, J0605+22, J0947−56, J1127−61; J0813−38 and J0820−62 (single dips at sector edges, possibly systematic) |
+| V variable, not eclipse-like | 9 | |
+| N no clear signal | 8 | |
+
+The BLS S/N uses white noise and is inflated by red noise, so the by-eye class is the one to use.
+
+**J0009+58 reclassified D (dipper-like):**
+- Its dips recur near the 4.2922 d catalogue period (O−C within ±5 h for 7 of 10), but depths vary 4.4–9.7% from cycle to cycle and each dip lasts 0.6–1.3 d. There is no secondary.
+- The SED is a K star (Teff 4513 K) with a near-IR excess from W1 (JHKW1 χ² 820 against the photosphere), W2 26σ, and W4 74× the photosphere.
+- AllWISE W3/W4 show a compact source on flat sky (near/far ratio 0.98).
+- **Interpretation, not proven:** an AA Tau-type dipper, a young star occulted by its own inner disk, rather than an EB.
+
+**Tables.** `src/crossmatch/add_tess_ffi_check.py` adds `tess_ffi_class` and `tess_ffi_note`, and appends " (TESS)" to the grade for classes E and C. Run order: `add_dd1_criteria.py`, then `add_tess_ffi_check.py`, then `make_tables.py`. Grades now: 43 B (TESS), 1 B+ (TESS), 3 B− (TESS). Tier-B objects whose only failed check was `multi_survey` and are now TESS-confirmed: J2143+51, J2104+50, J0408+32 (B+), J0851−41, J0924−46, J0323+51, J0738−22, J0707−09, J0654−01.
+
 ### Cloud run 2026-10-27 (daily routine)
 
 **Per-sector dilution fits on uniform FFI photometry** (AWS TESScut cubes; `outputs/candidates/<des>/ffi/`; white-noise errors):
