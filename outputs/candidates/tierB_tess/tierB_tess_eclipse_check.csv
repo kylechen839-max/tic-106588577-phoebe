@@ -86,3 +86,33 @@ J233034.93+663345.5,6.560045,6.559812117221692,"17,18",0.2451,0.1487,0.0024,101.
 J235117.42+600156.6,1.28278,1.282709425549296,"17,18",0.0702,0.0409,0.0022,32.6,0.0547945205479452,True,0.0106,yes,B,13.736,gaia_dr3;vsx,E detached eclipses
 J235510.36+722736.9,11.3133,11.28160583756586,"17,18",0.0146,0.0126,0.0048,3.1,0.003610108303249,False,0.0073,no,B,8.738,gaia_dr3;vsx,N no signal / too faint / systematics
 J235953.92+660910.2,0.3274985,0.3274798325265503,"17,18",0.0425,0.0409,0.0025,16.8,0.138755980861244,True,0.0667,yes,B,14.382,asassn;gaia_dr3;vsx;wise_chen2018;ztf_chen2020,C close-binary-like continuous variation
+J230357.58+541153.7,,6.3804,"16,17",0.01748,,,,,,,,,,,V irregular variability (10-28)
+J222457.26+513651.5,,5.25441,"16,17",0.07391,,,,,,,,,,,V irregular variability (10-28)
+J075739.78+773434.9,,0.40871,"20,26",0.01426,,,,,,,,,,,V 3% sinusoid at 0.409 d (contact binary at 0.817 d possible) (10-28)
+J080957.52-490820.1,,2.46566,"7,9",0.00147,,,,,,,,,,,N no clear signal; BLS peak is noise or systematics (10-28)
+J110859.18-564050.5,,4.87763,"10,37",0.02655,,,,,,,,,,,E detached eclipses at the BLS period (10-28)
+J171047.03-442701.4,,6.8638,"12,39",0.1148,,,,,,,,,,,E detached eclipses at the BLS period (10-28); secondary at phase 0.39 (eccentric)
+J070132.37-132625.3,,3.75505,"7,33",0.04602,,,,,,,,,,,"C continuous variation with unequal minima (close binary), P 3.755 d (10-28)"
+J094742.50-562630.0,,13.98032,"9,10",0.01138,,,,,,,,,,,"P two 1% dips in S10, period unknown (10-28)"
+J060533.48+221628.8,,12.78901,"43,44",0.00902,,,,,,,,,,,"P single 1% eclipse, period unknown (10-28)"
+J081322.28-382618.0,,14.55393,"7,8",0.09002,,,,,,,,,,,P single 27% dip at a sector edge; may be systematic (10-28)
+J061254.94+090208.8,,2.52125,"6,33",0.02032,,,,,,,,,,,E detached eclipses at the BLS period (10-28); shallow secondary at 0.5
+J035302.29+455724.7,,13.67547,"19,59",0.00272,,,,,,,,,,,N no clear signal; BLS peak is noise or systematics (10-28)
+J120618.38-694753.7,,14.10521,"11,37",0.00489,,,,,,,,,,,N no clear signal; BLS peak is noise or systematics (10-28)
+J204812.11+495943.7,,3.23502,"15,16",0.01025,,,,,,,,,,,E detached eclipses at the BLS period (10-28); secondary at 0.55
+J155027.29-573926.7,,1.43448,"12,39",0.00493,,,,,,,,,,,N no clear signal; BLS peak is noise or systematics (10-28)
+J112754.19-615955.3,,13.52216,"10,11",0.02057,,,,,,,,,,,"P 2-3% dips in S10 and S11, period unknown (10-28)"
+J060814.39+183724.8,,3.36143,"43,44",0.00581,,,,,,,,,,,V quasi-periodic variability (10-28)
+J090509.15-440929.4,,11.80225,"8,9",0.01364,,,,,,,,,,,"V variability, systematics (10-28)"
+J131056.31-564729.4,,12.10773,"11,38",0.0488,,,,,,,,,,,N no clear signal; BLS peak is noise or systematics (10-28)
+J070418.57-065641.8,,10.49648,"7,33",0.02174,,,,,,,,,,,N no clear signal; BLS peak is noise or systematics (10-28)
+J211030.94+474132.1,,12.14571,"15,16",0.01342,,,,,,,,,,,E detached eclipses at the BLS period (10-28); secondary at 0.33 (eccentric)
+J112808.54-635837.2,,4.374,"10,11",0.01003,,,,,,,,,,,V irregular variability (10-28)
+J063358.64-144723.3,,0.71548,"6,33",0.00578,,,,,,,,,,,N no clear signal; BLS peak is noise or systematics (10-28)
+J122007.93-624708.4,,10.03994,"11,37",0.0812,,,,,,,,,,,E detached eclipses at the BLS period (10-28); secondary 6% at 0.52
+J002247.65+611141.0,,7.20926,"17,18",0.03374,,,,,,,,,,,V quasi-periodic variability (10-28)
+J162217.77-574305.4,,14.46306,"12,39",0.00988,,,,,,,,,,,N no clear signal; BLS peak is noise or systematics (10-28)
+J073157.06-223444.5,,14.65822,"34,61",0.244,,,,,,,,,,,"P deep (24%) eclipses in S61, period not found (10-28)"
+J101147.39-583758.9,,0.98536,"9,10",0.01234,,,,,,,,,,,V irregular variability (10-28)
+J214335.03+530215.8,,3.67363,"56,57",0.12043,,,,,,,,,,,"V 20% quasi-sinusoidal variation at 3.67 d, not eclipse-like (10-28)"
+J082053.67-622336.3,,10.33729,"1,8",0.07321,,,,,,,,,,,P single deep dip at a sector edge; may be systematic (10-28)

@@ -1,12 +1,88 @@
+{'designation': 'J230357.58+541153.7', 'n': 2207, 'sectors': '16,17', 'rms': np.float64(0.0094), 'P': np.float64(6.3804), 't0': np.float64(1742.6146), 'depth': np.float64(0.01748), 'dur': np.float64(0.3), 'snr': np.float64(0.2), 'odd': np.float64(0.01939), 'even': np.float64(0.01557), 'odd_even_sig': np.float64(0.0)}
   sector 16: cut from camera 1 CCD 1
-  sector 17: cut from camera 2 CCD 2
-Traceback (most recent call last):
-  File "/home/claude/tic-106588577-phoebe/src/checks/bls_ffi.py", line 56, in <module>
-    pw = bls.power(periods[periods < 0.5 * np.ptp(t)], durations, objective="snr")
-         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/claude/tic-106588577-phoebe/.venv-tess/lib/python3.11/site-packages/astropy/timeseries/periodograms/bls/core.py", line 287, in power
-    period, duration = self._validate_period_and_duration(period, duration)
-                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/claude/tic-106588577-phoebe/.venv-tess/lib/python3.11/site-packages/astropy/timeseries/periodograms/bls/core.py", line 723, in _validate_period_and_duration
-    raise ValueError(
-ValueError: The maximum transit duration must be shorter than the minimum period
+  sector 17: cut from camera 3 CCD 1
+{'designation': 'J222457.26+513651.5', 'n': 1853, 'sectors': '16,17', 'rms': np.float64(0.0307), 'P': np.float64(5.25441), 't0': np.float64(1740.7386), 'depth': np.float64(0.07746), 'dur': np.float64(0.3), 'snr': np.float64(0.8), 'odd': np.float64(0.06627), 'even': np.float64(0.09255), 'odd_even_sig': np.float64(0.1)}
+  sector 20: cut from camera 3 CCD 1
+  sector 26: cut from camera 4 CCD 4
+{'designation': 'J075739.78+773434.9', 'n': 2329, 'sectors': '20,26', 'rms': np.float64(0.0153), 'P': np.float64(0.40871), 't0': np.float64(1842.5945), 'depth': np.float64(0.01426), 'dur': np.float64(0.04), 'snr': np.float64(0.2), 'odd': np.float64(0.01419), 'even': np.float64(0.01433), 'odd_even_sig': np.float64(0.0)}
+  sector 7: cut from camera 3 CCD 4
+  sector 9: cut from camera 3 CCD 3
+{'designation': 'J080957.52-490820.1', 'n': 2218, 'sectors': '7,9', 'rms': np.float64(0.00058), 'P': np.float64(2.46566), 't0': np.float64(1493.0703), 'depth': np.float64(0.00169), 'dur': np.float64(0.08), 'snr': np.float64(0.0), 'odd': np.float64(0.00169), 'even': np.float64(0.00169), 'odd_even_sig': np.float64(0.0)}
+  sector 10: cut from camera 3 CCD 1
+  sector 37: cut from camera 3 CCD 2
+{'designation': 'J110859.18-564050.5', 'n': 4580, 'sectors': '10,37', 'rms': np.float64(0.00225), 'P': np.float64(4.87763), 't0': np.float64(1571.7521), 'depth': np.float64(0.02745), 'dur': np.float64(0.152), 'snr': np.float64(0.3), 'odd': np.float64(0.0279), 'even': np.float64(0.0269), 'odd_even_sig': np.float64(0.0)}
+  sector 12: cut from camera 1 CCD 2
+  sector 39: cut from camera 1 CCD 2
+{'designation': 'J171047.03-442701.4', 'n': 4528, 'sectors': '12,39', 'rms': np.float64(0.00476), 'P': np.float64(6.8638), 't0': np.float64(1635.6621), 'depth': np.float64(0.1148), 'dur': np.float64(0.3), 'snr': np.float64(1.6), 'odd': np.float64(0.11276), 'even': np.float64(0.11634), 'odd_even_sig': np.float64(0.0)}
+  sector 7: cut from camera 2 CCD 4
+  sector 33: cut from camera 2 CCD 3
+{'designation': 'J070132.37-132625.3', 'n': 4571, 'sectors': '7,33', 'rms': np.float64(0.02707), 'P': np.float64(3.75505), 't0': np.float64(1494.5954), 'depth': np.float64(0.04616), 'dur': np.float64(0.3), 'snr': np.float64(0.9), 'odd': np.float64(0.04692), 'even': np.float64(0.04517), 'odd_even_sig': np.float64(0.0)}
+  sector 9: cut from camera 3 CCD 1
+  sector 10: cut from camera 3 CCD 2
+{'designation': 'J094742.50-562630.0', 'n': 2285, 'sectors': '9,10', 'rms': np.float64(0.00152), 'P': np.float64(14.03471), 't0': np.float64(1556.3161), 'depth': np.float64(0.01304), 'dur': np.float64(0.3), 'snr': np.float64(0.1), 'odd': np.float64(0.01959), 'even': np.float64(0.00999), 'odd_even_sig': np.float64(0.0)}
+  sector 43: cut from camera 4 CCD 3
+  sector 44: cut from camera 3 CCD 2
+{'designation': 'J060533.48+221628.8', 'n': 6604, 'sectors': '43,44', 'rms': np.float64(0.00085), 'P': np.float64(12.78901), 't0': np.float64(2486.1132), 'depth': np.float64(0.00902), 'dur': np.float64(0.08), 'snr': np.float64(0.0), 'odd': np.float64(0.00161), 'even': np.float64(0.01171), 'odd_even_sig': np.float64(0.0)}
+  sector 7: cut from camera 3 CCD 1
+  sector 8: cut from camera 3 CCD 2
+{'designation': 'J081322.28-382618.0', 'n': 2043, 'sectors': '7,8', 'rms': np.float64(0.0036), 'P': np.float64(14.55393), 't0': np.float64(1506.0494), 'depth': np.float64(0.08477), 'dur': np.float64(0.3), 'snr': np.float64(0.5), 'odd': np.float64(0.00884), 'even': np.float64(0.11881), 'odd_even_sig': np.float64(0.3)}
+  sector 6: cut from camera 1 CCD 3
+  sector 33: cut from camera 1 CCD 4
+{'designation': 'J061254.94+090208.8', 'n': 4466, 'sectors': '6,33', 'rms': np.float64(0.00204), 'P': np.float64(2.52125), 't0': np.float64(1470.5072), 'depth': np.float64(0.02093), 'dur': np.float64(0.08), 'snr': np.float64(0.2), 'odd': np.float64(0.0203), 'even': np.float64(0.02142), 'odd_even_sig': np.float64(0.0)}
+  sector 19: cut from camera 1 CCD 2
+  sector 59: cut from camera 1 CCD 2
+{'designation': 'J035302.29+455724.7', 'n': 12277, 'sectors': '19,59', 'rms': np.float64(0.00119), 'P': np.float64(13.67547), 't0': np.float64(1816.5093), 'depth': np.float64(0.00275), 'dur': np.float64(0.3), 'snr': np.float64(0.0), 'odd': np.float64(0.00205), 'even': np.float64(0.00345), 'odd_even_sig': np.float64(0.0)}
+  sector 11: cut from camera 3 CCD 1
+  sector 37: cut from camera 3 CCD 1
+{'designation': 'J120618.38-694753.7', 'n': 4641, 'sectors': '11,37', 'rms': np.float64(0.00084), 'P': np.float64(14.09638), 't0': np.float64(1600.3112), 'depth': np.float64(0.00488), 'dur': np.float64(0.3), 'snr': np.float64(0.0), 'odd': np.float64(0.00511), 'even': np.float64(0.00452), 'odd_even_sig': np.float64(0.0)}
+  sector 15: cut from camera 2 CCD 4
+  sector 16: cut from camera 2 CCD 3
+{'designation': 'J204812.11+495943.7', 'n': 2308, 'sectors': '15,16', 'rms': np.float64(0.00115), 'P': np.float64(3.23502), 't0': np.float64(1713.7199), 'depth': np.float64(0.01364), 'dur': np.float64(0.152), 'snr': np.float64(0.1), 'odd': np.float64(0.01345), 'even': np.float64(0.01383), 'odd_even_sig': np.float64(0.0)}
+  sector 12: cut from camera 2 CCD 4
+  sector 39: cut from camera 2 CCD 4
+{'designation': 'J155027.29-573926.7', 'n': 5099, 'sectors': '12,39', 'rms': np.float64(0.00214), 'P': np.float64(1.43448), 't0': np.float64(1625.1939), 'depth': np.float64(0.00507), 'dur': np.float64(0.152), 'snr': np.float64(0.1), 'odd': np.float64(0.00624), 'even': np.float64(0.00404), 'odd_even_sig': np.float64(0.0)}
+  sector 10: cut from camera 3 CCD 1
+  sector 11: cut from camera 3 CCD 2
+{'designation': 'J112754.19-615955.3', 'n': 1966, 'sectors': '10,11', 'rms': np.float64(0.00368), 'P': np.float64(13.51707), 't0': np.float64(1571.9723), 'depth': np.float64(0.02011), 'dur': np.float64(0.3), 'snr': np.float64(0.1), 'odd': np.float64(0.0154), 'even': np.float64(0.0245), 'odd_even_sig': np.float64(0.0)}
+  sector 43: cut from camera 4 CCD 3
+  sector 44: cut from camera 3 CCD 2
+{'designation': 'J060814.39+183724.8', 'n': 6424, 'sectors': '43,44', 'rms': np.float64(0.00547), 'P': np.float64(3.36143), 't0': np.float64(2474.7632), 'depth': np.float64(0.00583), 'dur': np.float64(0.3), 'snr': np.float64(0.1), 'odd': np.float64(0.00506), 'even': np.float64(0.00644), 'odd_even_sig': np.float64(0.0)}
+  sector 8: cut from camera 3 CCD 1
+  sector 9: cut from camera 3 CCD 2
+{'designation': 'J090509.15-440929.4', 'n': 1991, 'sectors': '8,9', 'rms': np.float64(0.00235), 'P': np.float64(11.80373), 't0': np.float64(1523.2853), 'depth': np.float64(0.01514), 'dur': np.float64(0.152), 'snr': np.float64(0.1), 'odd': np.float64(0.02795), 'even': np.float64(0.0014), 'odd_even_sig': np.float64(0.1)}
+  sector 11: cut from camera 2 CCD 1
+  sector 38: cut from camera 2 CCD 1
+{'designation': 'J131056.31-564729.4', 'n': 4387, 'sectors': '11,38', 'rms': np.float64(0.01158), 'P': np.float64(12.10773), 't0': np.float64(1605.3716), 'depth': np.float64(0.0488), 'dur': np.float64(0.3), 'snr': np.float64(0.5), 'odd': np.float64(0.07179), 'even': np.float64(0.02619), 'odd_even_sig': np.float64(0.2)}
+  sector 7: cut from camera 1 CCD 1
+  sector 33: cut from camera 1 CCD 2
+{'designation': 'J070418.57-065641.8', 'n': 4544, 'sectors': '7,33', 'rms': np.float64(0.00873), 'P': np.float64(10.49648), 't0': np.float64(1500.4361), 'depth': np.float64(0.02174), 'dur': np.float64(0.3), 'snr': np.float64(0.2), 'odd': np.float64(0.02153), 'even': np.float64(0.02317), 'odd_even_sig': np.float64(0.0)}
+  sector 15: cut from camera 1 CCD 1
+  sector 16: cut from camera 1 CCD 2
+{'designation': 'J211030.94+474132.1', 'n': 2308, 'sectors': '15,16', 'rms': np.float64(0.00072), 'P': np.float64(12.14571), 't0': np.float64(1714.4909), 'depth': np.float64(0.01356), 'dur': np.float64(0.3), 'snr': np.float64(0.1), 'odd': np.float64(0.01192), 'even': np.float64(0.01413), 'odd_even_sig': np.float64(0.0)}
+  sector 10: cut from camera 3 CCD 1
+  sector 11: cut from camera 3 CCD 2
+{'designation': 'J112808.54-635837.2', 'n': 1873, 'sectors': '10,11', 'rms': np.float64(0.00794), 'P': np.float64(13.389), 't0': np.float64(1573.8711), 'depth': np.float64(0.01727), 'dur': np.float64(0.3), 'snr': np.float64(0.1), 'odd': np.float64(0.02096), 'even': np.float64(0.01522), 'odd_even_sig': np.float64(0.0)}
+  sector 6: cut from camera 2 CCD 3
+  sector 33: cut from camera 2 CCD 3
+{'designation': 'J063358.64-144723.3', 'n': 4466, 'sectors': '6,33', 'rms': np.float64(0.00636), 'P': np.float64(13.90521), 't0': np.float64(1477.0183), 'depth': np.float64(1.0003), 'dur': np.float64(0.04), 'snr': np.float64(1.0), 'odd': 0.0, 'even': np.float64(1.0003), 'odd_even_sig': np.float64(0.0)}
+  sector 11: cut from camera 2 CCD 1
+  sector 37: cut from camera 3 CCD 1
+{'designation': 'J122007.93-624708.4', 'n': 4387, 'sectors': '11,37', 'rms': np.float64(0.00286), 'P': np.float64(10.03994), 't0': np.float64(1609.1396), 'depth': np.float64(0.08121), 'dur': np.float64(0.3), 'snr': np.float64(1.0), 'odd': np.float64(0.08191), 'even': np.float64(0.0808), 'odd_even_sig': np.float64(0.0)}
+  sector 17: cut from camera 2 CCD 1
+  sector 18: cut from camera 2 CCD 2
+{'designation': 'J002247.65+611141.0', 'n': 1796, 'sectors': '17,18', 'rms': np.float64(0.02331), 'P': np.float64(7.20926), 't0': np.float64(1765.364), 'depth': np.float64(0.03387), 'dur': np.float64(0.3), 'snr': np.float64(0.3), 'odd': np.float64(0.03318), 'even': np.float64(0.03421), 'odd_even_sig': np.float64(0.0)}
+  sector 12: cut from camera 2 CCD 3
+  sector 39: cut from camera 2 CCD 4
+{'designation': 'J162217.77-574305.4', 'n': 5074, 'sectors': '12,39', 'rms': np.float64(0.00335), 'P': np.float64(14.46306), 't0': np.float64(1638.3956), 'depth': np.float64(0.00987), 'dur': np.float64(0.3), 'snr': np.float64(0.1), 'odd': np.float64(0.01096), 'even': np.float64(0.00559), 'odd_even_sig': np.float64(0.0)}
+  sector 34: cut from camera 2 CCD 1
+  sector 61: cut from camera 2 CCD 1
+{'designation': 'J073157.06-223444.5', 'n': 12666, 'sectors': '34,61', 'rms': np.float64(0.02705), 'P': np.float64(14.37455), 't0': np.float64(2241.3524), 'depth': np.float64(0.24401), 'dur': np.float64(0.3), 'snr': np.float64(2.8), 'odd': np.float64(0.24401), 'even': 0.0, 'odd_even_sig': np.float64(0.0)}
+  sector 9: cut from camera 3 CCD 1
+  sector 10: cut from camera 3 CCD 2
+{'designation': 'J101147.39-583758.9', 'n': 2166, 'sectors': '9,10', 'rms': np.float64(0.01141), 'P': np.float64(0.98536), 't0': np.float64(1544.5514), 'depth': np.float64(0.0124), 'dur': np.float64(0.3), 'snr': np.float64(0.3), 'odd': np.float64(0.01145), 'even': np.float64(0.01343), 'odd_even_sig': np.float64(0.0)}
+  sector 56: cut from camera 3 CCD 2
+  sector 57: cut from camera 3 CCD 1
+{'designation': 'J214335.03+530215.8', 'n': 22557, 'sectors': '56,57', 'rms': np.float64(0.09869), 'P': np.float64(3.67363), 't0': np.float64(2827.3266), 'depth': np.float64(0.1206), 'dur': np.float64(0.3), 'snr': np.float64(4.9), 'odd': np.float64(0.12682), 'even': np.float64(0.11453), 'odd_even_sig': np.float64(0.3)}
+  sector 1: cut from camera 4 CCD 3
+  sector 8: cut from camera 3 CCD 4
+{'designation': 'J082053.67-622336.3', 'n': 2223, 'sectors': '1,8', 'rms': np.float64(0.00931), 'P': np.float64(5.69729), 't0': np.float64(1325.399), 'depth': np.float64(0.08497), 'dur': np.float64(0.152), 'snr': np.float64(0.7), 'odd': np.float64(0.08552), 'even': np.float64(0.08494), 'odd_even_sig': np.float64(0.0)}
