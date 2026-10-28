@@ -1,0 +1,8 @@
+=== J231201.40+532028.6 per-sector dilution fit: sectors [16, 17, 57], 648 sector-bins, 648 model phases, Teff1=9932, l3=0.0, scale prior None, roche, free ['incl', 'dt0', 'rsum', 'k', 'teffratio', 'ecosw', 'esinw', 'q'], cadence (min) {16: 30.0, 17: 30.0, 57: 3.3}, smeared [], start outputs/candidates/J231201.40+532028.6/J231201.40+532028.6_persector_persectorffirocheirr_partial.json
+  start: chi2 per-sector 5215.1, common 5858.3 (648 bins)
+  eval 25: best chi2 5215.1
+  eval 50: best chi2 5215.1
+  eval 75: best chi2 5215.1
+  eval 100: best chi2 5215.1
+  eval 125: best chi2 5215.1
+  eval 150: best chi2 5215.1
