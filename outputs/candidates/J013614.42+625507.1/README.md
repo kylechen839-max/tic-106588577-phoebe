@@ -33,3 +33,25 @@ Same method as `outputs/j2312_contamination/README.md`. Aperture flux relative t
 Against the blackbody photosphere (W4 62.7×, 14.4σ; W3 2.28×, 7.2σ):
 - 25–35″ sky: W4 45× (10.3σ), W3 1.68× (3.8σ).
 - 20–30″ sky: W4 35× (8.0σ), W3 1.61× (3.4σ).
+
+## Clean light curve (2026-10-28)
+Per-sector quality from `_raw.txt`. Noise is point-to-point, and "30-min equiv." scales it to 30-min cadence.
+
+| Sector | Cadence | Eclipses | Noise (30-min equiv.) | Primary depth (±0.02 phase) | Eclipse S/N |
+|---|---|---:|---:|---:|---:|
+| 18 | 30 min | 7 | 3.1 ppt | 1.54% | 30 |
+| 24 | 30 min | 6 | 2.9 ppt | 2.06% | 39 |
+| 25 | 30 min | 6 | 3.1 ppt | 2.51% | 46 |
+| 58 | 200 s | 10 | 2.1 ppt | 2.25% | 78 |
+| 85 | 200 s | 6 | 2.1 ppt | 2.22% | 61 |
+
+The 30-min sectors disagree in depth (1.5–2.5%, likely dilution from different apertures in a crowded field), so a five-sector stack would mix depths.
+- **Best single sector:** S58, which has the most eclipses and the lowest noise.
+- S58 and S85 agree in depth (2.25% vs 2.22%), so they are also stacked.
+
+Files:
+- `_clean_S58_timeseries.txt`;
+- `_clean_S58_phasebinned.txt` and `_clean_S58_S85_phasebinned.txt` (200 phase bins, median error 1.1 and 0.87 ppt);
+- `_clean_lc.png`.
+
+The ~1.5% out-of-eclipse wave (maximum near phase 0.17, minimum near 0.5) is the same in both sectors. No secondary eclipse is visible at the 1 ppt level.
