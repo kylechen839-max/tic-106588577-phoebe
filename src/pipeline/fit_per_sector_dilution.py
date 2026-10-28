@@ -148,6 +148,8 @@ def main():
     ap.add_argument("--maxfev", type=int, default=400)
     ap.add_argument("--no-irrad", action="store_true")
     ap.add_argument("--tag", default="_persector")
+    ap.add_argument("--distortion", choices=["roche", "sphere"], default=None,
+                    help="star shapes (default: roche for P < 3 d, else sphere; spheres have no ellipsoidal variation)")
     ap.add_argument("--eccentric", action="store_true", help="also fit ecosw, esinw (start values from --start-from)")
     ap.add_argument("--no-smear", action="store_true",
                     help="do not average the model over the exposure for sectors with cadence > 5 min")
@@ -165,7 +167,7 @@ def main():
     free = FREE + (["ecosw", "esinw"] if args.eccentric else [])
     rpc.PARAMS[:] = list(free)
     m1, _ = rpc.ms_mass_radius(args.teff)
-    distortion = "roche" if period < 3 else "sphere"
+    distortion = args.distortion or ("roche" if period < 3 else "sphere")
     sf = json.loads(Path(args.start_from).read_text())
     if "v" in sf:
         d = dict(zip(sf["params"], sf["v"]))
@@ -212,7 +214,7 @@ def main():
 
     log(f"=== {name} per-sector dilution fit: sectors {sorted(bins)}, {nbin} sector-bins, "
         f"{len(uph)} model phases, Teff1={args.teff:.0f}, l3={args.l3}, scale prior {args.scale_prior}, "
-        f"free {free}, cadence (min) {({s: round(c * 1440, 1) for s, c in cadence.items()})}, "
+        f"{distortion}, free {free}, cadence (min) {({s: round(c * 1440, 1) for s, c in cadence.items()})}, "
         f"smeared {[s for s in bins if len(offs[s]) > 1]}, start {args.start_from}")
     best = {"chi2": np.inf, "v": v0}
     n = {"evals": 0}

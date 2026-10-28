@@ -27,6 +27,7 @@ def fmt(df):
         "DD1 label (good frac, sci team)": [("–" if pd.isna(g) else f"{g:.2f}, {t}") for g, t in
                                             zip(df.get("dd1_good_fraction", pd.Series(index=df.index, dtype=float)),
                                                 df.get("dd1_sciteam", pd.Series(index=df.index, dtype=object)))],
+        "TESS FFI": df.get("tess_ffi_class", pd.Series(index=df.index, dtype=object)).fillna("–"),
         "grade": df.get("grade", df.tier),
     })
     return out.to_markdown(index=False) + "\n"

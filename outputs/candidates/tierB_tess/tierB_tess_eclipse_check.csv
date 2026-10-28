@@ -1,5 +1,5 @@
 designation,cat_P,P,sectors,depth1,depth2,noise,snr1,hw1,sec,raw_rms,eclipse_flag,grade,Tmag,surveys,eye_class
-J000904.86+581647.9,4.29234,4.292217660197477,"17,18,24",0.0737,0.0039,0.0019,38.4,0.1988472622478386,False,0.0083,yes,B+,13.021,tess_ebs,"P eclipses seen, fold/period needs work"
+J000904.86+581647.9,4.29234,4.292217660197477,"17,18,24",0.0737,0.0039,0.0019,38.4,0.1988472622478386,False,0.0083,yes,B+,13.021,tess_ebs,"D quasi-periodic dips of varying depth (4-20%), ~1 d long; dipper-like, not a clean EB (10-28)"
 J002142.71+632242.8,15.265,15.2859209004842,"17,18",0.0926,0.017,0.0073,12.7,0.0654205607476635,False,0.0133,yes,B,14.052,gaia_dr3;vsx,"P eclipses seen, fold/period needs work"
 J002629.21+600127.9,7.9713,7.951100604317388,"17,18",0.0072,0.0081,0.0017,4.3,0.1023622047244094,True,0.0052,no,B,11.232,asassn,N no signal / too faint / systematics
 J003000.90+652553.2,18.836,18.87404872,"17,18,24",0.0214,0.0181,0.0069,3.1,0.0029498525073746,False,0.0111,no,B+,13.182,gaia_dr3;vsx,N no signal / too faint / systematics
