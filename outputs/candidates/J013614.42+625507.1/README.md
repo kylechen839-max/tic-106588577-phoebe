@@ -70,3 +70,17 @@ The ~1.5% out-of-eclipse wave (maximum near phase 0.17, minimum near 0.5) is the
 | Odd / even primary depth | 2.30% / 2.34% (consistent) |
 
 Interpretation: either the companion is much cooler or fainter than the primary, or P = 5.579 d with two near-equal eclipses. Equal odd/even depths allow both. No Teff, distance or radii are available in the cloud copy of the tables; they are in the mac-run record.
+
+## Light curve from Kyle's lightkurve pipeline (2026-10-28)
+
+Built with `src/pipeline/lightkurve_pipeline_s3.py` (Kyle's Colab "LightkurveBasicPipelineForTESS" steps: TESScut 10x10, threshold mask 2σ at the centre pixel, background pixels [8:10,5:10], PCA-5 + constant RegressionCorrector, median model added back) on AWS TESScut cubes, then `src/checks/lk_pipeline_products.py` for the products. Files in `lk_pipeline/`:
+
+- `_LightCurve.txt` (time, flux normalised per sector, err, sector; S18+24+25+58, 15186 cadences), `_LightCurve_sectors.png`
+- `_Periodogram.txt/.png` (Lomb-Scargle 0.2–20 d)
+- `_Folded_LC.txt`, `_Folded_LC_binned.txt` (200 bins), `_Folded_LC.png` (P 2.789497 d, T0 BTJD 2900.40752)
+
+Verified: Kyle's Colab export (`kyle_colab_S25_LightCurve.txt`; its time range 1983.65–2009.28 is sector 25, not 24 as first labelled) matches this script's S25 cadence for cadence: 1167/1167 points, correlation 1.0000, rms difference 0.018 ppt.
+
+Numbers from the combined fold: primary depth 1.51% at the binned core (per sector S18 1.62, S24 1.13, S25 1.16, S58 1.59, S85 1.08%); out-of-eclipse wave 0.78% peak to peak, minimum near phase 0.5; no secondary distinct from that wave (see secondary search, upper limit about 2 ppt). LS top peak is 1.3947 d = P/2 (the wave), with P itself at 2.7899 d.
+
+Caveat: adding back median(model) includes background and neighbour flux, so depths here are diluted relative to the FFI aperture photometry (2.3–2.7%). Use relative shapes and timings from this curve, not absolute depths. S85 has scattered-light spikes near BTJD 3627–3629 and is excluded from the combined files.
