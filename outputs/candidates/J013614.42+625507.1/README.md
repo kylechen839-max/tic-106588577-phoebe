@@ -55,3 +55,18 @@ Files:
 - `_clean_lc.png`.
 
 The ~1.5% out-of-eclipse wave (maximum near phase 0.17, minimum near 0.5) is the same in both sectors. No secondary eclipse is visible at the 1 ppt level.
+
+## Eclipse parameters (2026-10-28, from the S58 + S85 clean light curve)
+
+| Parameter | Value |
+|---|---|
+| Period | 2.789497 d |
+| T0 (primary) | BTJD 2900.40752 |
+| Primary depth | 2.7% at the core; 2.32 ± 0.03% mean over \|φ\| < 0.0175 (relative to a local quadratic baseline) |
+| Primary duration | ~0.07 in phase (~4.7 h) |
+| Secondary depth at φ 0.5 | 0.10 ± 0.03% formal (3.6σ). **Not significant**: the same local-baseline test gives ±0.2% "dips" and "bumps" at random phases (0.18, 0.35, 0.42, 0.75) because of the out-of-eclipse wave. Upper limit ≈ 0.2%. |
+| Primary − secondary | ≈ 2.2% (≈ 2.6% at the core). Secondary/primary < 0.08. |
+| Out-of-eclipse wave | 1.4% peak to peak; maximum at φ 0.16, minimum at φ 0.49. Harmonic amplitudes (ppt): a₁ 5.88, b₁ −0.06, a₂ −3.19, b₂ 0.63. |
+| Odd / even primary depth | 2.30% / 2.34% (consistent) |
+
+Interpretation: either the companion is much cooler or fainter than the primary, or P = 5.579 d with two near-equal eclipses. Equal odd/even depths allow both. No Teff, distance or radii are available in the cloud copy of the tables; they are in the mac-run record.
