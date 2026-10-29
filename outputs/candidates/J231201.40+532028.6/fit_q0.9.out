@@ -1,0 +1,9 @@
+Connection to online passbands at https://tables.phoebe-project.org could not be established.  Check your internet connection or try again later (can manually call phoebe.list_online_passbands(refresh=True) to retry).  If the problem persists and you're using a Mac, you may need to update openssl (see https://phoebe-project.org/help/faq). Original error from urlopen: URLError <urlopen error Tunnel connection failed: 403 Forbidden>
+=== J231201.40+532028.6 per-sector dilution fit: sectors [16, 17, 57], 648 sector-bins, 648 model phases, Teff1=9932, l3=0.0, scale prior None, roche, free ['incl', 'dt0', 'rsum', 'k', 'teffratio', 'ecosw', 'esinw'], cadence (min) {16: 30.0, 17: 30.0, 57: 3.3}, smeared [], start outputs/candidates/J231201.40+532028.6/J231201.40+532028.6_persector_persectorffirocheirr_partial.json
+  start: chi2 per-sector 6556.5, common 7267.6 (648 bins)
+  eval 25: best chi2 5450.0
+  eval 50: best chi2 5344.5
+  eval 75: best chi2 5321.1
+  eval 100: best chi2 5321.1
+  done: chi2 per-sector 5321.1 (red 8.38), common 5971.1 (red 9.34); depth scales S16 0.995, S17 1.008, S57 0.997
+  params {'incl': np.float64(83.12114), 'dt0': np.float64(-0.00484), 'rsum': np.float64(0.28698), 'k': np.float64(0.66298), 'teffratio': np.float64(0.93826), 'ecosw': np.float64(-0.00238), 'esinw': np.float64(0.00309)}; mean b 0.979
