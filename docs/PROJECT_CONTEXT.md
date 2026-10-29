@@ -97,36 +97,25 @@ Everything under `outputs/` is gitignored. Selected results are force-added (`gi
   - zsh errors on unmatched globs; use `find`.
   - PHOEBE rejects short model labels such as "m" and "x".
 
-## Daily next steps (rewritten by each daily cloud run; last: 2026-10-28 morning)
+## Daily next steps (rewritten by each daily cloud run; last: 2026-10-29)
 
-Cloud runs: if `.venv-phoebe` is missing, run `python3 -m venv .venv-phoebe && .venv-phoebe/bin/pip install phoebe==2.4.22 emcee corner scipy matplotlib numpy pandas tabulate`, then `.venv-phoebe/bin/python src/pipeline/build_tess_passband.py`. `.venv-tess` needs `astrocut s3fs tess-point` for the AWS route. **One usage window per day** (Kyle, 2026-10-05): plan fits to finish within ~4.5 h. Do not relaunch after a container restart or once the limit resets; checkpoint and stop. Fits die when the session goes idle. Poll fits by PID (`kill -0`), and stop waiter loops by PID, not `pgrep -f` (it matches itself).
+Cloud runs: if `.venv-phoebe` is missing, run `python3 -m venv .venv-phoebe && .venv-phoebe/bin/pip install phoebe==2.4.22 emcee corner scipy matplotlib numpy pandas tabulate`, then `.venv-phoebe/bin/python src/pipeline/build_tess_passband.py`. `.venv-tess` needs `astrocut s3fs tess-point` for the AWS route. **One usage window per day** (Kyle, 2026-10-05): plan fits to finish within ~4.5 h. Do not relaunch after a container restart or once the limit resets; checkpoint and stop. Poll fits by PID (`kill -0`). **Never `git add` `ffi_cutouts/` or `lk_pipeline/cutouts/`** (50 MB FITS each).
 
-**Archive hosts are still blocked, but the AWS mirrors work** (verified 10-26/27/28):
-- TESS FFI cubes, via `src/pipeline/fetch_tess_ffi_s3.py`.
-- AllWISE Atlas tiles, via `src/crossmatch/wise_atlas_s3.py`; tile names come from listing `nasa-irsa-wise/wise/allwise/images/p3am_cdd/<RA 2 digits>/` with s3fs.
+**Archive hosts are still blocked (10-29); the AWS mirrors work** (TESS FFI cubes via `fetch_tess_ffi_s3.py`, AllWISE tiles via `wise_atlas_s3.py`).
 
-**Best fits:**
-- J1419 `_v4` (χ²_red 0.67);
-- J2312 `_gteffnoirreccesm003` (0.39, sphere: missing the ellipsoidal term, see 1);
-- J1604 `_gteffseedm10` (0.70; W4 nebular).
+**J1122 work has moved to its own thread** ("Fit J1122 eclipsing binary"); don't run J1122 fits in the daily run unless that thread hands them back. Its 7-sector light curve and the `_lk7` fit are in `/mnt/project-files/J1122`.
 
-Per-sector FFI fits, white-noise χ²_red:
-- **J2312 Roche + reflection 8.21**, q ≈ 0.8 (sphere: 120.7);
-- J1604 7.81;
-- J1419 137.3 (two starts agree).
+1. **J2312 at q ≈ 0.6.** The q profile (10-29) has its minimum at q 0.6 (χ²_red 7.98; parabola minimum 0.62). Next:
+   - (a) converge q 0.6 and free q from there: `.venv-phoebe/bin/python src/pipeline/fit_per_sector_dilution.py --designation J231201.40+532028.6 --raw outputs/candidates/J231201.40+532028.6/ffi/J231201.40+532028.6_raw.txt --start-from outputs/candidates/J231201.40+532028.6/J231201.40+532028.6_persector_rocheirr_q0.6fit.json --teff 9932 --q 0.6 --fit-q --ntri 1500 --maxfev 150 --no-smear --eccentric --distortion roche --tag _rocheirr_qfree06`;
+   - (b) the S57 primary-eclipse residual (quadratic limb darkening, or a per-sector dt0);
+   - (c) radii and SED check with the q 0.6 Roche solution.
+2. **J2048+49:** the PHOEBE fit fails (χ²_red 20.3, secondary bias −24σ) because of a broad dip at phase 0.54. Check whether it is an eclipse: per-sector fold of the dip, a difference-image centroid at the dip phase (as for J0136 in `outputs/candidates/J013614.42+625507.1/README.md`), and an eccentric fit with e sin ω free and a wide bound (`--bound esinw=-0.8,0.8`).
+3. **J1108−56:** needs a Teff (no TIC Teff; try the SED blackbody fit from `dd1_sed_plots`), then `run_phoebe_candidate.py --designation J110859.18-564050.5 --teff <T> --iters 5 --tag _ffi`. The light curve is in `outputs/candidates/J110859.18-564050.5/`.
+4. **J1604:** done (χ²_red 7.81, final eval `_ffi3final`). W4 is nebular, so it stays demoted; no further fits planned.
+5. **J0009+58:** grade as a disk/dipper candidate, not an EB. Ask Kyle about SIMBAD/YSO catalogues or a spectrum.
+6. **Needs Kyle:** the merge decision on PR #2 (squash-merge recommended, see the 10-29 log) and the 081ab9c flag; the DD1.0 label export for tier A; J2312 contamination checks (a)/(b) from his PC.
 
-1. **J2312 with Roche stars: next steps.** The Roche + reflection optimum (χ²_red 8.21, `_persector_rocheirr_q0.8.json`) survived a third start and a free-q run.
-   - (a) Do a q profile with the radii re-optimised (`--q 0.6/0.7/0.9/1.0`, `--maxfev 150` each, starting from `_persector_persectorffirocheirr_partial.json`).
-   - (b) Investigate the S57 primary-eclipse residual (±10σ on ingress and egress): try quadratic limb darkening, or a per-sector dt0.
-   - (c) Recompute the J2312 radii and SED check with the Roche solution.
-   Command template: `.venv-phoebe/bin/python src/pipeline/fit_per_sector_dilution.py --designation J231201.40+532028.6 --raw outputs/candidates/J231201.40+532028.6/ffi/J231201.40+532028.6_raw.txt --start-from outputs/candidates/J231201.40+532028.6/J231201.40+532028.6_persector_persectorffirocheirr_partial.json --teff 9932 --q 0.7 --ntri 1500 --maxfev 150 --no-smear --eccentric --distortion roche --tag _rocheirr_q0.7fit`
-2. **J1604:** χ²_red 7.81 and nearly converged (`_persectorffi3_partial.json`). Run a final `--maxfev 1` evaluation from it to get depth scales and a plot; partial json is accepted by `--start-from` since 10-28.
-3. **J0009+58 (dipper candidate):** dips are absent in S57–S58, and in S77/S84/S85 they are off the ephemeris and vary 3–8%. Grade it as a disk candidate, not an EB. Ask Kyle whether a SIMBAD/YSO-catalogue lookup or a spectrum (Hα, Li) is possible from his PC.
-4. **New tier-B EBs:** J1108−56 and J2048+49 pass the W3/W4 image check, and J2110+47 is compact but favours free-free emission. Run PHOEBE grid fits on the first two (`run_phoebe_candidate.py`, with periods from `tess_bls_period`), after building their FFI light curves with `fetch_tess_ffi_s3.py --period <P>`.
-5. **J1122:** FFI photometry is unusable (crowded), so the per-sector fit needs QLP or SPOC light curves from Kyle's PC.
-6. **Needs Kyle:** the merge decision on PR #2 and the 081ab9c flag; the DD1.0 label export for tier A. **J2312 verdict:** W4 excess likely real but reduced (2.5–3× photosphere; 2.5–3σ including background systematics).
-
-Done: SED check (10-06); DD1.0 criteria, labels and `grade` (10-07); ±10% Teff robustness (10-09 to 10-18); W3/W4 image check (10-16); clip fix (10-18); J2312 e sin ω profile and flux-error check (10-19); white-noise χ², J2312 reflection test, J0739 seeding (10-20); per-sector dilution fitter with injection test (10-21); fitter eccentricity, smearing and dilution prior, J1122 with the TIC prior (10-22); emcee step and chain checkpointing (10-23); J1122 emcee posteriors (10-24, extended to 120 steps 10-25); J1122 l3 sensitivity and 180-step chain (10-26); J2312 contamination checks and background-subtracted excess (10-26); AWS FFI/WISE route, per-sector FFI fits, tier-B TESS check (10-27); J2312 ellipsoidal check and Roche fits, J1419 two-start, tier-B BLS, TESS class in tables, J0136 clean LC (10-28); J2312 q check and Roche restarts, J0009 all sectors, WISE images of new EBs, J1122 FFI (fails) (10-28 morning).
+Done: SED check (10-06); DD1.0 criteria, labels and `grade` (10-07); ±10% Teff robustness (10-09 to 10-18); W3/W4 image check (10-16); clip fix (10-18); J2312 e sin ω profile and flux-error check (10-19); white-noise χ², J2312 reflection test, J0739 seeding (10-20); per-sector dilution fitter with injection test (10-21); fitter eccentricity, smearing and dilution prior, J1122 with the TIC prior (10-22); emcee step and chain checkpointing (10-23); J1122 emcee posteriors (10-24, extended to 120 steps 10-25); J1122 l3 sensitivity and 180-step chain (10-26); J2312 contamination checks and background-subtracted excess (10-26); AWS FFI/WISE route, per-sector FFI fits, tier-B TESS check (10-27); J2312 ellipsoidal check and Roche fits, J1419 two-start, tier-B BLS, TESS class in tables, J0136 clean LC (10-28); J2312 q check and Roche restarts, J0009 all sectors, WISE images of new EBs, J1122 FFI (fails) (10-28 morning); J2312 q profile 0.4–1.0, J1604 final eval, J2048/J1108 FFI light curves, J2048 PHOEBE (fails) (10-29).
 
 ## Status at handoff
 

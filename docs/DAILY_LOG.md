@@ -457,3 +457,37 @@ All fold cleanly at the reference periods.
 | J1220−62 | no source at the star in W3 or W4 | 14σ | fail |
 
 BLS periods for E and C objects are now in `tess_bls_period`, and fill `period_d` in the scored table.
+
+
+## 2026-10-29 (daily cloud run, 07:52–12:10 UTC)
+
+**Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive all still return 000. No new J2312 results from Kyle's PC (no new commits on other branches since 10-19; `/mnt/project-files/J2312` unchanged since 10-26), so the J2312 contamination checks (a)/(b) stay blocked.
+
+**J2312 q profile with radii re-optimised** (Roche + reflection, eccentric, per-sector dilution, ntri 1500, 648 bins; starts from `_persector_persectorffirocheirr_partial.json`, q 0.4/0.5 from the q 0.6 result):
+
+| q | evals | χ² | χ²_red | k | incl | r_sum | T₂/T₁ |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| 0.4 | 60 | 5832.9 | 9.19 | 0.480 | 82.72 | 0.2871 | 0.939 |
+| 0.5 | 60 | 5224.9 | 8.23 | 0.528 | 82.65 | 0.2879 | 0.935 |
+| **0.6** | 120 | **5066.4** | **7.98** | 0.560 | 82.87 | 0.2865 | 0.937 |
+| 0.7 | 120 | 5143.7 | 8.10 | 0.606 | 82.82 | 0.2888 | 0.939 |
+| 0.8 (10-28) | 300 | 5215.1 | 8.21 | 0.638 | 82.93 | 0.2886 | 0.939 |
+| 0.9 | 120 | 5321.1 | 8.38 | 0.663 | 83.12 | 0.2870 | 0.938 |
+| 1.0 | 120 | 5414.6 | 8.53 | 0.688 | 83.20 | 0.2866 | 0.938 |
+
+- A parabola through q 0.5/0.6/0.7 has its minimum at q ≈ 0.62. With χ² scaled by χ²_red ≈ 8, q 0.5 and 0.7 sit at Δχ²/χ²_red ≈ 20 and 10, so q ≈ 0.6 ± 0.05 (statistical only; inferred, not an MCMC).
+- k rises with q (0.48 → 0.69): the ellipsoidal amplitude is shared between q and the secondary's size, so q and k are correlated. r_sum (0.287 ± 0.001), incl (82.7–83.2°) and T₂/T₁ (0.935–0.939) barely move.
+- q 0.4 and 0.5 ran only 60 evals; their χ² are upper bounds.
+- Depth scales stay at 0.995–1.008 in every run.
+
+**J1604 final evaluation** (`_ffi3final`, from `_persectorffi3_partial.json`): χ² 7407.3, χ²_red 7.81 (966 bins); depth scales S12 1.005, S39 1.004, S65 0.979, S102 1.011, S103 1.001. incl 86.14°, r_sum 0.386, k 0.801, T₂/T₁ 0.977, e cos ω 0.062, e sin ω −0.012.
+
+**Tier-B FFI light curves** (`fetch_tess_ffi_s3.py`):
+- J2048+49 (TIC 365489252, Teff 8559 K, contamination 0.036): 8 sectors (S15, 16, 55, 56, 75, 76, 82, 83). P = 3.235309 d, primary 2.09%, and a **broad** dip at phase 0.542 (0.42–0.65%, half-width 0.14 in phase vs 0.027 for the primary).
+- J1108−56 (TIC 307878702, no TIC Teff): 7 sectors (S10, 37, 63, 64, 90, 99, 100). P = 4.877495 d, primary 3.58%, no secondary (< ~0.3%); a 0.5% hump after the eclipse (phase ≈ 0.1) and a pre-eclipse slope, seen in the sector consensus.
+
+**J2048+49 PHOEBE fit** (`run_phoebe_candidate.py --teff 8559 --iters 5 --tag _ffi`): χ² 3344 on 165 dof, χ²_red 20.3 (166.6 against white noise); incl 65.7°, r1 0.252, r2 0.060, T₂/T₁ 0.38. Eclipse bias primary −10σ, secondary −24σ: the model cannot reproduce the broad phase-0.54 dip. Blackbody check: photosphere χ² (JHK W1) 7.1, d_phot/d_Gaia 1.93 (fails), W4 excess survives at 5.8σ (1.6×). **Verdict:** fit fails; the broad dip is probably not a plain eclipse (high e sin ω, a contaminating variable, or a detrending artefact). Not a usable PHOEBE solution.
+
+**J1108−56** was not fitted: no Teff in TIC.
+
+**Housekeeping.** `~/phoebe-env` had been lost in a container reset on 10-28 and was recreated (fresh venv, phoebe 2.4.22); `.venv-phoebe` was present. Commit fcee8cb accidentally included 8 J2048 FFI cutout FITS (~50 MB each). ac0c5af removes them from the tree, but they stay in branch history. A force-push to drop them was blocked, so **squash-merge PR #2** (or rewrite the branch with Kyle's OK) to keep them out of main.

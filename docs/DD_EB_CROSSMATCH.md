@@ -393,6 +393,19 @@ Visual inspection of the 2′×2′ AllWISE atlas cutouts (`outputs/crossmatch/w
 - The automated 4″ centring test missed both, because a nebulous peak can sit within 4″ of the star. A diffuseness measure would catch them, for example the ratio of W4 flux in a 12″ aperture to that in a 12–30″ annulus. That needs the FITS cutouts, which need IRSA or SkyView access.
 - **Not verified:** these are visual judgements on display-stretched PNGs, not photometry. Higher-resolution W4 data (unWISE or Spitzer MIPS 24 µm, if any) would settle J1604.
 
+### Cloud run 2026-10-29 (daily routine)
+
+**Per-sector fit status (white-noise χ²_red):**
+
+| Object | Model | Best χ²_red | Key parameters | Status |
+|---|---|---:|---|---|
+| J2312 | Roche + reflection, q 0.6 | 7.98 (648 bins) | incl 82.87°, r_sum 0.2865, k 0.560, T₂/T₁ 0.937 | q profile minimum at q ≈ 0.6 (0.4: 9.19; 0.5: 8.23; 0.7: 8.10; 0.8: 8.21; 0.9: 8.38; 1.0: 8.53) |
+| J1604 | Roche, eccentric | 7.81 (966 bins) | incl 86.14°, r_sum 0.386, k 0.801, e cos ω 0.062 | final; W4 nebular |
+| J1419 | | 137.3 | | unchanged (10-28) |
+| J2048+49 | PHOEBE grid, sector consensus | 20.3 (165 dof) | incl 65.7°, T₂/T₁ 0.38 | fails: broad dip at phase 0.54 not fitted; d_phot/d_Gaia 1.93 |
+
+New tier-B FFI light curves: J2048+49 (P 3.235309 d, 8 sectors, depths 2.09% / 0.42–0.65% broad) and J1108−56 (P 4.877495 d, 7 sectors, primary 3.58%, no secondary). Details: `docs/DAILY_LOG.md` 2026-10-29.
+
 ### Cloud run 2026-10-28 morning (daily routine)
 
 | Object | Fit | evals | χ²_red per-sector / shared | Depth scales | incl | k | T₂/T₁ | q |
