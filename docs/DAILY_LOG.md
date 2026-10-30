@@ -491,3 +491,23 @@ BLS periods for E and C objects are now in `tess_bls_period`, and fill `period_d
 **J1108−56** was not fitted: no Teff in TIC.
 
 **Housekeeping.** `~/phoebe-env` had been lost in a container reset on 10-28 and was recreated (fresh venv, phoebe 2.4.22); `.venv-phoebe` was present. Commit fcee8cb accidentally included 8 J2048 FFI cutout FITS (~50 MB each). ac0c5af removes them from the tree, but they stay in branch history. A force-push to drop them was blocked, so **squash-merge PR #2** (or rewrite the branch with Kyle's OK) to keep them out of main.
+
+
+## 2026-10-30 (daily cloud run, 07:52–10:20 UTC)
+
+**Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive still return 000. No new J2312 results from Kyle's PC (other branches unchanged since 10-19; `/mnt/project-files/J2312` unchanged since 10-26). J2312 contamination checks (a)/(b) stay blocked.
+
+**J2312, q free from the q 0.6 optimum** (`_rocheirr_qfree06`, Roche + reflection, eccentric, 130 evals): χ² 4981.9, **χ²_red 7.86** (648 bins; shared dilution 8.79). **q = 0.602**, incl 82.89°, r_sum 0.2866, k 0.561, T₂/T₁ 0.937, e cos ω −0.0027, e sin ω 0.0012; depth scales 0.995–1.007. This confirms the 10-29 profile minimum (q ≈ 0.62).
+- Radii at this solution (inferred: M1 = 2.50 M☉ as assumed in the reference fit, a rescaled to q 0.6 → 24.09 R☉): **R1 4.42 R☉, R2 2.48 R☉**. The spherical-star reference fit gave 4.28 / 2.95.
+- Tension (inferred, not tested): T₂/T₁ 0.937 means T₂ ≈ 9300 K, but q 0.6 gives M₂ ≈ 1.5 M☉. A 9300 K main-sequence star is about 2.2 M☉. Either M1 is underestimated, the primary is evolved, or q is biased by the ellipsoidal/reflection modelling. The SED check with the new radii was not rerun.
+
+**J2048+49 broad dip.**
+- **Verified, phase-locked:** per-sector folds (8 sectors, 2019–2024) all show the dip at phase 0.55, depth 3.2–4.6 ppt (S15 3.9, S16 3.7, S55 4.0, S56 4.5, S75 4.6, S76 4.1, S82 3.7, S83 3.2). It follows the 3.2353 d period over ~570 cycles, so it is not a detrending artefact or an unrelated variable at another period.
+- **Centroid** (`src/checks/dip_centroid.py`): the primary's difference image is 1–6″ from the target (± 1–9″). The broad dip's is 5–21″ (± 2–15″). In S56, S82 and S83 the dip is offset 9 ± 4″, 14 ± 4″ and 12 ± 6″ against 3 ± 1″, 5 ± 3″ and 1 ± 3″ for the primary. That is a 2–3σ hint that the dip comes partly from a neighbour, but S75 (5 ± 2″) agrees with the target.
+- **Eccentric PHOEBE refits**: the width ratio (0.141/0.027 ≈ 5.2) matches a secondary eclipse with e sin ω ≈ 0.67.
+  - e sin ω bounded 0.45–0.85: stuck at 0.495, χ²_red 119.9 (primary bias −73σ).
+  - e sin ω forced to 0.62–0.72 (start 0.67): χ²_red 193.7, primary bias −136σ, secondary −6.8σ.
+  - Both are much worse than the 10-29 fit (χ²_red 20.3, e sin ω 0.39). **Not verified either way:** an e ≈ 0.67 eclipse doesn't fit with this pipeline's starts. Note that e ≈ 0.67 at P = 3.2 d would be unusual (tidal circularisation).
+- **Status:** the broad dip is unexplained; J2048 has no usable PHOEBE solution.
+
+**J1108−56 PHOEBE** (`_gteffffi`, Gaia Teff 18,238 K; the BB fit gives 13,900 K; no TIC Teff): χ²_red 300.7 (242 dof), primary bias −129σ, secondary +34σ; incl 87.1°, r_sum 0.065, k 0.505. **Fails.** The model can't reproduce the 0.5% post-eclipse hump and the in-eclipse shoulder. d_phot/d_Gaia 0.27 also fails. W4 15σ (16×) survives the binary photosphere.
