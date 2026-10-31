@@ -1,0 +1,39 @@
+Connection to online passbands at https://tables.phoebe-project.org could not be established.  Check your internet connection or try again later (can manually call phoebe.list_online_passbands(refresh=True) to retry).  If the problem persists and you're using a Mac, you may need to update openssl (see https://phoebe-project.org/help/faq). Original error from urlopen: URLError <urlopen error Tunnel connection failed: 403 Forbidden>
+=== J231201.40+532028.6 2026-10-19T10:00:54.210808+00:00  P=6.849530 t0=2868.13335 Teff1=9932 M1~2.50 q=0.8 distortion=sphere nbins=223
+  bound override: esinw in (0.033, 0.037)
+  eccentric: secondary at phase 0.4990 -> ecosw0=-0.0016, esinw0=0.041
+  sma=25.04 Rsun, eclipse width 0.070 -> rsum0=0.185, teffratio0=0.98
+  skipping grid: starting from outputs/candidates/J231201.40+532028.6/J231201.40+532028.6_seed_fix2esw0d035.json (its chi2 nan)
+grid best chi2=nan (0s)
+  local-opt eval 25: best chi2 300.02
+  local-opt eval 50: best chi2 244.27
+  local-opt eval 75: best chi2 238.81
+  local-opt eval 100: best chi2 236.63
+  local-opt eval 125: best chi2 236.25
+  local-opt eval 150: best chi2 233.94
+  local-opt eval 175: best chi2 222.38
+  local-opt eval 200: best chi2 222.38
+  local-opt eval 225: best chi2 222.38
+  local-opt eval 250: best chi2 222.38
+  local-opt eval 275: best chi2 222.38
+  local-opt eval 300: best chi2 222.38
+  local-opt eval 325: best chi2 222.38
+  local-opt eval 350: best chi2 222.34
+  local-opt eval 375: best chi2 222.34
+  local-opt eval 400: best chi2 222.34
+  local-opt eval 425: best chi2 222.34
+  local-opt eval 450: best chi2 222.34
+  local-opt eval 475: best chi2 210.18
+  local-opt eval 500: best chi2 210.18
+  local-opt eval 525: best chi2 210.18
+  local-opt eval 550: best chi2 210.18
+  local-opt eval 575: best chi2 210.18
+  local-opt eval 600: best chi2 210.18
+  local-opt eval 625: best chi2 210.18
+  local-opt eval 650: best chi2 210.18
+  start 1/1 (grid chi2 nan) -> chi2 210.18
+local-opt (Nelder-Mead) chi2=210.18 after 663 evals v=[82.887, -0.0037, 0.28418, 0.74302, 0.98297, -0.00232, 0.03506]
+  emcee 16x30 in 1056s, acc=0.36
+{"incl": 82.88699930334032, "r1_frac": 0.16303587236989991, "r2_frac": 0.12113930122122685, "teffratio": 0.9829702838548791, "chi2_final_hires": 88.53963846637986, "passes_all": true}
+photometry: {"chi2": 88.53963846637986, "dof": 215, "chi2_red": 0.4118122719366505, "rms": 0.0027728283009130984, "primary_mean_resid": 0.005132570999733615, "primary_bias_sigma": 1.2823733577909633, "secondary_mean_resid": 0.004067803150705031, "secondary_bias_sigma": 2.5773965825708895, "pass_fit": true, "pass_no_eclipse_bias": true}
+blackbody: {"binary_photosphere_chi2_JHKW1": 1.6306733889114868, "photometric_distance_pc": 719.7546941016409, "gaia_distance_pc": 741.7925, "distance_ratio_phot_over_gaia": 0.9702911448978534, "excess_vs_binary_photosphere": {"W2": {"ratio": 0.9528832044346608, "sigma": -1.7895306426991693}, "W3": {"ratio": 1.2365222275353158, "sigma": 6.922661529964239}, "W4": {"ratio": 3.5635072733322315, "sigma": 12.597649904498686}}, "pass_photosphere": true, "pass_distance": true, "pass_excess_survives": true}

@@ -109,6 +109,29 @@ def tesscut_fallback(coord, max_sectors):
     return out
 
 
+def clip_mask(ff, size=9, nsig=6.0, run_sig=3.0):
+    """Keep-mask for one median-normalised segment.
+
+    Drops flares / cosmic rays (> 5 sigma above 1) and isolated bad cadences that sit
+    > nsig sigma from a running median of their neighbours. A point is only dropped as
+    isolated if neither neighbour deviates the same way by > run_sig sigma: at long
+    cadence (30-min QLP) the running median cannot follow the bottom of a short eclipse,
+    and the deepest few points of every eclipse used to be clipped (2026-10-17 check,
+    src/checks/median_clip_sim.py).
+    """
+    from scipy.ndimage import median_filter
+    keep = ff < 1 + 5 * robust_sigma(ff)  # keep eclipses; drop flares / cosmic rays
+    dev = ff - median_filter(ff, size=size, mode="nearest")
+    sd = robust_sigma(dev)
+    sgn = np.sign(dev) * (np.abs(dev) > run_sig * sd)
+    prev = np.r_[0, sgn[:-1]]
+    nxt = np.r_[sgn[1:], 0]
+    in_run = (sgn != 0) & ((prev == sgn) | (nxt == sgn))
+    keep &= (np.abs(dev) < nsig * sd) | in_run
+    keep &= ff > 0.05
+    return keep
+
+
 def normalise(segments, gap=0.75):
     """Median-normalise each continuous segment (TESS orbit) and clip upward outliers only."""
     T, F, E, S = [], [], [], []
@@ -123,15 +146,7 @@ def normalise(segments, gap=0.75):
             med = np.nanmedian(ff)
             ff = ff / med
             ee = e[idx] / med
-            s = robust_sigma(ff)
-            keep = ff < 1 + 5 * s  # keep eclipses; drop flares / cosmic rays
-            # isolated low/high points (bad cadences): compare with a running median of neighbours.
-            # Eclipses are smooth over many consecutive cadences, so they survive this filter.
-            from scipy.ndimage import median_filter
-            local = median_filter(ff, size=9, mode="nearest")
-            dev = ff - local
-            keep &= np.abs(dev) < 6 * robust_sigma(dev)
-            keep &= ff > 0.05
+            keep = clip_mask(ff)
             T.append(t[idx][keep]); F.append(ff[keep]); E.append(ee[keep]); S.append(np.full(keep.sum(), sector))
     t, f, e, s = map(np.concatenate, (T, F, E, S))
     bad = ~np.isfinite(e) | (e <= 0)
@@ -346,11 +361,12 @@ def main():
     ap.add_argument("--bins", type=int, default=200)
     ap.add_argument("--max-sectors", type=int, default=12)
     ap.add_argument("--no-double", action="store_true", help="do not test 2P")
+    ap.add_argument("--outdir", default=None, help="output folder (default outputs/candidates/<designation>)")
     ap.add_argument("--fixed-period", action="store_true",
                     help="use --period as given (e.g. from an eclipse-timing O-C fit) instead of refining")
     args = ap.parse_args()
 
-    out = ROOT / "outputs" / "candidates" / args.designation
+    out = Path(args.outdir) if args.outdir else ROOT / "outputs" / "candidates" / args.designation
     out.mkdir(parents=True, exist_ok=True)
     coord = SkyCoord(args.ra, args.dec, unit="deg")
     target = f"TIC {args.tic}" if args.tic and args.tic != "nan" else None

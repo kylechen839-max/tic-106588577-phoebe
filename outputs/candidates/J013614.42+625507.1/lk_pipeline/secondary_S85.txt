@@ -1,0 +1,11 @@
+depth05_ppt 1.5592
+err_white_ppt 0.2608
+beta 12.108
+err_ppt 3.1575
+scan_rms_ppt 3.2841
+scan_max_ppt 6.2715
+scan_frac_ge 0.3710
+inject_0.5ppt_recovered 2.0592
+inject_1.0ppt_recovered 2.5592
+inject_2.0ppt_recovered 3.5592
+inject_3.0ppt_recovered 4.5592

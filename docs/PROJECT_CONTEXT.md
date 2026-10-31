@@ -97,9 +97,25 @@ Everything under `outputs/` is gitignored. Selected results are force-added (`gi
   - zsh errors on unmatched globs; use `find`.
   - PHOEBE rejects short model labels such as "m" and "x".
 
+## Daily next steps (rewritten by each daily cloud run; last: 2026-10-31)
+
+Cloud runs: if `.venv-phoebe` is missing, run `python3 -m venv .venv-phoebe && .venv-phoebe/bin/pip install phoebe==2.4.22 emcee corner scipy matplotlib numpy pandas tabulate`, then `.venv-phoebe/bin/python src/pipeline/build_tess_passband.py`. `.venv-tess` needs `astrocut s3fs tess-point` for the AWS route. **One usage window per day** (Kyle, 2026-10-05): plan fits to finish within ~4.5 h. Do not relaunch after a container restart or once the limit resets; checkpoint and stop. Poll fits by PID (`kill -0`). **Never `git add` `ffi_cutouts/` or `lk_pipeline/cutouts/`** (50 MB FITS each).
+
+**Archive hosts are still blocked (10-31); the AWS mirrors work** (TESS FFI cubes via `fetch_tess_ffi_s3.py`, AllWISE tiles via `wise_atlas_s3.py`).
+
+**J1122 work has moved to its own thread** ("Fit J1122 eclipsing binary"); don't run J1122 fits in the daily run unless that thread hands them back. Its 7-sector light curve and the `_lk7` fit are in `/mnt/project-files/J1122`.
+
+1. **J1108−56 heartbeat fit (most promising today).** Resume the eccentric Roche fit from its partial (χ² 18,993, e 0.275; `_localopt_starts_gteffroecc.json` is cached, so rerunning the same command resumes): `.venv-phoebe/bin/python src/pipeline/run_phoebe_candidate.py --designation J110859.18-564050.5 --teff 18238 --eccentric yes --distortion roche --bound ecosw=-0.5,0.5 --bound esinw=-0.6,0.6 --iters 5 --tag _gteffroecc` (~2–3 h). Then check d_phot/d_Gaia (0.27 for the circular fit).
+2. **J2312 emcee:** extend `_mcq06` from 8 to ~24 steps. Same command with `--steps 24`; it resumes from the checkpoint (about 24 min per step on one core): `.venv-phoebe/bin/python src/pipeline/fit_per_sector_dilution.py --designation J231201.40+532028.6 --raw outputs/candidates/J231201.40+532028.6/ffi/J231201.40+532028.6_raw.txt --start-from outputs/candidates/J231201.40+532028.6/J231201.40+532028.6_persector_rocheirr_qfree06.json --teff 9932 --q 0.6 --fit-q --ntri 1500 --maxfev 1 --no-smear --eccentric --distortion roche --walkers 16 --steps 16 --tag _mcq06`. Also the S57 primary residual (limb darkening / per-sector dt0).
+3. **J2048+49:** the broad dip is on target and phase-locked but not fitted. Try `run_phoebe_candidate.py` with Roche distortion and e free (`--distortion roche --eccentric yes --bound esinw=-0.8,0.8`), as for J1108; a heartbeat-like or reflection feature is now the leading idea.
+4. **J0009+58:** grade as a disk/dipper candidate; needs SIMBAD/YSO lookup or a spectrum from Kyle.
+5. **Needs Kyle:** squash-merge PR #2 (large FITS in history), the 081ab9c flag decision, the DD1.0 label export for tier A, and J2312 contamination checks (a)/(b) from his PC.
+
+Done: SED check (10-06); DD1.0 criteria, labels and `grade` (10-07); ±10% Teff robustness (10-09 to 10-18); W3/W4 image check (10-16); clip fix (10-18); J2312 e sin ω profile and flux-error check (10-19); white-noise χ², J2312 reflection test, J0739 seeding (10-20); per-sector dilution fitter with injection test (10-21); fitter eccentricity, smearing and dilution prior, J1122 with the TIC prior (10-22); emcee step and chain checkpointing (10-23); J1122 emcee posteriors (10-24, extended to 120 steps 10-25); J1122 l3 sensitivity and 180-step chain (10-26); J2312 contamination checks and background-subtracted excess (10-26); AWS FFI/WISE route, per-sector FFI fits, tier-B TESS check (10-27); J2312 ellipsoidal check and Roche fits, J1419 two-start, tier-B BLS, TESS class in tables, J0136 clean LC (10-28); J2312 q check and Roche restarts, J0009 all sectors, WISE images of new EBs, J1122 FFI (fails) (10-28 morning); J2312 q profile 0.4–1.0, J1604 final eval, J2048/J1108 FFI light curves, J2048 PHOEBE (fails) (10-29); J2312 free q 0.602, J2048 dip phase-lock/centroid/eccentric refits, J1108 PHOEBE (fails) (10-30); J2312 Roche-radii SED (passes) and emcee chunk (q 0.594), J2048 dip on target (aperture test), J1108 hump on target and eccentric Roche fit (χ² 72,770 → 18,993) (10-31).
+
 ## Status at handoff
 
-See **`docs/HANDOFF.md`** for the latest status (PHOEBE round-1 results, round-2 runs in flight, exact next steps). It supersedes the status and open-task lists below.
+Latest daily cloud results: `docs/DAILY_LOG.md` and the "Cloud run" section of `docs/DD_EB_CROSSMATCH.md`. See **`docs/HANDOFF.md`** for the Mac-session status (PHOEBE round-1 results, round-2 runs in flight, exact next steps). It supersedes the status and open-task lists below.
 
 ## Open tasks (priority order)
 

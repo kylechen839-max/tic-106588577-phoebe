@@ -1,0 +1,13 @@
+=== J112238.89-592027.5 per-sector dilution fit: sectors [10, 11, 37, 64, 90, 99, 100], 1400 sector-bins, 2600 model phases, Teff1=7705, l3=0.367, scale prior 0.05, sphere, free ['incl', 'dt0', 'rsum', 'k', 'teffratio'], cadence (min) {10: 30.0, 11: 30.0, 37: 10.0, 64: 3.3, 90: 3.3, 99: 3.3, 100: 3.3}, smeared [10, 11, 37], start outputs/candidates/J112238.89-592027.5/J112238.89-592027.5_persector_psl3b.json
+=== J112238.89-592027.5 per-sector dilution fit: sectors [10, 11, 37, 64, 90, 99, 100], 1400 sector-bins, 1400 model phases, Teff1=7705, l3=0.367, scale prior 0.05, sphere, free ['incl', 'dt0', 'rsum', 'k', 'teffratio'], cadence (min) {10: 30.0, 11: 30.0, 37: 10.0, 64: 3.3, 90: 3.3, 99: 3.3, 100: 3.3}, smeared [], start outputs/candidates/J112238.89-592027.5/J112238.89-592027.5_persector_psl3b.json
+  start: chi2 per-sector 7638.0, common 7907.0 (1400 bins)
+  eval 25: best chi2 4022.5
+  eval 50: best chi2 3835.5
+  eval 75: best chi2 3772.8
+  eval 100: best chi2 3769.9
+  eval 125: best chi2 3768.8
+  eval 150: best chi2 3768.0
+  eval 175: best chi2 3761.1
+  eval 200: best chi2 3759.3
+  done: chi2 per-sector 3759.3 (red 2.72), common 6364.2 (red 4.57); depth scales S10 0.878, S11 0.725, S37 1.046, S64 1.635, S90 0.649, S99 0.895, S100 1.172
+  params {'incl': np.float64(84.02424), 'dt0': np.float64(0.00577), 'rsum': np.float64(0.19332), 'k': np.float64(0.30407), 'teffratio': np.float64(0.56412)}; mean b 0.732
