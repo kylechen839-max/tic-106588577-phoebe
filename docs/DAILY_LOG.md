@@ -511,3 +511,40 @@ BLS periods for E and C objects are now in `tess_bls_period`, and fill `period_d
 - **Status:** the broad dip is unexplained; J2048 has no usable PHOEBE solution.
 
 **J1108−56 PHOEBE** (`_gteffffi`, Gaia Teff 18,238 K; the BB fit gives 13,900 K; no TIC Teff): χ²_red 300.7 (242 dof), primary bias −129σ, secondary +34σ; incl 87.1°, r_sum 0.065, k 0.505. **Fails.** The model can't reproduce the 0.5% post-eclipse hump and the in-eclipse shoulder. d_phot/d_Gaia 0.27 also fails. W4 15σ (16×) survives the binary photosphere.
+
+
+## 2026-10-31 (daily cloud run, 07:51–11:55 UTC)
+
+**Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive still return 000. No new J2312 results from Kyle's PC (other branches unchanged since 10-19; `/mnt/project-files/J2312` unchanged since 10-26), so J2312 checks (a)/(b) stay blocked.
+
+**J2312 SED/distance with the Roche q 0.602 radii** (`run_phoebe_candidate.blackbody_check`, T1 9932 K, T2 = 0.937 T1 = 9300 K, Gaia distance 741.8 pc; a from Kepler for each assumed M1):
+
+| M1 (M☉) | a (R☉) | R1 | R2 | M2 | JHKW1 χ² | d_phot/d_Gaia |
+|---|---:|---:|---:|---:|---:|---:|
+| 2.0 | 22.37 | 4.11 | 2.30 | 1.20 | 1.8 | 0.893 |
+| 2.5 | 24.10 | 4.43 | 2.48 | 1.50 | 1.8 | 0.961 |
+| 3.0 | 25.61 | 4.70 | 2.64 | 1.81 | 1.8 | 1.022 |
+| 3.5 | 26.96 | 4.95 | 2.78 | 2.11 | 1.8 | 1.076 |
+
+- **Verified:** the distance check passes for any M1 2.0–3.5 M☉ (d_phot/d_Gaia 0.89–1.08). The catalogue W3/W4 excess against this photosphere is 6.8σ / 12.6σ (3.55×). That is before the 10-26 local-background subtraction, which brings W4 down to 2.5–3σ.
+- **Inferred, resolves the q–Teff tension:** both stars are about 2× larger than main-sequence radii for their Teff (MS: 1.94 and 1.80 R☉), so both are evolved. MS mass–Teff relations don't apply; q 0.6 with T₂/T₁ 0.94 is possible for two evolved stars.
+
+**J2312 emcee** on the per-sector q-free fit (`_mcq06`, 16 walkers × 8 steps, χ² scale 7.86; short chain, not converged):
+- q 0.594 (+0.012 / −0.006);
+- incl 82.90 (+0.04 / −0.05);
+- r_sum 0.2869 (+0.0005 / −0.0003);
+- k 0.560 (+0.005 / −0.002);
+- T₂/T₁ 0.936 ± 0.002;
+- depth scales S16 0.995, S17 1.007, S57 0.998.
+- Fixed a bug first: the fitter's emcee bounds had no entry for q, so `--fit-q` with `--walkers` crashed (KeyError). q is now bounded to 0.05–5.
+
+**J2048+49 broad dip is on target** (`src/checks/aperture_depth_test.py`, circular apertures r = 1, 1.5, 2, 3 px, per-orbit quadratic detrend):
+- The ratio of dip depth to primary depth stays at 0.07–0.12 in every sector and doesn't grow with aperture; it falls slightly (e.g. S15 0.116 → 0.095; S83 0.098 → 0.081). A neighbour outside the 1-px aperture would make it grow.
+- **Verified (to ~1 TESS pixel, 21″):** the dip comes from the target's pixel. This outweighs the 10-30 2–3σ centroid hint. The dip is phase-locked and on target, but no PHOEBE model fits it yet.
+
+**J1108−56 post-eclipse hump is on target and phase-locked.**
+- The brightening at phase 0.12 is +4.5 to +9.0 ppt in all 7 sectors (2019–2023), against a 3.1–4.0% primary.
+- The hump/primary ratio, −0.13 to −0.25, doesn't change systematically with aperture.
+- **Eccentric Roche PHOEBE fit** (`_gteffroecc`, Gaia Teff 18,238 K; stopped at the window limit after 625 local-opt evals): χ² 72,770 (circular, 10-30) → 57,242 (grid) → **18,993** (about χ²_red 79).
+  - e = 0.275 (e cos ω −0.145, e sin ω 0.234, ω ≈ 122°), q 0.96, incl 85.1°, r_sum 0.123, k 0.20, T₂/T₁ 0.32.
+  - **Inferred:** an eccentric, tidally distorted binary (heartbeat-like brightening near periastron) explains the hump much better than a circular orbit. The fit is not converged; restart from the partial.

@@ -288,8 +288,8 @@ def run_mcmc(args, name, cdir, free, v_best, chi2_best, res, bins, model_pred, l
     dof = res["dof_per_sector"]
     scale = max(1.0, chi2_best / dof)
     secs = list(bins)
-    lo = {"incl": 60.0, "dt0": -0.05, "rsum": 0.01, "k": 0.02, "teffratio": 0.1, "ecosw": -0.2, "esinw": -0.7}
-    hi = {"incl": 120.0, "dt0": 0.05, "rsum": 0.8, "k": 3.0, "teffratio": 2.0, "ecosw": 0.2, "esinw": 0.7}
+    lo = {"incl": 60.0, "dt0": -0.05, "rsum": 0.01, "k": 0.02, "teffratio": 0.1, "ecosw": -0.2, "esinw": -0.7, "q": 0.05}
+    hi = {"incl": 120.0, "dt0": 0.05, "rsum": 0.8, "k": 3.0, "teffratio": 2.0, "ecosw": 0.2, "esinw": 0.7, "q": 5.0}
     nblob = len(secs)
 
     def lnp(v):

@@ -1,0 +1,10 @@
+=== J231201.40+532028.6 per-sector dilution fit: sectors [16, 17, 57], 648 sector-bins, 648 model phases, Teff1=9932, l3=0.0, scale prior None, roche, free ['incl', 'dt0', 'rsum', 'k', 'teffratio', 'ecosw', 'esinw', 'q'], cadence (min) {16: 30.0, 17: 30.0, 57: 3.3}, smeared [], start outputs/candidates/J231201.40+532028.6/J231201.40+532028.6_persector_rocheirr_qfree06.json
+  start: chi2 per-sector 4981.9, common 5605.2 (648 bins)
+  done: chi2 per-sector 4981.9 (red 7.86), common 5605.2 (red 8.79); depth scales S16 0.995, S17 1.007, S57 0.998
+  params {'incl': np.float64(82.89476), 'dt0': np.float64(-0.00344), 'rsum': np.float64(0.28656), 'k': np.float64(0.56071), 'teffratio': np.float64(0.93669), 'ecosw': np.float64(-0.00272), 'esinw': np.float64(0.00124), 'q': np.float64(0.60177)}; mean b 1.124
+=== J231201.40+532028.6 per-sector dilution fit: sectors [16, 17, 57], 648 sector-bins, 648 model phases, Teff1=9932, l3=0.0, scale prior None, roche, free ['incl', 'dt0', 'rsum', 'k', 'teffratio', 'ecosw', 'esinw', 'q'], cadence (min) {16: 30.0, 17: 30.0, 57: 3.3}, smeared [], start outputs/candidates/J231201.40+532028.6/J231201.40+532028.6_persector_rocheirr_qfree06.json
+  start: chi2 per-sector 4981.9, common 5605.2 (648 bins)
+  done: chi2 per-sector 4981.9 (red 7.86), common 5605.2 (red 8.79); depth scales S16 0.995, S17 1.007, S57 0.998
+  params {'incl': np.float64(82.89476), 'dt0': np.float64(-0.00344), 'rsum': np.float64(0.28656), 'k': np.float64(0.56071), 'teffratio': np.float64(0.93669), 'ecosw': np.float64(-0.00272), 'esinw': np.float64(0.00124), 'q': np.float64(0.60177)}; mean b 1.124
+  emcee step 5/8, acc 0.30
+  emcee 16x8 (chi2 scale 7.86, acc 0.30): incl 82.9 +0.044 -0.049; dt0 -0.003431 +0.00011 -0.0001; rsum 0.2869 +0.00047 -0.0003; k 0.5603 +0.0051 -0.002; teffratio 0.9357 +0.0021 -0.0022; ecosw -0.002664 +6.3e-05 -0.0001; esinw 0.0006766 +0.0018 -0.0015; q 0.5935 +0.012 -0.0059; depth_scale_S16 0.9954 +0.0015 -0.0016; depth_scale_S17 1.007 +0.00024 -0.00027; depth_scale_S57 0.9981 +0.0013 -0.0013
