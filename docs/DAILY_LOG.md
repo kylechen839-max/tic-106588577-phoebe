@@ -548,3 +548,29 @@ BLS periods for E and C objects are now in `tess_bls_period`, and fill `period_d
 - **Eccentric Roche PHOEBE fit** (`_gteffroecc`, Gaia Teff 18,238 K; stopped at the window limit after 625 local-opt evals): χ² 72,770 (circular, 10-30) → 57,242 (grid) → **18,993** (about χ²_red 79).
   - e = 0.275 (e cos ω −0.145, e sin ω 0.234, ω ≈ 122°), q 0.96, incl 85.1°, r_sum 0.123, k 0.20, T₂/T₁ 0.32.
   - **Inferred:** an eccentric, tidally distorted binary (heartbeat-like brightening near periastron) explains the hump much better than a circular orbit. The fit is not converged; restart from the partial.
+
+
+## 2026-11-01 (daily cloud run, 08:52–13:00 UTC)
+
+**Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive still return 000. No new J2312 results from Kyle's PC (other branches unchanged since 10-19; `/mnt/project-files/J2312` unchanged since 10-26), so J2312 checks (a)/(b) stay blocked.
+
+**J2312 emcee extended** (`_mcq06`, resumed from the 5-step checkpoint; now 16 walkers × 15 steps, χ² scale 7.86, acceptance 0.25; still short):
+- q 0.597 (+0.009 / −0.007);
+- incl 82.89 (+0.04 / −0.03);
+- r_sum 0.2869 (+0.0003 / −0.0004);
+- k 0.561 (+0.002 / −0.004);
+- T₂/T₁ 0.936 ± 0.002;
+- e cos ω −0.00266, e sin ω 0.0007 (+0.0011 / −0.0009);
+- depth scales S16 0.996, S17 1.007, S57 0.998.
+- Consistent with the 8-step chunk (q 0.594) and the optimum (0.602).
+
+**J1108−56 eccentric Roche fit resumed** (`_gteffroecc`):
+- Start 1 finished at **χ² 6883.3** (716 evals; about χ²_red 29 on ~239 dof), down from 18,993 (10-31) and 72,770 for the circular fit.
+- Parameters: incl 81.7°, r_sum 0.151, k 0.205, T₂/T₁ 0.325, e cos ω −0.206, e sin ω 0.202 → **e 0.288, ω ≈ 136°**, q 1.30.
+- Start 2 was at 8294 after 225 evals (e 0.36) when stopped at the window limit. Rerunning the same command resumes it; start 3 is pending.
+- Inferred: an eccentric (e ≈ 0.3) orbit with tidal distortion reproduces most of the post-eclipse brightening. The fit is still about 29× the noise, and q (0.7–1.3 across starts) is not pinned down.
+
+**J2048+49 eccentric Roche fit** (`_ffiroecc`, e sin ω −0.8 to 0.8):
+- Start 1 χ² 5965.5 (677 evals; about χ²_red 36): e 0.62, ω 82°, q 0.78, incl 71.2°, k 0.45, T₂/T₁ 0.59.
+- Start 2 was at 7467 when stopped.
+- **Worse than the 10-29 spherical fit** (χ² 3344, χ²_red 20.3, e sin ω 0.39). Neither eccentricity nor Roche distortion explains the broad on-target dip.
