@@ -574,3 +574,39 @@ BLS periods for E and C objects are now in `tess_bls_period`, and fill `period_d
 - Start 1 χ² 5965.5 (677 evals; about χ²_red 36): e 0.62, ω 82°, q 0.78, incl 71.2°, k 0.45, T₂/T₁ 0.59.
 - Start 2 was at 7467 when stopped.
 - **Worse than the 10-29 spherical fit** (χ² 3344, χ²_red 20.3, e sin ω 0.39). Neither eccentricity nor Roche distortion explains the broad on-target dip.
+
+## 2026-11-02 (daily cloud run, 08:52–13:05 UTC)
+
+**Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive still return 000. Nothing new from Kyle's PC: branch `claude/project-thread-9rn9ph` is still at 081ab9c (10-19), and `/mnt/project-files/J2312` hasn't changed since 10-26. J2312 checks (a) and (b) stay blocked. The container had been reset, so `.venv-phoebe` was rebuilt, now on Python 3.11 with numpy 2.4.6 and scipy 1.17.1, and the TESS:T passband was rebuilt.
+- **Verified:** the rebuilt environment reproduces the 10-30 J2312 optimum exactly: χ² 4981.9 with `--q 0.6 --ntri 1500 --no-smear`.
+- A first re-evaluation gave 6834.5 because it used the defaults `--ntri 400` and `--q 0.8`. At this χ² level, the mesh resolution changes χ² by about 37%, so χ² values are only comparable at the same `--ntri` and `--q`.
+
+**J2312: the period is slightly too long** (`src/checks/persector_timing.py`, new). The model of the q-free optimum was evaluated once on a 0.0001-phase grid, then shifted in time separately for each sector, with each sector's affine map refitted.
+- Best shift per sector:
+  - S16: +1.8 min (1σ +0.3 to +4.3), χ² 1046 → 1040;
+  - S17: +5.0 min (+3.8 to +5.7), χ² 1128 → 1030;
+  - S57: −4.1 min (−4.8 to −3.5), χ² 2956 → 2526. S57's primary eclipse alone goes 728 → 391, and its ingress/egress mean residual goes −5.4σ/+2.2σ → −2.4σ/−0.9σ.
+- A linear ephemeris fits the three shifts (χ² 2.4, 1 dof): **dP = −3.69 × 10⁻⁵ ± 0.47 × 10⁻⁵ d** (7.9σ), giving P = 6.8494934 d in place of 6.8495303 d, with dT₀ −4.09 min at the S57 epoch.
+- **Verified:** the full model at the new period, with dt0 shifted by −4.09 min and nothing else changed, gives **χ² 4764.4 (χ²_red 7.50, 649 bins)**, down from 4981.9 (7.86). Δχ² is −218 for one extra parameter.
+- A Nelder–Mead refit from that point (`_qfree06_P2b`, 75 evals, stopped at the window limit) found nothing lower.
+- A refit at the new period that started from the old dt0 (`_qfree06_P2`, 120 evals) got stuck at 5229.0 (8.23). Its dt0 moved only −0.6 min, so a period change must come with the matching dt0 shift.
+- **Inferred:** about half of S57's ingress/egress residual was this timing error. What's left (−2.4σ ingress) may be limb darkening. The emcee posteriors (q 0.597 etc.) were computed at the old period, but the geometry is unchanged at the start point.
+
+**J1108−56 eccentric Roche** (`_gteffroecc`, Gaia Teff 18,238 K):
+- **Start 2 finished at χ² 5692.9** (661 evals; about χ²_red 24 on ~239 dof), down from start 1's 6883.3.
+  - incl 81.19°, r_sum 0.164, k 0.201, T₂/T₁ 0.330;
+  - e cos ω −0.293, e sin ω 0.161, so **e 0.334, ω 151°**;
+  - q 0.76.
+- Start 3 was still at 49,092 after 425 evals when stopped (e 0.22). It is not competitive.
+- q is still not pinned down: 1.30 in start 1 and 0.76 in start 2.
+
+**J0009+58 graded as a Class II YSO dipper** (`src/checks/yso_colour_grade.py`, new; cached 2MASS/AllWISE/Gaia; `_yso_grade.json`):
+- WISE colours: W1−W2 0.553, W2−W3 1.176. That is **Class II** by Koenig & Leisawitz (2014), both cuts passing after subtracting 1σ.
+- The K–W4 spectral index α = −1.12 is Class II.
+- f_IR 0.047–0.074 is primordial-disk level, far above debris disks (≲10⁻³).
+- With A_V ≈ 0.6 (rough, from BP−RP), M_G is 5.1, 1.5 mag above the main sequence at 4513 K. That fits a pre-main-sequence star with R ≈ 1.5 R☉.
+- The 4.29 d corotation radius is 0.052 AU (7.3 R*), where blackbody dust is about 1190 K, close to sublimation. Dips last 0.6–1.3 d, 14–30% of the period.
+- **Inferred:** an AA Tau-type dipper, with the occulter at the inner disk edge near corotation.
+- Caveats:
+  - the cached SIMBAD type is RSCVnV* (an automated ZTF variable class) and the TIC luminosity class is GIANT; the colours and f_IR are hard to explain with an RS CVn star;
+  - a spectrum (Hα, Li 6708) would settle it, and no SIMBAD/YSO-catalogue check was possible offline.

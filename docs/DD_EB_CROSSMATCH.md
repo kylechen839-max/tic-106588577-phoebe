@@ -393,6 +393,15 @@ Visual inspection of the 2′×2′ AllWISE atlas cutouts (`outputs/crossmatch/w
 - The automated 4″ centring test missed both, because a nebulous peak can sit within 4″ of the star. A diffuseness measure would catch them, for example the ratio of W4 flux in a 12″ aperture to that in a 12–30″ annulus. That needs the FITS cutouts, which need IRSA or SkyView access.
 - **Not verified:** these are visual judgements on display-stretched PNGs, not photometry. Higher-resolution W4 data (unWISE or Spitzer MIPS 24 µm, if any) would settle J1604.
 
+### Cloud run 2026-11-02 (daily routine)
+
+| Object | Check / fit | χ² (≈ χ²_red) | Key result | Status |
+|---|---|---:|---|---|
+| J2312 | per-sector timing scan (`persector_timing.py`) | per-sector shifts S16 +1.8, S17 +5.0, S57 −4.1 min | dP −3.69e-5 ± 0.47e-5 d → P 6.8494934 d | **verified** |
+| J2312 | Roche + reflection at P 6.8494934 d, dt0 −4.09 min | 4764.4 (7.50, 649 bins) | was 4981.9 (7.86); NM 75 evals found nothing lower | new best |
+| J1108−56 | eccentric Roche, start 2 of 3 | 5692.9 (≈ 24) | e 0.334, ω 151°, q 0.76, incl 81.2°, k 0.201, T₂/T₁ 0.330 | best so far; start 3 not competitive (49,092) |
+| J0009+58 | WISE colours, α, f_IR, CMD | — | Class II (W1−W2 0.553, W2−W3 1.176; α −1.12); f_IR 0.05–0.07; 1.5 mag above MS | AA Tau-type dipper (inferred); needs spectrum |
+
 ### Cloud run 2026-11-01 (daily routine)
 
 | Object | Fit | χ² (≈ χ²_red) | Key parameters | Status |

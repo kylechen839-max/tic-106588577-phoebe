@@ -1,0 +1,72 @@
+{
+ "designation": "J231201.40+532028.6",
+ "result": "outputs/candidates/J231201.40+532028.6/J231201.40+532028.6_persector_rocheirr_qfree06.json",
+ "period": 6.849530274279999,
+ "sectors": {
+  "16": {
+   "n_bins": 206,
+   "chi2_dt0": 1046.0685261718113,
+   "chi2_best": 1039.531216094281,
+   "dt_best_min": 1.799999999999951,
+   "dt_1sig_min": [
+    0.2999999999999563,
+    4.29999999999994
+   ],
+   "chi2_prim_dt0": 7.088219527115422,
+   "chi2_prim_best": 4.985712411290153,
+   "chi2_sec_dt0": 8.550128324989764,
+   "chi2_sec_best": 2.9564738871235647,
+   "mean_resid_ingress_dt0": null,
+   "mean_resid_egress_dt0": -0.4364246222419715,
+   "mean_resid_ingress_best": null,
+   "mean_resid_egress_best": -0.19354752924633425,
+   "t_mid": 1750.3057251
+  },
+  "17": {
+   "n_bins": 219,
+   "chi2_dt0": 1127.5610480462933,
+   "chi2_best": 1029.96104785045,
+   "dt_best_min": 4.99999999999994,
+   "dt_1sig_min": [
+    3.799999999999944,
+    5.699999999999939
+   ],
+   "chi2_prim_dt0": 61.22997511140047,
+   "chi2_prim_best": 81.7814481603593,
+   "chi2_sec_dt0": 210.73354060231918,
+   "chi2_sec_best": 98.18492822240518,
+   "mean_resid_ingress_dt0": 0.03102570672609611,
+   "mean_resid_egress_dt0": -0.3807415818464372,
+   "mean_resid_ingress_best": -1.0127410924533644,
+   "mean_resid_egress_best": 0.4776429031331313,
+   "t_mid": 1775.93133545
+  },
+  "57": {
+   "n_bins": 223,
+   "chi2_dt0": 2955.7871579314874,
+   "chi2_best": 2525.510845481097,
+   "dt_best_min": -4.100000000000028,
+   "dt_1sig_min": [
+    -4.800000000000026,
+    -3.50000000000003
+   ],
+   "chi2_prim_dt0": 728.358763470168,
+   "chi2_prim_best": 391.33221870859285,
+   "chi2_sec_dt0": 77.95849356384713,
+   "chi2_sec_best": 43.04601396859333,
+   "mean_resid_ingress_dt0": -5.353847879983101,
+   "mean_resid_egress_dt0": 2.174123346253381,
+   "mean_resid_ingress_best": -2.3898488475774977,
+   "mean_resid_egress_best": -0.9310471065893196,
+   "t_mid": 2869.46536143
+  }
+ },
+ "linear_ephemeris": {
+  "dT0_min": -4.092635334632374,
+  "dP_min_per_cycle": -0.0531545391126352,
+  "dP_days": -3.6912874383774446e-05,
+  "dP_err_days": 4.679687378187179e-06,
+  "chi2": 2.3758671943466707,
+  "n": 3
+ }
+}

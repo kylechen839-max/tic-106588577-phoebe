@@ -157,13 +157,15 @@ def main():
     ap.add_argument("--l3", type=float, default=0.0, help="third-light fraction in the model (e.g. from TIC contamination)")
     ap.add_argument("--scale-prior", type=float, default=None,
                     help="sigma of a prior that the mean per-sector depth scale is 1 (needs a realistic --l3)")
+    ap.add_argument("--period", type=float, default=None,
+                    help="override the ephemeris period (days), e.g. after a per-sector timing check")
     ap.add_argument("--walkers", type=int, default=0, help="emcee walkers after the optimisation (0 = no emcee)")
     ap.add_argument("--steps", type=int, default=0, help="emcee steps per walker")
     args = ap.parse_args()
 
     name = args.designation
     cdir, eph, times, flux, sig = rpc.load_inputs(name)
-    period = eph["period"]
+    period = args.period or eph["period"]
     t0 = eph["t0"]
     free = FREE + (["ecosw", "esinw"] if args.eccentric else []) + (["q"] if args.fit_q else [])
     rpc.PARAMS[:] = list(free)
