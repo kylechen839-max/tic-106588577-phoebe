@@ -33,12 +33,13 @@ def main():
     ap.add_argument("--ntri", type=int, default=400, help="use the fit's own --ntri (J2312 fits: 1500)")
     ap.add_argument("--q", type=float, default=None, help="the fit's --q (sets the Kepler sma; default: q in the result)")
     ap.add_argument("--grid-step", type=float, default=0.0001, help="phase step of the model grid near eclipses")
+    ap.add_argument("--period", type=float, default=None, help="the fit's --period, if it overrode the ephemeris")
     ap.add_argument("--maxshift-min", type=float, default=12.0)
     args = ap.parse_args()
 
     name = args.designation
     cdir, eph, times, flux, sig = rpc.load_inputs(name)
-    P, t0 = eph["period"], eph["t0"]
+    P, t0 = (args.period or eph["period"]), eph["t0"]
     res = json.loads(Path(args.result).read_text())
     free = res["params"]
     v = np.array(res["v"], float)

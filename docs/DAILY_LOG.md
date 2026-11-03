@@ -610,3 +610,34 @@ BLS periods for E and C objects are now in `tess_bls_period`, and fill `period_d
 - Caveats:
   - the cached SIMBAD type is RSCVnV* (an automated ZTF variable class) and the TIC luminosity class is GIANT; the colours and f_IR are hard to explain with an RS CVn star;
   - a spectrum (Hα, Li 6708) would settle it, and no SIMBAD/YSO-catalogue check was possible offline.
+
+## 2026-11-03 (daily cloud run, 08:52–11:10 UTC)
+
+**Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive still return 000. Nothing new from Kyle's PC: `claude/project-thread-9rn9ph` is still at 081ab9c, and `/mnt/project-files/J2312` hasn't changed since 10-26. J2312 checks (a) and (b) stay blocked. The container kept `.venv-phoebe` (Python 3.11) and the passband from 11-02.
+
+**J2312 emcee at the corrected period** (`_mcP2`, P 6.8494934 d, 16 walkers × 10 steps with 5 burn-in, χ² scale 7.50, acceptance 0.29; still short). It started from the 11-02 point (χ² 4764.4, χ²_red 7.50):
+- q 0.596 (+0.012 / −0.009);
+- incl 82.91 (+0.05 / −0.07);
+- r_sum 0.2868 (+0.0005 / −0.0004);
+- k 0.560 (+0.004 / −0.002);
+- T₂/T₁ 0.935 (+0.003 / −0.004);
+- dt0 −0.00628 ± 0.00007 d;
+- depth scales S16 0.996, S17 1.006, S57 0.999.
+- These are unchanged within 1σ from the old-period chain (q 0.597, k 0.561, T₂/T₁ 0.936). **Verified:** the period correction doesn't move the geometry.
+
+**Timing re-check at the new period** (`persector_timing.py --period 6.8494934 --ntri 1500 --q 0.6`, model at the `_mcP2` start point):
+- S17 now wants +0.3 min (1σ −0.3 to +1.0) and S57 −0.3 min (−0.9 to +0.5). Both are consistent with zero, so the correction worked for them.
+- S16 now wants −5.1 min (−6.2 to −3.2); the 11-02 scan at the old period gave +1.8. S16 and S17 are consecutive sectors (about 4 cycles apart), so their 5.4 min disagreement can't be a period effect. **Inferred:** a systematic in S16's primary eclipse, which has a data gap and only egress coverage (its primary χ² 120.7 → 35.9 with the shift). S16 is not used for the ephemeris.
+- S57's primary ingress residual is still −2.4σ on average.
+
+**J2312 limb-darkening test** (new fitter option `--ld`; single evaluations at the 11-02 point, geometry fixed):
+- linear LD 0.25: χ² 4874.2;
+- linear LD 0.35 (default): 4764.4;
+- linear LD 0.45: 5041.6.
+- A parabola through the three puts the minimum at LD ≈ 0.33. **Verified at fixed geometry:** the default 0.35 is within 0.02 of the best, so linear LD doesn't explain the S57 ingress residual. Not tested: refitting the geometry at each LD, and quadratic LD.
+
+**J1108−56 final evaluation** (`_gteffroecc`, start 2 as the local optimum, then emcee 18×5 and a final model at ntri 1500):
+- Final χ² 5115.8 (**χ²_red 21.4**, 239 dof); white-noise χ²_red 46.4.
+- e 0.330, ω 152°, q 0.73, incl 81.1°, k 0.209, T₂/T₁ 0.302 (T₂ ≈ 5500 K). R1 4.30 and R2 0.90 R☉, for an assumed M1 of 9.96 M☉.
+- **SED/distance now passes:** binary-photosphere JHKW1 χ² 3.6 and d_phot/d_Gaia 0.82, against 0.27 for the circular fit. The W3 excess is 11.8σ (1.77×) and W4 15.5σ (16.5×).
+- **The light curve still fails:** χ²_red 21.4 > 5, primary bias −5.5σ and secondary bias +24.3σ. The secondary is the eclipse the model still misses.

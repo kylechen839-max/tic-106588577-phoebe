@@ -1,0 +1,6 @@
+J231201.40+532028.6: per-sector timing scan, model from outputs/candidates/J231201.40+532028.6/J231201.40+532028.6_persector_mcP2.json
+  S16: chi2 1274.5 -> 1188.5 at dt -5.10 min (1sig -6.2..-3.2); primary 120.7 -> 35.9; secondary 6.6 -> 11.0; ingress/egress mean resid n/a/+0.99 -> n/a/-0.66
+  S17: chi2 1029.1 -> 1028.2 at dt +0.30 min (1sig -0.3..+1.0); primary 77.0 -> 79.5; secondary 126.6 -> 122.2; ingress/egress mean resid -0.80/+0.36 -> -0.86/+0.42
+  S57: chi2 2527.2 -> 2526.3 at dt -0.30 min (1sig -0.9..+0.5); primary 396.0 -> 388.3; secondary 44.0 -> 51.6; ingress/egress mean resid -2.39/-0.95 -> -2.16/-1.18
+  linear fit to shifts: dT0 -0.28 min, dP +1.290e-06 +/- 4.0e-06 d (chi2 10.9 for 3 sectors)
+  wrote /home/claude/tic-106588577-phoebe/outputs/candidates/J231201.40+532028.6/J231201.40+532028.6_timing_mcP2.json
