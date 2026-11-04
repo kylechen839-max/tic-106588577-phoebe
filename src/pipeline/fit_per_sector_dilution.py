@@ -159,8 +159,11 @@ def main():
                     help="sigma of a prior that the mean per-sector depth scale is 1 (needs a realistic --l3)")
     ap.add_argument("--period", type=float, default=None,
                     help="override the ephemeris period (days), e.g. after a per-sector timing check")
-    ap.add_argument("--ld", type=float, default=None,
-                    help="linear limb-darkening coefficient for both stars in TESS (default: run_phoebe_candidate's 0.35 above 9000 K, else 0.5)")
+    ap.add_argument("--ld", default=None,
+                    help="limb-darkening coefficient(s) for both stars in TESS, comma-separated for two-coefficient laws "
+                         "(default: run_phoebe_candidate's linear 0.35 above 9000 K, else 0.5)")
+    ap.add_argument("--ld-func", default="linear", choices=["linear", "quadratic", "logarithmic", "square_root"],
+                    help="limb-darkening law used with --ld")
     ap.add_argument("--walkers", type=int, default=0, help="emcee walkers after the optimisation (0 = no emcee)")
     ap.add_argument("--steps", type=int, default=0, help="emcee steps per walker")
     args = ap.parse_args()
@@ -207,7 +210,8 @@ def main():
                   args.ntri, l3=args.l3, irrad=not args.no_irrad)
     m.b.set_value("pblum_mode@lc01", "component-coupled")
     if args.ld is not None:
-        m.b.set_value_all("ld_coeffs@lc01", [args.ld])
+        m.b.set_value_all("ld_func@lc01", args.ld_func)
+        m.b.set_value_all("ld_coeffs@lc01", [float(x) for x in str(args.ld).split(",")])
     oot_idx = np.abs(rpc.phase_values(gt, t0, period)) > 0.15   # for normalising to 1 out of eclipse
 
     def interp_model(pred_grid):
@@ -225,7 +229,7 @@ def main():
     log(f"=== {name} per-sector dilution fit: sectors {sorted(bins)}, {nbin} sector-bins, "
         f"{len(uph)} model phases, Teff1={args.teff:.0f}, l3={args.l3}, scale prior {args.scale_prior}, "
         f"{distortion}, free {free}, cadence (min) {({s: round(c * 1440, 1) for s, c in cadence.items()})}, "
-        f"smeared {[s for s in bins if len(offs[s]) > 1]}, ld {args.ld}, start {args.start_from}")
+        f"smeared {[s for s in bins if len(offs[s]) > 1]}, ld {args.ld_func} {args.ld}, start {args.start_from}")
     best = {"chi2": np.inf, "v": v0}
     n = {"evals": 0}
 

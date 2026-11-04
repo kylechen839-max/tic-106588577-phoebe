@@ -641,3 +641,33 @@ BLS periods for E and C objects are now in `tess_bls_period`, and fill `period_d
 - e 0.330, ω 152°, q 0.73, incl 81.1°, k 0.209, T₂/T₁ 0.302 (T₂ ≈ 5500 K). R1 4.30 and R2 0.90 R☉, for an assumed M1 of 9.96 M☉.
 - **SED/distance now passes:** binary-photosphere JHKW1 χ² 3.6 and d_phot/d_Gaia 0.82, against 0.27 for the circular fit. The W3 excess is 11.8σ (1.77×) and W4 15.5σ (16.5×).
 - **The light curve still fails:** χ²_red 21.4 > 5, primary bias −5.5σ and secondary bias +24.3σ. The secondary is the eclipse the model still misses.
+
+## 2026-11-04 (daily cloud run, 08:51–12:45 UTC)
+
+**Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive still return 000. Nothing new from Kyle's PC: `claude/project-thread-9rn9ph` is still at 081ab9c, and nothing in `/mnt/project-files/J2312` is newer than 10-26. J2312 checks (a) and (b) stay blocked. `.venv-phoebe` (Python 3.11) and the passband are intact.
+
+**J2312: the quadratic limb-darkening law fits better than linear** (new fitter option `--ld-func`). The test used single evaluations at the 11-02 point (P 6.8494934 d, geometry fixed; linear 0.35 gives χ² 4764.4):
+
+| quadratic (u1, u2) | χ² |
+|---|---:|
+| 0.00, 0.30 | 4882.0 |
+| 0.00, 0.40 | 4664.3 |
+| 0.05, 0.35 | 4657.9 |
+| 0.05, 0.45 | 4643.2 |
+| 0.10, 0.30 | 4659.1 |
+| 0.10, 0.40 | 4679.1 |
+| 0.15, 0.25 | 4668.3 |
+| 0.25, 0.20 | 4753.4 |
+
+- The χ² surface is a long valley: its Hessian eigenvalues are 127 and 50,688, so the data constrain one combination of u1 and u2, near u1 + u2 ≈ 0.4–0.5, and not the two separately. The extrapolated minimum is unphysical (u1 < 0), so I didn't use it.
+- **Geometry refit at quadratic (0.10, 0.30)** (`_ldq_fit`, 120 evals): **χ² 4621.7 (χ²_red 7.28)**, down from 4764.4 (7.50) with linear LD.
+  - incl 82.90°, r_sum 0.2864, k 0.561, T₂/T₁ 0.937, q 0.603;
+  - depth scales 0.995 / 1.006 / 0.999.
+  - **Verified:** the geometry stays within about 1σ of the 11-03 emcee, so the LD law changes χ² but not the parameters.
+- Not tested: whether the S57 ingress residual shrinks. `persector_timing.py` has no LD option yet.
+
+**J1108−56 secondary-eclipse tests** (from the 11-03 final fit, χ²_red 21.4, secondary bias +24.3σ):
+- **Free third light** (`_gteffroeccl3`, from start 2): l3 0.034. Final χ² 4864.3 (**χ²_red 20.4**), with e 0.37 (e cos ω −0.302, e sin ω 0.217) and q 0.76. The secondary bias is still +23.1σ and the primary −4.8σ.
+- **q fixed at 1.30** (`_gteffroeccq13`, from start 1): final χ² 7119.2 (**χ²_red 29.7**), with secondary bias +20.4σ. This is worse.
+- SED/distance passes in both runs: JHKW1 χ² 3.6 and d_phot/d_Gaia 0.82.
+- **Verified:** neither third light nor a higher q fixes the secondary eclipse. The model's secondary stays too deep by about 1.5 ppt, measured as the mean residual in the secondary window. Inferred: the secondary's shape (e and ω) or T₂ needs another constraint, or the secondary is affected by the same structure that causes the hump.

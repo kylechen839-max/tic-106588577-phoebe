@@ -393,6 +393,15 @@ Visual inspection of the 2′×2′ AllWISE atlas cutouts (`outputs/crossmatch/w
 - The automated 4″ centring test missed both, because a nebulous peak can sit within 4″ of the star. A diffuseness measure would catch them, for example the ratio of W4 flux in a 12″ aperture to that in a 12–30″ annulus. That needs the FITS cutouts, which need IRSA or SkyView access.
 - **Not verified:** these are visual judgements on display-stretched PNGs, not photometry. Higher-resolution W4 data (unWISE or Spitzer MIPS 24 µm, if any) would settle J1604.
 
+### Cloud run 2026-11-04 (daily routine)
+
+| Object | Check / fit | χ² (≈ χ²_red) | Key result | Status |
+|---|---|---:|---|---|
+| J2312 | quadratic LD grid (8 points, fixed geometry) | 4643–4882 (linear 0.35: 4764) | valley along u1+u2 ≈ 0.4–0.5 | quadratic preferred |
+| J2312 | refit at quadratic LD (0.10, 0.30), P 6.8494934 d | 4621.7 (7.28) | incl 82.90, k 0.561, T₂/T₁ 0.937, q 0.603 | new best; geometry unchanged |
+| J1108−56 | eccentric Roche + free l3 | 4864.3 (20.4) | l3 0.034, e 0.37, q 0.76; secondary bias +23σ | fails |
+| J1108−56 | eccentric Roche, q fixed 1.30 | 7119.2 (29.7) | secondary bias +20σ | worse |
+
 ### Cloud run 2026-11-03 (daily routine)
 
 | Object | Check / fit | χ² (≈ χ²_red) | Key result | Status |
