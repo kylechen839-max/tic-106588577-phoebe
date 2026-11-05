@@ -671,3 +671,30 @@ BLS periods for E and C objects are now in `tess_bls_period`, and fill `period_d
 - **q fixed at 1.30** (`_gteffroeccq13`, from start 1): final χ² 7119.2 (**χ²_red 29.7**), with secondary bias +20.4σ. This is worse.
 - SED/distance passes in both runs: JHKW1 χ² 3.6 and d_phot/d_Gaia 0.82.
 - **Verified:** neither third light nor a higher q fixes the secondary eclipse. The model's secondary stays too deep by about 1.5 ppt, measured as the mean residual in the secondary window. Inferred: the secondary's shape (e and ω) or T₂ needs another constraint, or the secondary is affected by the same structure that causes the hump.
+
+## 2026-11-05 (daily cloud run, 08:52–12:25 UTC)
+
+**Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive still return 000. Nothing new from Kyle's PC: `claude/project-thread-9rn9ph` is still at 081ab9c, and no file in `/mnt/project-files/J2312` is newer than 10-26. J2312 checks (a) and (b) stay blocked. The environment is intact.
+
+**J2312 timing re-check with quadratic LD** (`persector_timing.py`, which now takes `--ld-func/--ld`; model at the `_ldq_fit` optimum):
+- S57's primary χ² went 396.0 → 307.2 against the linear-LD check (11-03). Its ingress mean residual went −2.39σ → −1.95σ, and egress −0.95σ → −0.55σ.
+- S17 and S57 shifts stay consistent with zero (−0.1 and −0.4 min). S16 still wants −5.2 min (its primary has a data gap).
+- **Verified:** quadratic LD removes about 20% of S57's ingress residual. The rest is unexplained; the model is not yet fitted to it.
+
+**J2312 emcee at quadratic LD (0.10, 0.30)** (`_mcldq`, 16 × 10 with 5 burn-in, χ² scale 7.28, acceptance 0.34):
+- q 0.598 ± 0.007;
+- incl 82.91 (+0.03 / −0.06);
+- r_sum 0.2867 ± 0.0003;
+- k 0.561 ± 0.003;
+- T₂/T₁ 0.936 (+0.002 / −0.004);
+- depth scales S16 0.995, S17 1.006, S57 0.999.
+- **Verified:** this agrees within 1σ with the linear-LD chain (q 0.596, k 0.560, T₂/T₁ 0.935). The LD law doesn't change the geometry.
+
+**J1108−56 with e and ω pinned to the 0.258 secondary phase** (`_gteffroeccepin`: e cos ω in −0.42 to −0.34 and e sin ω in −0.08 to 0.08, the values that equal eclipse widths imply):
+- Local opt reached χ² 7892.2 (698 evals); the final model gives 7547.3 (**χ²_red 31.6**).
+- Secondary bias +16.2σ, primary −2.7σ, d_phot/d_Gaia 0.76.
+- **Worse** than the unpinned fit (χ²_red 21.4) and the free-l3 fit (20.4).
+- **Verified:** none of the four variants fits the phase-0.258 feature: free e, l3, q 1.30 and pinned e.
+  - In the ephemeris, that feature is a marginal "secondary" (depth 0.34%, flagged not detected), and the hump sits next to it.
+  - Inferred: the 0.258 feature and the hump are probably one heartbeat-type signal, not a separate eclipse.
+- **J1108 is parked**, like J2048. Its SED/distance check passes (d_phot/d_Gaia 0.76–0.82; W3 11.8σ, W4 15.5σ), but no detached-EB model fits the light curve.

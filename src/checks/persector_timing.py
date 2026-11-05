@@ -34,6 +34,8 @@ def main():
     ap.add_argument("--q", type=float, default=None, help="the fit's --q (sets the Kepler sma; default: q in the result)")
     ap.add_argument("--grid-step", type=float, default=0.0001, help="phase step of the model grid near eclipses")
     ap.add_argument("--period", type=float, default=None, help="the fit's --period, if it overrode the ephemeris")
+    ap.add_argument("--ld", default=None, help="limb-darkening coefficient(s), comma-separated, as the fit's --ld")
+    ap.add_argument("--ld-func", default="linear", help="limb-darkening law, as the fit's --ld-func")
     ap.add_argument("--maxshift-min", type=float, default=12.0)
     args = ap.parse_args()
 
@@ -62,7 +64,8 @@ def main():
     ph = ((ph + 0.5) % 1.0) - 0.5
     ph = np.unique(ph)
     gt = t0 + ph * P
-    cache = cdir / f"{name}_timing_model_{Path(args.result).stem}_{args.grid_step:g}_n{args.ntri}.npz"
+    ldtag = ("_ld" + args.ld_func + str(args.ld)) if args.ld else ""
+    cache = cdir / f"{name}_timing_model_{Path(args.result).stem}_{args.grid_step:g}_n{args.ntri}{ldtag}.npz"
     if cache.exists():
         z = np.load(cache)
         mph, mf = z["mph"], z["mf"]
@@ -72,6 +75,9 @@ def main():
       m = rpc.Model(gt, np.ones_like(gt), np.full_like(gt, 1e-3), P, t0, args.teff, m1, args.q if args.q is not None else d.get("q", 0.8),
                     args.distortion, args.ntri, l3=res.get("l3", 0.0), irrad=not args.no_irrad)
       m.b.set_value("pblum_mode@lc01", "component-coupled")
+      if args.ld is not None:
+          m.b.set_value_all("ld_func@lc01", args.ld_func)
+          m.b.set_value_all("ld_coeffs@lc01", [float(x) for x in str(args.ld).split(",")])
       m.set(v)
       m.b.run_compute(compute="phoebe01", model="ps", overwrite=True, progressbar=False)
       mf = np.asarray(m.b.get_value("fluxes@lc01@ps@model"), float)
