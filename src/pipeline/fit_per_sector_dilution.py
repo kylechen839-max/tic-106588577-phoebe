@@ -164,6 +164,9 @@ def main():
                          "(default: run_phoebe_candidate's linear 0.35 above 9000 K, else 0.5)")
     ap.add_argument("--ld-func", default="linear", choices=["linear", "quadratic", "logarithmic", "square_root"],
                     help="limb-darkening law used with --ld")
+    ap.add_argument("--sector-dt", action="append", default=[], metavar="SECTOR=MIN",
+                    help="fixed time offset (minutes) of one sector's model relative to the ephemeris, e.g. 16=-5.2 "
+                         "(positive = that sector's eclipses later); repeatable")
     ap.add_argument("--walkers", type=int, default=0, help="emcee walkers after the optimisation (0 = no emcee)")
     ap.add_argument("--steps", type=int, default=0, help="emcee steps per walker")
     args = ap.parse_args()
@@ -200,7 +203,8 @@ def main():
     cadence = {s: float(np.median(np.diff(np.sort(raw[secs == s, 0])))) for s in bins}
     offs = {s: (np.array(SMEAR) * cadence[s] / period if (cadence[s] > 5 / 1440 and not args.no_smear)
                 else np.array([0.0])) for s in bins}
-    want = {s: (bins[s][0][:, None] + offs[s][None, :]) for s in bins}   # (nbin, nsub)
+    sdt = {int(k): float(v) / 1440.0 for k, v in (x.split("=") for x in args.sector_dt)}
+    want = {s: (bins[s][0][:, None] + offs[s][None, :] - sdt.get(s, 0.0) / period) for s in bins}   # (nbin, nsub)
     allph = np.concatenate([w.ravel() for w in want.values()])
     uph, inv = np.unique(np.round(allph, 8), return_inverse=True)
     starts = np.cumsum([0] + [w.size for w in want.values()])
@@ -229,7 +233,7 @@ def main():
     log(f"=== {name} per-sector dilution fit: sectors {sorted(bins)}, {nbin} sector-bins, "
         f"{len(uph)} model phases, Teff1={args.teff:.0f}, l3={args.l3}, scale prior {args.scale_prior}, "
         f"{distortion}, free {free}, cadence (min) {({s: round(c * 1440, 1) for s, c in cadence.items()})}, "
-        f"smeared {[s for s in bins if len(offs[s]) > 1]}, ld {args.ld_func} {args.ld}, start {args.start_from}")
+        f"smeared {[s for s in bins if len(offs[s]) > 1]}, ld {args.ld_func} {args.ld}, sector dt (min) {args.sector_dt}, start {args.start_from}")
     best = {"chi2": np.inf, "v": v0}
     n = {"evals": 0}
 

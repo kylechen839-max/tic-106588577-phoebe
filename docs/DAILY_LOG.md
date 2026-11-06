@@ -698,3 +698,18 @@ BLS periods for E and C objects are now in `tess_bls_period`, and fill `period_d
   - In the ephemeris, that feature is a marginal "secondary" (depth 0.34%, flagged not detected), and the hump sits next to it.
   - Inferred: the 0.258 feature and the hump are probably one heartbeat-type signal, not a separate eclipse.
 - **J1108 is parked**, like J2048. Its SED/distance check passes (d_phot/d_Gaia 0.76–0.82; W3 11.8σ, W4 15.5σ), but no detached-EB model fits the light curve.
+
+## 2026-11-06 (daily cloud run, 08:52–10:35 UTC)
+
+**Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive still return 000. Nothing new from Kyle's PC: `claude/project-thread-9rn9ph` is still at 081ab9c, and no file in `/mnt/project-files/J2312` is newer than 10-26. J2312 checks (a) and (b) stay blocked. The environment is intact.
+
+**J2312: S16 given its own fixed time offset** (new fitter option `--sector-dt SECTOR=MIN`). The test used single evaluations at the quadratic-LD optimum (χ² 4621.7 with no offset):
+
+| S16 offset (min) | −1.0 | −2.0 | −3.0 | −4.0 | −5.2 | −7.0 |
+|---|---:|---:|---:|---:|---:|---:|
+| χ² | 4602.4 | 4571.8 | 4552.9 | **4538.9** | 4564.5 | 4583.0 |
+
+- Best at −4 min: **χ² 4538.9 (χ²_red 7.15)**, Δχ² −83 for one extra parameter. The timing scan's −5.2 min is close.
+- A Nelder–Mead refit with S16 at −4 min (`_s16fit`, 120 evals) found nothing lower. The geometry is unchanged: incl 82.90°, k 0.561, T₂/T₁ 0.937, q 0.603; depth scales 0.996 / 1.006 / 0.998.
+- **Verified:** S16's offset is a sector-level timing systematic, inferred to come from the data gap in its primary eclipse. It doesn't affect the binary parameters.
+- With this, the offline J2312 light-curve work is done: the quadratic-LD emcee (q 0.598 ± 0.007) stands.
