@@ -23,6 +23,7 @@ Downloaded from MAST (QLP HLSP) on Kyle's PC, since the cloud cannot reach MAST.
 - `_qlp_all_with_flags.csv`: same, plus the 25 clipped points (`clipped`).
 - `_qlp_folded_binned400.csv`: 400-bin phase median with error.
 - `_qlp_sector_log.csv`, `_qlp_sectors.png`, `_qlp_folded.png`.
+- Text versions: `_QLP_LightCurve.txt` (time, flux, err, sector), `_QLP_Folded_LC.txt` (phase, flux, err, sector, time; sorted by phase) and `_QLP_Folded_LC_binned.txt` (400 bins).
 
 ## Numbers
 | sector | cadence | points | rms (ppt) | primary depth (\|φ\| < 0.005) | dip at φ 0.5 (\|Δφ\| < 0.005) |
