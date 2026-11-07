@@ -1020,3 +1020,7 @@ unzip ~/Downloads/WZSubs.zip -d data/catalogs -x "__MACOSX/*"
 .venv-tess/bin/python src/pipeline/fetch_tess_lc.py --designation <J...> --ra <deg> --dec <deg> --tic <TIC> --period <d>
 ~/phoebe-env/bin/python src/pipeline/run_phoebe_candidate.py --designation <J...>
 ```
+
+### Cloud run 2026-11-07 (daily routine)
+
+No new fits or cross-matches (archives still blocked). The full tier A+B table now lives in `outputs/crossmatch/candidates_all_in_one.csv` (131 rows, 74 columns), with a spreadsheet version that adds the source catalogues and per-catalogue IDs in `outputs/crossmatch/DD1_EB_candidates.xlsx`. Catalogue counts across the 131: VSX 80, Gaia DR3 ECL 67, ASAS-SN 21, TESS OBA EBs 18, ATLAS 15, TESS EBs 9, WISE 8, ZTF 8, OGLE LMC 4, CRTS 3, ASAS-3 1, CRTS-South 1 (all within 3″).

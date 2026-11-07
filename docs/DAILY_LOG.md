@@ -713,3 +713,14 @@ BLS periods for E and C objects are now in `tess_bls_period`, and fill `period_d
 - A Nelder–Mead refit with S16 at −4 min (`_s16fit`, 120 evals) found nothing lower. The geometry is unchanged: incl 82.90°, k 0.561, T₂/T₁ 0.937, q 0.603; depth scales 0.996 / 1.006 / 0.998.
 - **Verified:** S16's offset is a sector-level timing systematic, inferred to come from the data gap in its primary eclipse. It doesn't affect the binary parameters.
 - With this, the offline J2312 light-curve work is done: the quadratic-LD emcee (q 0.598 ± 0.007) stands.
+
+## 2026-11-07 (daily cloud run, 08:52 UTC)
+
+**Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive still return 000 from the cloud. `.venv-phoebe` is intact. No fits were run: the offline J2312 light-curve work finished on 11-06, and J1108/J2048 are parked.
+
+**Added since the 11-06 run (on Kyle's requests, 11-06 evening):**
+- `outputs/crossmatch/candidates_all_in_one.csv`: all 131 tier A + B candidates, 74 columns. It holds WISE photometry and excess, periods, Gaia/TIC parameters (incl. TIC logg, mass, luminosity, E(B−V)), PHOEBE fit parameters for the 14 fitted objects, grades and notes. The J2312 row carries the newest per-sector Roche fit and the corrected period. This replaces the duplicate CSVs made earlier, which were removed in 45905ef.
+- `outputs/crossmatch/DD1_EB_candidates.xlsx`: a spreadsheet of the same 131 candidates with periods, W1–W4, W3/W4 excess, the EB catalogues each was matched in (3″) and the star's ID in each. A "Catalogue key" sheet lists each catalogue's VizieR table and count: VSX 80, Gaia DR3 67, ASAS-SN 21, TESS OBA EBs 18, ATLAS 15, TESS EBs 9, WISE 8, ZTF 8, OGLE LMC 4, CRTS 3, ASAS-3 1, CRTS-South 1.
+- From Kyle's PC: the J1122 7-sector QLP light curve (dd39a6f, 63a50dc; primary 4.68 ± 0.06%, tentative secondary 0.32%), handed to the J1122 thread.
+
+**Still waiting on Kyle:** whether to pause the daily routine (it has no offline work left); whether to run the J0136 Gaia-neighbour and J0009 SIMBAD/YSO checks on his PC; whether to add the 669 tier C objects to the combined table; squash-merging PR #2; the 081ab9c decision.
