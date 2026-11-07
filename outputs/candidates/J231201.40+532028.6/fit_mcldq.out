@@ -1,0 +1,8 @@
+Connection to online passbands at https://tables.phoebe-project.org could not be established.  Check your internet connection or try again later (can manually call phoebe.list_online_passbands(refresh=True) to retry).  If the problem persists and you're using a Mac, you may need to update openssl (see https://phoebe-project.org/help/faq). Original error from urlopen: URLError <urlopen error Tunnel connection failed: 403 Forbidden>
+=== J231201.40+532028.6 per-sector dilution fit: sectors [16, 17, 57], 649 sector-bins, 649 model phases, Teff1=9932, l3=0.0, scale prior None, roche, free ['incl', 'dt0', 'rsum', 'k', 'teffratio', 'ecosw', 'esinw', 'q'], cadence (min) {16: 30.0, 17: 30.0, 57: 3.3}, smeared [], ld quadratic 0.10,0.30, start outputs/candidates/J231201.40+532028.6/J231201.40+532028.6_persector_ldq_fit.json
+  start: chi2 per-sector 4621.7, common 5230.7 (649 bins)
+  done: chi2 per-sector 4621.7 (red 7.28), common 5230.7 (red 8.19); depth scales S16 0.995, S17 1.006, S57 0.999
+  params {'incl': np.float64(82.90077), 'dt0': np.float64(-0.00625), 'rsum': np.float64(0.28641), 'k': np.float64(0.56128), 'teffratio': np.float64(0.9369), 'ecosw': np.float64(-0.00268), 'esinw': np.float64(0.00141), 'q': np.float64(0.60265)}; mean b 1.123
+  emcee step 5/10, acc 0.45
+  emcee step 10/10, acc 0.34
+  emcee 16x10 (chi2 scale 7.28, acc 0.34): incl 82.91 +0.034 -0.064; dt0 -0.00627 +8.2e-05 -4.7e-05; rsum 0.2867 +0.00027 -0.00025; k 0.5612 +0.0036 -0.0031; teffratio 0.9359 +0.0015 -0.0041; ecosw -0.002633 +0.00012 -9.3e-05; esinw 0.001223 +0.00097 -0.0017; q 0.5983 +0.007 -0.0066; depth_scale_S16 0.9952 +0.0024 -0.0008; depth_scale_S17 1.006 +0.00025 -0.00046; depth_scale_S57 0.9986 +0.00061 -0.002

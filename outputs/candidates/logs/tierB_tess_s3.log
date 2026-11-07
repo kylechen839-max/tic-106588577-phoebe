@@ -1,0 +1,744 @@
+== J102247.90-620315.5 P=2.21361
+  sector 10: cut from camera 3 CCD 1
+  sector 11: cut from camera 3 CCD 2
+  sector 10: 4 px aperture, 1083/1150 cadences kept
+  sector 11: 6 px aperture, 1097/1180 cadences kept
+  odd/even depth test at P: 0.2 sigma (odd 0.1946, even 0.1953), phase-0.5 dip / primary = 0.39
+  eclipses: {"phase1": 0.01142980393287174, "phase2": 0.5003325716479682, "depth1": 0.20054279144854825, "depth2": 0.08517543151719309, "halfwidth1": 0.06015037593984962, "halfwidth2": 0.06390977443609022, "secondary_detected": true, "continuum_amplitude": 0.015255785840891822, "profile_noise": 0.0007868530941953986}; 160 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J204142.75+463029.3 P=2.3934
+  sector 15: cut from camera 1 CCD 1
+  sector 15: cut from camera 2 CCD 4
+  sector 16: cut from camera 2 CCD 3
+  sector 15: 6 px aperture, 762/1190 cadences kept
+  sector 16: 7 px aperture, 802/1118 cadences kept
+  odd/even depth test at P: 0.5 sigma (odd 0.1859, even 0.1814), phase-0.5 dip / primary = 0.89
+  eclipses: {"phase1": -4.777495154728584e-05, "phase2": 0.4998181295993047, "depth1": 0.20798187217997877, "depth2": 0.191977008560676, "halfwidth1": 0.045, "halfwidth2": 0.05, "secondary_detected": true, "continuum_amplitude": 0.005362002856999393, "profile_noise": 0.002359112117950841}; 169 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J124645.61-653628.5 P=3.7479
+  sector 11: cut from camera 2 CCD 2
+  sector 38: cut from camera 2 CCD 1
+  sector 11: 5 px aperture, 833/1177 cadences kept
+  sector 38: 5 px aperture, 3120/3693 cadences kept
+  odd/even depth test at P: 0.3 sigma (odd 0.3898, even 0.3933), phase-0.5 dip / primary = 0.53
+  eclipses: {"phase1": -4.81903879845369e-05, "phase2": 0.5014089465910904, "depth1": 0.4172471268118071, "depth2": 0.2333040664688364, "halfwidth1": 0.03643724696356275, "halfwidth2": 0.03643724696356275, "secondary_detected": true, "continuum_amplitude": 0.007770266971884321, "profile_noise": 0.002348715212496607}; 224 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J235953.92+660910.2 P=0.3274985
+  sector 17: cut from camera 3 CCD 2
+  sector 18: cut from camera 3 CCD 1
+  sector 17: 6 px aperture, 761/1126 cadences kept
+  sector 18: 6 px aperture, 911/1103 cadences kept
+  odd/even depth test at P: nan sigma (odd nan, even nan), phase-0.5 dip / primary = nan
+  eclipses: {"phase1": 0.005134242527273791, "phase2": 0.5012319359005696, "depth1": 0.042513487828836016, "depth2": 0.040933606441856285, "halfwidth1": 0.13875598086124402, "halfwidth2": 0.11483253588516747, "secondary_detected": true, "continuum_amplitude": 0.1117502055111036, "profile_noise": 0.002528432705732542}; 75 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J045439.87-671306.0 P=1.78891
+  sector 1: cut from camera 4 CCD 1
+  sector 2: cut from camera 4 CCD 1
+  sector 1: 4 px aperture, 1133/1267 cadences kept
+  sector 2: 4 px aperture, 1169/1196 cadences kept
+  odd/even depth test at P: 1.2 sigma (odd 0.0590, even 0.0569), phase-0.5 dip / primary = 0.65
+  eclipses: {"phase1": 0.005965072029144203, "phase2": 0.49969243925882867, "depth1": 0.04078862607714717, "depth2": 0.02793701588357833, "halfwidth1": 0.09652509652509653, "halfwidth2": 0.08494208494208494, "secondary_detected": true, "continuum_amplitude": 0.031477105399517535, "profile_noise": 0.0022198177001006175}; 132 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J053749.52-664011.4 P=1.932485
+  sector 1: cut from camera 4 CCD 1
+  sector 2: cut from camera 4 CCD 1
+  sector 1: 6 px aperture, 920/1267 cadences kept
+  sector 2: 6 px aperture, 1048/1196 cadences kept
+  odd/even depth test at P: 0.2 sigma (odd 0.0718, even 0.0695), phase-0.5 dip / primary = 0.77
+  eclipses: {"phase1": -0.0006469555187935683, "phase2": 0.5037213637556134, "depth1": 0.09046004261875729, "depth2": 0.07443096924535997, "halfwidth1": 0.06995884773662552, "halfwidth2": 0.06172839506172839, "secondary_detected": true, "continuum_amplitude": 0.007909834485963496, "profile_noise": 0.010368119949270954}; 153 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J225051.52+604854.8 P=28.8265
+  sector 17: cut from camera 3 CCD 1
+  sector 24: cut from camera 4 CCD 2
+  sector 17: 2 px aperture, 1028/1126 cadences kept
+  sector 24: 4 px aperture, 1224/1224 cadences kept
+  odd/even depth test at P: nan sigma (odd nan, even nan), phase-0.5 dip / primary = nan
+  eclipses: {"phase1": -0.023002574867580394, "phase2": 0.6799771285203695, "depth1": 0.5017440883821385, "depth2": 0.31320885559792533, "halfwidth1": 0.12087912087912088, "halfwidth2": 0.07692307692307693, "secondary_detected": true, "continuum_amplitude": 0.06135492914959595, "profile_noise": 0.010250477432203435}; 158 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J233034.93+663345.5 P=6.560045
+  sector 17: cut from camera 3 CCD 2
+  sector 18: cut from camera 3 CCD 1
+  sector 17: 3 px aperture, 1097/1126 cadences kept
+  sector 18: 4 px aperture, 1090/1103 cadences kept
+  odd/even depth test at P: 0.6 sigma (odd 0.2358, even 0.2350), phase-0.5 dip / primary = 0.60
+  eclipses: {"phase1": -4.5420796299655564e-05, "phase2": 0.5080432340921619, "depth1": 0.24506353396328995, "depth2": 0.1487231469538265, "halfwidth1": 0.037037037037037035, "halfwidth2": 0.04814814814814815, "secondary_detected": true, "continuum_amplitude": 0.010980831104370758, "profile_noise": 0.002408583384011162}; 203 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J043930.11-323306.5 P=0.35798
+  sector 5: cut from camera 3 CCD 2
+  sector 31: cut from camera 3 CCD 1
+  sector 5: 4 px aperture, 1176/1176 cadences kept
+  sector 31: 4 px aperture, 3445/3445 cadences kept
+  odd/even depth test at P: 0.6 sigma (odd -0.0000, even 0.0001), phase-0.5 dip / primary = 0.36
+  eclipses: {"phase1": -0.028627903349938144, "phase2": 0.7868601390518445, "depth1": 0.028495591391594854, "depth2": 0.02888978357230998, "halfwidth1": 0.0017331022530329288, "halfwidth2": 0.0017331022530329288, "secondary_detected": false, "continuum_amplitude": 0.000394518295449342, "profile_noise": 0.01687644885132685}; 200 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J032549.83+311023.7 P=1.1454
+  sector 18: cut from camera 1 CCD 4
+  sector 42: cut from camera 4 CCD 4
+  sector 18: 2 px aperture, 974/1103 cadences kept
+  sector 42: 5 px aperture, 2958/3445 cadences kept
+  odd/even depth test at P: 0.9 sigma (odd 0.0951, even 0.0925), phase-0.5 dip / primary = 0.63
+  eclipses: {"phase1": 0.0005506636901297934, "phase2": 0.5015929017145105, "depth1": 0.05679955214228438, "depth2": 0.06929455290709352, "halfwidth1": 0.061224489795918366, "halfwidth2": 0.07551020408163266, "secondary_detected": true, "continuum_amplitude": 0.08884897951092707, "profile_noise": 0.004502287949415811}; 169 adaptive bins
+  "sectors": [
+  "eclipses": {
+J230357.58+541153.7: no catalogue period, skipped
+== J112938.82-595344.5 P=1.9167
+  sector 10: cut from camera 3 CCD 1
+  sector 11: cut from camera 3 CCD 2
+  sector 10: 5 px aperture, 1080/1150 cadences kept
+  sector 11: 7 px aperture, 1101/1180 cadences kept
+  odd/even depth test at P: 0.6 sigma (odd 0.1889, even 0.1884), phase-0.5 dip / primary = 0.00
+  eclipses: {"phase1": 0.005009959885281523, "phase2": 0.6103223613431438, "depth1": 0.1958778495260537, "depth2": 0.19673322658649262, "halfwidth1": 0.06463878326996197, "halfwidth2": 0.06463878326996197, "secondary_detected": true, "continuum_amplitude": 0.012554936942005712, "profile_noise": 0.001263857756204567}; 145 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J232537.66+613847.9 P=1.9221
+  sector 17: cut from camera 3 CCD 2
+  sector 18: cut from camera 3 CCD 1
+  sector 17: 6 px aperture, 1043/1126 cadences kept
+  sector 18: 7 px aperture, 1052/1103 cadences kept
+  odd/even depth test at P: 0.7 sigma (odd 0.0735, even 0.0716), phase-0.5 dip / primary = 0.12
+  eclipses: {"phase1": -0.0039052990084769146, "phase2": 0.45320515858144605, "depth1": 0.07998843723848104, "depth2": 0.06167489584829289, "halfwidth1": 0.05747126436781609, "halfwidth2": 0.06130268199233716, "secondary_detected": true, "continuum_amplitude": 0.003701067660023316, "profile_noise": 0.0005853859430458213}; 158 adaptive bins
+  "sectors": [
+  "eclipses": {
+J222457.26+513651.5: no catalogue period, skipped
+J075739.78+773434.9: no catalogue period, skipped
+== J042859.11+362311.0 P=0.937498
+  sector 19: cut from camera 1 CCD 3
+  sector 59: cut from camera 1 CCD 3
+  sector 19: 3 px aperture, 927/1150 cadences kept
+  sector 59: 3 px aperture, 7152/11127 cadences kept
+  odd/even depth test at P: 0.3 sigma (odd 0.0038, even 0.0052), phase-0.5 dip / primary = -0.07
+  eclipses: {"phase1": -0.026499999999999968, "phase2": 0.22399999999999998, "depth1": 0.025715355527879402, "depth2": 0.02570066513544622, "halfwidth1": 0.001, "halfwidth2": 0.001, "secondary_detected": false, "continuum_amplitude": 0.009597031969359238, "profile_noise": 0.009043061472803988}; 200 adaptive bins
+  "sectors": [
+  "eclipses": {
+J080957.52-490820.1: no catalogue period, skipped
+== J214345.90+510535.5 P=4.2485
+  sector 16: cut from camera 1 CCD 2
+  sector 56: cut from camera 3 CCD 2
+  sector 16: 6 px aperture, 967/1118 cadences kept
+  sector 56: 5 px aperture, 11766/11766 cadences kept
+  odd/even depth test at P: 0.0 sigma (odd 0.0438, even 0.0438), phase-0.5 dip / primary = 0.19
+  eclipses: {"phase1": -0.013863588653268089, "phase2": 0.5011833567502132, "depth1": 0.04860323337536809, "depth2": 0.011931664908845119, "halfwidth1": 0.038, "halfwidth2": 0.035, "secondary_detected": true, "continuum_amplitude": 0.01393143655315665, "profile_noise": 0.001152240481649427}; 225 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J003939.39+614202.9 P=19.0586
+  sector 17: cut from camera 2 CCD 1
+  sector 18: cut from camera 2 CCD 2
+  sector 17: 5 px aperture, 1097/1126 cadences kept
+  sector 18: 5 px aperture, 1084/1103 cadences kept
+  odd/even depth test at P: nan sigma (odd nan, even nan), phase-0.5 dip / primary = nan
+  eclipses: {"phase1": 0.00814148575939766, "phase2": 0.6051677813259797, "depth1": 0.002459614951413003, "depth2": 0.0017405842873897681, "halfwidth1": 0.026415094339622643, "halfwidth2": 0.026415094339622643, "secondary_detected": false, "continuum_amplitude": 0.0010790228512733702, "profile_noise": 0.0005875721283849814}; 233 adaptive bins
+  "sectors": [
+  "eclipses": {
+J110859.18-564050.5: no catalogue period, skipped
+J171047.03-442701.4: no catalogue period, skipped
+== J200336.35+310625.0 P=1.16754
+  sector 14: cut from camera 1 CCD 1
+  sector 41: cut from camera 1 CCD 2
+  sector 14: 2 px aperture, 996/1237 cadences kept
+  sector 41: 2 px aperture, 3658/3658 cadences kept
+  odd/even depth test at P: 0.7 sigma (odd 0.0502, even 0.0506), phase-0.5 dip / primary = 0.80
+  eclipses: {"phase1": 0.04561101549053359, "phase2": 0.6041308089500861, "depth1": 0.0009811434485964554, "depth2": 0.003357210107677977, "halfwidth1": 0.0017211703958691911, "halfwidth2": 0.0017211703958691911, "secondary_detected": false, "continuum_amplitude": 0.05624877621374691, "profile_noise": 0.001113474220076071}; 200 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J210423.04+503307.0 P=3.41949
+  sector 15: cut from camera 2 CCD 4
+  sector 16: cut from camera 2 CCD 3
+  sector 15: 4 px aperture, 836/1190 cadences kept
+  sector 16: 5 px aperture, 876/1118 cadences kept
+  odd/even depth test at P: 0.3 sigma (odd 0.0935, even 0.0954), phase-0.5 dip / primary = 0.54
+  eclipses: {"phase1": 0.0010268044630978856, "phase2": 0.5107565873664118, "depth1": 0.10436428801736441, "depth2": 0.05665486946806253, "halfwidth1": 0.07142857142857142, "halfwidth2": 0.06666666666666667, "secondary_detected": true, "continuum_amplitude": 0.009980682579414757, "profile_noise": 0.0014498318821785977}; 168 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J085722.48-481433.3 P=3.50921
+  sector 8: cut from camera 3 CCD 1
+  sector 9: cut from camera 3 CCD 2
+  sector 8: 7 px aperture, 900/957 cadences kept
+  sector 9: 4 px aperture, 1047/1135 cadences kept
+  odd/even depth test at P: 1.1 sigma (odd 0.0189, even 0.0076), phase-0.5 dip / primary = nan
+  eclipses: {"phase1": 0.002155796297948931, "phase2": 0.5049363541546744, "depth1": 0.07304593121368319, "depth2": 0.023649841835669982, "halfwidth1": 0.04149377593360996, "halfwidth2": 0.04564315352697095, "secondary_detected": true, "continuum_amplitude": 0.0009128812573092615, "profile_noise": 0.0008601161350878756}; 182 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J071951.40-240400.6 P=1.01184
+  sector 7: cut from camera 2 CCD 1
+  sector 33: cut from camera 2 CCD 2
+  sector 7: 3 px aperture, 1086/1086 cadences kept
+  sector 33: 6 px aperture, 3485/3485 cadences kept
+  odd/even depth test at P: 1.5 sigma (odd 0.0279, even 0.0275), phase-0.5 dip / primary = 0.23
+  eclipses: {"phase1": -0.0002029476659584084, "phase2": 0.4991835443310497, "depth1": 0.005216049889887553, "depth2": 0.0030876491078385415, "halfwidth1": 0.028021015761821366, "halfwidth2": 0.01576182136602452, "secondary_detected": true, "continuum_amplitude": 0.029228509954342008, "profile_noise": 0.0005874373762694805}; 189 adaptive bins
+  "sectors": [
+  "eclipses": {
+J070132.37-132625.3: no catalogue period, skipped
+== J120726.23-604131.7 P=4.76156
+  sector 10: cut from camera 2 CCD 2
+  sector 11: cut from camera 2 CCD 1
+  sector 10: 8 px aperture, 1051/1111 cadences kept
+  sector 11: 7 px aperture, 962/1180 cadences kept
+  odd/even depth test at P: 0.0 sigma (odd 0.0651, even 0.0652), phase-0.5 dip / primary = 0.27
+  eclipses: {"phase1": 0.00027877304821188886, "phase2": 0.5001667913491531, "depth1": 0.07069879864877127, "depth2": 0.019940594730043504, "halfwidth1": 0.028, "halfwidth2": 0.028, "secondary_detected": true, "continuum_amplitude": 0.0028855503847473596, "profile_noise": 0.0005092826262838641}; 194 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J160558.63-194903.1 P=3.75315
+  sector 115: no cube (stpubdata/tess/public/mast/tess-s0115-3-4-cube.fits)
+  sector 116: no cube (stpubdata/tess/public/mast/tess-s0116-1-3-cube.fits)
+no TESS data
+== J085125.73-415632.3 P=10.1516
+  sector 8: cut from camera 3 CCD 1
+  sector 9: cut from camera 3 CCD 2
+  sector 8: 5 px aperture, 921/957 cadences kept
+  sector 9: 6 px aperture, 1096/1135 cadences kept
+  odd/even depth test at P: nan sigma (odd nan, even nan), phase-0.5 dip / primary = nan
+  eclipses: {"phase1": 0.02930621967311542, "phase2": 0.5073264670270781, "depth1": 0.017198448504611386, "depth2": 0.024081807573414382, "halfwidth1": 0.12698412698412698, "halfwidth2": 0.1626984126984127, "secondary_detected": true, "continuum_amplitude": 0.026586180905294188, "profile_noise": 0.00060497978729704}; 110 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J125119.04-571955.7 P=1.3947
+  sector 11: cut from camera 2 CCD 1
+  sector 37: cut from camera 2 CCD 2
+  sector 11: 2 px aperture, 831/1180 cadences kept
+  sector 37: 7 px aperture, 3172/3461 cadences kept
+  odd/even depth test at P: 0.8 sigma (odd 0.1107, even 0.1115), phase-0.5 dip / primary = 0.63
+  eclipses: {"phase1": -0.00028566645630867527, "phase2": 0.49979256840661457, "depth1": 0.11681911355824759, "depth2": 0.08442063185572568, "halfwidth1": 0.052, "halfwidth2": 0.05, "secondary_detected": true, "continuum_amplitude": 0.01803819903891324, "profile_noise": 0.0017170321529264424}; 184 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J092427.58-461754.5 P=2.26785
+  sector 9: cut from camera 3 CCD 2
+  sector 35: cut from camera 3 CCD 1
+  sector 9: 4 px aperture, 1106/1135 cadences kept
+  sector 35: 6 px aperture, 2788/2815 cadences kept
+  odd/even depth test at P: 0.7 sigma (odd 0.0744, even 0.0756), phase-0.5 dip / primary = 0.01
+  eclipses: {"phase1": -0.0005742154009809042, "phase2": 0.6259107247216384, "depth1": 0.08186645786932756, "depth2": 0.05318524689781612, "halfwidth1": 0.041237113402061855, "halfwidth2": 0.04329896907216495, "secondary_detected": true, "continuum_amplitude": 0.003981162206397881, "profile_noise": 0.0007992056942463247}; 205 adaptive bins
+  "sectors": [
+  "eclipses": {
+J094742.50-562630.0: no catalogue period, skipped
+== J032319.22+512329.3 P=4.50655
+  sector 18: cut from camera 2 CCD 4
+  sector 58: cut from camera 2 CCD 4
+  sector 18: 4 px aperture, 1052/1103 cadences kept
+  sector 58: 4 px aperture, 11692/11692 cadences kept
+  odd/even depth test at P: 1.1 sigma (odd 0.3371, even 0.3391), phase-0.5 dip / primary = 0.94
+  eclipses: {"phase1": -4.513371260750354e-05, "phase2": 0.49931941981702865, "depth1": 0.35840957643920135, "depth2": 0.3474455675707827, "halfwidth1": 0.026, "halfwidth2": 0.027, "secondary_detected": true, "continuum_amplitude": 0.00444710615456223, "profile_noise": 0.0005460785932940119}; 235 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J203732.75+461923.2 P=0.177572
+  sector 41: cut from camera 2 CCD 4
+  sector 55: cut from camera 3 CCD 2
+  sector 41: 3 px aperture, 3658/3658 cadences kept
+  sector 55: 3 px aperture, 3771/3771 cadences kept
+  odd/even depth test at P: 0.0 sigma (odd 0.0195, even 0.0195), phase-0.5 dip / primary = -0.43
+  eclipses: {"phase1": -0.019001085776330084, "phase2": 0.5266015200868621, "depth1": 0.004284034716290019, "depth2": 0.003817343520714278, "halfwidth1": 0.0010857763300760044, "halfwidth2": 0.0010857763300760044, "secondary_detected": false, "continuum_amplitude": 0.03092271163935023, "profile_noise": 0.0011571035547532766}; 200 adaptive bins
+  "sectors": [
+  "eclipses": {
+J060533.48+221628.8: no catalogue period, skipped
+== J200145.46+384406.9 P=0.381692
+  sector 14: cut from camera 1 CCD 1
+  sector 15: cut from camera 1 CCD 2
+  sector 14: 5 px aperture, 1237/1237 cadences kept
+  sector 15: 4 px aperture, 1190/1190 cadences kept
+  odd/even depth test at P: nan sigma (odd nan, even nan), phase-0.5 dip / primary = nan
+  eclipses: {"phase1": 0.0016501650165016146, "phase2": 0.12541254125412543, "depth1": 0.002363504069116451, "depth2": 0.0022795321921735834, "halfwidth1": 0.0033003300330033004, "halfwidth2": 0.0033003300330033004, "secondary_detected": false, "continuum_amplitude": 0.0072729887700279106, "profile_noise": 0.001029075921910595}; 199 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J073821.46-221416.4 P=4.4501
+  sector 7: cut from camera 2 CCD 2
+  sector 34: cut from camera 2 CCD 1
+  sector 7: 2 px aperture, 1086/1086 cadences kept
+  sector 34: 4 px aperture, 3466/3474 cadences kept
+  odd/even depth test at P: 1.2 sigma (odd 0.0365, even 0.0386), phase-0.5 dip / primary = 0.93
+  eclipses: {"phase1": 0.012472439740148777, "phase2": 0.5035585694654893, "depth1": 0.03312912327082773, "depth2": 0.033220393390070546, "halfwidth1": 0.06571936056838366, "halfwidth2": 0.06394316163410302, "secondary_detected": true, "continuum_amplitude": 0.016803843880425773, "profile_noise": 0.00240945610486542}; 193 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J092405.70-525157.7 P=2.19514
+  sector 9: cut from camera 3 CCD 1
+  sector 10: cut from camera 3 CCD 2
+  sector 9: 2 px aperture, 1132/1135 cadences kept
+  sector 10: 4 px aperture, 1136/1150 cadences kept
+  odd/even depth test at P: 1.8 sigma (odd 0.0473, even 0.0491), phase-0.5 dip / primary = 0.39
+  eclipses: {"phase1": -0.03775409322267875, "phase2": 0.1181231966327988, "depth1": 0.010687523350783157, "depth2": 0.01005943766189732, "halfwidth1": 0.0035714285714285713, "halfwidth2": 0.0035714285714285713, "secondary_detected": false, "continuum_amplitude": 0.05075321008398981, "profile_noise": 0.004343062321270218}; 198 adaptive bins
+  "sectors": [
+  "eclipses": {
+J081322.28-382618.0: no catalogue period, skipped
+== J055606.26-381649.2 P=0.516096
+  sector 5: cut from camera 3 CCD 1
+  sector 6: cut from camera 3 CCD 2
+  sector 5: 4 px aperture, 1176/1176 cadences kept
+  sector 6: 4 px aperture, 981/981 cadences kept
+  odd/even depth test at P: 0.4 sigma (odd 0.0036, even 0.0036), phase-0.5 dip / primary = 0.35
+  eclipses: {"phase1": -0.03171641791044788, "phase2": 0.38432835820895517, "depth1": 0.0005991232531692425, "depth2": 0.0011286746773084833, "halfwidth1": 0.0037313432835820895, "halfwidth2": 0.0037313432835820895, "secondary_detected": false, "continuum_amplitude": 0.0042625107750612345, "profile_noise": 0.00041169666356454356}; 198 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J132421.88-535958.4 P=1.22279
+  sector 11: cut from camera 2 CCD 4
+  sector 38: cut from camera 2 CCD 4
+  sector 11: 2 px aperture, 1180/1180 cadences kept
+  sector 38: 3 px aperture, 3693/3693 cadences kept
+  odd/even depth test at P: 0.9 sigma (odd -0.0004, even 0.0003), phase-0.5 dip / primary = -0.00
+  eclipses: {"phase1": 0.027227722772277252, "phase2": 0.5, "depth1": 0.0022394832347076843, "depth2": 0.0034949401454822393, "halfwidth1": 0.0016501650165016502, "halfwidth2": 0.0016501650165016502, "secondary_detected": false, "continuum_amplitude": 0.00022235960285788003, "profile_noise": 0.0008938629724838245}; 200 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J073130.12-365327.0 P=1.75347
+  sector 7: cut from camera 3 CCD 1
+  sector 8: cut from camera 3 CCD 2
+  sector 7: 4 px aperture, 1086/1086 cadences kept
+  sector 8: 7 px aperture, 957/957 cadences kept
+  odd/even depth test at P: 1.1 sigma (odd -0.0004, even 0.0150), phase-0.5 dip / primary = -0.53
+  eclipses: {"phase1": 0.0490196078431373, "phase2": 0.7607843137254902, "depth1": 0.0031856935841442224, "depth2": 0.002919049150234776, "halfwidth1": 0.00392156862745098, "halfwidth2": 0.00392156862745098, "secondary_detected": false, "continuum_amplitude": 0.002793425682731554, "profile_noise": 0.0008434822587676242}; 196 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J155605.60-365334.5 P=7.67183
+  sector 12: cut from camera 1 CCD 4
+  sector 65: cut from camera 1 CCD 3
+  sector 12: 4 px aperture, 1167/1187 cadences kept
+  sector 65: 5 px aperture, 11622/11663 cadences kept
+  odd/even depth test at P: 0.3 sigma (odd 0.0018, even 0.0028), phase-0.5 dip / primary = -0.26
+  eclipses: {"phase1": 0.0004999999999999449, "phase2": 0.19474942943045168, "depth1": 0.0010046302251560668, "depth2": 0.0016217326448249025, "halfwidth1": 0.001, "halfwidth2": 0.001, "secondary_detected": false, "continuum_amplitude": 0.0020636859006177843, "profile_noise": 0.0004232329141567558}; 210 adaptive bins
+  "sectors": [
+  "eclipses": {
+J061254.94+090208.8: no catalogue period, skipped
+J035302.29+455724.7: no catalogue period, skipped
+J120618.38-694753.7: no catalogue period, skipped
+== J024405.05+675230.0 P=6.028
+  sector 18: cut from camera 2 CCD 1
+  sector 19: cut from camera 2 CCD 2
+  sector 18: 4 px aperture, 1051/1103 cadences kept
+  sector 19: 5 px aperture, 1150/1150 cadences kept
+  odd/even depth test at P: 0.2 sigma (odd 0.0008, even 0.0006), phase-0.5 dip / primary = -0.49
+  eclipses: {"phase1": -0.0018583298981165175, "phase2": 0.6132492559665453, "depth1": 0.0016926195562414481, "depth2": 0.0022617591090358102, "halfwidth1": 0.014760147601476014, "halfwidth2": 0.033210332103321034, "secondary_detected": true, "continuum_amplitude": 0.0012806740848479992, "profile_noise": 0.00038545092073540856}; 200 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J070720.68-093459.6 P=2.3551
+  sector 7: cut from camera 2 CCD 4
+  sector 33: cut from camera 2 CCD 3
+  sector 7: 6 px aperture, 1086/1086 cadences kept
+  sector 33: 5 px aperture, 3485/3485 cadences kept
+  odd/even depth test at P: 1.2 sigma (odd 0.0541, even 0.0438), phase-0.5 dip / primary = 0.87
+  eclipses: {"phase1": 0.005160091724571769, "phase2": 0.5043954947948138, "depth1": 0.055026454274501924, "depth2": 0.06639313039011363, "halfwidth1": 0.10683012259194395, "halfwidth2": 0.13134851138353765, "secondary_detected": true, "continuum_amplitude": 0.03722870554921409, "profile_noise": 0.0017424971317731677}; 138 adaptive bins
+  "sectors": [
+  "eclipses": {
+J204812.11+495943.7: no catalogue period, skipped
+J155027.29-573926.7: no catalogue period, skipped
+== J211600.67+643212.2 P=4.59925
+  sector 16: cut from camera 2 CCD 4
+  sector 17: cut from camera 3 CCD 4
+  sector 16: 2 px aperture, 1118/1118 cadences kept
+  sector 17: 4 px aperture, 1126/1126 cadences kept
+  odd/even depth test at P: 0.7 sigma (odd 0.0015, even 0.0007), phase-0.5 dip / primary = 0.11
+  eclipses: {"phase1": 0.012589450659802881, "phase2": 0.18633528052299286, "depth1": 0.0022010925367791367, "depth2": 0.001067130146587103, "halfwidth1": 0.05017921146953405, "halfwidth2": 0.05017921146953405, "secondary_detected": false, "continuum_amplitude": 0.0008933254334547724, "profile_noise": 0.0003784337506166135}; 186 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J065454.71-012232.8 P=11.1131
+  sector 6: cut from camera 1 CCD 2
+  sector 33: cut from camera 1 CCD 2
+  sector 6: 4 px aperture, 981/981 cadences kept
+  sector 33: 4 px aperture, 3485/3485 cadences kept
+  odd/even depth test at P: 1.6 sigma (odd 0.4303, even 0.4131), phase-0.5 dip / primary = 0.18
+  eclipses: {"phase1": -0.00026194419581671013, "phase2": 0.4959731470997961, "depth1": 0.43437784723407047, "depth2": 0.05121238413063556, "halfwidth1": 0.04452690166975881, "halfwidth2": 0.0575139146567718, "secondary_detected": true, "continuum_amplitude": 0.09086130888804267, "profile_noise": 0.004984303077126613}; 209 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J230801.01+590458.4 P=3.19122
+  sector 17: cut from camera 3 CCD 1
+  sector 24: cut from camera 4 CCD 3
+  sector 17: 5 px aperture, 974/1126 cadences kept
+  sector 24: 4 px aperture, 1129/1224 cadences kept
+  odd/even depth test at P: 0.2 sigma (odd 0.2814, even 0.2823), phase-0.5 dip / primary = 0.78
+  eclipses: {"phase1": 0.000691257778343557, "phase2": 0.5200900912075631, "depth1": 0.291040921396548, "depth2": 0.2742969422514765, "halfwidth1": 0.0625, "halfwidth2": 0.0625, "secondary_detected": true, "continuum_amplitude": 0.02077187873330899, "profile_noise": 0.001225540827409843}; 168 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J231908.57+582521.6 P=20.482
+  sector 24: cut from camera 4 CCD 3
+  sector 57: cut from camera 2 CCD 1
+  sector 24: 3 px aperture, 1129/1224 cadences kept
+  sector 57: 6 px aperture, 10791/10791 cadences kept
+  odd/even depth test at P: nan sigma (odd nan, even nan), phase-0.5 dip / primary = nan
+  eclipses: {"phase1": -0.00038405358075443985, "phase2": 0.17777134912549397, "depth1": 0.13156223000667755, "depth2": 0.12609095565006367, "halfwidth1": 0.005, "halfwidth2": 0.005, "secondary_detected": true, "continuum_amplitude": 0.009372897867191865, "profile_noise": 0.015011377490157558}; 257 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J034930.30+533517.3 P=9.226966999999998
+  sector 19: cut from camera 2 CCD 3
+  sector 59: cut from camera 2 CCD 3
+  sector 19: 7 px aperture, 1111/1150 cadences kept
+  sector 59: 5 px aperture, 9014/11127 cadences kept
+  odd/even depth test at P: 1.6 sigma (odd 0.0116, even 0.0013), phase-0.5 dip / primary = -0.39
+  eclipses: {"phase1": -0.001294779804543733, "phase2": 0.2847947798045436, "depth1": 0.024278496388267623, "depth2": 0.016862567759280078, "halfwidth1": 0.014, "halfwidth2": 0.014, "secondary_detected": false, "continuum_amplitude": 0.015881976490037975, "profile_noise": 0.004351787176386002}; 248 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J025534.43+583049.2 P=1.69097
+  sector 18: cut from camera 2 CCD 4
+  sector 58: cut from camera 2 CCD 4
+  sector 18: 4 px aperture, 840/1103 cadences kept
+  sector 58: 5 px aperture, 10614/11692 cadences kept
+  odd/even depth test at P: 1.0 sigma (odd 0.0393, even 0.0400), phase-0.5 dip / primary = 0.62
+  eclipses: {"phase1": -0.04349999999999987, "phase2": 0.40900000000000003, "depth1": 0.005476479630431186, "depth2": 0.008578542881467976, "halfwidth1": 0.001, "halfwidth2": 0.001, "secondary_detected": false, "continuum_amplitude": 0.04404574673948036, "profile_noise": 0.0024201894383668937}; 202 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J195218.88+252404.4 P=7.42578
+  sector 14: cut from camera 1 CCD 3
+  sector 41: cut from camera 1 CCD 3
+  sector 14: 8 px aperture, 663/1237 cadences kept
+  sector 41: 7 px aperture, 3658/3658 cadences kept
+  odd/even depth test at P: 1.0 sigma (odd 0.1312, even 0.0904), phase-0.5 dip / primary = 0.26
+  eclipses: {"phase1": -0.005910132676980595, "phase2": 0.5048780120887221, "depth1": 0.12407184786942904, "depth2": 0.0350550949198587, "halfwidth1": 0.07806691449814127, "halfwidth2": 0.05947955390334572, "secondary_detected": true, "continuum_amplitude": 0.04602546854026501, "profile_noise": 0.0019623733808947262}; 190 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J083838.64-461406.6 P=2.0499
+  sector 8: cut from camera 3 CCD 1
+  sector 9: cut from camera 3 CCD 2
+  sector 8: 3 px aperture, 892/957 cadences kept
+  sector 9: 4 px aperture, 998/1135 cadences kept
+  odd/even depth test at P: 0.5 sigma (odd 0.0608, even 0.0624), phase-0.5 dip / primary = 0.52
+  eclipses: {"phase1": -0.00645531943417077, "phase2": 0.5005607273242494, "depth1": 0.05298299320942934, "depth2": 0.027035649186696764, "halfwidth1": 0.06896551724137931, "halfwidth2": 0.06896551724137931, "secondary_detected": true, "continuum_amplitude": 0.02870385016853383, "profile_noise": 0.00128883499356299}; 151 adaptive bins
+  "sectors": [
+  "eclipses": {
+J112754.19-615955.3: no catalogue period, skipped
+== J114356.05-574245.9 P=13.7562
+  sector 10: cut from camera 2 CCD 2
+  sector 11: cut from camera 2 CCD 1
+  sector 10: 3 px aperture, 890/1111 cadences kept
+  sector 11: 4 px aperture, 704/1180 cadences kept
+  odd/even depth test at P: 0.1 sigma (odd 0.0237, even 0.0272), phase-0.5 dip / primary = 0.14
+  eclipses: {"phase1": -0.013910801055959432, "phase2": 0.4748848862113244, "depth1": 0.016164139493953567, "depth2": 0.020482560129745475, "halfwidth1": 0.075, "halfwidth2": 0.055, "secondary_detected": true, "continuum_amplitude": 0.06251912338418386, "profile_noise": 0.003149355296773958}; 142 adaptive bins
+  "sectors": [
+  "eclipses": {
+J060814.39+183724.8: no catalogue period, skipped
+== J100129.13-620428.5 P=2.59989
+  sector 9: cut from camera 3 CCD 4
+  sector 11: cut from camera 3 CCD 3
+  sector 9: 4 px aperture, 1039/1135 cadences kept
+  sector 11: 4 px aperture, 930/1180 cadences kept
+  odd/even depth test at P: 0.4 sigma (odd 0.0004, even -0.0001), phase-0.5 dip / primary = nan
+  eclipses: {"phase1": -0.014227642276422703, "phase2": 0.2804878048780488, "depth1": 0.0022220216296222617, "depth2": 0.003996387888874575, "halfwidth1": 0.0040650406504065045, "halfwidth2": 0.0040650406504065045, "secondary_detected": false, "continuum_amplitude": 0.0008065511552252103, "profile_noise": 0.0012946287119135226}; 196 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J155252.14-483315.3 P=15.085
+  sector 12: cut from camera 1 CCD 1
+  sector 39: cut from camera 1 CCD 1
+  sector 12: 1 px aperture, 623/1208 cadences kept
+  sector 39: 4 px aperture, 1465/3865 cadences kept
+  odd/even depth test at P: nan sigma (odd nan, even nan), phase-0.5 dip / primary = nan
+  eclipses: {"phase1": 0.0019157088122605526, "phase2": 0.8084291187739463, "depth1": 0.007764724772795106, "depth2": 0.008889800807593384, "halfwidth1": 0.0038314176245210726, "halfwidth2": 0.0038314176245210726, "secondary_detected": false, "continuum_amplitude": 0.00271610909743647, "profile_noise": 0.0025652673531015666}; 168 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J160959.32-180009.3 P=1.00129
+  sector 91: cut from camera 3 CCD 4
+  sector 115: no cube (stpubdata/tess/public/mast/tess-s0115-3-4-cube.fits)
+  sector 116: no cube (stpubdata/tess/public/mast/tess-s0116-1-3-cube.fits)
+  sector 133: no cube (stpubdata/tess/public/mast/tess-s0133-2-1-cube.fits)
+  sector 91: 3 px aperture, 7118/8720 cadences kept
+  odd/even depth test at P: 1.3 sigma (odd -0.0005, even 0.0013), phase-0.5 dip / primary = -0.03
+  eclipses: {"phase1": -0.017435320584926917, "phase2": 0.6321709786276716, "depth1": 0.016380478173955382, "depth2": 0.014349752649966407, "halfwidth1": 0.0011248593925759281, "halfwidth2": 0.0011248593925759281, "secondary_detected": false, "continuum_amplitude": 0.0019579978840849055, "profile_noise": 0.004702520971521707}; 201 adaptive bins
+  "sectors": [
+  "eclipses": {
+J090509.15-440929.4: no catalogue period, skipped
+== J125208.71-654053.4 P=26.75
+  sector 11: cut from camera 2 CCD 2
+  sector 38: cut from camera 2 CCD 1
+  sector 11: 4 px aperture, 950/1177 cadences kept
+  sector 38: 6 px aperture, 3693/3693 cadences kept
+  odd/even depth test at P: nan sigma (odd nan, even nan), phase-0.5 dip / primary = nan
+  eclipses: {"phase1": -0.0056386057279058655, "phase2": 0.5426458122475653, "depth1": 0.016082820394424102, "depth2": 0.010934847651807855, "halfwidth1": 0.04, "halfwidth2": 0.01217391304347826, "secondary_detected": true, "continuum_amplitude": 0.005129825045141367, "profile_noise": 0.001747248206657777}; 231 adaptive bins
+  "sectors": [
+  "eclipses": {
+J131056.31-564729.4: no catalogue period, skipped
+== J054611.87+003225.8 P=7.3795
+  sector 6: cut from camera 1 CCD 1
+  sector 98: cut from camera 1 CCD 2
+  sector 6: 4 px aperture, 976/981 cadences kept
+  sector 98: 6 px aperture, 16774/24068 cadences kept
+  odd/even depth test at P: nan sigma (odd nan, even nan), phase-0.5 dip / primary = nan
+  eclipses: {"phase1": 0.0024999999999999467, "phase2": 0.662, "depth1": 0.2222625218179095, "depth2": 0.20387462745101703, "halfwidth1": 0.001, "halfwidth2": 0.001, "secondary_detected": false, "continuum_amplitude": 0.6575471720468254, "profile_noise": 0.07535895196215324}; 211 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J072301.97-444015.7 P=4.68648
+  sector 7: cut from camera 3 CCD 1
+  sector 8: cut from camera 3 CCD 3
+  sector 7: 8 px aperture, 1086/1086 cadences kept
+  sector 8: 6 px aperture, 853/956 cadences kept
+  odd/even depth test at P: 0.2 sigma (odd 0.0013, even 0.0020), phase-0.5 dip / primary = 0.05
+  eclipses: {"phase1": -0.02306695772682632, "phase2": 0.5168686106193883, "depth1": 0.002760974045589615, "depth2": 0.0035620061593322205, "halfwidth1": 0.004132231404958678, "halfwidth2": 0.004132231404958678, "secondary_detected": false, "continuum_amplitude": 0.0004162030306248399, "profile_noise": 0.0010976549713299245}; 199 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J160421.64-213028.7 P=2.3441
+  sector 91: cut from camera 3 CCD 3
+  sector 133: no cube (stpubdata/tess/public/mast/tess-s0133-2-2-cube.fits)
+  sector 91: 4 px aperture, 8199/8683 cadences kept
+  odd/even depth test at P: 0.1 sigma (odd 0.0374, even 0.0269), phase-0.5 dip / primary = 0.04
+  eclipses: {"phase1": 0.012819957518359626, "phase2": 0.7141674541701033, "depth1": 0.05155413961069111, "depth2": 0.04224797711422412, "halfwidth1": 0.047, "halfwidth2": 0.017, "secondary_detected": true, "continuum_amplitude": 0.021666569694949622, "profile_noise": 0.007428995612848209}; 227 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J160628.59-212130.0 P=0.801521
+  sector 91: cut from camera 3 CCD 3
+  sector 133: no cube (stpubdata/tess/public/mast/tess-s0133-2-2-cube.fits)
+  sector 91: 3 px aperture, 7452/8683 cadences kept
+  odd/even depth test at P: 0.2 sigma (odd 0.0013, even 0.0035), phase-0.5 dip / primary = -0.05
+  eclipses: {"phase1": 0.009129967776584369, "phase2": 0.6788399570354458, "depth1": 0.02507665403336301, "depth2": 0.03256462113998915, "halfwidth1": 0.0010741138560687433, "halfwidth2": 0.0010741138560687433, "secondary_detected": false, "continuum_amplitude": 0.011336049015479799, "profile_noise": 0.01467222138503281}; 200 adaptive bins
+  "sectors": [
+  "eclipses": {
+J070418.57-065641.8: no catalogue period, skipped
+== J061706.96-120322.7 P=2.55735
+  sector 6: cut from camera 2 CCD 3
+  sector 33: cut from camera 2 CCD 4
+  sector 6: 5 px aperture, 970/981 cadences kept
+  sector 33: 5 px aperture, 3485/3485 cadences kept
+  odd/even depth test at P: 1.6 sigma (odd -0.0006, even 0.0015), phase-0.5 dip / primary = -0.09
+  eclipses: {"phase1": 0.013489208633093552, "phase2": 0.4107414463522002, "depth1": 0.0063184049025382105, "depth2": 0.0052941900579498435, "halfwidth1": 0.0017985611510791368, "halfwidth2": 0.0017985611510791368, "secondary_detected": false, "continuum_amplitude": 0.0009025194416923954, "profile_noise": 0.0015250763748571314}; 202 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J054126.50-085839.4 P=1.55822
+  sector 6: cut from camera 2 CCD 4
+  sector 32: cut from camera 2 CCD 3
+  sector 6: 4 px aperture, 964/981 cadences kept
+  sector 32: 6 px aperture, 3455/3589 cadences kept
+  odd/even depth test at P: 1.1 sigma (odd -0.0087, even 0.0165), phase-0.5 dip / primary = -0.15
+  eclipses: {"phase1": 0.0210622710622711, "phase2": 0.1336996336996337, "depth1": 0.04516969373886992, "depth2": 0.10782411918290435, "halfwidth1": 0.0018315018315018315, "halfwidth2": 0.0018315018315018315, "secondary_detected": true, "continuum_amplitude": 0.03484623917955132, "profile_noise": 0.024288400277663397}; 200 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J064022.05-141410.8 P=0.999225
+  sector 6: cut from camera 2 CCD 3
+  sector 33: cut from camera 2 CCD 3
+  sector 6: 7 px aperture, 973/981 cadences kept
+  sector 33: 4 px aperture, 3485/3485 cadences kept
+  odd/even depth test at P: 0.4 sigma (odd 0.0002, even 0.0005), phase-0.5 dip / primary = -0.02
+  eclipses: {"phase1": 0.04578096947935373, "phase2": 0.16696588868940754, "depth1": 0.013149500724053409, "depth2": 0.016314273561519266, "halfwidth1": 0.0017953321364452424, "halfwidth2": 0.0017953321364452424, "secondary_detected": false, "continuum_amplitude": 0.0005129384113433666, "profile_noise": 0.009484192343149109}; 200 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J121748.62-534125.5 P=2.26592
+  sector 10: cut from camera 2 CCD 2
+  sector 11: cut from camera 2 CCD 1
+  sector 10: 7 px aperture, 1078/1111 cadences kept
+  sector 11: 5 px aperture, 1048/1180 cadences kept
+  odd/even depth test at P: 0.9 sigma (odd 0.0699, even 0.0689), phase-0.5 dip / primary = 0.45
+  eclipses: {"phase1": -0.03992395437262353, "phase2": 0.67680608365019, "depth1": 0.0035736805384485315, "depth2": 0.0022882785559537044, "halfwidth1": 0.0038022813688212928, "halfwidth2": 0.0038022813688212928, "secondary_detected": false, "continuum_amplitude": 0.0763145441351335, "profile_noise": 0.0013152343679117783}; 198 adaptive bins
+  "sectors": [
+  "eclipses": {
+J211030.94+474132.1: no catalogue period, skipped
+== J054247.79-091037.8 P=4.96271
+  sector 6: cut from camera 2 CCD 4
+  sector 32: cut from camera 2 CCD 3
+  sector 6: 4 px aperture, 964/981 cadences kept
+  sector 32: 6 px aperture, 3456/3589 cadences kept
+  odd/even depth test at P: 0.2 sigma (odd 0.1397, even 0.1495), phase-0.5 dip / primary = -0.25
+  eclipses: {"phase1": 0.019056261343012748, "phase2": 0.7604355716878403, "depth1": 0.03852372430102469, "depth2": 0.06534100838509271, "halfwidth1": 0.0018148820326678765, "halfwidth2": 0.0018148820326678765, "secondary_detected": false, "continuum_amplitude": 0.2276508359334456, "profile_noise": 0.02127440912538876}; 204 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J035607.78+413302.0 P=1.72333
+  sector 19: cut from camera 1 CCD 2
+  sector 59: cut from camera 1 CCD 2
+  sector 19: 4 px aperture, 1121/1150 cadences kept
+  sector 59: 6 px aperture, 9385/11127 cadences kept
+  odd/even depth test at P: 1.6 sigma (odd -0.0012, even 0.0021), phase-0.5 dip / primary = 0.03
+  eclipses: {"phase1": -0.0024999999999999467, "phase2": 0.20799999999999996, "depth1": 0.008651499013247577, "depth2": 0.013850343480237948, "halfwidth1": 0.001, "halfwidth2": 0.001, "secondary_detected": false, "continuum_amplitude": 0.00264880676408763, "profile_noise": 0.0039559928440204015}; 203 adaptive bins
+  "sectors": [
+  "eclipses": {
+J112808.54-635837.2: no catalogue period, skipped
+== J060838.76+161820.0 P=1.00093
+  sector 6: cut from camera 1 CCD 4
+  sector 33: cut from camera 1 CCD 4
+  sector 6: 4 px aperture, 966/981 cadences kept
+  sector 33: 4 px aperture, 3476/3485 cadences kept
+  odd/even depth test at P: 0.3 sigma (odd 0.0004, even 0.0001), phase-0.5 dip / primary = nan
+  eclipses: {"phase1": -0.008152173913043459, "phase2": 0.5072463768115942, "depth1": 0.010553122468456522, "depth2": 0.012351147875069524, "halfwidth1": 0.0018115942028985507, "halfwidth2": 0.0018115942028985507, "secondary_detected": false, "continuum_amplitude": 0.001002901934547884, "profile_noise": 0.006278865162149665}; 200 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J002629.21+600127.9 P=7.9713
+  sector 17: cut from camera 2 CCD 1
+  sector 18: cut from camera 2 CCD 2
+  sector 17: 7 px aperture, 986/1126 cadences kept
+  sector 18: 7 px aperture, 1053/1103 cadences kept
+  odd/even depth test at P: 1.0 sigma (odd 0.0005, even 0.0104), phase-0.5 dip / primary = -0.07
+  eclipses: {"phase1": 0.0016508927798422057, "phase2": 0.5135764701181963, "depth1": 0.0071756343347733065, "depth2": 0.008136375724505207, "halfwidth1": 0.10236220472440945, "halfwidth2": 0.027559055118110236, "secondary_detected": true, "continuum_amplitude": 0.004268938858429938, "profile_noise": 0.0016568600001089068}; 183 adaptive bins
+  "sectors": [
+  "eclipses": {
+J063358.64-144723.3: no catalogue period, skipped
+== J201701.99+373634.0 P=1.27427
+  sector 14: cut from camera 1 CCD 1
+  sector 15: cut from camera 1 CCD 2
+  sector 14: 5 px aperture, 716/1237 cadences kept
+  sector 15: 5 px aperture, 901/1190 cadences kept
+  odd/even depth test at P: 1.0 sigma (odd 0.0174, even 0.0183), phase-0.5 dip / primary = 0.57
+  eclipses: {"phase1": 0.025078936736828705, "phase2": 0.4674210632631713, "depth1": 0.005874726125002283, "depth2": 0.002615722116671604, "halfwidth1": 0.035, "halfwidth2": 0.035, "secondary_detected": false, "continuum_amplitude": 0.019016558621302693, "profile_noise": 0.001257858019313091}; 170 adaptive bins
+  "sectors": [
+  "eclipses": {
+J122007.93-624708.4: no catalogue period, skipped
+== J054657.92-700933.2 P=12.7443
+  sector 1: cut from camera 4 CCD 2
+  sector 2: cut from camera 4 CCD 2
+  sector 1: 2 px aperture, 1267/1267 cadences kept
+  sector 2: 3 px aperture, 1132/1196 cadences kept
+  odd/even depth test at P: 1.0 sigma (odd -0.0013, even 0.0091), phase-0.5 dip / primary = 0.04
+  eclipses: {"phase1": 0.0006639485842740989, "phase2": 0.49822890445145723, "depth1": 0.023027834078104714, "depth2": 0.020834498839712223, "halfwidth1": 0.010067114093959731, "halfwidth2": 0.013422818791946308, "secondary_detected": true, "continuum_amplitude": 0.0016046480810866237, "profile_noise": 0.0011261685286661197}; 213 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J224119.74+583659.2 P=2.79633
+  sector 16: cut from camera 1 CCD 1
+  sector 17: cut from camera 3 CCD 1
+  sector 16: 2 px aperture, 851/1118 cadences kept
+  sector 17: 3 px aperture, 1025/1126 cadences kept
+  odd/even depth test at P: 0.2 sigma (odd 0.0036, even 0.0009), phase-0.5 dip / primary = 0.03
+  eclipses: {"phase1": 0.010683760683760646, "phase2": 0.7777777777777778, "depth1": 0.21819329320482683, "depth2": 0.22762974266484215, "halfwidth1": 0.004273504273504274, "halfwidth2": 0.004273504273504274, "secondary_detected": false, "continuum_amplitude": 0.022131183982374347, "profile_noise": 0.13204548213412384}; 197 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J180552.58-132731.7 P=13.988
+  sector 80: cut from camera 1 CCD 3
+  sector 91: cut from camera 4 CCD 4
+  sector 80: 6 px aperture, 8764/10828 cadences kept
+  sector 91: 6 px aperture, 8331/8910 cadences kept
+  odd/even depth test at P: 1.7 sigma (odd 0.0723, even 0.0832), phase-0.5 dip / primary = 0.92
+  eclipses: {"phase1": -0.0002923118380713241, "phase2": 0.5006665985610459, "depth1": 0.202387400441134, "depth2": 0.1945434941175832, "halfwidth1": 0.158, "halfwidth2": 0.158, "secondary_detected": true, "continuum_amplitude": 0.15280978532858713, "profile_noise": 0.00104183535657041}; 97 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J050533.79-681109.5 P=11.407
+  sector 1: cut from camera 4 CCD 1
+  sector 2: cut from camera 4 CCD 2
+  sector 1: 4 px aperture, 1178/1267 cadences kept
+  sector 2: 5 px aperture, 1168/1196 cadences kept
+  odd/even depth test at P: 0.9 sigma (odd 0.0122, even 0.0077), phase-0.5 dip / primary = 0.14
+  eclipses: {"phase1": 0.0017375953245639675, "phase2": 0.4974997199951119, "depth1": 0.04364758844911065, "depth2": 0.041761649435265946, "halfwidth1": 0.07931034482758621, "halfwidth2": 0.010344827586206896, "secondary_detected": true, "continuum_amplitude": 0.0024584451451001854, "profile_noise": 0.0015665802394862055}; 194 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J213004.47+573220.6 P=4.3316
+  sector 16: cut from camera 2 CCD 4
+  sector 56: cut from camera 3 CCD 2
+  sector 16: 3 px aperture, 1099/1118 cadences kept
+  sector 56: 3 px aperture, 11766/11766 cadences kept
+  odd/even depth test at P: 0.5 sigma (odd 0.0407, even 0.0405), phase-0.5 dip / primary = 0.40
+  eclipses: {"phase1": -0.0004896369550939639, "phase2": 0.5001947901829071, "depth1": 0.035798222048562534, "depth2": 0.010435553788959662, "halfwidth1": 0.054, "halfwidth2": 0.049, "secondary_detected": true, "continuum_amplitude": 0.014835417393652905, "profile_noise": 0.00048476680063600495}; 208 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J203147.88+461150.3 P=3.00787
+  sector 14: cut from camera 2 CCD 4
+  sector 15: cut from camera 2 CCD 3
+  sector 14: 5 px aperture, 1128/1237 cadences kept
+  sector 15: 6 px aperture, 1007/1190 cadences kept
+  odd/even depth test at P: 0.1 sigma (odd 0.0029, even 0.0023), phase-0.5 dip / primary = nan
+  eclipses: {"phase1": 0.02131782945736438, "phase2": 0.5827805889531165, "depth1": 0.05037331979075632, "depth2": 0.05189078555672222, "halfwidth1": 0.011627906976744186, "halfwidth2": 0.03875968992248062, "secondary_detected": true, "continuum_amplitude": 0.004922785615428138, "profile_noise": 0.0021141648346601123}; 186 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J104043.45-552625.1 P=10.763
+  sector 10: cut from camera 3 CCD 2
+  sector 36: cut from camera 3 CCD 1
+  sector 10: 7 px aperture, 1073/1150 cadences kept
+  sector 36: 7 px aperture, 3270/3467 cadences kept
+  odd/even depth test at P: 0.4 sigma (odd 0.0684, even 0.0645), phase-0.5 dip / primary = 0.83
+  eclipses: {"phase1": -0.047222222222222276, "phase2": 0.2333333333333334, "depth1": 0.002222468752444695, "depth2": 0.010495915619428642, "halfwidth1": 0.001851851851851852, "halfwidth2": 0.001851851851851852, "secondary_detected": false, "continuum_amplitude": 0.0837310697414464, "profile_noise": 0.005822884524469805}; 207 adaptive bins
+  "sectors": [
+  "eclipses": {
+J002247.65+611141.0: no catalogue period, skipped
+J162217.77-574305.4: no catalogue period, skipped
+J073157.06-223444.5: no catalogue period, skipped
+== J100928.65-465442.5 P=23.28
+  sector 9: cut from camera 2 CCD 2
+  sector 10: cut from camera 3 CCD 2
+  sector 9: 6 px aperture, 1043/1128 cadences kept
+  sector 10: 6 px aperture, 1004/1150 cadences kept
+  odd/even depth test at P: nan sigma (odd nan, even nan), phase-0.5 dip / primary = nan
+  eclipses: {"phase1": -0.00443208308747689, "phase2": 0.31540059856552394, "depth1": 0.02349900249779102, "depth2": 0.007063358305832157, "halfwidth1": 0.09411764705882353, "halfwidth2": 0.023529411764705882, "secondary_detected": true, "continuum_amplitude": 0.003574364371900285, "profile_noise": 0.001366239733381666}; 200 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J235510.36+722736.9 P=11.3133
+  sector 17: cut from camera 3 CCD 2
+  sector 18: cut from camera 3 CCD 1
+  sector 17: 6 px aperture, 1126/1126 cadences kept
+  sector 18: 2 px aperture, 1103/1103 cadences kept
+  odd/even depth test at P: 0.4 sigma (odd -0.0002, even -0.0014), phase-0.5 dip / primary = 0.04
+  eclipses: {"phase1": 0.03429602888086647, "phase2": 0.444043321299639, "depth1": 0.01460838706347678, "depth2": 0.012620616006596697, "halfwidth1": 0.0036101083032490976, "halfwidth2": 0.0036101083032490976, "secondary_detected": false, "continuum_amplitude": 0.003374116025004703, "profile_noise": 0.0047721934277806305}; 203 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J002142.71+632242.8 P=15.265
+  sector 17: cut from camera 3 CCD 2
+  sector 18: cut from camera 2 CCD 2
+  sector 17: 7 px aperture, 775/1126 cadences kept
+  sector 18: 7 px aperture, 937/1103 cadences kept
+  odd/even depth test at P: nan sigma (odd nan, even nan), phase-0.5 dip / primary = nan
+  eclipses: {"phase1": 0.0047529195042043115, "phase2": 0.8059947440471975, "depth1": 0.0926085595996563, "depth2": 0.017022752521543172, "halfwidth1": 0.06542056074766354, "halfwidth2": 0.06542056074766354, "secondary_detected": false, "continuum_amplitude": 0.012186553251948395, "profile_noise": 0.007287866102105245}; 189 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J034444.71+320402.4 P=0.996054
+  sector 18: cut from camera 1 CCD 4
+  sector 42: cut from camera 4 CCD 4
+  sector 18: 4 px aperture, 785/1103 cadences kept
+  sector 42: 7 px aperture, 2431/3445 cadences kept
+  odd/even depth test at P: 1.4 sigma (odd 0.0087, even 0.0005), phase-0.5 dip / primary = 0.04
+  eclipses: {"phase1": -0.006234413965087171, "phase2": 0.8952618453865336, "depth1": 0.026794152710469588, "depth2": 0.04156554703641013, "halfwidth1": 0.0024937655860349127, "halfwidth2": 0.0024937655860349127, "secondary_detected": false, "continuum_amplitude": 0.00992266247832585, "profile_noise": 0.020977788315355454}; 200 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J052705.83+343311.8 P=5.3465
+  sector 19: cut from camera 1 CCD 4
+  sector 43: cut from camera 4 CCD 1
+  sector 19: 5 px aperture, 995/1150 cadences kept
+  sector 43: 6 px aperture, 3134/3395 cadences kept
+  odd/even depth test at P: 0.6 sigma (odd 0.0164, even 0.0064), phase-0.5 dip / primary = -0.24
+  eclipses: {"phase1": -0.015754902756910383, "phase2": 0.21246032911349955, "depth1": 0.013220170615083626, "depth2": 0.009728188762951895, "halfwidth1": 0.01744186046511628, "halfwidth2": 0.01744186046511628, "secondary_detected": false, "continuum_amplitude": 0.008435631187262316, "profile_noise": 0.0030108880935052385}; 229 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J073110.50-201457.6 P=1.9961
+  sector 7: cut from camera 2 CCD 4
+  sector 61: cut from camera 2 CCD 4
+  sector 7: 5 px aperture, 1086/1086 cadences kept
+  sector 61: 5 px aperture, 9678/10654 cadences kept
+  odd/even depth test at P: 0.5 sigma (odd 0.0003, even 0.0007), phase-0.5 dip / primary = -0.14
+  eclipses: {"phase1": 0.0004999999999999449, "phase2": 0.435, "depth1": 0.0032324765599699434, "depth2": 0.003557135797336075, "halfwidth1": 0.001, "halfwidth2": 0.001, "secondary_detected": false, "continuum_amplitude": 0.0008432451054001255, "profile_noise": 0.0011854697440495982}; 202 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J235117.42+600156.6 P=1.28278
+  sector 17: cut from camera 2 CCD 1
+  sector 18: cut from camera 3 CCD 1
+  sector 17: 6 px aperture, 804/1126 cadences kept
+  sector 18: 7 px aperture, 955/1103 cadences kept
+  odd/even depth test at P: 0.9 sigma (odd 0.0604, even 0.0632), phase-0.5 dip / primary = 0.22
+  eclipses: {"phase1": 0.00036561837727167035, "phase2": 0.46922351082817354, "depth1": 0.07015921415037185, "depth2": 0.04089412654525426, "halfwidth1": 0.0547945205479452, "halfwidth2": 0.045662100456621, "secondary_detected": true, "continuum_amplitude": 0.019570412064714993, "profile_noise": 0.0021520801151538272}; 158 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J210640.25+464831.9 P=3.80049
+  sector 15: cut from camera 1 CCD 1
+  sector 16: cut from camera 1 CCD 2
+  sector 15: 5 px aperture, 643/1190 cadences kept
+  sector 16: 6 px aperture, 896/1118 cadences kept
+  odd/even depth test at P: 0.4 sigma (odd 0.0400, even 0.0423), phase-0.5 dip / primary = 0.24
+  eclipses: {"phase1": -0.00749999999999984, "phase2": 0.1499999999999999, "depth1": 0.003888020967335759, "depth2": 0.004123517017026734, "halfwidth1": 0.005, "halfwidth2": 0.005, "secondary_detected": false, "continuum_amplitude": 0.04744114852141745, "profile_noise": 0.0014784511304794282}; 198 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J092331.61-454205.1 P=9.3409
+  sector 8: cut from camera 3 CCD 1
+  sector 9: cut from camera 3 CCD 2
+  sector 8: 3 px aperture, 914/957 cadences kept
+  sector 9: 2 px aperture, 1071/1135 cadences kept
+  odd/even depth test at P: nan sigma (odd nan, even nan), phase-0.5 dip / primary = nan
+  eclipses: {"phase1": 0.0013353223119878521, "phase2": 0.4187466449011269, "depth1": 0.0037308840426805157, "depth2": 0.002480066934533398, "halfwidth1": 0.004098360655737705, "halfwidth2": 0.004098360655737705, "secondary_detected": false, "continuum_amplitude": 0.002375575197098523, "profile_noise": 0.0009458602785712319}; 203 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J124640.44-653524.0 P=4.58305
+  sector 11: cut from camera 2 CCD 2
+  sector 38: cut from camera 2 CCD 1
+  sector 11: 8 px aperture, 924/1177 cadences kept
+  sector 38: 6 px aperture, 3693/3693 cadences kept
+  odd/even depth test at P: 2.0 sigma (odd 0.0368, even 0.0357), phase-0.5 dip / primary = 0.32
+  eclipses: {"phase1": 0.0100290993628247, "phase2": 0.49565903231081015, "depth1": 0.03663241427042574, "depth2": 0.015794866075850456, "halfwidth1": 0.057291666666666664, "halfwidth2": 0.05555555555555555, "secondary_detected": true, "continuum_amplitude": 0.008174221330080389, "profile_noise": 0.0011625228525710984}; 202 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J195533.41+250034.1 P=3.06837
+  sector 41: cut from camera 1 CCD 3
+  sector 54: cut from camera 2 CCD 1
+  sector 41: 6 px aperture, 3658/3658 cadences kept
+  sector 54: 6 px aperture, 1272/3571 cadences kept
+  odd/even depth test at P: 0.3 sigma (odd 0.0598, even 0.0589), phase-0.5 dip / primary = 0.40
+  eclipses: {"phase1": 0.00790708902981696, "phase2": 0.5002161449193931, "depth1": 0.06448844362535344, "depth2": 0.030276943319723415, "halfwidth1": 0.05357142857142857, "halfwidth2": 0.04383116883116883, "secondary_detected": true, "continuum_amplitude": 0.005563254549367569, "profile_noise": 0.0014312979632522859}; 210 adaptive bins
+  "sectors": [
+  "eclipses": {
+== J133544.99-560258.7 P=0.247985
+  sector 38: cut from camera 2 CCD 1
+  sector 65: cut from camera 2 CCD 4
+  sector 38: 2 px aperture, 2665/3693 cadences kept
+  sector 65: 3 px aperture, 6873/11663 cadences kept
+  odd/even depth test at P: 1.9 sigma (odd 0.0015, even -0.0003), phase-0.5 dip / primary = 0.02
+  eclipses: {"phase1": -0.01949999999999985, "phase2": 0.57, "depth1": 0.015865779964117088, "depth2": 0.018756958198411278, "halfwidth1": 0.001, "halfwidth2": 0.001, "secondary_detected": false, "continuum_amplitude": 0.0012007463769344584, "profile_noise": 0.006382182300236695}; 200 adaptive bins
+  "sectors": [
+  "eclipses": {
+J101147.39-583758.9: no catalogue period, skipped
+J214335.03+530215.8: no catalogue period, skipped

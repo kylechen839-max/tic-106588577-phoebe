@@ -91,7 +91,7 @@ def phase_values(times, t0, period):
 
 # ----------------------------------------------------------------------------- bundle
 class Model:
-    def __init__(self, times, flux, sig, period, t0, teff1, mass1, q, distortion, ntri, l3=0.0):
+    def __init__(self, times, flux, sig, period, t0, teff1, mass1, q, distortion, ntri, l3=0.0, irrad=True):
         self.period, self.t0, self.teff1 = period, t0, teff1
         self.mtot = mass1 * (1 + q)
         self.sma = kepler_sma(period, self.mtot)
@@ -111,7 +111,7 @@ class Model:
         b.set_value("sma@binary", self.sma)
         b.set_value("teff@primary", teff1)
         gb = 1.0 if teff1 > 7500 else 0.32
-        alb = 1.0 if teff1 > 7500 else 0.6
+        alb = (1.0 if teff1 > 7500 else 0.6) if irrad else 0.0
         for comp in ("primary", "secondary"):
             b.set_value(f"gravb_bol@{comp}", gb)
             b.set_value(f"irrad_frac_refl_bol@{comp}", alb)
@@ -186,12 +186,12 @@ def initial_guesses(eph, flux, times):
     return rsum, tr, width
 
 
-def bounds_for(rsum0, distortion):
+def bounds_for(rsum0, distortion, kmax=1.4):
     return {
         "incl": (60.0, 90.0),
         "dt0": (-0.01, 0.01),
         "rsum": (max(0.03, 0.4 * rsum0), min(0.78 if distortion == "roche" else 0.9, 2.2 * rsum0)),
-        "k": (0.2, 1.4),
+        "k": (0.2, kmax),
         "teffratio": (0.3, 1.25),
         "l3": (0.0, 0.8),
         "ecosw": (-0.6, 0.6),
@@ -209,7 +209,7 @@ def grid_search(m, rsum0, tr0, B, log, ntop=3):
     results = []
     incls = [74, 80, 84, 87, 89.5]
     rsums = [rsum0 * f for f in (0.7, 0.85, 1.0, 1.2, 1.4)]
-    ks = [0.5, 0.75, 1.0, 1.3]
+    ks = [0.5, 0.75, 1.0, 1.3, 1.7, 2.2]  # points above --kmax are skipped by in_bounds
     trs = sorted(set([float(np.clip(tr0 * f, 0.3, 1.2)) for f in (0.8, 1.0, 1.2)]))
     best = np.inf
     for incl in incls:
@@ -237,7 +237,7 @@ def grid_search(m, rsum0, tr0, B, log, ntop=3):
     return (top[0] if top else (np.inf, None)), top
 
 
-def powell(m, v0, B, maxiter, log, maxfev=None):
+def powell(m, v0, B, maxiter, log, maxfev=None, on_progress=None):
     """Local optimisation from the grid point (name kept for the pipeline stage).
 
     Nelder-Mead in normalised [0, 1] coordinates with a small initial simplex
@@ -262,6 +262,8 @@ def powell(m, v0, B, maxiter, log, maxfev=None):
             best.update(chi2=c, v=v.copy())
         if n["evals"] % 25 == 0:
             log(f"  local-opt eval {n['evals']}: best chi2 {best['chi2']:.2f}")
+            if on_progress is not None and np.isfinite(best["chi2"]):
+                on_progress(best["chi2"], best["v"], n["evals"])
         return c if np.isfinite(c) else 1e15
 
     x0 = np.clip((np.asarray(v0, float) - lo) / span, 1e-4, 1 - 1e-4)
@@ -319,6 +321,8 @@ def planck(T, lam_um):
 
 
 def read_rows(path, name):
+    if not Path(path).exists():  # e.g. cloud container without the AllWISE support cache
+        return []
     with open(path, newline="") as fh:
         return [r for r in csv.DictReader(fh) if r["designation"] == name]
 
@@ -384,6 +388,20 @@ def photometry_check(times, obs, pred, sig, t0, period, nparams, phase2=0.5):
             err = float(np.sqrt(np.mean(sig[m] ** 2)) / np.sqrt(m.sum()))
             out[f"{lab}_mean_resid"] = mean
             out[f"{lab}_bias_sigma"] = mean / err if err > 0 else np.nan
+    # Informational (not a pass criterion): the binned errors are the sector-to-sector scatter,
+    # which is much larger in eclipse than the bin-to-bin noise (2026-10-19 check). Estimate the
+    # white noise from second differences of the phase-sorted residuals (smooth misfit cancels)
+    # and report chi2_red against it, overall and within +-0.02 phase of each eclipse.
+    o = np.argsort(ph)
+    ro = r[o]
+    d2 = (ro[1:-1] - 0.5 * (ro[:-2] + ro[2:])) / np.sqrt(1.5)
+    white = float(1.4826 * np.median(np.abs(d2 - np.median(d2))))
+    if white > 0:
+        out["white_noise"] = white
+        out["chi2_red_white"] = float(np.mean((r / white) ** 2))
+        ecl = (np.abs(ph) < 0.02) | (np.abs(ph - (phase2 if phase2 < 0.8 else phase2 - 1)) < 0.02)
+        if ecl.any():
+            out["chi2_red_white_eclipse"] = float(np.mean((r[ecl] / white) ** 2))
     out["pass_fit"] = bool(out["chi2_red"] < 5)
     out["pass_no_eclipse_bias"] = bool(all(abs(out.get(f"{l}_bias_sigma", 0)) < 3 for l in ("primary", "secondary")))
     return out
@@ -432,7 +450,15 @@ def main():
                     help="fit ecosw/esinw; auto = when the secondary eclipse is >0.01 in phase from 0.5")
     ap.add_argument("--period", type=float, default=None, help="override ephemeris period")
     ap.add_argument("--t0", type=float, default=None, help="override ephemeris t0")
+    ap.add_argument("--no-irrad", action="store_true", help="switch off reflection (irradiation albedo 0)")
+    ap.add_argument("--kmax", type=float, default=1.4, help="upper bound on k = r2/r1")
     ap.add_argument("--tag", default="", help="suffix for output file names")
+    ap.add_argument("--start-from", default=None,
+                    help="skip the grid and run the local optimisation from the 'v' of this JSON "
+                         "(e.g. another fit's _localopt<tag>.json; its params must match)")
+    ap.add_argument("--bound", action="append", default=[], metavar="NAME=LO,HI",
+                    help="override the bounds of one fitted parameter (repeatable); a narrow range "
+                         "effectively fixes it, e.g. --bound esinw=0.048,0.052 to map chi2 against esinw")
     args = ap.parse_args()
     name = args.designation
     cdir, eph, times, flux, sig = load_inputs(name)
@@ -469,8 +495,14 @@ def main():
         f"M1~{m1:.2f} q={q} distortion={distortion} nbins={len(times)}")
 
     rsum0, tr0, width = initial_guesses(eph, flux, times)
-    B = bounds_for(rsum0, distortion)
-    m = Model(times, flux, sig, period, t0, teff1, m1, q, distortion, args.ntri, l3=args.l3)
+    B = bounds_for(rsum0, distortion, args.kmax)
+    for spec in args.bound:
+        pname, rng_ = spec.split("=")
+        if pname not in PARAMS:
+            raise SystemExit(f"--bound {pname}: not a fitted parameter ({PARAMS})")
+        B[pname] = tuple(float(x) for x in rng_.split(","))
+        log(f"  bound override: {pname} in {B[pname]}")
+    m = Model(times, flux, sig, period, t0, teff1, m1, q, distortion, args.ntri, l3=args.l3, irrad=not args.no_irrad)
     m.l3_start, m.ecosw_start, m.esinw_start, m.q_start = args.l3, ecosw0, esinw0, q
     m.dt0_start = float(np.clip(ecl.get("phase1", 0.0) * period, -0.009, 0.009))
     if eccentric:
@@ -479,7 +511,14 @@ def main():
 
     t_start = time.time()
     grid_cache = cdir / f"{name}_grid{tag}.json"
-    if grid_cache.exists() and json.loads(grid_cache.read_text()).get("params") == PARAMS:
+    if args.start_from:
+        sf = json.loads(Path(args.start_from).read_text())
+        if sf.get("params") != PARAMS:
+            raise SystemExit(f"--start-from params {sf.get('params')} do not match {PARAMS}")
+        chi_grid, v_grid = float("nan"), np.array(sf["v"], float)
+        top = [(chi_grid, v_grid)]
+        log(f"  skipping grid: starting from {args.start_from} (its chi2 {sf.get('chi2', float('nan')):.2f})")
+    elif grid_cache.exists() and json.loads(grid_cache.read_text()).get("params") == PARAMS:
         g = json.loads(grid_cache.read_text())
         chi_grid, v_grid = g["chi2"], np.array(g["v"])
         top = [(c, np.array(v)) for c, v in g.get("top", [[chi_grid, g["v"]]])]
@@ -498,10 +537,34 @@ def main():
         chi_pow, v_pow, nev = o["chi2"], np.array(o["v"]), o["evals"]
         log("  using cached local-optimisation result")
     else:
-        # multi-start: local optimisation from each of the top distinct grid points
+        # multi-start: local optimisation from each of the top distinct grid points.
+        # Each finished start is cached so a run stopped mid-way resumes at the next start.
         chi_pow, v_pow, nev = np.inf, v_grid, 0
+        start_cache = cdir / f"{name}_localopt_starts{tag}.json"
+        done = json.loads(start_cache.read_text()) if start_cache.exists() else {}
+        if done.get("params") != PARAMS:
+            done = {"params": PARAMS, "starts": {}}
         for i, (c0, v0) in enumerate(top):
-            c, v, n_ = powell(m, v0, B, args.powell_maxiter, log)
+            if str(i) in done["starts"]:
+                s_ = done["starts"][str(i)]
+                c, v, n_ = s_["chi2"], np.array(s_["v"]), s_["evals"]
+                log(f"  start {i + 1}/{len(top)}: using cached result")
+            else:
+                # an unfinished start (stopped at a cutoff) resumes from its best vector so far
+                part = done.get("partial", {}).get(str(i))
+                if part is not None:
+                    log(f"  start {i + 1}/{len(top)}: resuming from partial best chi2 {part['chi2']:.2f}")
+                    v0 = np.array(part["v"])
+
+                def save_partial(c_, v_, n_, i=i):
+                    done.setdefault("partial", {})[str(i)] = {"chi2": float(c_), "v": list(map(float, v_)),
+                                                              "evals": int(n_)}
+                    start_cache.write_text(json.dumps(done))
+
+                c, v, n_ = powell(m, v0, B, args.powell_maxiter, log, on_progress=save_partial)
+                done["starts"][str(i)] = {"chi2": float(c), "v": list(map(float, v)), "evals": int(n_)}
+                done.get("partial", {}).pop(str(i), None)
+                start_cache.write_text(json.dumps(done))
             nev += n_
             log(f"  start {i + 1}/{len(top)} (grid chi2 {c0:.1f}) -> chi2 {c:.2f}")
             if c < chi_pow:
@@ -519,7 +582,7 @@ def main():
         v_best = v_pow
     np.save(cdir / f"{name}_emcee_chain{tag}.npy", chain)
 
-    hi = Model(times, flux, sig, period, t0, teff1, m1, q, distortion, args.ntri_final, l3=args.l3)
+    hi = Model(times, flux, sig, period, t0, teff1, m1, q, distortion, args.ntri_final, l3=args.l3, irrad=not args.no_irrad)
     chi_hi, pred = hi.evaluate(v_best, label="final", keep=True)
     hi.b.save(str(cdir / f"{name}_phoebe_best{tag}.phoebe"))
     vb = dict(zip(PARAMS, v_best))

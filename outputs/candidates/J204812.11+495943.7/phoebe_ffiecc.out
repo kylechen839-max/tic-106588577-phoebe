@@ -1,0 +1,99 @@
+Connection to online passbands at https://tables.phoebe-project.org could not be established.  Check your internet connection or try again later (can manually call phoebe.list_online_passbands(refresh=True) to retry).  If the problem persists and you're using a Mac, you may need to update openssl (see https://phoebe-project.org/help/faq). Original error from urlopen: URLError <urlopen error Tunnel connection failed: 403 Forbidden>
+=== J204812.11+495943.7 2026-10-30T07:55:38.329689+00:00  P=3.235309 t0=3370.19523 Teff1=8559 M1~1.94 q=0.8 distortion=sphere nbins=173
+  bound override: esinw in (0.45, 0.85)
+  eccentric: secondary at phase 0.5423 -> ecosw0=0.0665, esinw0=0.500
+  sma=13.96 Rsun, eclipse width 0.054 -> rsum0=0.144, teffratio0=0.67
+  grid 1: chi2=44063.5 v=[74.0, -0.0003, 0.1005, 0.5, 0.5369, 0.0665, 0.5]
+  grid 4: chi2=42848.0 v=[74.0, -0.0003, 0.1005, 0.75, 0.5369, 0.0665, 0.5]
+  grid 7: chi2=41872.3 v=[74.0, -0.0003, 0.1005, 1.0, 0.5369, 0.0665, 0.5]
+  grid 10: chi2=41045.3 v=[74.0, -0.0003, 0.1005, 1.3, 0.5369, 0.0665, 0.5]
+  grid 19: chi2=40362.4 v=[74.0, -0.0003, 0.122, 1.0, 0.5369, 0.0665, 0.5]
+  grid 22: chi2=39282.9 v=[74.0, -0.0003, 0.122, 1.3, 0.5369, 0.0665, 0.5]
+  grid 28: chi2=36607.1 v=[74.0, -0.0003, 0.1435, 0.75, 0.5369, 0.0665, 0.5]
+  grid 31: chi2=34292.2 v=[74.0, -0.0003, 0.1435, 1.0, 0.5369, 0.0665, 0.5]
+  grid 34: chi2=32360.3 v=[74.0, -0.0003, 0.1435, 1.3, 0.5369, 0.0665, 0.5]
+  grid 61: chi2=31010.3 v=[80.0, -0.0003, 0.1005, 0.5, 0.5369, 0.0665, 0.5]
+grid best chi2=31010.29 (429s)
+  local-opt eval 25: best chi2 30873.63
+  local-opt eval 50: best chi2 30785.64
+  local-opt eval 75: best chi2 30219.33
+  local-opt eval 100: best chi2 29680.85
+  local-opt eval 125: best chi2 28876.78
+  local-opt eval 150: best chi2 28716.64
+  local-opt eval 175: best chi2 28649.97
+  local-opt eval 200: best chi2 28592.56
+  local-opt eval 225: best chi2 28533.82
+  local-opt eval 250: best chi2 28528.88
+  local-opt eval 275: best chi2 28518.52
+  local-opt eval 300: best chi2 28517.11
+  local-opt eval 325: best chi2 28516.40
+  local-opt eval 350: best chi2 28516.26
+  local-opt eval 375: best chi2 28344.19
+  local-opt eval 400: best chi2 27573.05
+  local-opt eval 425: best chi2 26817.24
+  local-opt eval 450: best chi2 25435.20
+  local-opt eval 475: best chi2 25239.38
+  local-opt eval 500: best chi2 25099.15
+  local-opt eval 525: best chi2 25089.95
+  local-opt eval 550: best chi2 25076.58
+  local-opt eval 575: best chi2 25067.51
+  local-opt eval 600: best chi2 25066.85
+  local-opt eval 625: best chi2 25066.67
+  start 1/3 (grid chi2 31010.3) -> chi2 25066.67
+  local-opt eval 25: best chi2 25982.94
+  local-opt eval 50: best chi2 25091.37
+  local-opt eval 75: best chi2 20424.15
+  local-opt eval 100: best chi2 20424.15
+  local-opt eval 125: best chi2 19975.48
+  local-opt eval 150: best chi2 19937.15
+  local-opt eval 175: best chi2 19875.29
+  local-opt eval 200: best chi2 19852.44
+  local-opt eval 225: best chi2 19847.36
+  local-opt eval 250: best chi2 19687.78
+  local-opt eval 275: best chi2 19687.78
+  local-opt eval 300: best chi2 19636.33
+  local-opt eval 325: best chi2 19595.21
+  local-opt eval 350: best chi2 19581.62
+  local-opt eval 375: best chi2 19581.28
+  local-opt eval 400: best chi2 19580.81
+  local-opt eval 425: best chi2 19580.81
+  local-opt eval 450: best chi2 19580.75
+  local-opt eval 475: best chi2 19580.70
+  local-opt eval 500: best chi2 19580.70
+  local-opt eval 525: best chi2 19580.70
+  local-opt eval 550: best chi2 19580.70
+  local-opt eval 575: best chi2 19580.70
+  local-opt eval 600: best chi2 19580.70
+  local-opt eval 625: best chi2 19580.70
+  start 2/3 (grid chi2 32360.3) -> chi2 19580.70
+  local-opt eval 25: best chi2 31524.48
+  local-opt eval 50: best chi2 30809.24
+  local-opt eval 75: best chi2 28707.73
+  local-opt eval 100: best chi2 24705.55
+  local-opt eval 125: best chi2 23383.13
+  local-opt eval 150: best chi2 23302.02
+  local-opt eval 175: best chi2 23302.02
+  local-opt eval 200: best chi2 23273.68
+  local-opt eval 225: best chi2 21675.74
+  local-opt eval 250: best chi2 21675.74
+  local-opt eval 275: best chi2 21675.74
+  local-opt eval 300: best chi2 21675.74
+  local-opt eval 325: best chi2 21675.74
+  local-opt eval 350: best chi2 21675.74
+  local-opt eval 375: best chi2 21675.74
+  local-opt eval 400: best chi2 21675.74
+  local-opt eval 425: best chi2 21675.74
+  local-opt eval 450: best chi2 21675.74
+  local-opt eval 475: best chi2 21675.74
+  local-opt eval 500: best chi2 21675.74
+  local-opt eval 525: best chi2 21675.74
+  local-opt eval 550: best chi2 21675.74
+  local-opt eval 575: best chi2 21675.74
+  local-opt eval 600: best chi2 21675.74
+  local-opt eval 625: best chi2 21675.74
+  start 3/3 (grid chi2 32700.3) -> chi2 21675.74
+local-opt (Nelder-Mead) chi2=19580.70 after 1910 evals v=[69.47659, 0.00096, 0.19253, 1.30747, 0.4785, 0.02053, 0.49517]
+  emcee 16x5 in 171s, acc=0.43
+{"incl": 69.47659387923224, "r1_frac": 0.08343980611179931, "r2_frac": 0.10909470860059162, "teffratio": 0.47849751483387293, "chi2_final_hires": 19787.983057299803, "passes_all": false}
+photometry: {"chi2": 19787.983057299803, "dof": 165, "chi2_red": 119.92717004424124, "rms": 0.00321281776533986, "primary_mean_resid": -0.005428116378697674, "primary_bias_sigma": -73.43343450219899, "secondary_mean_resid": -0.0025960591903154695, "secondary_bias_sigma": -17.307061268769797, "white_noise": 0.00011428564361921638, "chi2_red_white": 790.2942611886948, "chi2_red_white_eclipse": 4713.254311706534, "pass_fit": false, "pass_no_eclipse_bias": false}
+blackbody: {"binary_photosphere_chi2_JHKW1": 45.94260511518341, "photometric_distance_pc": 132.11654697173668, "gaia_distance_pc": 171.7052, "distance_ratio_phot_over_gaia": 0.7694382404943862, "excess_vs_binary_photosphere": {"W2": {"ratio": 0.8151581678275972, "sigma": -8.206565599338127}, "W3": {"ratio": 0.8543191831089272, "sigma": -6.171422436509904}, "W4": {"ratio": 1.3479989727794721, "sigma": 3.8929625359415785}}, "pass_photosphere": true, "pass_distance": true, "pass_excess_survives": false}

@@ -1,0 +1,59 @@
+J141909.42-565518.1: downloading TESS data (TIC 413284814)
+  sector 11: cut from camera 2 CCD 3
+  sector 38: cut from camera 2 CCD 3
+  sector 65: cut from camera 2 CCD 4
+  sector 99: cut from camera 4 CCD 4
+  sector 100: cut from camera 3 CCD 4
+  sector 101: cut from camera 2 CCD 2
+  sector 102: cut from camera 2 CCD 4
+  sector 113: no cube (stpubdata/tess/public/mast/tess-s0113-4-1-cube.fits)
+  sector 114: no cube (stpubdata/tess/public/mast/tess-s0114-3-1-cube.fits)
+  sector 11: 3 px aperture, 1170/1180 cadences kept
+  sector 38: 2 px aperture, 3693/3693 cadences kept
+  sector 65: 4 px aperture, 11663/11663 cadences kept
+  sector 99: 3 px aperture, 8408/8408 cadences kept
+  sector 100: 6 px aperture, 10928/10928 cadences kept
+  sector 101: 6 px aperture, 10853/10853 cadences kept
+  sector 102: 4 px aperture, 10257/10302 cadences kept
+  odd/even depth test at P: 1.0 sigma (odd -0.0866, even 0.1719), phase-0.5 dip / primary = 0.00
+  eclipses: {"phase1": -0.0002247613822521366, "phase2": 0.5854444617464669, "depth1": 0.21293782413020845, "depth2": 0.20111935726443475, "halfwidth1": 0.021, "halfwidth2": 0.029, "secondary_detected": true, "continuum_amplitude": 0.0021142028809107982, "profile_noise": 0.0008380926413651368}; 236 adaptive bins
+{
+  "designation": "J141909.42-565518.1",
+  "catalog_period": 16.633733064807934,
+  "period": 16.633733064807934,
+  "t0": 4084.8739599914106,
+  "odd_even_sigma": 0.999572757682692,
+  "odd_depth": -0.08663745303214443,
+  "even_depth": 0.17185213341882852,
+  "phase05_dip_over_primary": 0.0046901019414770225,
+  "sectors": [
+    11,
+    38,
+    65,
+    99,
+    100,
+    101,
+    102
+  ],
+  "authors": [
+    "FFI-S3"
+  ],
+  "n_points": 56011,
+  "n_bins": 236,
+  "oot_flux": 1.0005649332121895,
+  "primary_depth": 0.2120911378986976,
+  "secondary_depth": 0.2018340211523737,
+  "raw_rms": 0.0044487765288406134,
+  "eclipses": {
+    "phase1": -0.0002247613822521366,
+    "phase2": 0.5854444617464669,
+    "depth1": 0.21293782413020845,
+    "depth2": 0.20111935726443475,
+    "halfwidth1": 0.021,
+    "halfwidth2": 0.029,
+    "secondary_detected": true,
+    "continuum_amplitude": 0.0021142028809107982,
+    "profile_noise": 0.0008380926413651368
+  },
+  "ecosw_estimate": 0.13421584665631728
+}

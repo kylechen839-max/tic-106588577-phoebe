@@ -1,0 +1,26 @@
+{
+ "designation": "J000904.86+581647.9",
+ "colours": {
+  "W1-W2": 0.553,
+  "W2-W3": 1.176,
+  "W3-W4": 2.299,
+  "H-K": 0.555,
+  "K-W1": 0.701
+ },
+ "koenig_leisawitz_2014": "Class II",
+ "alpha_K_W4": -1.12,
+ "alpha_class": "Class II",
+ "bp_rp": 1.602448,
+ "bp_rp0_assumed": 1.31525,
+ "AV_rough": 0.57,
+ "M_G": 5.12,
+ "M_G_main_sequence": 6.617500000000001,
+ "dM_G_above_MS": 1.5,
+ "corotation_au": 0.0517,
+ "corotation_rstar": 7.25,
+ "T_dust_corotation_K": 1185,
+ "f_ir_cached": 0.0740555793610473,
+ "fixed_f_ir_cached": 0.0472405022387046,
+ "simbad_otype_cached": "RSCVnV*",
+ "tic_lumclass": "GIANT"
+}

@@ -1,0 +1,35 @@
+Connection to online passbands at https://tables.phoebe-project.org could not be established.  Check your internet connection or try again later (can manually call phoebe.list_online_passbands(refresh=True) to retry).  If the problem persists and you're using a Mac, you may need to update openssl (see https://phoebe-project.org/help/faq). Original error from urlopen: URLError <urlopen error Tunnel connection failed: 403 Forbidden>
+=== J231201.40+532028.6 2026-10-19T09:18:55.997504+00:00  P=6.849530 t0=2868.13335 Teff1=9932 M1~2.50 q=0.8 distortion=sphere nbins=223
+  bound override: esinw in (-0.002, 0.002)
+  eccentric: secondary at phase 0.4990 -> ecosw0=-0.0016, esinw0=0.041
+  sma=25.04 Rsun, eclipse width 0.070 -> rsum0=0.185, teffratio0=0.98
+  skipping grid: starting from outputs/candidates/J231201.40+532028.6/J231201.40+532028.6_seed_fix2esw0d000.json (its chi2 nan)
+grid best chi2=nan (0s)
+  local-opt eval 25: best chi2 341.33
+  local-opt eval 50: best chi2 261.12
+  local-opt eval 75: best chi2 226.00
+  local-opt eval 100: best chi2 226.00
+  local-opt eval 125: best chi2 226.00
+  local-opt eval 150: best chi2 226.00
+  local-opt eval 175: best chi2 226.00
+  local-opt eval 200: best chi2 226.00
+  local-opt eval 225: best chi2 225.99
+  local-opt eval 250: best chi2 225.97
+  local-opt eval 275: best chi2 225.97
+  local-opt eval 300: best chi2 225.97
+  local-opt eval 325: best chi2 225.97
+  local-opt eval 350: best chi2 225.97
+  local-opt eval 375: best chi2 225.97
+  local-opt eval 400: best chi2 225.97
+  local-opt eval 425: best chi2 225.97
+  local-opt eval 450: best chi2 225.97
+  local-opt eval 475: best chi2 225.97
+  local-opt eval 500: best chi2 225.97
+  local-opt eval 525: best chi2 225.97
+  local-opt eval 550: best chi2 225.97
+  start 1/1 (grid chi2 nan) -> chi2 225.97
+local-opt (Nelder-Mead) chi2=225.97 after 564 evals v=[82.86337, -0.00339, 0.28929, 0.68362, 0.97544, -0.00241, 0.00011]
+  emcee 16x30 in 1063s, acc=0.32
+{"incl": 82.86337326662289, "r1_frac": 0.1718245339508374, "r2_frac": 0.1174625789566465, "teffratio": 0.9754427651968653, "chi2_final_hires": 91.29143244364926, "passes_all": false}
+photometry: {"chi2": 91.29143244364926, "dof": 215, "chi2_red": 0.4246113136913919, "rms": 0.002826858212196831, "primary_mean_resid": -0.0011862261033442302, "primary_bias_sigma": -0.296378705978696, "secondary_mean_resid": 0.005108739365953703, "secondary_bias_sigma": 3.2369431103794444, "pass_fit": true, "pass_no_eclipse_bias": false}
+blackbody: {"binary_photosphere_chi2_JHKW1": 1.6544892943617813, "photometric_distance_pc": 736.6071228533605, "gaia_distance_pc": 741.7925, "distance_ratio_phot_over_gaia": 0.9930096662521668, "excess_vs_binary_photosphere": {"W2": {"ratio": 0.9524092915748119, "sigma": -1.8084296182465973}, "W3": {"ratio": 1.2356829538298264, "sigma": 6.90278238508477}, "W4": {"ratio": 3.56089252169521, "sigma": 12.594041405751009}}, "pass_photosphere": true, "pass_distance": true, "pass_excess_survives": true}
