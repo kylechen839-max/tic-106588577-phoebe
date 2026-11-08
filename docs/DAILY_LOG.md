@@ -724,3 +724,7 @@ BLS periods for E and C objects are now in `tess_bls_period`, and fill `period_d
 - From Kyle's PC: the J1122 7-sector QLP light curve (dd39a6f, 63a50dc; primary 4.68 ± 0.06%, tentative secondary 0.32%), handed to the J1122 thread.
 
 **Still waiting on Kyle:** whether to pause the daily routine (it has no offline work left); whether to run the J0136 Gaia-neighbour and J0009 SIMBAD/YSO checks on his PC; whether to add the 669 tier C objects to the combined table; squash-merging PR #2; the 081ab9c decision.
+
+## 2026-11-08 (daily cloud run, 08:52 UTC)
+
+**Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive still return 000. Nothing new on the branch or in `/mnt/project-files/J2312` since 11-07; `claude/project-thread-9rn9ph` is still at 081ab9c. No fits run: no offline work is left (see 11-07). Kyle hasn't answered the open questions (pause the routine; PC checks for J0136/J0009; tier C in the combined table).
