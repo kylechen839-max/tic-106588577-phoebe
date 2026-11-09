@@ -1028,3 +1028,7 @@ No new fits or cross-matches (archives still blocked). The full tier A+B table n
 ### Cloud run 2026-11-08 (daily routine)
 
 No change: archives still blocked, no new fits or cross-matches. Tables as of 11-07.
+
+### Cloud run 2026-11-09 (daily routine)
+
+No change: archives still blocked, no new fits or cross-matches. Tables as of 11-07.

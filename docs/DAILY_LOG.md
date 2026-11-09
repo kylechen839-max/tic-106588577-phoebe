@@ -728,3 +728,7 @@ BLS periods for E and C objects are now in `tess_bls_period`, and fill `period_d
 ## 2026-11-08 (daily cloud run, 08:52 UTC)
 
 **Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive still return 000. Nothing new on the branch or in `/mnt/project-files/J2312` since 11-07; `claude/project-thread-9rn9ph` is still at 081ab9c. No fits run: no offline work is left (see 11-07). Kyle hasn't answered the open questions (pause the routine; PC checks for J0136/J0009; tier C in the combined table).
+
+## 2026-11-09 (daily cloud run, 08:52 UTC)
+
+**Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive still return 000. Nothing new on the branch, on `claude/project-thread-9rn9ph` (081ab9c) or in `/mnt/project-files/J2312`. No fits run; no offline work is left. Open questions to Kyle are unchanged since 11-07.
