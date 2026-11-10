@@ -115,6 +115,17 @@ Catalogue W3/W4 photometry can have clean flags (qph A, ccf 0) and still be domi
 
 Confirmed by eye as nebular contamination (no compact W3/W4 source at the star): **J102247.90−620315.5, J204142.75+463029.3, J124645.61−653628.5**. All three were tier A before the image check.
 
+**Contact sheets (11-09, Kyle's PC; preliminary verdicts 11-10, cloud).** `outputs/crossmatch/wise_cutouts/contact_sheets/` holds W1–W4 contact sheets for all 131 tier A/B objects and `review_sheet.csv`. The 11-10 cloud run added a preliminary look (`claude_prelim`, `claude_note`) for the 26 tier-B objects that fail the automated image check; Kyle's `by_eye_verdict` column is still blank and is the one that counts.
+
+| Preliminary verdict | n | Objects |
+|---|---:|---|
+| compact source at the star (automated check likely wrong) | 4 | J071951.40−240400.6, J231908.57+582521.6, J180552.58−132731.7, J195218.88+252404.4 |
+| weak / marginal | 3 | J210640.25+464831.9, J195533.41+250034.1, J125119.04−571955.7 |
+| neighbour inside the beam | 3 | J085722.48−481433.3, J053749.52−664011.4 (LMC), J112754.19−615955.3 |
+| nebular | 16 | the rest, incl. the three confirmed above |
+
+Assumed, not verified: these are judged from PNG contact sheets only, with no photometry. If Kyle confirms the four "compact" objects, they would pass `c_wise_image`; whether that moves any to tier A also depends on their other step-2 checks (J0719 still fails `c_multi_survey`).
+
 ### DD2 result
 
 All nine DD2 matches are nearby M dwarfs (high proper motion). Their W4 "excess" comes from W4 upper limits (`qph` = `AAAU`), so none survive the quality check. DD2 yields no usable EB candidate from these surveys. J0136, J0333, J2039, J2052 and J2219, the earlier DD2-named targets, are not catalogued EBs in any of these surveys.

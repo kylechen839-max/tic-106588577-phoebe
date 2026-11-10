@@ -732,3 +732,13 @@ BLS periods for E and C objects are now in `tess_bls_period`, and fill `period_d
 ## 2026-11-09 (daily cloud run, 08:52 UTC)
 
 **Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive still return 000. Nothing new on the branch, on `claude/project-thread-9rn9ph` (081ab9c) or in `/mnt/project-files/J2312`. No fits run; no offline work is left. Open questions to Kyle are unchanged since 11-07.
+
+## 2026-11-10 (daily cloud run, 08:52 UTC)
+
+**Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive still return 000. Branch merged with main (already up to date). No fits run.
+
+**From Kyle's PC (pulled 11-09/10):** STORY.md and population plots 07/09 (6e07265), the excess-equation sheet (25319cb), the J0719 dust vs free-free figure (75157c0; dust 158 K χ² 0.02 vs free-free 103/127), the free-free slope range figure (271775c) and the WISE contact sheets with a blank `review_sheet.csv` (8560183).
+
+**Done offline:** preliminary by-eye verdicts in `review_sheet.csv` for the 26 tier-B objects failing the automated image check: 4 compact (J0719, J2319+58, J1805−13, J1952+25), 3 weak, 3 neighbour, 16 nebular. Judged from PNGs only; Kyle's `by_eye_verdict` is still blank. Talk prep for the Georgia Regional Astronomy Meeting (deck and study guide) was done in the project thread, not in the repo.
+
+**Still waiting on Kyle:** pause/weekly for this routine; filling `by_eye_verdict`; squash-merging PR #2; the 081ab9c decision; co-authors and affiliation for the talk.
