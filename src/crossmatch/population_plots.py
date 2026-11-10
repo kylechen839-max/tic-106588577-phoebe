@@ -6,6 +6,7 @@ categorical slots (fixed order), with tier C / "other" in neutral grey.
 
 Usage: python src/crossmatch/population_plots.py
 """
+import sys
 from pathlib import Path
 
 import matplotlib
@@ -19,6 +20,7 @@ from astropy.coordinates import SkyCoord
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "outputs" / "crossmatch" / "population_plots"
 OUT.mkdir(parents=True, exist_ok=True)
+sys.stdout.reconfigure(encoding="utf-8")
 
 INK, INK2, GRID, SURF = "#0b0b0b", "#52514e", "#e4e3df", "#fcfcfb"
 SLOT = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#008300", "#6250d6", "#e34948"]
@@ -151,29 +153,91 @@ title(ax, "Tier A: hot stars with modest 22 µm excess",
 ax.legend(fontsize=9, loc="upper right", markerscale=1.2)
 save(fig, "06_w4_excess_vs_teff.png")
 
-# 7. Funnel of checks (horizontal bars)
-c = {k: s[k].astype(bool) if k in s else None for k in ("w3w4_quality_ok", "c_ir_excess", "c_photosphere",
-                                                        "c_unconfused", "c_nearby", "c_not_evolved_or_wind")}
-steps = [("All DD1.0 × EB matches", N)]
+# 7. Selection funnel: the real tier logic of src/crossmatch/sanity_checks.py, stacked by SIMBAD class.
+# Tier A + B = all 8 critical checks; tier A = those plus 6 stricter ones. The order within each group is
+# the narrative order; the end points (131, 12) do not depend on it.
+img = s.c_wise_image.map({True: True, False: False, "True": True, "False": False}).astype(object)
+img = img.where(img.notna(), True).astype(bool)
+FUNNEL = [
+    ("Position match ≤ 1.5\" or in ≥ 2 surveys", s.c_match.astype(bool)),
+    ("Plausible EB period (0.15-30 d)", s.c_period_plausible.astype(bool)),
+    ("Clean W3/W4 photometry", s.c_wise_quality.astype(bool)),
+    ("IR excess ≥ 5σ (two photospheres)", s.c_ir_excess.astype(bool)),
+    ("No bright Gaia neighbour (6\", 12\")", s.c_unconfused.astype(bool)),
+    ("Usable in TESS (Tmag < 14.5, contam. < 0.3)", s.c_tess_usable.astype(bool)),
+    ("Not a galaxy / QSO", s.c_not_extragalactic.astype(bool)),
+    ("Not a giant, AGB or wind star (SIMBAD)", s.c_not_evolved_or_wind.astype(bool)),
+    ("Compact W3/W4 source in the image", img),
+    ("Photosphere fits J, H, Ks, W1", s.c_photosphere.astype(bool)),
+    ("Dust fits better than free-free", s.c_dust_over_ff.astype(bool)),
+    ("In ≥ 2 independent EB surveys", s.c_multi_survey.astype(bool)),
+    ("Gaia distance < 3 kpc", s.c_nearby.astype(bool)),
+    ("Not a known YSO", ~s.is_yso.astype(bool)),
+]
+order = [c for c, _ in CLASSES] + ["Other / unclassified"]
+cols = dict(zip(order, CLASS_COL + [GREY]))
 mask = np.ones(N, bool)
-for k, lab in (("w3w4_quality_ok", "W3/W4 photometry quality"), ("c_ir_excess", "Significant IR excess"),
-               ("c_unconfused", "No source confusion"), ("c_not_evolved_or_wind", "Not an evolved / wind star"),
-               ("c_nearby", "Distance < 3 kpc")):
-    if c[k] is not None:
-        mask &= c[k].values
-        steps.append((lab, int(mask.sum())))
-steps += [("Tier A + B candidates", int(s.tier.isin(["A", "B"]).sum())), ("Tier A (high priority)", int((s.tier == "A").sum()))]
-fig, ax = plt.subplots(figsize=(8, 4.2))
-labs, vals = zip(*steps)
-y = np.arange(len(vals))[::-1]
-ax.barh(y, vals, height=0.62, color=[SLOT[0] if i == len(vals) - 1 else (SLOT[1] if i == len(vals) - 2 else GREY) for i in range(len(vals))],
-        edgecolor=SURF, linewidth=2)
-for yi, v in zip(y, vals):
-    ax.text(v + N * 0.01, yi, f"{v}", va="center", fontsize=10, color=INK)
-ax.set_yticks(y); ax.set_yticklabels(labs, fontsize=9); ax.set_xlim(0, N * 1.1); ax.grid(axis="y", visible=False)
-ax.set_xlabel("Number of objects")
-title(ax, "From 800 matches to 12 high-priority candidates", "Cumulative checks (in this order); tiers also weigh further checks")
+rows = [("All DD1.0 × EB matches", mask.copy())]
+for lab, v in FUNNEL:
+    mask = mask & v.values
+    rows.append((lab, mask.copy()))
+assert rows[8][1].sum() == s.tier.isin(["A", "B"]).sum() and rows[-1][1].sum() == (s.tier == "A").sum()
+fig, ax = plt.subplots(figsize=(10, 7))
+y = np.arange(len(rows))[::-1].astype(float)
+y[9:] -= 0.6  # gap between the tier A+B and tier A stages
+for yi, (lab, m) in zip(y, rows):
+    left = 0
+    for c in order:
+        n = int((m & (s.cls == c).values).sum())
+        if n:
+            ax.barh(yi, n, left=left, height=0.7, color=cols[c], edgecolor=SURF, linewidth=1.5)
+            left += n
+    ax.text(left + 8, yi, f"{int(m.sum())}", va="center", fontsize=10, color=INK, fontweight="bold" if lab in
+            (rows[8][0], rows[-1][0]) else "normal")
+ax.set_yticks(y); ax.set_yticklabels([r[0] for r in rows], fontsize=9)
+ax.set_xlim(0, N * 1.08); ax.grid(axis="y", visible=False); ax.set_xlabel("Objects remaining")
+ax.axhline(y[8] - 0.8, color=INK2, lw=0.8, ls=(0, (3, 3)))
+ax.text(N * 1.06, y[8] - 0.55, "tier A + B (131): passes all 8 critical checks", ha="right", fontsize=8, color=INK2)
+ax.text(N * 1.06, y[-1] - 0.75, "tier A (12): also passes the 6 stricter checks", ha="right", fontsize=8, color=INK2)
+for c in order:
+    ax.barh(np.nan, 0, color=cols[c], label=c)
+ax.legend(fontsize=8, loc="center right", bbox_to_anchor=(1.0, 0.62))
+ax.set_ylim(y[-1] - 1.2, y[0] + 0.6)
+title(ax, "How 800 matches became 12: each check, and what it removed",
+      "Cumulative; bar colour = SIMBAD class of the objects that remain")
 save(fig, "07_selection_funnel.png")
+
+# 9. Which check removed each object first (the 669 tier C and 119 tier B)
+first = []
+for i in range(N):
+    for lab, v in FUNNEL:
+        if not v.values[i]:
+            first.append(lab); break
+    else:
+        first.append("Tier A")
+s["first_fail"] = first
+crit_labs = [l for l, _ in FUNNEL[:8]]
+tbl = pd.crosstab(s.first_fail, s.cls).reindex(index=[l for l, _ in FUNNEL], columns=order, fill_value=0)
+tbl = tbl[tbl.sum(axis=1) > 0]
+fig, ax = plt.subplots(figsize=(10, 5.8))
+yy = np.arange(len(tbl))[::-1]
+for yi, (lab, r) in zip(yy, tbl.iterrows()):
+    left = 0
+    for c in order:
+        if r[c]:
+            ax.barh(yi, r[c], left=left, height=0.7, color=cols[c], edgecolor=SURF, linewidth=1.5)
+            left += r[c]
+    ax.text(left + 3, yi, f"{int(r.sum())}" + ("  (tier C)" if lab in crit_labs else "  (tier B)"), va="center", fontsize=9, color=INK)
+ax.set_yticks(yy); ax.set_yticklabels(tbl.index, fontsize=9); ax.grid(axis="y", visible=False)
+ax.set_xlim(0, tbl.sum(axis=1).max() * 1.25); ax.set_xlabel("Objects removed at this step")
+for c in order:
+    ax.barh(np.nan, 0, color=cols[c], label=c)
+ax.legend(fontsize=8, loc="lower right")
+title(ax, "What each check caught", "First check each object fails, in funnel order; colour = SIMBAD class")
+save(fig, "09_first_failed_check.png")
+tbl.assign(total=tbl.sum(axis=1)).to_csv(OUT / "first_failed_check.csv")
+pd.DataFrame([(lab, int(m.sum())) for lab, m in rows], columns=["step", "remaining"]).to_csv(OUT / "funnel_counts.csv", index=False)
+steps = [(lab, int(m.sum())) for lab, m in rows]
 
 # 8. Catalogue overlap
 fig, ax = plt.subplots(figsize=(7, 4))

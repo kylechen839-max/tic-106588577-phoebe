@@ -13,8 +13,11 @@ the script.
 | `04_dust_temp_vs_fir.png` | Dust temperature vs L_IR/L* by SIMBAD class | The key debris-disk diagnostic. 9 of 12 tier A sit at L_IR/L* < 10⁻² and 70-240 K, the debris-disk regime. Only 26% of all 800 do; YSOs and most binaries sit at 10⁻² to 1. |
 | `05_period_histogram.png` | Catalogue period by tier | Tier A spans 0.96-16.6 d (median 2.6 d). Tier C carries the > 30 d tail, mostly giants. |
 | `06_w4_excess_vs_teff.png` | W4 / photosphere vs photosphere temperature, by tier | Tier A are 7,000-18,000 K stars with modest W4 excess (1.7-25×). The huge excesses (100-10,000×) are cool stars at the 2,500 K fit limit: giants and YSOs. |
-| `07_selection_funnel.png` | Cumulative checks 800 → 590 → 479 → 336 → 256 → 214, then tiers 131 and 12 | The selection story in one bar chart. The cumulative order is this plot's choice. Tiers are scored on more checks, so 131 is not a subset of the 214. |
+| `07_selection_funnel.png` | The real tier logic of `src/crossmatch/sanity_checks.py`, cumulative, stacked by SIMBAD class: 800 → 657 → 483 → 354 → 311 → 238 → 172 → 172 → **131** (all 8 critical checks = tier A + B), then → 105 → 55 → 53 → 13 → 12 → **12** (tier A) | The selection story in one chart; the colours show giants and wind stars disappearing first. The order within each group is a narrative choice; the end counts are not. |
+| `09_first_failed_check.png` | The first check each object fails, by SIMBAD class (`first_failed_check.csv`) | What each check is for: the position match removes 94 giants with loose Gaia matches, the period check removes long periods, clean photometry removes W3/W4 upper limits, the Gaia-neighbour check removes crowded fields, the SIMBAD check removes Be/WR/emission-line stars, and the photosphere fit removes YSOs with near-IR excess. |
 | `08_catalogue_overlap.png` | Number of EB catalogues per object | 58% of all matches (53% of tier A + B) are in ≥ 2 catalogues. VSX ingests other surveys, so these are not all independent. |
+
+See `STORY.md` for the narrative of how the 800 were narrowed and classified.
 
 Caveats:
 - **Fit-grid limits.** Dust temperatures pile up at the grid limits of 40 K and 1500 K, and
