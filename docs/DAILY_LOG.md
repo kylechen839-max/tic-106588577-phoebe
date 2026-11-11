@@ -742,3 +742,7 @@ BLS periods for E and C objects are now in `tess_bls_period`, and fill `period_d
 **Done offline:** preliminary by-eye verdicts in `review_sheet.csv` for the 26 tier-B objects failing the automated image check: 4 compact (J0719, J2319+58, J1805−13, J1952+25), 3 weak, 3 neighbour, 16 nebular. Judged from PNGs only; Kyle's `by_eye_verdict` is still blank. Talk prep for the Georgia Regional Astronomy Meeting (deck and study guide) was done in the project thread, not in the repo.
 
 **Still waiting on Kyle:** pause/weekly for this routine; filling `by_eye_verdict`; squash-merging PR #2; the 081ab9c decision; co-authors and affiliation for the talk.
+
+## 2026-11-11 (daily cloud run, 08:51 UTC)
+
+**Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive still return 000. Nothing new on the branch, on main (55f55ae), on `claude/project-thread-9rn9ph` (081ab9c) or in `/mnt/project-files/J2312`. `by_eye_verdict` in `review_sheet.csv` is still blank. No fits run; no offline work is left. Open questions to Kyle are unchanged since 11-10.
