@@ -1,0 +1,168 @@
+Gaia DR3 vari classifier [I/358/vclassre]: MATCH
+_r                          0.024
+recno                      876827
+Source        1995545679513855744
+SolID          375316653866487564
+Classifier           nTransits:5+
+Class                         ECL
+ClassSc                  0.475955
+RA_ICRS                348.005861
+DE_ICRS                 53.341299
+
+Gaia DR3 eclipsing binaries [I/358/veb]: MATCH
+_r                                                      0.024
+recno                                                  143158
+Source                                    1995545679513855744
+SolID                                      375316653866487564
+Rank                                                 0.664704
+TimeRef                                           2210.009672
+Freq                                                 0.145999
+e_Freq                                               0.000007
+magModRef                                            8.729291
+e_magModRef                                          0.001008
+PhaseGauss1                                          0.238899
+e_PhaseGauss1                                        0.001281
+sigPhaseGauss1                                       0.018836
+e_sigPhaseGauss1                                      0.00137
+DepthGauss1                                          0.287497
+e_DepthGauss1                                        0.012518
+PhaseGauss2                                          0.738902
+e_PhaseGauss2                                        0.001007
+sigPhaseGauss2                                       0.016925
+e_sigPhaseGauss2                                     0.002165
+DepthGauss2                                          0.249194
+e_DepthGauss2                                          0.0039
+AmpCHP                                               0.003025
+e_AmpCHP                                             0.001438
+PhaseCHP                                             0.238899
+e_PhaseCHP                                           0.001281
+ModelType           TWOGAUSSIANS_WITH_ELLIPSOIDAL_ON_ECLIPSE1
+Nparam                                                      9
+rchi2                                                37.29555
+PhaseE1                                              0.238899
+e_PhaseE1                                            0.001281
+DurE1                                                0.105481
+e_DurE1                                              0.007673
+DepthE1                                              0.293547
+e_DepthE1                                             0.01189
+PhaseE2                                              0.738902
+e_PhaseE2                                            0.001007
+DurE2                                                0.094781
+e_DurE2                                              0.012126
+DepthE2                                              0.255244
+e_DepthE2                                            0.003787
+RA_ICRS                                            348.005861
+DE_ICRS                                             53.341299
+
+VSX [B/vsx/vsx]: MATCH
+_r                0.07
+recno         10180960
+OID            2223897
+Name         PMAK V105
+V                    0
+RAJ2000     348.005829
+DEJ2000      53.341309
+Type                EA
+l_max                 
+max               8.75
+u_max                 
+n_max                V
+f_min                Y
+l_min                 
+min               0.31
+u_min                 
+n_min             TESS
+Epoch       2458758.51
+u_Epoch               
+l_Period              
+Period         6.84952
+u_Period              
+Sp                  A2
+n_OID                 
+
+ASAS-SN variables [II/366/catv2021]: no match
+TESS EBs (Prsa+2022) [J/ApJS/258/16/tess-ebs]: no match
+TESS OBA EBs (IJspeert+2021) [J/A+A/652/A120/eb-cat]: no match
+ZTF periodic (Chen+2020) [J/ApJS/249/18/table2]: no match
+ATLAS variables (Heinze+2018) [J/AJ/156/241/table4]: no match
+WISE variables (Chen+2018) [J/ApJS/237/28/table2]: no match
+CRTS (Drake+2014) [J/ApJS/213/9/table3]: no match
+Kepler EBs [J/AJ/151/68/table1]: no match
+ASAS-3 [II/264/asas3]: no match
+NSVS (Hoffman+2009) [J/AJ/138/466/variables]: no match
+EB catalogue (Avvakumova+2013) [J/AN/334/860/catalog]: no match
+GCVS [B/gcvs/gcvs_cat]: no match
+SB9 [B/sb9/main]: no match
+TESS EBs sectors 1-26 north (Justesen/Howard) [J/ApJS/247/56/table1]: no match
+Gaia DR3 vari summary [I/358/varisum]: MATCH
+_r            2.400000e-02
+Source        1.995546e+18
+RA_ICRS       3.480059e+02
+DE_ICRS       5.334130e+01
+NG            5.200000e+01
+TimeG         2.207564e+03
+DurG          9.936295e+02
+Gmagmin       8.716600e+00
+Gmagmax       9.016699e+00
+Gmagmean      8.773090e+00
+Gmagmed       8.730227e+00
+dGmag         3.000990e-01
+tdGmag        2.740750e-01
+s_Gmagmean    9.312500e-02
+GmagSkew      1.810111e+00
+GmagKur       1.599821e+00
+GmagMAD       5.973000e-03
+GmagAbbe      4.980890e-01
+iqrGmag       9.910000e-03
+GmagStet      6.495126e+01
+GmagS/N       5.290233e+01
+RGmag         3.243086e+02
+NBP           5.400000e+01
+TimeBP        2.202840e+03
+DurBP         9.936295e+02
+BPmagmin      8.794219e+00
+BPmagmax      9.099164e+00
+BPmagmean     8.849459e+00
+BPmagmed      8.807137e+00
+dBPmag        3.049450e-01
+tdBPmag       2.784520e-01
+s_BPmag       9.350100e-02
+BPmagSkew     1.869779e+00
+BPmagKur      1.846293e+00
+BPmagMAD      5.554000e-03
+BPmagAbbe     4.827430e-01
+iqrBPmag      7.308000e-03
+BPmagStet     7.073786e+01
+BPmagS/N      9.156213e+01
+RBPmag        3.100505e+02
+NRP           5.200000e+01
+TimeRP        2.214312e+03
+DurRP         9.936295e+02
+RPmagmin      8.537893e+00
+RPmagmax      8.833504e+00
+RPmagmean     8.590186e+00
+RPmagmed      8.547150e+00
+dRPmag        2.956100e-01
+tdRPmag       2.574440e-01
+s_RPmag       9.191100e-02
+RPmagSkew     1.824113e+00
+RPmagKur      1.656287e+00
+RPmagMAD      5.601000e-03
+RPmagAbbe     4.901160e-01
+iqrRPmag      7.649000e-03
+RPmagStet     6.454565e+01
+RPmagS/N      8.273541e+01
+RRPmag        3.866275e+02
+VCR           1.000000e+00
+VRRLyr        0.000000e+00
+VCep          0.000000e+00
+VPN           0.000000e+00
+VST           0.000000e+00
+VLPV          0.000000e+00
+VEB           1.000000e+00
+VRM           0.000000e+00
+VMSO          0.000000e+00
+VAGN          0.000000e+00
+Vmicro        0.000000e+00
+VCC           0.000000e+00
+

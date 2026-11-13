@@ -1,0 +1,16 @@
+step,remaining
+All DD1.0 × EB matches,800
+"Position match ≤ 1.5"" or in ≥ 2 surveys",657
+Plausible EB period (0.15-30 d),483
+Clean W3/W4 photometry,354
+IR excess ≥ 5σ (two photospheres),311
+"No bright Gaia neighbour (6"", 12"")",238
+"Usable in TESS (Tmag < 14.5, contam. < 0.3)",172
+Not a galaxy / QSO,172
+"Not a giant, AGB or wind star (SIMBAD)",131
+Compact W3/W4 source in the image,105
+"Photosphere fits J, H, Ks, W1",55
+Dust fits better than free-free,53
+In ≥ 2 independent EB surveys,13
+Gaia distance < 3 kpc,12
+Not a known YSO,12

@@ -1,0 +1,24 @@
+=== J112238.89-592027.5 per-sector dilution fit: sectors [10, 11, 37], 589 sector-bins, Teff1=7705, start outputs/candidates/J112238.89-592027.5/J112238.89-592027.5_phoebe_result_7sector.json
+  start: chi2 per-sector 1178.6, common 1274.8 (589 bins)
+  eval 25: best chi2 840.8
+  eval 50: best chi2 812.0
+  eval 75: best chi2 772.1
+  eval 100: best chi2 766.8
+  eval 125: best chi2 760.8
+  eval 150: best chi2 760.8
+  eval 175: best chi2 760.8
+  eval 200: best chi2 760.8
+  eval 225: best chi2 760.8
+  eval 250: best chi2 760.8
+  eval 275: best chi2 760.8
+  eval 300: best chi2 760.8
+  eval 325: best chi2 760.8
+  eval 350: best chi2 760.8
+  eval 375: best chi2 760.8
+  eval 400: best chi2 760.8
+  eval 425: best chi2 760.8
+  eval 450: best chi2 760.8
+  eval 475: best chi2 760.8
+  eval 500: best chi2 760.8
+  done: chi2 per-sector 760.8 (red 1.32), common 833.9 (red 1.43); depth scales S10 0.772, S11 1.218, S37 1.010
+  params {'incl': np.float64(89.78051), 'dt0': np.float64(0.00606), 'rsum': np.float64(0.18616), 'k': np.float64(0.51238), 'teffratio': np.float64(0.63206)}

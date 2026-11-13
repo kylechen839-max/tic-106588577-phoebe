@@ -1,0 +1,4 @@
+Connection to online passbands at https://tables.phoebe-project.org could not be established.  Check your internet connection or try again later (can manually call phoebe.list_online_passbands(refresh=True) to retry).  If the problem persists and you're using a Mac, you may need to update openssl (see https://phoebe-project.org/help/faq). Original error from urlopen: URLError <urlopen error Tunnel connection failed: 403 Forbidden>
+sphere min 0.7599
+roche min 0.7556
+roche_irrad min 0.7558

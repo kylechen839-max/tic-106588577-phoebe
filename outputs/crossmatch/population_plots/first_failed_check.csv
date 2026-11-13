@@ -1,0 +1,13 @@
+first_fail,Eclipsing / spectroscopic binary,Evolved / long-period variable,Young stellar object,Hot emission-line star,Other / unclassified,total
+"Position match ≤ 1.5"" or in ≥ 2 surveys",40,94,3,0,6,143
+Plausible EB period (0.15-30 d),82,41,16,13,22,174
+Clean W3/W4 photometry,68,18,12,10,21,129
+IR excess ≥ 5σ (two photospheres),14,22,1,0,6,43
+"No bright Gaia neighbour (6"", 12"")",53,8,3,2,7,73
+"Usable in TESS (Tmag < 14.5, contam. < 0.3)",41,1,9,0,15,66
+"Not a giant, AGB or wind star (SIMBAD)",0,15,0,21,5,41
+Compact W3/W4 source in the image,22,0,0,0,4,26
+"Photosphere fits J, H, Ks, W1",29,0,13,0,8,50
+Dust fits better than free-free,1,0,0,0,1,2
+In ≥ 2 independent EB surveys,19,0,2,0,19,40
+Gaia distance < 3 kpc,1,0,0,0,0,1
