@@ -97,11 +97,11 @@ Everything under `outputs/` is gitignored. Selected results are force-added (`gi
   - zsh errors on unmatched globs; use `find`.
   - PHOEBE rejects short model labels such as "m" and "x".
 
-## Daily next steps (rewritten by each daily cloud run; last: 2026-11-12)
+## Daily next steps (rewritten by each daily cloud run; last: 2026-11-13)
 
 Cloud runs: if `.venv-phoebe` is missing, run `python3.11 -m venv .venv-phoebe && .venv-phoebe/bin/pip install phoebe==2.4.22 emcee corner scipy matplotlib numpy pandas tabulate`, then `.venv-phoebe/bin/python src/pipeline/build_tess_passband.py`. `.venv-tess` needs `astrocut s3fs tess-point` for the AWS route. **One usage window per day** (Kyle, 2026-10-05): plan fits to finish within ~4.5 h. Do not relaunch after a container restart or once the limit resets; checkpoint and stop. Poll fits by PID (`kill -0`), never with `pgrep -f` on a pattern your own wait loop contains. **Never `git add` `ffi_cutouts/` or `lk_pipeline/cutouts/`** (50 MB FITS each). **χ² is only comparable at the same `--ntri` and `--q`**: J2312 per-sector fits use `--q 0.6 --ntri 1500 --no-smear`; `--ntri 400` changes χ² by ~37%.
 
-**Archive hosts are still blocked (11-12); the AWS mirrors work** (TESS FFI cubes via `fetch_tess_ffi_s3.py`, AllWISE tiles via `wise_atlas_s3.py`).
+**Archive hosts are still blocked (11-13); the AWS mirrors work** (TESS FFI cubes via `fetch_tess_ffi_s3.py`, AllWISE tiles via `wise_atlas_s3.py`).
 
 **J1122 work has moved to its own thread** ("Fit J1122 eclipsing binary"); don't run J1122 fits in the daily run unless that thread hands them back.
 

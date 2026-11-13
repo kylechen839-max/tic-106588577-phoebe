@@ -752,3 +752,7 @@ BLS periods for E and C objects are now in `tess_bls_period`, and fill `period_d
 **Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive still return 000. Nothing new on the branch, on main (55f55ae), on `claude/project-thread-9rn9ph` (081ab9c) or in `/mnt/project-files/J2312`. `by_eye_verdict` in `review_sheet.csv` is still blank. No fits run; no offline work is left.
 
 **Q&A with Kyle on 11-11 (no repo change):** the catalogue Teff is TIC v8.2 (IV/39/tic82, nearest within 2.5″); dust vs free-free is fitted on the single-blackbody excess, not the PHOEBE model; J0719 is tier B because `n_independent` = 1 (ASAS only) and its image S/N is W3 3.7 / W4 4.3 (< 5), although both are centred within 2.6″. Kyle asked about Eclipsing Binary Patrol, which is not one of our cross-matched catalogues; it could give J0719 a second survey if it lists it.
+
+## 2026-11-13 (daily cloud run, 08:55 UTC)
+
+**Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive still return 000. Nothing new on the branch, on main (55f55ae), on `claude/project-thread-9rn9ph` (081ab9c) or in `/mnt/project-files/J2312` (the only new shared files are a project database export, not science inputs). `by_eye_verdict` is still blank. No fits run; no offline work is left.
