@@ -1043,3 +1043,28 @@ No change: archives still blocked, no new fits or cross-matches. Tables as of 11
 ### Cloud run 2026-11-09 (daily routine)
 
 No change: archives still blocked, no new fits or cross-matches. Tables as of 11-07.
+
+### Tier A: binary photosphere, distance and dust location (2026-11-14)
+
+`src/checks/tierA_geometry.py` → `outputs/crossmatch/tierA_geometry/tierA_geometry.csv`. It uses each object's adopted PHOEBE fit (no new fits). The two-star photosphere R₁²B(T₁)+R₂²B(T₂) is scaled to J, H, Ks and W1. The dust is placed at its grey-blackbody equilibrium radius r = ½·√(R₁²T₁⁴+R₂²T₂⁴)/T_d², which is a lower limit, since small grains run hotter. That radius is compared with the binary separation a.
+
+| Object | LC χ²_red | a (AU) | binary-phot χ² JHKW1 | d_phot/d_Gaia | W3 / W4 σ above binary phot | T_dust (K) | r_dust (AU) | r_dust / a |
+|---|---:|---:|---:|---:|---|---:|---:|---:|
+| J0739−36 | 2.60 | 0.037 | 4.0 | 1.16 | 0.5 / 17.2 | 125 | 62 | 1676 |
+| J2218+54 | 11.8 | 0.044 | 38.6 | 1.12 | 20.5 / 13.8 | 161 | 26 | 597 |
+| J2312+53 | 7.15 | 0.116 | 1.7 | 0.99 | 6.9 / 12.6 | 200 | 29 | 252 |
+| J0245+48 | 3.80 | 0.102 | 18.4 | 0.71 | −4.2 / 9.8 | 70 | 178 | 1751 |
+| J2235+50 | 15.2 | 0.192 | 4.3 | 0.95 | −0.8 / 8.3 | 208 | 65 | 341 |
+| J1604−56 | 0.70 | 0.071 | 0.8 | 0.96 | 3.3 / 9.0 | 140 | 97 | 1364 |
+| J1419−56 | 0.67 | 0.225 | 0.1 | 0.91 | −0.0 / 8.5 | ≤40 (floor) | ≥868 | ≥3865 |
+| J0459+16 | 22.4 | 0.042 | 20.4 | 0.95 | 6.1 / 8.9 | 134 | 60 | 1428 |
+| J2209+58 | 1.03 | 0.022 | 7.2 | – (no parallax) | 6.3 / 7.2 | 234 | 0.9 | 41 |
+| J0332+52 | 77.5 | 0.062 | 24.4 | 1.49 | 6.0 / 7.9 | 124 | 247 | 3971 |
+| J1732−36 | 5.52 | 0.066 | 5.4 | 0.70 | −1.2 / 6.5 | ≤40 (floor) | ≥552 | ≥8358 |
+| J2239+58 | 11.5 | 0.061 | 1.7 | **0.52** | −3.4 / 5.3 | ≤40 (floor) | ≥388 | ≥6314 |
+
+- **Verified:** the W4 excess survives the two-star photosphere for all 12 (5.3–17.2σ). The binary-photosphere χ² is < 60 for all 12. The distance ratio is inside 0.6–1.8 for 10; J2239 is 0.52 (fails) and J2209 has no parallax.
+- **Verified (arithmetic):** the dust sits 41–8000+ binary separations out, far beyond the ~2–4 a circumbinary stability limit (Holman & Wiegert 1999). So if the excess is a disk, it is circumbinary for every tier A system. This conclusion does not need better light-curve fits:
+  - a scales only as M^⅓ with the assumed mass;
+  - r_dust would need to be ~100× smaller to approach the stability limit.
+- **Assumed:** one dust temperature from the single-blackbody excess fit; grey grains; R and T from fits that, for 8 of 12, fail the light-curve criteria (χ²_red ≥ 5 or eclipse bias), so their individual R and T are approximate.
