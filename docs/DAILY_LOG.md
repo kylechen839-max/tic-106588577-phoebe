@@ -756,3 +756,9 @@ BLS periods for E and C objects are now in `tess_bls_period`, and fill `period_d
 ## 2026-11-13 (daily cloud run, 08:55 UTC)
 
 **Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive still return 000. Nothing new on the branch, on main (55f55ae), on `claude/project-thread-9rn9ph` (081ab9c) or in `/mnt/project-files/J2312` (the only new shared files are a project database export, not science inputs). `by_eye_verdict` is still blank. No fits run; no offline work is left.
+
+## 2026-11-14 (daily cloud run, 08:52 UTC)
+
+**Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive still return 000. Nothing new on the branch, on main (55f55ae), on `claude/project-thread-9rn9ph` (081ab9c) or in `/mnt/project-files/J2312`. New shared files are talk material only (`/mnt/project-files/talk/group_meeting_2026-11-13/`: deck v4 and plotting scripts for Dr. Bans's comments), not pipeline inputs. `by_eye_verdict` is still blank (0 of 131). No fits run; no offline work is left.
+
+**Noted 11-13 (Q&A, no repo change):** J0719 entered the project through Kyle's DD1.0 × Eclipsing Binary Patrol cross-match. EB Patrol is not among our 16 catalogues; if it is counted as an independent detection, J0719 has `n_independent` = 2 and fails tier A only on the automated image test (which it passes by eye). The image test's low S/N for J0719 (W3 3.7, W4 4.3) comes mainly from nebular structure beyond 40″ inflating the noise estimate; AllWISE catalogue S/N is ~28 (W3) and ~14 (W4).
