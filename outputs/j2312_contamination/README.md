@@ -133,3 +133,31 @@ floor. W4 is 0.062 mag (SNR 17.5).
   not to happen).
 - The excess σ shown is photometric only. Adding the spread of the background estimates
   (±0.25 mag in W4) as a systematic error gives about 2.5-2.6σ for the bottom row and 2.9-3.0σ for the AllWISE row.
+
+## Is the compact excess the same material as the halo? (2026-11-14, cloud)
+
+`src/checks/j2312_excess_colour.py`, output in `j2312_excess_colour_log.txt` and `j2312_excess_colour.png`. It uses the 10′ atlas images above, calibrated with the star's own AllWISE magnitudes in the 16.5″ aperture.
+
+| Component | F_ν(12 µm)/F_ν(22 µm) | Blackbody T |
+|---|---:|---:|
+| Diffuse halo, rings 25–150″ above the 150–200″ sky | 0.75–0.99 | ~300 K-equivalent (not thermal; 12 µm has PAH bands) |
+| Halo, pixel W3-vs-W4 regression 25–150″ | 0.55 | — |
+| Compact excess, catalogue sky 50–70″ | 0.35 ± 0.05 | 200 K |
+| Compact excess, halo extrapolated under the star | 0.12 ± 0.06 | 147 K |
+
+Source widths are Gaussian FWHM in these images: W3 16.3″ (mostly photosphere, so this is the effective PSF) and W4 27.4″. The W4/W3 width ratio is 1.68, below the 22/12 µm diffraction ratio of ~1.9, so W4 is not resolved; it is offset 2.6″.
+
+- **Verified:** the compact excess is 2–8× redder (weaker at 12 µm relative to 22 µm) than the nebula around it, for either background choice. The surrounding halo is also present on all sides and is more nearly flat in F_ν.
+- **Interpretation (inferred):** if the excess were simply more of the surrounding nebula piled up under the star, it would have the nebula's colour (≈ 0.55–1.0). Instead it looks like a distinct component of ~150–200 K thermal grains. For L ≈ 230 L☉ that is ~30–60 AU (blackbody grains), unresolved at 742 pc (0.05″). Interstellar dust heated by the star at thousands of AU, the "IR cirrus hotspot" alternative, would be ≲ 30 K in equilibrium. Its 22 µm emission would come from stochastically heated small grains, which would carry the halo's PAH-bright 12 µm colour. This favours circumstellar or circumbinary dust over a heated-ISM hotspot, but does not prove a disk.
+- **Caveats:**
+  - the halo-subtracted W3 excess is only ~2σ (0.90 ± 0.44 mJy);
+  - the halo inside 16.5″ is extrapolated, not measured;
+  - atlas images are calibrated via the star (one point);
+  - the width test only excludes extension larger than ~the W4 PSF (12″ ≈ 9,000 AU).
+- **What would settle it:**
+  - Spitzer MIPS 24 µm (6″) or IRAC, if J2312 was observed;
+  - AKARI 18 µm, an independent epoch and beam;
+  - Herschel 70/100 µm to see the cold side of the SED;
+  - mid-IR spectroscopy showing silicate rather than PAH features.
+
+  All of these need IRSA, from Kyle's PC.
