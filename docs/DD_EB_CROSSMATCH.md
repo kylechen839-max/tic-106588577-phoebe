@@ -1068,3 +1068,4 @@ No change: archives still blocked, no new fits or cross-matches. Tables as of 11
   - a scales only as M^⅓ with the assumed mass;
   - r_dust would need to be ~100× smaller to approach the stability limit.
 - **Assumed:** one dust temperature from the single-blackbody excess fit; grey grains; R and T from fits that, for 8 of 12, fail the light-curve criteria (χ²_red ≥ 5 or eclipse bias), so their individual R and T are approximate.
+- **J2209+58 caveat (inferred, 11-14):** its 3,350 K is our free blackbody fit only; TIC and Gaia give no Teff, and it lies at b = +1.9°. Gaia parallax −1.10 mas (S/N −2.0) is incompatible with a G = 13.4 M dwarf, which would be at ~50 pc with ϖ ~20 mas, and TIC labels it GIANT. So it is probably a distant, reddened system. Its PHOEBE radii, separation and r_dust above (built on M-dwarf masses) are then wrong. It passed `c_nearby` only because a missing distance passes by default (`sanity_checks.py:326`).
