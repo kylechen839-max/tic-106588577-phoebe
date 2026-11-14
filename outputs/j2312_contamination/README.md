@@ -161,3 +161,17 @@ Source widths are Gaussian FWHM in these images: W3 16.3″ (mostly photosphere,
   - mid-IR spectroscopy showing silicate rather than PAH features.
 
   All of these need IRSA, from Kyle's PC.
+
+## Higher-resolution / longer-wavelength archives (2026-11-14, IRSA cone searches)
+
+These were IRSA SCS queries made through a web fetch, since the container can't reach IRSA directly.
+
+| Archive (IRSA table) | Radius | Result |
+|---|---|---|
+| Spitzer SEIP source list (`slphotdr4`) | 3′ | 0 sources, so the field is almost certainly not covered by IRAC/MIPS |
+| AKARI IRC 9/18 µm (`akari_irc`) | 36″ | 0 sources; the 18 µm PSC limit (~0.1 Jy) is ≫ the W4 flux (~15 mJy), so this is not constraining |
+| AKARI FIS (`akari_fis`) | 72″ | 0 sources |
+| Herschel PACS PSC 70 / 100 µm (`ppsc_70`, `ppsc_100`) | 3′ | 0 sources (coverage unknown) |
+| IRAS PSC (`iraspsc`) | 72″ | 23097+5304 at 17.6″ (ellipse 47″×17″): 12/25/60 µm upper limits 0.25/0.50/0.58 Jy (fqual 1); 100 µm 1.62 Jy (fqual 3), cirr3 = 28 MJy/sr, cc_100 = D |
+
+The IRAS 100 µm detection in a cirrus-flagged field matches the cold extended emission around the star, not a compact disk. No archival image sharper than WISE exists at 12–24 µm for J2312. Settling the disk question needs new mid-IR imaging (e.g. JWST/MIRI or a ground-based 10–20 µm camera).
