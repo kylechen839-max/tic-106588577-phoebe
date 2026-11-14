@@ -175,3 +175,20 @@ These were IRSA SCS queries made through a web fetch, since the container can't 
 | IRAS PSC (`iraspsc`) | 72″ | 23097+5304 at 17.6″ (ellipse 47″×17″): 12/25/60 µm upper limits 0.25/0.50/0.58 Jy (fqual 1); 100 µm 1.62 Jy (fqual 3), cirr3 = 28 MJy/sr, cc_100 = D |
 
 The IRAS 100 µm detection in a cirrus-flagged field matches the cold extended emission around the star, not a compact disk. No archival image sharper than WISE exists at 12–24 µm for J2312. Settling the disk question needs new mid-IR imaging (e.g. JWST/MIRI or a ground-based 10–20 µm camera).
+
+## W4 point-source flux with the nebula modelled (2026-11-14, cloud)
+
+`src/checks/j2312_psf_extraction.py` and `src/checks/j2312_w4_width.py` use the native AllWISE Atlas tiles (3476p530_ac51 W3/W4, 1.375″/px) from the IRSA AWS mirror. The tiles are 67 MB each in `native/` and are not committed. Empirical PSFs are median stacks of 40 isolated field stars per band (FWHM W4 17.0″, W3 11.3″). The star's PSF amplitude is fitted together with a background model, and every flux is scaled to the AllWISE catalogue value through the catalogue-like fit (a0), so zero points cancel. The photosphere is the binary photosphere (4.31 mJy).
+
+| Background model fitted with the star | W4 (mJy) | × photosphere | Excess σ |
+|---|---:|---:|---:|
+| a0: flat sky at 50–70″ (catalogue-like) | 15.4 | 3.56 | 12.6 |
+| a1/a2: free constant / plane (< 55″) | 14.5–14.6 | 3.37–3.38 | 11.6–11.7 |
+| a3: quadratic (< 55″) | 12.3 | 2.84 | 9.1 |
+| **B: W3 image as a nebula template, smoothed to W4 resolution and scaled, plus a plane (< 150″)** | **11.8** | **2.73** | **8.5** |
+| a4: quadratic + free-width Gaussian halo at the star | — | — | degenerate, not used |
+
+- **Method B is the most complete model, and its residual map is flat at the star** (`j2312_psf_extraction.png`). The nebula's own 12 µm shape predicts its 22 µm light under the star; after removing it, a point source of 2.7× the photosphere remains, an excess of ~7.5 mJy at 8.5σ. This agrees with the halo-extrapolation estimate above (2.75×).
+- **a4 is degenerate:** a 12″-wide Gaussian can replace the 17″ PSF. On the W3 image, where J2312 is mostly photosphere, the same fit also moves ~45% of the flux into a "halo", so it cannot measure nebular light.
+- **Is the W4 source wider than a point source?** It depends on how much of the curved halo the fit includes. Within 20″ the Gaussian FWHM is 20.8″ (plane) or 17.1″ (quadratic); 76 field sources of similar brightness give 19.0 / 20.0 / 21.5″ (16/50/84%). So the core is point-like. With 30–40″ fit radii and a plane background the width grows to 25–28″, which is the extended halo, not the core.
+- **Remaining limit (unchanged):** nebular emission concentrated inside ~10″ of the star and following the star's PSF cannot be separated at WISE resolution by any subtraction. Only sharper imaging (e.g. JWST/MIRI) removes it.
