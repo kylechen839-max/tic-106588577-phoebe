@@ -42,7 +42,8 @@ for k, (b, lab) in enumerate((("w4", "WISE 22 µm (W4)"), ("w3", "WISE 12 µm (W
         ax.text(25, -150, "N–S ridge\n(~5′ long)", color="w", fontsize=10, ha="left")
     ax.set_xlim(half, -half); ax.set_ylim(-half, half)
     ax.set_xlabel("← East   offset (arcsec)   West →"); ax.set_ylabel("← South   offset (arcsec)   North →" if k == 0 else "")
-    ax.set_title(f"{lab}: 8′ × 8′, smoothed 6″; contours = large-scale nebula", fontsize=9.5, loc="left")
+    ax.set_title(f"{lab}, 8′×8′
+(white contours: large-scale nebula)", fontsize=9.5, loc="left")
     if b == "w4":
         w4, cx, cy = sub, n, n
 # E-W brightness cuts across the ridge in W4 at several declination offsets
