@@ -1,0 +1,15 @@
+W4: PSF from 40 stars, FWHM 17.0"; 12 isolated field stars for flux recovery
+  W= 60"  source/a0 0.823  field-star recovery 0.864  recovery-corrected/a0 0.952  -> 14.62 mJy, 3.39x photosphere, 11.7 sigma
+  W= 90"  source/a0 0.739  field-star recovery 0.917  recovery-corrected/a0 0.805  -> 12.36 mJy, 2.87x photosphere, 9.2 sigma
+  W=120"  source/a0 0.747  field-star recovery 0.931  recovery-corrected/a0 0.802  -> 12.32 mJy, 2.86x photosphere, 9.1 sigma
+  W=180"  source/a0 0.762  field-star recovery 0.940  recovery-corrected/a0 0.811  -> 12.46 mJy, 2.89x photosphere, 9.3 sigma
+W3: PSF from 40 stars, FWHM 11.3"; 25 isolated field stars for flux recovery
+  W= 60"  source/a0 0.948  field-star recovery 0.942  recovery-corrected/a0 1.006
+  W= 90"  source/a0 0.813  field-star recovery 0.934  recovery-corrected/a0 0.870
+  W=120"  source/a0 0.815  field-star recovery 0.946  recovery-corrected/a0 0.861
+  W=180"  source/a0 0.787  field-star recovery 0.943  recovery-corrected/a0 0.834
+
+W4 photosphere 4.31 mJy, catalogue 15.36 mJy, catalogue error 0.88 mJy.
+W3 rows are a control: J2312 W3 is mostly photosphere, so recovery-corrected/a0 should be close to 1 if the
+method removes nebula without eating point-source flux.
+Shared limit: nebula structure as compact as the PSF and centred on the star is classed as 'source' here too.

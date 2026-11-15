@@ -1069,3 +1069,29 @@ No change: archives still blocked, no new fits or cross-matches. Tables as of 11
   - r_dust would need to be ~100× smaller to approach the stability limit.
 - **Assumed:** one dust temperature from the single-blackbody excess fit; grey grains; R and T from fits that, for 8 of 12, fail the light-curve criteria (χ²_red ≥ 5 or eclipse bias), so their individual R and T are approximate.
 - **J2209+58 caveat (inferred, 11-14):** its 3,350 K is our free blackbody fit only; TIC and Gaia give no Teff, and it lies at b = +1.9°. Gaia parallax −1.10 mas (S/N −2.0) is incompatible with a G = 13.4 M dwarf, which would be at ~50 pc with ϖ ~20 mas, and TIC labels it GIANT. So it is probably a distant, reddened system. Its PHOEBE radii, separation and r_dust above (built on M-dwarf masses) are then wrong. It passed `c_nearby` only because a missing distance passes by default (`sanity_checks.py:326`).
+
+### Tier A: is the W4 source compact and centred? (2026-11-15)
+
+`src/checks/tierA_w4_shape.py` → `outputs/crossmatch/tierA_w4_shape/tierA_w4_shape.csv`. AllWISE Atlas strips are read from the IRSA AWS mirror with HTTP range requests. A Gaussian + plane is fitted in W3 and W4 within 20″ (and in W4 within 30″). The same fits on isolated field W4 sources in the same tile set the reference, so no noise model is assumed. In tile 3476p530 the 40-star empirical PSF gives Gaussian FWHM 16.1″ (W4, 20″), 20.2″ (W4, 30″) and 13.3″ (W3, 20″), matching the field medians. The KL14 cut is Koenig & Leisawitz (2014): keep W4 only if w4rchi2 < 0.2·w4snr − 2. Catalogue values come from IRSA SCS on 11-15.
+
+| Object | w4snr / w4rchi2 | KL14 cut | W4 offset from star | W3→W4 shift, field pctile | W3 FWHM | W4 FWHM (field 50% / 95%) | W4 width pctile |
+|---|---|---|---:|---:|---:|---|---:|
+| J0739−36 | 21.1 / 1.21 | pass | 0.4″ | 11 | 13.4″ | **20.6″** (16.2 / 17.0) | 100 |
+| J2218+54 | 14.3 / 1.16 | fail (S/N) | 2.5″ | 74 | 13.7″ | 16.1″ (16.0 / 20.6) | 57 |
+| J2312+53 | 17.5 / 1.14 | pass | 2.2″ | 92 | 14.2″ | **20.8″** (16.5 / 18.4) | 100 |
+| J0245+48 | 16.6 / 1.17 | pass | 2.2″ | – (0 field) | 13.2″ | 18.1″ (PSF 16.1) | – |
+| J2235+50 | 23.1 / 1.26 | pass | 0.9″ | 55 | 13.2″ | 18.1″ (16.1 / 19.8) | 82 |
+| J1604−56 | 12.0 / 1.17 | fail (S/N) | **no compact W4 peak** (fit hits bounds) | – | – | – | – |
+| J1419−56 | 13.0 / 0.97 | fail (S/N) | 0.7″ | 77 | 13.1″ | **20.7″** (16.0 / 16.7) | 100 |
+| J0459+16 | 12.8 / 1.06 | fail (S/N) | 0.8″ | 67 | 13.6″ | **20.5″** (15.5 / 18.7) | 100 |
+| J2209+58 | 11.6 / 0.90 | fail (S/N) | 1.6″ | 53 | 13.4″ | 16.4″ (16.5 / 20.9) | 41 |
+| J0332+52 | 12.1 / 1.13 | fail (S/N) | 1.3″ | 78 | 13.3″ | **19.5″** (16.0 / 18.2) | 100 |
+| J1732−36 | 10.7 / 1.17 | fail (S/N) | 2.2″ | 46 | 12.9″ | **23.5″** (16.0 / 19.0) | 97 |
+| J2239+58 | 11.2 / 0.89 | fail (S/N) | 1.3″ | 67 | 12.5″ | 19.8″ (16.3 / 22.5) | 92 |
+
+- **Verified:** the KL14 cut passes only 4 of 12, and every failure is on S/N (the cut needs about S/N 15 when w4rchi2 ≈ 1). All 12 have w4rchi2 0.89–1.26, so the AllWISE profile fits are not flagged as extended.
+- **Verified:** where a W4 source is found, it is centred on the star within 0.4–2.5″, and the W3→W4 shift is inside the field-source spread for all 10 with a field reference (shift × SNR at the 11th–92nd percentile).
+- **Verified:** J1604 has no compact W4 peak at the star. This agrees with the PC contamination check (`outputs/j1604_contamination/`), which found the W4 excess falls to 1.2–2.5× with a local background.
+- **Verified:** at 12 µm all 11 measured targets are point-like (12.5–14.2″ against the 13.3″ PSF). At 22 µm, 7 are broader than ≥ 97% of field point sources: J0739, J2312, J1419, J0459, J0332, J1732 and J0245 (18.1″ against the 16.1″ PSF, no field reference). J2218 and J2209 are point-like. J2235 and J2239 are borderline (82nd and 92nd percentiles).
+- **Independent check:** J2209 is point-like here, and Spitzer MIPS 24 µm (6″ beam) shows a compact source carrying 0.91 of the W4 flux (`outputs/spitzer_mips24/`). So the width test gives the right answer where sharper data exist.
+- **Inferred:** a W4-only broadening of ≈ √(20.7² − 16.1²) ≈ 13″ means W4 light on 10⁴ AU scales (5,000 AU for J0739 at 396 pc; 10,000 AU for J2312). That is nebular or interstellar dust warmed by these hot (≥ 10,000 K) stars, not a debris disk. The stars' W4 excesses are therefore upper limits on any compact disk. J2209 and J2218 now have the cleanest W4 morphology in tier A, but both have unreliable stellar parameters (J2209: no parallax and unknown Teff; J2218: light-curve χ²_red 11.8 and a hand-set T₁).

@@ -762,3 +762,14 @@ BLS periods for E and C objects are now in `tess_bls_period`, and fill `period_d
 **Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive still return 000. Nothing new on the branch, on main (55f55ae), on `claude/project-thread-9rn9ph` (081ab9c) or in `/mnt/project-files/J2312`. New shared files are talk material only (`/mnt/project-files/talk/group_meeting_2026-11-13/`: deck v4 and plotting scripts for Dr. Bans's comments), not pipeline inputs. `by_eye_verdict` is still blank (0 of 131). No fits run; no offline work is left.
 
 **Noted 11-13 (Q&A, no repo change):** J0719 entered the project through Kyle's DD1.0 × Eclipsing Binary Patrol cross-match. EB Patrol is not among our 16 catalogues; if it is counted as an independent detection, J0719 has `n_independent` = 2 and fails tier A only on the automated image test (which it passes by eye). The image test's low S/N for J0719 (W3 3.7, W4 4.3) comes mainly from nebular structure beyond 40″ inflating the noise estimate; AllWISE catalogue S/N is ~28 (W3) and ~14 (W4).
+
+## 2026-11-15 (interactive, Kyle: 22 µm nebula methods)
+
+Literature check on building a 22 µm nebula map, then W4 morphology checks on tier A. Details in `docs/DD_EB_CROSSMATCH.md` ("is the W4 source compact and centred?") and `outputs/j2312_contamination/README.md` (multi-scale section).
+
+- **KL14 cut:** passes 4 of 12, with every failure on S/N. w4rchi2 is 0.89–1.26 for all 12.
+- **Centring:** all centred within 0.4–2.5″. J1604 has no compact W4 peak.
+- **W4 width:** 7 of 12 are broader than field point sources at 22 µm while point-like at 12 µm, including J2312 (20.8″ against 16.1″) and J0739. J2209 and J2218 are point-like; J2209's MIPS 24 source confirms this.
+- **Correction:** the 11-14 README line "J2312's W4 core is point-like" compared a 20″ fit with 30″ field numbers. It is struck through and corrected.
+- **Multi-scale (getsf-style, W4 only):** J2312 gives 12.3–12.5 mJy (2.9×) for background windows ≥ 90″, agreeing with the earlier models. None of these flux models can split off the ~13″ extended component, so treat 2.7–2.9× as an upper limit on a compact excess.
+- **Merged** PC commit b419073 (Spitzer MIPS 24 coverage, J1604 contamination checks).

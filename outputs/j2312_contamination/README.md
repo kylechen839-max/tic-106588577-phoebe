@@ -190,5 +190,32 @@ The IRAS 100 µm detection in a cirrus-flagged field matches the cold extended e
 
 - **Method B is the most complete model, and its residual map is flat at the star** (`j2312_psf_extraction.png`). The nebula's own 12 µm shape predicts its 22 µm light under the star; after removing it, a point source of 2.7× the photosphere remains, an excess of ~7.5 mJy at 8.5σ. This agrees with the halo-extrapolation estimate above (2.75×).
 - **a4 is degenerate:** a 12″-wide Gaussian can replace the 17″ PSF. On the W3 image, where J2312 is mostly photosphere, the same fit also moves ~45% of the flux into a "halo", so it cannot measure nebular light.
-- **Is the W4 source wider than a point source?** It depends on how much of the curved halo the fit includes. Within 20″ the Gaussian FWHM is 20.8″ (plane) or 17.1″ (quadratic); 76 field sources of similar brightness give 19.0 / 20.0 / 21.5″ (16/50/84%). So the core is point-like. With 30–40″ fit radii and a plane background the width grows to 25–28″, which is the extended halo, not the core.
+- ~~**Is the W4 source wider than a point source?** It depends on how much of the curved halo the fit includes. Within 20″ the Gaussian FWHM is 20.8″ (plane) or 17.1″ (quadratic); 76 field sources of similar brightness give 19.0 / 20.0 / 21.5″ (16/50/84%). So the core is point-like.~~ **Corrected 2026-11-15:** the field numbers quoted here were measured with a 30″ fit radius, not 20″, so the comparison was wrong. Like for like (20″, plane), J2312 is 20.8″ against 16.1″ for the 40-star PSF and 16.5″ (median) / 18.4″ (95%) for field sources; see the next section. Only the quadratic-background fit (17.1″) looks point-like, because the quadratic absorbs the wings.
 - **Remaining limit (unchanged):** nebular emission concentrated inside ~10″ of the star and following the star's PSF cannot be separated at WISE resolution by any subtraction. Only sharper imaging (e.g. JWST/MIRI) removes it.
+
+## Multi-scale separation and width test (2026-11-15, cloud)
+
+Prompted by a literature check on building a 22 µm nebula map (Meisner & Finkbeiner 2014; Anderson et al. 2014; getsf, Men'shchikov 2021; Koenig & Leisawitz 2014; Patel et al. 2017).
+
+**W4-only multi-scale separation** (`src/checks/j2312_multiscale.py`, `j2312_multiscale.png`, `j2312_multiscale_log.txt`). This is a simplified Python version of getsf's steps; getsf itself is not reachable from the cloud. Iterative median-filter background with window W, difference-of-Gaussian scales 4–114″, structures sorted into round "sources" and elongated "filaments", PSF fit on the source image. Flux recovery is calibrated on 12 isolated field stars (W4) run through the same pipeline. No W3 colour assumption is used.
+
+| Background window W | Recovered W4 point flux | × photosphere | Excess σ (catalogue error) |
+|---|---:|---:|---:|
+| 60″ | 14.6 mJy | 3.39 | 11.7 |
+| 90″ | 12.4 mJy | 2.87 | 9.2 |
+| 120″ | 12.3 mJy | 2.86 | 9.1 |
+| 180″ | 12.5 mJy | 2.89 | 9.3 |
+
+A 60″ window is narrower than the halo, so it leaves halo in the "source" image. For W ≥ 90″ the answer is stable at 12.3–12.5 mJy, in line with the quadratic (12.3) and W3-template (11.8) fits. The W3 control (J2312 at 12 µm, mostly photosphere) gives 0.80–0.87 of the catalogue-like flux for W ≥ 90″, so ~15% of the catalogue W3 flux is nebula.
+
+**The W4 source is broader than a point source** (`src/checks/tierA_w4_shape.py`, same tile). Gaussian + plane, 20″ fit radius:
+
+| | W3 FWHM | W4 FWHM |
+|---|---:|---:|
+| 40-star empirical PSF | 13.3″ | 16.1″ |
+| 13 field point sources ≥ ⅓ J2312's amplitude, median / 95% | — | 16.5″ / 18.4″ |
+| **J2312** | **14.2″** | **20.8″** (above all 13) |
+
+At 12 µm J2312 is point-like; at 22 µm it is not. Taken at face value, the extra width is a component of ≈ √(20.8² − 16.1²) ≈ 13″ FWHM, about 10,000 AU at 742 pc. That is far too large for a debris disk (blackbody estimate 30–60 AU, 0.05″), so part of the W4 light comes from dust on ~10⁴ AU scales around the star: nebula concentrated toward the star, or interstellar dust warmed by the star. All the flux numbers above put this component into the "point source", because none of the models can separate a 13″ component from a 16″ PSF (the a4 fit tried and was degenerate).
+
+**What this changes (inferred):** the 2.7–2.9× is an upper limit on the compact excess rather than a measurement of it. The case for a circumbinary disk in J2312 is weaker than the 11-14 summary said. The same broadening is seen in 6 other tier A stars, but not in J2209 or J2218 (see `docs/DD_EB_CROSSMATCH.md`). J2209's MIPS 24 µm source is compact (`outputs/spitzer_mips24/`), which independently confirms the test.
