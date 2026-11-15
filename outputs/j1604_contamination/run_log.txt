@@ -1,0 +1,41 @@
+The current archive release 3.15 contains two breaking changes. Please see https://www.cosmos.esa.int/web/gaia/news#GACSrelease315 for details. In case of questions or feedback, please consult the Gaia helpdesk at https://www.cosmos.esa.int/web/gaia/gaia-helpdesk.
+== AllWISE target: {'sep_arcsec': 0.0, 'w3mpro': 8.720999717712402, 'w3snr': 33.3, 'w4mpro': 7.256999969482422, 'w4snr': 12.0, 'w4rchi2': 1.1720000505447388, 'ext_flg': 0, 'cc_flags': '0000', 'ph_qual': 'AAAA'}
+== AllWISE neighbours within 60" with W4 S/N >= 3:
+        designation  sep_arcsec  w1mpro  w3mpro  w3snr  w4mpro  w4snr
+J160414.92-562645.4   20.107098  12.953  11.661    1.6   8.385    4.4
+J160418.48-562624.2   20.952227  13.873  12.595   -0.9   8.202    5.3
+J160416.34-562602.8   24.671462  14.724  11.501    3.9   8.107    6.8
+J160413.26-562638.1   25.044296  10.471  10.171   15.6   8.262    5.2
+J160416.62-562556.1   31.686463  13.750  11.951    2.3   8.354    4.6
+J160411.61-562607.0   41.557557   7.732   7.692   45.5   7.639    8.8
+J160416.16-562716.9   49.614064   8.790   8.758   28.5   8.424    4.5
+J160421.23-562557.6   52.638166   9.883   9.716   20.1   8.385    5.0
+== Atlas tile 2399m561_ac51
+== W3: near/far flux 0.576; near-minus-far sky by quadrant [9.079 7.884 9.183 6.367]
+== W4: near/far flux 0.635; near-minus-far sky by quadrant [0.283 0.139 0.316 0.247]
+== Excess vs background estimate (photometric sigma only):
+band            background  flux_over_allwise photosphere  excess_ratio  excess_sigma
+  W3          far 150-200"              1.737        free         1.881        15.409
+  W3 near 50-70" (AllWISE)              1.000        free         1.083         2.516
+  W3          inner 25-40"              0.866        free         0.937        -2.199
+  W3  halo extrapolated in              0.753        free         0.815        -7.446
+  W4          far 150-200"              1.575        free         6.184        10.002
+  W4          far 150-200"              1.575   fixedTeff         5.877         9.901
+  W4 near 50-70" (AllWISE)              1.000        free         3.927         8.893
+  W4 near 50-70" (AllWISE)              1.000   fixedTeff         3.732         8.734
+  W4          inner 25-40"              0.646        free         2.535         7.226
+  W4          inner 25-40"              0.646   fixedTeff         2.410         6.980
+  W4  halo extrapolated in              0.303        free         1.191         1.916
+  W4  halo extrapolated in              0.303   fixedTeff         1.132         1.392
+== W4 background spread ±0.89 mag; sigma incl. that systematic: far 150-200": 1.0, near 50-70" (AllWISE): 0.9, inner 25-40": 0.7, halo extrapolated in: 0.2
+== TIC within 60" (first 6):
+        ID  dstArcSec    Tmag  GAIAmag    Teff     rad  contratio disposition objType
+ 427406031   0.040880  8.9424  9.01734 10970.0 6.07108        NaN         NaN    STAR
+1217482393   3.198141 16.3559 16.78590     NaN     NaN        NaN         NaN    STAR
+1217482415   5.635682 18.3901 18.82010     NaN     NaN        NaN         NaN    STAR
+1217482416   6.191746 18.6255 19.12910     NaN     NaN        NaN         NaN    STAR
+1217482402   8.170755 19.1296 19.77240     NaN     NaN        NaN         NaN    STAR
+1217482369   8.585452 19.3592 19.91500     NaN     NaN        NaN         NaN    STAR
+INFO: Query finished. [astroquery.utils.tap.core]
+== Gaia 0-12": n=13, within 5 mag of target: 0, summed G flux / target = 0.0014
+== Gaia 12-60": n=517, within 5 mag of target: 4, summed G flux / target = 0.2076
