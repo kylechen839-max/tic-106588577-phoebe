@@ -773,3 +773,14 @@ Literature check on building a 22 µm nebula map, then W4 morphology checks on t
 - **Correction:** the 11-14 README line "J2312's W4 core is point-like" compared a 20″ fit with 30″ field numbers. It is struck through and corrected.
 - **Multi-scale (getsf-style, W4 only):** J2312 gives 12.3–12.5 mJy (2.9×) for background windows ≥ 90″, agreeing with the earlier models. None of these flux models can split off the ~13″ extended component, so treat 2.7–2.9× as an upper limit on a compact excess.
 - **Merged** PC commit b419073 (Spitzer MIPS 24 coverage, J1604 contamination checks).
+
+## 2026-11-15 (daily cloud run, 08:52 UTC)
+
+**Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive still return 000; main is unchanged (55f55ae). Merged the PC commits (b419073 Spitzer MIPS 24 + J1604 contamination checks; 9ddd223 and 14cf594 J2312 profile and ridge plots).
+
+**Ran:** `src/checks/tierA_nebula_model.py`, which is J2312's 12 µm-template nebula model applied to all 12 tier A stars (AllWISE strips by range read from AWS, empirical PSFs of 5–40 stars). It reproduces J2312 at 11.6 mJy (vs 11.8). Results:
+- **J2218** (28.7×, 12.8σ, FWHM 16.2″ = PSF) and **J2209** (2.5×, 6.5σ; quadratic 3.1×, 9.3σ; 15.9″) are the only excesses that are both robust to the nebula model and point-like.
+- **J2312** (2.7×, 8.3σ, 18.8″) and **J0739** (5.2×, 17.0σ, 20.4″) are robust but extended.
+- The other 8 drop below 5σ with a quadratic background.
+
+Table in `docs/DD_EB_CROSSMATCH.md`. No PHOEBE fits were run; nothing is pending on light curves.

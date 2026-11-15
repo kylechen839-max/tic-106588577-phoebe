@@ -1096,3 +1096,27 @@ No change: archives still blocked, no new fits or cross-matches. Tables as of 11
 - **Independent check:** J2209 is point-like here, and Spitzer MIPS 24 µm (6″ beam) shows a compact source carrying 0.91 of the W4 flux (`outputs/spitzer_mips24/`). So the width test gives the right answer where sharper data exist.
 - **Inferred:** a W4-only broadening of ≈ √(20.7² − 16.1²) ≈ 13″ means W4 light on 10⁴ AU scales (5,000 AU for J0739 at 396 pc; 10,000 AU for J2312). That is nebular or interstellar dust warmed by these hot (≥ 10,000 K) stars, not a debris disk. The stars' W4 excesses are therefore upper limits on any compact disk. J2209 and J2218 now have the cleanest W4 morphology in tier A, but both have unreliable stellar parameters (J2209: no parallax and unknown Teff; J2218: light-curve χ²_red 11.8 and a hand-set T₁).
 - **Update (J2312 only):** with the method-B nebula model subtracted first, J2312's W4 width is 18.8″ rather than 20.8″, so about half of its broadening is the nebula ridge (`outputs/j2312_contamination/README.md`). The other six broadened stars have not had a nebula model subtracted yet, so their widths are upper limits on intrinsic broadening in the same sense.
+
+### Tier A: nebula-modeled W4 flux and width (2026-11-15 daily run)
+
+`src/checks/tierA_nebula_model.py` → `outputs/crossmatch/tierA_w4_shape/tierA_nebula_model.csv`. This is J2312's method B (12 µm image as a nebula template + PSF + plane, < 150″) applied to each tier A star, with the quadratic-background fit (< 55″) alongside. Empirical PSFs come from isolated field stars within ±1925″, with 5–40 stars per target. Fluxes are scaled to AllWISE w4mpro through the catalogue-like fit. The photosphere is the binary photosphere (`tierA_geometry.csv`). σ uses the catalogue W4 error only. The width is the Gaussian + plane FWHM within 20″ after the template nebula model is subtracted, against the same fit on the PSF. On J2312 this reproduces the 11-14 result: 11.6 mJy (2.69×) with a 21-star PSF, against 11.8 mJy with the 40-star PSF.
+
+| Object | Nebula colour s (F22/F12) | Catalogue-like | Quadratic: × phot (σ) | 12 µm template: × phot (σ) | FWHM raw → nebula removed (PSF) |
+|---|---:|---:|---|---|---|
+| **J2218+54** | 0.80 | 31.0× | **30.2× (13.5)** | **28.7× (12.8)** | 16.1″ → **16.2″** (16.2″) |
+| **J2209+58** | 0.83 | 2.63× | **3.10× (9.3)** | **2.47× (6.5)** | 16.4″ → **15.9″** (16.4″) |
+| J2312+53 | 1.00 | 3.56× | 2.87× (9.2) | 2.69× (8.3) | 20.8″ → 18.8″ (16.2″) |
+| J0739−36 | 0.65 | 5.23× | 4.15× (12.8) | 5.17× (17.0) | 20.6″ → 20.4″ (15.9″) |
+| J1419−56 | 1.34 | 2.87× | 2.05× (4.8) | 2.73× (7.9) | 20.7″ → 23.6″ (16.2″) |
+| J0459+16 | 1.41 | 3.33× | 2.21× (4.6) | 2.84× (7.0) | 20.5″ → 19.2″ (16.1″) |
+| J0332+52 | 0.93 | 2.83× | 1.66× (2.8) | 2.87× (8.0) | 19.5″ → 19.1″ (16.3″) |
+| J0245+48 | 1.15 | 2.42× | 1.47× (3.2) | 2.31× (9.0) | 18.1″ → 17.4″ (16.0″) |
+| J1604−56 | 0.86 | 4.03× | 1.59× (1.7) | 3.25× (6.7) | 24.9″ → 20.7″ (16.1″) |
+| J1732−36 | 1.01 | 2.52× | 1.87× (3.7) | 2.19× (5.1) | 23.5″ → no compact peak |
+| J2235+50 | 1.37 | 1.56× | 1.05× (0.7) | 1.57× (8.5) | 18.1″ → 17.3″ (16.0″) |
+| J2239+58 | 1.01 | 1.89× | 1.43× (2.6) | 1.34× (2.0) | 19.8″ → no compact peak |
+
+- **Verified, and robust to the background model:** only J2218 and J2209 keep a ≥ 6σ excess under both nebula models and are point-like once the nebula is removed. J2209's point-like source agrees with its compact MIPS 24 µm detection.
+- **Excess robust, but the source is extended:** J2312 (18.8″) and J0739 (20.4″) stay ≥ 8σ under both models but are broader than a point source after nebula removal. J0739's nebula is faint (s = 0.65, the lowest), so its ~13″ component is not the ridge-type nebula seen at J2312.
+- **Model-dependent (quadratic < 5σ):** J1419, J0459, J0332, J0245, J1604, J1732, J2235, J2239. For these the excess depends on how the nebula is modeled. J1604 drops to 1.6× with a quadratic, which agrees with the PC contamination check. J1732 and J2239 have no compact W4 peak once the nebula is removed.
+- **Assumed:** one nebula colour per field (template method); σ excludes the photosphere and model systematics. The stellar parameters of J2209 (no parallax, unknown Teff) and J2218 (χ²_red 11.8, hand-set T₁ = 9,500 K) are unreliable, so their × phot values could shift.
