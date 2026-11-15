@@ -221,3 +221,15 @@ At 12 µm J2312 is point-like; at 22 µm it is not. Taken at face value, the ext
 **What this changes (inferred):** the 2.7–2.9× is an upper limit on the compact excess rather than a measurement of it. The case for a circumbinary disk in J2312 is weaker than the 11-14 summary said. The same broadening is seen in 6 other tier A stars, but not in J2209 or J2218 (see `docs/DD_EB_CROSSMATCH.md`). J2209's MIPS 24 µm source is compact (`outputs/spitzer_mips24/`), which independently confirms the test.
 
 **Width after the nebula model is removed (2026-11-15, `src/checks/j2312_model_figure.py`, `j2312_model_figure.png`):** after the method-B nebula model (W3 template + plane) is subtracted, J2312's W4 Gaussian FWHM within 20″ drops from 20.8″ to **18.8″**, compared with 16.1″ for the PSF. The field reference has a 95th percentile of 18.4″ and is measured without nebula subtraction. So about half of the extra width comes from the nebula ridge through the star, which the model removes. What remains is marginally broader than a point source (an intrinsic component of ≈ √(18.8² − 16.1²) ≈ 10″). The excess is still best read as an upper limit on a compact disk, but the evidence for an extended component is now weaker than the 20.8″ alone implied. The radial profile in the figure matches the fitted point source within the error bars out to ~30″.
+
+## Radial-profile figure (2026-11-15, Kyle's PC)
+
+`src/checks/j2312_w4_profile_plot.py` produces `j2312_w4_profile.png`. It uses the same native tile 3476p530_ac51, with a local plane fitted at 30–60″ around each source and profiles normalised to their peak. Field stars are isolated, unsaturated, ≥ 5′ from J2312 and at least ⅓ of J2312's peak. FWHM is read from the radial profile, not a Gaussian fit, so the values differ slightly from `tierA_w4_shape.py`.
+
+| | field stars: median / 95% | J2312 |
+|---|---|---|
+| W3 FWHM | 12.7″ / 13.0″ (n = 60) | 14.1″ |
+| W4 FWHM | 18.4″ / 18.8″ (n = 33) | 25.2″ |
+
+- J2312's W4 profile lies on the PSF blurred by a ~13″ Gaussian (model FWHM 25.7″), and outside the field-star range at every radius from 3″ to 40″. This confirms the broadening found in c7d7ed5.
+- By this measure J2312 is also slightly broader than the field stars at W3 (14.1″ vs 12.7″, above their 95%). That fits a small nebular contribution at 12 µm (~15% of the catalogue W3 flux, from the multi-scale run). The c7d7ed5 Gaussian fit called W3 "point-like" (14.2″ vs 13.3″); the profile method is more sensitive to faint wings.
