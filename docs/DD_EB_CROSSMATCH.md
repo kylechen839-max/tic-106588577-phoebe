@@ -1120,3 +1120,18 @@ No change: archives still blocked, no new fits or cross-matches. Tables as of 11
 - **Excess robust, but the source is extended:** J2312 (18.8″) and J0739 (20.4″) stay ≥ 8σ under both models but are broader than a point source after nebula removal. J0739's nebula is faint (s = 0.65, the lowest), so its ~13″ component is not the ridge-type nebula seen at J2312.
 - **Model-dependent (quadratic < 5σ):** J1419, J0459, J0332, J0245, J1604, J1732, J2235, J2239. For these the excess depends on how the nebula is modeled. J1604 drops to 1.6× with a quadratic, which agrees with the PC contamination check. J1732 and J2239 have no compact W4 peak once the nebula is removed.
 - **Assumed:** one nebula colour per field (template method); σ excludes the photosphere and model systematics. The stellar parameters of J2209 (no parallax, unknown Teff) and J2218 (χ²_red 11.8, hand-set T₁ = 9,500 K) are unreliable, so their × phot values could shift.
+
+### J2218: FFI per-sector fit and eclipse timing (2026-11-16 daily run)
+
+FFI light curve from the AWS cubes (`fetch_tess_ffi_s3.py`; sectors 16, 17, 56, 57, 76, 77, 83, 84; 64,056 points), fitted per sector with `fit_per_sector_dilution.py` (Roche, T₁ 9500 K fixed, q free, ntri 400; 1514 sector-bins).
+
+| Fit | Change | χ² | χ²_red | incl | k | T₂/T₁ | q | depth scales |
+|---|---|---:|---:|---:|---:|---:|---:|---|
+| start (`_t9500`, QLP consensus fit) | — | 20947 | — | 76.8° | — | 0.706 | 0.32 | — |
+| `_persectorffi` | 200 evals | 18853 | 12.64 | 77.0° | 0.341 | 0.706 | 0.344 | 0.983–1.014 |
+| `_persectorffi_dt` | S16 +11.7, S17 +10.9 min | **14820** | **9.93** | 77.2° | 0.341 | 0.709 | 0.346 | 0.984–1.010 |
+
+- **Verified:** the eight sectors agree on dilution (depth scales within 1.6% of 1), so contamination is not what limits the fit. Exposure smearing for the 30-min sectors changes χ² by +3.
+- **Verified (timing scan, `persector_timing.py`):** S16 and S17 (2019) eclipses arrive +11.7 and +10.9 min late; S56–S84 (2022–2024) are within ±2.3 min. A linear ephemeris correction leaves χ² 908 for 8 sector shifts.
+- **Inferred:** an eclipse-timing variation, from a third body's light-travel time or apsidal motion. The 30-min FFI timestamps are not the cause, since J2312's S17 FFI shift is consistent with zero. If there is a third star, it adds light at 22 µm and lowers the W4 excess, so the O−C needs checking with the ASAS-SN/ATLAS epochs before J2218's 28.7× is quoted as a disk.
+- The geometry does not move with the offsets. χ²_red ~10 remains, with coherent ingress/egress residuals in every sector (`outputs/candidates/J221843.61+544715.0/J221843.61+544715.0_persector_persectorffi*.png`).

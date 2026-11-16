@@ -784,3 +784,17 @@ Literature check on building a 22 µm nebula map, then W4 morphology checks on t
 - The other 8 drop below 5σ with a quadratic background.
 
 Table in `docs/DD_EB_CROSSMATCH.md`. No PHOEBE fits were run; nothing is pending on light curves.
+
+## 2026-11-16 (daily cloud run, 08:51 UTC)
+
+**Environment.** Archive hosts still return 000; main unchanged (55f55ae); no new PC commits. Recreated `.venv-tess` (python3.13; lightkurve, astrocut, s3fs, tess-point, pandas, astroquery, openpyxl).
+
+**Candidate tables (verified):** `src/checks/add_morphology_columns.py` (new) adds `kl14_pass`, `W4_fwhm20`, `W4_fwhm20_field95`, `W4_fwhm20_nebsub`, `W4_ratio_nebB`/`W4_sigma_nebB`, `W4_ratio_quad`/`W4_sigma_quad` and `w4_morphology` to `candidates_all_in_one.csv` (74 → 83 columns; existing values byte-identical) and to the Candidates sheet of `DD1_EB_candidates.xlsx`. Verdicts for tier A: point-like 3 (J2218, J2209, J2235), extended 5, no compact peak after nebula removal 2 (J1732, J2239), no field comparison 2 (J0245, J1604).
+
+**J2218 FFI light curve:** `fetch_tess_ffi_s3.py`, 8 sectors (16, 17, 56, 57, 76, 77, 83, 84), 64,056 points; P 1.669258 d. Per-sector Roche fit (`fit_per_sector_dilution.py`, T₁ 9500 K, q free, ntri 400, start `_t9500`):
+- `_persectorffi` (200 evals): χ² 20947 → 18853 over 1514 sector-bins (χ²_red 12.64; shared dilution 13.47). incl 77.0°, k 0.341, T₂/T₁ 0.706, q 0.344. Depth scales 0.983–1.014, so the sectors agree on dilution.
+- Exposure smearing for the 30-min sectors: start χ² 18856 vs 18853; no effect (run stopped).
+- Per-sector timing (`persector_timing.py`): **S16 and S17 eclipses are +11.7 and +10.9 min late** (χ² 2773 → 581 and 1601 → 314); S56–S84 are within ±2.3 min. A linear ephemeris does not absorb this (χ² 908 for 8 sectors).
+- `_persectorffi_dt` (S16 +11.7, S17 +10.9 min, 80 evals): χ² **14820 (χ²_red 9.93)**. Geometry unchanged (incl 77.2°, k 0.341, T₂/T₁ 0.709, q 0.346).
+- **Inferred, not verified:** the 2019 → 2022+ timing change looks like an eclipse-timing variation (a third body's light-travel time, or apsidal motion). It is not the 30-min FFI timestamps: J2312's S17 FFI timing is consistent with zero. A third star would matter for the W4 excess (an extra photosphere) and for T₁.
+- χ²_red ~10 remains; the residuals still carry coherent ingress/egress structure in every sector (`_persector_persectorffi.png`), so the model shape, not dilution, is the problem (spot / T₁ / LD).
