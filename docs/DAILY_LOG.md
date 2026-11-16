@@ -798,3 +798,9 @@ Table in `docs/DD_EB_CROSSMATCH.md`. No PHOEBE fits were run; nothing is pending
 - `_persectorffi_dt` (S16 +11.7, S17 +10.9 min, 80 evals): χ² **14820 (χ²_red 9.93)**. Geometry unchanged (incl 77.2°, k 0.341, T₂/T₁ 0.709, q 0.346).
 - **Inferred, not verified:** the 2019 → 2022+ timing change looks like an eclipse-timing variation (a third body's light-travel time, or apsidal motion). It is not the 30-min FFI timestamps: J2312's S17 FFI timing is consistent with zero. A third star would matter for the W4 excess (an extra photosphere) and for T₁.
 - χ²_red ~10 remains; the residuals still carry coherent ingress/egress structure in every sector (`_persector_persectorffi.png`), so the model shape, not dilution, is the problem (spot / T₁ / LD).
+
+**J2218 O−C (thread "Discuss J2218 results", 2026-11-16 afternoon):** `eclipse_split_timing.py` and `j2218_oc_gaia_tess.py`; table in `docs/DD_EB_CROSSMATCH.md` → "J2218 O−C check".
+- Primary and secondary shift together in every sector, so it is **not apsidal motion** (verified).
+- **Gaia DR3 epoch photometry (2014–2017) gives O−C +39 min**, the same direction as S16/S17 (+9 min). That is an independent instrument, so the shift is not a TESScut timestamp artifact (verified). Quadratic O−C, χ² 7.7/6 dof against 403 for linear; dP/dt ≈ +0.49 s/yr.
+- Mass transfer (period increase) or a third body with P₃ ≳ 15–20 yr: can't be separated yet (inferred). Either way a tertiary photosphere can't produce the 28.7× W4 excess, since W2 is 1.009× (inferred).
+- Network: IRSA, the Gaia archive and the Gaia DataLink worked from the cloud today; ASAS-SN Sky Patrol (port 9006) and VizieR did not.

@@ -1133,5 +1133,25 @@ FFI light curve from the AWS cubes (`fetch_tess_ffi_s3.py`; sectors 16, 17, 56, 
 
 - **Verified:** the eight sectors agree on dilution (depth scales within 1.6% of 1), so contamination is not what limits the fit. Exposure smearing for the 30-min sectors changes χ² by +3.
 - **Verified (timing scan, `persector_timing.py`):** S16 and S17 (2019) eclipses arrive +11.7 and +10.9 min late; S56–S84 (2022–2024) are within ±2.3 min. A linear ephemeris correction leaves χ² 908 for 8 sector shifts.
-- **Inferred:** an eclipse-timing variation, from a third body's light-travel time or apsidal motion. The 30-min FFI timestamps are not the cause, since J2312's S17 FFI shift is consistent with zero. If there is a third star, it adds light at 22 µm and lowers the W4 excess, so the O−C needs checking with the ASAS-SN/ATLAS epochs before J2218's 28.7× is quoted as a disk.
+- ~~**Inferred:** an eclipse-timing variation, from a third body's light-travel time or apsidal motion. The 30-min FFI timestamps are not the cause, since J2312's S17 FFI shift is consistent with zero. If there is a third star, it adds light at 22 µm and lowers the W4 excess, so the O−C needs checking with the ASAS-SN/ATLAS epochs before J2218's 28.7× is quoted as a disk.~~ Superseded 2026-11-16 by the O−C check below. (The J2312 control was weak: its period was fitted to the same S16/S17/S57 data, which absorbs a common S16/S17 offset.)
+
+#### J2218 O−C check (2026-11-16)
+
+Scripts: `src/checks/eclipse_split_timing.py` (model-independent, empirical template from S56–S84, smeared to each sector's exposure) and `src/checks/j2218_oc_gaia_tess.py`. Outputs in `outputs/candidates/J221843.61+544715.0/timing/` and `..._split_timing.json`.
+
+| Epoch | Data | O−C (min) |
+|---|---|---:|
+| 2015.9 (2014.8–2017.4) | Gaia DR3 G epoch photometry, 50 points | **+39.2 ± 1.9** |
+| 2019.7 | TESS S16 / S17 | +9.1 ± 1.9 / +8.6 ± 1.7 |
+| 2022.7 | TESS S56 / S57 | −1.8 ± 0.5 / −2.2 ± 0.5 |
+| 2024.2 | TESS S76 / S77 | −0.3 ± 0.5 / +0.5 ± 0.6 |
+| 2024.7 | TESS S83 / S84 | +2.1 ± 0.5 / +2.2 ± 0.5 |
+
+- **Verified: not apsidal motion.** Primary and secondary shift together in every sector (primary − secondary = +0.9 ± 4.7 and +0.6 ± 4.5 min in S16/S17, within ±1 min elsewhere). Apsidal motion would move them in opposite directions (≈ ±18 min apart here). The orbit is also circular (e cos ω ≈ 0.0005; the eccentric fit was worse).
+- **Verified: not a TESS/TESScut timestamp artifact.** Gaia, a different instrument, shows a larger offset (+39 min) in the same direction, and the TESS points alone trace curvature (2022 → 2024 rises 4 min).
+- **Verified: the O−C is curved.** Linear ephemeris: χ² 403 for 9 points. Quadratic: χ² 7.7 (6 dof). Fitted to TESS alone, the quadratic predicts Gaia at +55 min against +39 observed (the linear model predicts −2). The quadratic gives **dP/dt ≈ +5.6 × 10⁻⁶ d/yr (+0.49 s/yr)**, with the O−C minimum near 2022.8.
+- **Inferred, two readings that this baseline can't separate:** (1) a steady period increase, which is what Algol-type mass transfer onto the more massive star produces (conservative estimate Ṁ ~ 1 × 10⁻⁶ M☉/yr for M₁ 2.3, M₂ 0.8); (2) a third body's light-travel time with semi-amplitude ≳ 20 min (a₁₂ sin i ≳ 2.5 AU) and P₃ ≳ 15–20 yr, giving a minimum tertiary mass of roughly 0.5–0.9 M☉ for P₃ 40–20 yr. More epochs before 2014 (ASAS-SN, which is blocked from the cloud) or after 2025 would separate them.
+- **Inferred: either way the W4 excess survives.** A stellar tertiary is a photosphere: it would raise W1/W2 along with W4, but W2 is 1.009× the model, so it can't produce a 28.7× excess at 22 µm. A ~0.5–0.9 M☉ tertiary next to a 2.3 M☉ + 0.8 M☉ pair also adds only a few percent of the optical light, so its effect on T₁ and the dilution is small.
+- **Gaia DR3 cross-checks:** RUWE 0.96, no acceleration solution, SB1 orbit P 1.66937 ± 0.00008 d, K₁ 74.1 ± 4.3 km/s, e 0.07 ± 0.05 (consistent with circular). The mass function 0.070 M☉ suggests q ≈ 0.40 for M₁ 2.3 M☉ against the photometric q ≈ 0.34 (not followed up).
+- ZTF i (32 points, mostly flagged) does not constrain the timing (−21 +23/−29 min).
 - The geometry does not move with the offsets. χ²_red ~10 remains, with coherent ingress/egress residuals in every sector (`outputs/candidates/J221843.61+544715.0/J221843.61+544715.0_persector_persectorffi*.png`).
