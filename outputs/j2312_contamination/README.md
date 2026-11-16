@@ -247,3 +247,18 @@ At 12 µm J2312 is point-like; at 22 µm it is not. Taken at face value, the ext
 - **Allowed range** (rms within 10% of the best; a rough criterion because the pixels are correlated): compact fraction 0.35–0.70, halo FWHM 16–40″. That allows a compact excess of **0 to ~4.3 mJy (≤ 2× the photosphere)** and an extended component of 3.7–7.9 mJy.
 - **Interpretation (inferred):** WISE cannot separate a compact disk excess from extended dust here. The data allow anything from no disk excess to about half of the ~8 mJy excess being compact. The preferred solution has essentially all of it extended. The compact (disk) excess is ≲ 4 mJy, and consistent with zero.
 - **Figure** `j2312_compact_vs_extended.png` shows the best fit (left) and the most compact model allowed by the 10% criterion (right). The right-hand model already overshoots the central profile by ~20%, so the 10% criterion is generous. The real upper limit on a compact excess is probably below ~4 mJy.
+
+## Correction: profile and compact/extended split with the nebula model removed (2026-11-16, Kyle's PC)
+
+`src/checks/j2312_profile_nebula_removed.py` re-implements method B without astropy.wcs and reproduces it: 11.6 mJy (2.69×, 8.3σ), with the same template scale s = 0.0381. It then repeats the profile and split on the nebula-subtracted image. Output: `j2312_profile_nebula_removed.png` and `_log.txt`.
+
+| W4 FWHM (radial profile) | |
+|---|---|
+| field stars, median / 95% (n = 33) | 18.4″ / 18.8″ |
+| J2312, plane background only (as in `j2312_w4_profile.png`) | 24.9″ |
+| **J2312, 12 µm-map nebula model removed** | **20.3″** |
+
+- **Most of the earlier broadening was the ridge itself.** With the nebula model removed, J2312 is only slightly wider than a point source: wider at 5–15″ and identical beyond ~17″.
+- **The compact/extended split is now unconstrained.** A point source alone fits as well as point + extended (rms 1.47 vs 1.46 ×10⁻⁴). The best fit has a 6″ "halo", with compact = photosphere + 3.1 mJy. Within 10% of the best rms, the compact excess can be anything from 0 to 7.2 mJy, i.e. none to all of it.
+- **This supersedes the plane-only split above.** That split said "best fit: excess all extended; compact ≲ 4 mJy". It treated ridge light inside 30″ as extended dust around the star. After removing the nebula, WISE can neither confirm nor rule out that the remaining ~7.3 mJy excess is compact.
+- **What remains true:** J2312's W4 source is still slightly broader than field stars after nebula removal (20.3″ vs ≤ 18.8″). So some extended emission near the star is likely, but its share is not measured.
