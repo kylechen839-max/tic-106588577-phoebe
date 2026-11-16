@@ -1,0 +1,10 @@
+PSFs: W4 33 stars, FWHM 18.5"; W3 60 stars, FWHM 12.7"
+method B (re-implemented): W4 at star 11.61 mJy = 2.69x photosphere, 8.3 sigma; template scale s = 0.0381; 1963 W3 px masked
+nebula model inside the 16.5" aperture at J2312: 7.2 mJy-equivalent (vs star point source 11.6 mJy)
+J2312 point-source flux in the nebula-subtracted image (25" fit): 11.83 mJy; excess over photosphere 7.52 mJy
+ridge (nebula model >= 50% of its level at J2312): n = 1091, fake point flux median -0.22 mJy, 16-84% [-0.92, +0.42], max +1.86; fraction >= 7.5 mJy: 0.0000; >= 3 mJy: 0.0000
+   empirical significance of J2312's excess vs this distribution: 12.2 sigma (robust sd 0.63 mJy)
+whole field: n = 3000, fake point flux median -0.03 mJy, 16-84% [-0.70, +0.65], max +1.86; fraction >= 7.5 mJy: 0.0000; >= 3 mJy: 0.0000
+   empirical significance of J2312's excess vs this distribution: 11.5 sigma (robust sd 0.66 mJy)
+
+excluded peaks (>5 sigma) within 100" of J2312, other than J2312 itself:
