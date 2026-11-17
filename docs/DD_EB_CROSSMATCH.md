@@ -1135,3 +1135,18 @@ FFI light curve from the AWS cubes (`fetch_tess_ffi_s3.py`; sectors 16, 17, 56, 
 - **Verified (timing scan, `persector_timing.py`):** S16 and S17 (2019) eclipses arrive +11.7 and +10.9 min late; S56–S84 (2022–2024) are within ±2.3 min. A linear ephemeris correction leaves χ² 908 for 8 sector shifts.
 - **Inferred:** an eclipse-timing variation, from a third body's light-travel time or apsidal motion. The 30-min FFI timestamps are not the cause, since J2312's S17 FFI shift is consistent with zero. If there is a third star, it adds light at 22 µm and lowers the W4 excess, so the O−C needs checking with the ASAS-SN/ATLAS epochs before J2218's 28.7× is quoted as a disk.
 - The geometry does not move with the offsets. χ²_red ~10 remains, with coherent ingress/egress residuals in every sector (`outputs/candidates/J221843.61+544715.0/J221843.61+544715.0_persector_persectorffi*.png`).
+
+### J2218: third light and refined plate timing (2026-11-17 daily run)
+
+Builds on the "J2218 O−C check" on branch `claude/project-thread-5mcxzc` (draft PR #4). Details and tables in `docs/DAILY_LOG.md` (2026-11-17).
+
+| Test | Result |
+|---|---|
+| Per-sector fit, l3 = 0 / 0.1 / 0.2 / 0.3 (σ 0.02 depth-scale prior) | χ² 14802 / 14848 / 15005 / 15333; geometry unchanged; Δχ² = prior penalty exactly |
+| Plate-series zero points | DASCH rms 0.137 → 0.122 mag; 1947 O−C −144 → −105 min |
+| Circular LTTE, decade windows (14 pts) | **P₃ 25 yr, A 39 min, χ² 12.0 / 9 dof**; 36 yr 15.5; 62 yr 22.1; constant P 597 |
+| Circular LTTE, 5-yr windows | P₃ ≈ 62 yr, A ≈ 190 min, χ² 14.1 (needs a ≳ 6 M☉ tertiary; implausible, inferred) |
+| NSVS 1999 | still blocked; would separate the orbits (−25 / +75 / +250 min) |
+
+- **Verified:** with partial eclipses and per-sector depth scales, third light only rescales the light curve, so TESS cannot measure l3. The 10–20% tertiary implied by the 25-yr orbit is untested by photometry.
+- **Inferred:** the third-body reading stands; spectroscopy (γ drift ±5.5 km/s over 25 yr, or tertiary lines) is the decisive test.

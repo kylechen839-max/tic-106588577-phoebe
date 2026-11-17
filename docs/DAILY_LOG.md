@@ -798,3 +798,25 @@ Table in `docs/DD_EB_CROSSMATCH.md`. No PHOEBE fits were run; nothing is pending
 - `_persectorffi_dt` (S16 +11.7, S17 +10.9 min, 80 evals): χ² **14820 (χ²_red 9.93)**. Geometry unchanged (incl 77.2°, k 0.341, T₂/T₁ 0.709, q 0.346).
 - **Inferred, not verified:** the 2019 → 2022+ timing change looks like an eclipse-timing variation (a third body's light-travel time, or apsidal motion). It is not the 30-min FFI timestamps: J2312's S17 FFI timing is consistent with zero. A third star would matter for the W4 excess (an extra photosphere) and for T₁.
 - χ²_red ~10 remains; the residuals still carry coherent ingress/egress structure in every sector (`_persector_persectorffi.png`), so the model shape, not dilution, is the problem (spot / T₁ / LD).
+
+## 2026-11-17 (daily cloud run, 08:51 UTC)
+
+**Environment.** Every archive host returns 000 from this container today (MAST, IRSA, Gaia, VizieR, CDS XMatch, SkyView, DASCH, skydot/NSVS); the AWS S3 mirror works. Main unchanged. J2312: no new work (PC commits 2504ab9, bada4ba merged; see 11-16 evening notes in the J2312 README). New priority from Kyle (11-17): J2218 eclipse timing / third body, building on branch `claude/project-thread-5mcxzc` (draft PR #4), read through a worktree and not merged.
+
+**J2218 third light (verified; the test is uninformative by construction).** Per-sector Roche fits (`fit_per_sector_dilution.py`, T₁ 9500, q free, ntri 400, S16/S17 dt, start `_persectorffi_dt`, depth-scale prior σ 0.02, 150 evals) at fixed l3:
+
+| l3 | χ² | mean depth scale | prior penalty ((b−1)/0.02)² |
+|---:|---:|---:|---:|
+| 0.0 | 14801.9 (χ²_red 9.92) | 1.023 | 1.3 |
+| 0.1 | 14847.9 | 1.137 | 46.9 |
+| 0.2 | 15005.2 (stopped at eval 125) | 1.279 (predicted) | 194 |
+| 0.3 | 15332.6 (stopped at eval 125) | 1.461 (predicted) | 532 |
+
+The geometry is identical at l3 0 and 0.1 (incl 77.25°, k 0.341, T₂/T₁ 0.709, q 0.346), and the per-sector depth scales just rescale by 1/(1−l3). Every Δχ² equals the prior penalty. **Third light scales every eclipse and ellipsoidal feature by the same factor, so with partial eclipses the light-curve shape carries no l3 information**; the only handle is the absolute depth normalization (mean b 1.023 at l3 = 0, i.e. no room for extra light *if* the FFI aperture normalization and background are trusted to ~2%, which they are not verified to be). A 10–20% tertiary is therefore neither confirmed nor excluded by TESS. Tests that can: a third set of lines or a γ-velocity drift in spectra, Gaia DR4 astrometry, or an SED fit with Gaia-scaled radii.
+
+**J2218 refined plate timing (verified).** `src/checks/j2218_dasch_refine.py` (inputs from the PR #4 branch) subtracts each plate series' out-of-eclipse median (series with ≥ 15 points): DASCH rms 0.137 → 0.122 mag (1335 → 1265 points). Decade windows, 300 bootstraps: 1933 +24 [+6, +151], 1938 −5 [−24, +8], 1947 −105 [−126, −88], 1984 +23 [−12, +60] min (1942 drops to Δχ² 8.9). The 1947 point moves from −144 to −105 min and is no longer a 3σ outlier.
+- Circular LTTE with DASCH + ASAS-SN + Gaia + TESS (14 points): constant period χ² 597; **P₃ 25 yr, amplitude 39 min, χ² 12.0 (9 dof)**; 36 yr χ² 15.5; 62 yr χ² 22.1.
+- With ~5-yr windows the best orbit jumps to P₃ ≈ 62 yr, amplitude ≈ 190 min (χ² 14.1), driven by a single 1980–85 point (+136 min). **Inferred:** that orbit needs a₁₂ sin i ≈ 23 AU and f(m₃) ≈ 3 M☉, i.e. a ≳ 6 M☉ tertiary brighter than the binary, which the light curve and SED rule out. The 25-yr orbit remains preferred but not unique.
+- Plot: `outputs/candidates/J221843.61+544715.0/timing/J221843.61+544715.0_oc_refined.png`. Predicted O−C in 1999: about −25 (25 yr), +75 (36 yr), +250 min (62 yr), so one NSVS point would separate them.
+
+**NSVS:** skydot.lanl.gov still refused. **New TESS sectors:** none; tess-point predicts S122 and S129 next (mid/late 2027).
