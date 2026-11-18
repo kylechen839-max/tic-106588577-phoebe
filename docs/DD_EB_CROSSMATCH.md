@@ -1150,3 +1150,15 @@ Builds on the "J2218 O−C check" on branch `claude/project-thread-5mcxzc` (draf
 
 - **Verified:** with partial eclipses and per-sector depth scales, third light only rescales the light curve, so TESS cannot measure l3. The 10–20% tertiary implied by the 25-yr orbit is untested by photometry.
 - **Inferred:** the third-body reading stands; spectroscopy (γ drift ±5.5 km/s over 25 yr, or tertiary lines) is the decisive test.
+
+### J2218: tertiary SED and limb darkening (2026-11-18 daily run)
+
+| Test | Result |
+|---|---|
+| SED with a 1.0–2.0 M☉ main-sequence tertiary (`src/checks/j2218_tertiary_sed.py`) | l3(TESS) 0.02–0.21; W4 30.4–30.7× (13.8σ) vs 31.0× without; JHKW1 χ² 32.7–35.9 (38.6 without); d_phot/d_Gaia 1.15–1.27 |
+| Per-sector fit, linear LD 0.35 / 0.60 / 0.70 / 0.85 | χ² 14804 / 11781 / **11571 (χ²_red 7.76)** / 12650 (stopped) |
+| Quadratic LD (0.15, 0.25) / (0.25, 0.25) | χ² 15012 / 14055 |
+
+- **Verified:** the tertiary leaves the W4 excess unchanged (< 2%).
+- **Verified:** stronger limb darkening than the default removes ~22% of the χ²; geometry moves little (incl 78.05°, k 0.348, q 0.324, T₂/T₁ 0.710 at u 0.7).
+- **Inferred:** u 0.7 is high for the 9,500 K primary; a per-star LD law is the next test. Coherent secondary ingress/egress residuals remain.

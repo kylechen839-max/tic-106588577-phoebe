@@ -820,3 +820,37 @@ The geometry is identical at l3 0 and 0.1 (incl 77.25°, k 0.341, T₂/T₁ 0.70
 - Plot: `outputs/candidates/J221843.61+544715.0/timing/J221843.61+544715.0_oc_refined.png`. Predicted O−C in 1999: about −25 (25 yr), +75 (36 yr), +250 min (62 yr), so one NSVS point would separate them.
 
 **NSVS:** skydot.lanl.gov still refused. **New TESS sectors:** none; tess-point predicts S122 and S129 next (mid/late 2027).
+
+## 2026-11-18 (daily cloud run, 08:51 UTC)
+
+**Environment.** All archive hosts still return 000 (MAST, IRSA, Gaia, VizieR incl. CfA mirror, CDS XMatch, SkyView, DASCH, skydot/NSVS); NSVS retry failed. Kyle's PC ran a VizieR search for J2312 on 11-17 (a54a35d, `outputs/j2312_contamination/vizier/`): no usable IR beyond WISE; HD 236067, A2, Gaia T 9,900 K, 308 L☉, 0.22 Gyr.
+
+**J2312 photosphere vs Gaia T (verified).** The adopted model `_gteffnoirreccesm003` already uses T₁ = 9,932 K (Gaia) and T₂ = 9,702 K; the 8,547 K TIC value appears only in the 10-26 single-star check. No change to the excess numbers.
+
+**J2218 SED with a tertiary (verified arithmetic; tertiary T/R are rough main-sequence values, assumed).** `src/checks/j2218_tertiary_sed.py`, binary from `_t9500` (T₁ 9500 K, R₁ 3.22; T₂ 6703 K, R₂ 1.10 R☉), photosphere rescaled to JHKW1:
+
+| m₃ (M☉) | l3 (TESS) | JHKW1 χ² | d_phot/d_Gaia | W2 | W3 | W4 |
+|---:|---:|---:|---:|---|---|---|
+| none | 0 | 38.6 | 1.12 | 1.17× (5.3σ) | 2.65× (20.5σ) | 31.0× (13.8σ) |
+| 1.0 | 0.023 | 34.7 | 1.15 | 1.16× | 2.62× | 30.6× |
+| 1.5 | 0.087 | 32.7 | 1.19 | 1.15× | 2.60× | 30.4× (13.8σ) |
+| 1.8 | 0.152 | 33.7 | 1.23 | 1.16× | 2.61× | 30.5× |
+| 2.0 | 0.208 | 35.9 | 1.27 | 1.16× | 2.63× | 30.7× |
+
+A tertiary of the size the 25-yr orbit implies changes the W4 excess by < 2% and keeps all SED checks passing. (W2 is 1.17× in this `_t9500` photosphere; the "1.009×" quoted on 11-16 came from a different photosphere fit.)
+
+**J2218 limb darkening (verified).** Per-sector Roche fits, T₁ 9500, q free, ntri 400, no smearing, S16/S17 dt, start `_persectorffi_l3_0.0`, same LD law for both stars:
+
+| LD | evals | χ² (χ²_red) | incl | k | T₂/T₁ | q |
+|---|---:|---:|---:|---:|---:|---:|
+| linear 0.35 (default) | 50 | 14803.6 (9.92) | 77.25 | 0.341 | 0.709 | 0.346 |
+| quadratic 0.15, 0.25 | 50 | 15012.2 | | | | |
+| quadratic 0.25, 0.25 | 125 | 14055.3 | | | | |
+| linear 0.50 | 75 (stopped by mistake) | 12779.6 | | | | |
+| linear 0.60 | 150 | 11780.9 (7.90) | 77.91 | 0.345 | 0.709 | 0.330 |
+| **linear 0.70** | 150 | **11570.7 (7.76)** | 78.05 | 0.348 | 0.710 | 0.324 |
+| linear 0.85 | 100 (stopped) | 12649.5 | | | | |
+
+- Stronger limb darkening lowers χ² by 3,233 (minimum near u = 0.7), with small geometry shifts (incl +0.8°, q 0.346 → 0.324).
+- **Inferred:** u = 0.7 is stronger than expected for a 9,500 K primary in TESS (~0.3–0.4); the fit uses one law for both stars, so it is probably compensating for the cooler secondary's limb darkening or another shape mismatch. Residuals at secondary ingress/egress (±5σ) and the primary shoulders remain (`_persector_persectorffi_ldlin070.png`), so LD is part of the χ²_red ~10, not all of it.
+- Not done: separate LD per star (the fitter has one `--ld` for both).
