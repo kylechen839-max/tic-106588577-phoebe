@@ -1,0 +1,12 @@
+Connection to online passbands at https://tables.phoebe-project.org could not be established.  Check your internet connection or try again later (can manually call phoebe.list_online_passbands(refresh=True) to retry).  If the problem persists and you're using a Mac, you may need to update openssl (see https://phoebe-project.org/help/faq). Original error from urlopen: URLError <urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>
+J221843.61+544715.0: per-sector timing scan, model from outputs/candidates/J221843.61+544715.0/J221843.61+544715.0_persector_persectorffi_noirr_ld1035_ld205.json
+  S16: chi2 2782.3 -> 240.5 at dt +12.50 min (1sig +12.3..+12.8); primary 919.5 -> 15.3; secondary 406.0 -> 42.8; ingress/egress mean resid +8.05/-6.64 -> +0.91/+0.89
+  S17: chi2 1899.1 -> 399.3 at dt +11.80 min (1sig +11.4..+12.3); primary 561.3 -> 10.3; secondary 228.2 -> 6.8; ingress/egress mean resid +6.02/-6.42 -> +0.17/+0.12
+  S56: chi2 692.8 -> 658.0 at dt -0.70 min (1sig -0.9..-0.5); primary 42.4 -> 18.0; secondary 7.6 -> 10.7; ingress/egress mean resid -1.00/+1.70 -> -0.06/+0.81
+  S57: chi2 483.4 -> 344.3 at dt -1.60 min (1sig -1.7..-1.4); primary 73.2 -> 31.2; secondary 26.7 -> 24.7; ingress/egress mean resid -0.43/+2.85 -> +1.50/+0.88
+  S76: chi2 918.0 -> 902.5 at dt -0.40 min (1sig -0.6..-0.2); primary 30.4 -> 23.9; secondary 14.7 -> 16.4; ingress/egress mean resid -0.26/+1.17 -> +0.31/+0.63
+  S77: chi2 617.1 -> 613.9 at dt +0.30 min (1sig +0.1..+0.5); primary 20.5 -> 21.1; secondary 24.7 -> 24.2; ingress/egress mean resid +0.81/+0.62 -> +0.47/+0.95
+  S83: chi2 1241.0 -> 1128.2 at dt +1.40 min (1sig +1.1..+1.7); primary 65.3 -> 16.4; secondary 51.7 -> 24.5; ingress/egress mean resid +1.80/-2.30 -> +0.08/-0.59
+  S84: chi2 2135.4 -> 2020.1 at dt +1.50 min (1sig +1.1..+1.9); primary 55.8 -> 16.7; secondary 71.4 -> 41.1; ingress/egress mean resid +1.47/-1.75 -> -0.19/+0.00
+  linear fit to shifts: dT0 -1.38 min, dP -7.085e-06 +/- 1.7e-07 d (chi2 1364.5 for 8 sectors)
+  wrote /home/claude/tic-106588577-phoebe/outputs/candidates/J221843.61+544715.0/J221843.61+544715.0_timing_persectorffi_noirr_ld1035_ld205.json

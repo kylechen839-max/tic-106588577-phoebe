@@ -854,3 +854,58 @@ A tertiary of the size the 25-yr orbit implies changes the W4 excess by < 2% and
 - Stronger limb darkening lowers χ² by 3,233 (minimum near u = 0.7), with small geometry shifts (incl +0.8°, q 0.346 → 0.324).
 - **Inferred:** u = 0.7 is stronger than expected for a 9,500 K primary in TESS (~0.3–0.4); the fit uses one law for both stars, so it is probably compensating for the cooler secondary's limb darkening or another shape mismatch. Residuals at secondary ingress/egress (±5σ) and the primary shoulders remain (`_persector_persectorffi_ldlin070.png`), so LD is part of the χ²_red ~10, not all of it.
 - Not done: separate LD per star (the fitter has one `--ld` for both).
+
+## 2026-11-19 (daily cloud run, 08:51 UTC)
+
+**Environment.** Archive hosts still return 000 from the cloud (MAST, IRSA, Gaia, VizieR, DASCH/starglass, skydot/NSVS), checked at 08:52 and 11:48. No new TESS sectors (S122/S129 are 2027).
+
+**Code.** `fit_per_sector_dilution.py` and `persector_timing.py` take `--ld1` / `--ld2` (per-star coefficients, same `--ld-func`); the fit json now records `ld_func`, `ld`, `ld1`, `ld2`. New `src/checks/j2218_ld_grid_plot.py` → `_ld_grid.png` / `_ld_grid.json`.
+
+**J2218 per-star limb darkening (verified χ²; linear law; T₁ 9500, q free, Roche, ntri 400, no smearing, S16/S17 dt 11.7/10.9 min; 1514 sector-bins; 125–150 evals each).**
+
+| u₁ (primary) | u₂ (secondary) | χ² (χ²_red) | incl | k | T₂/T₁ | q |
+|---:|---:|---:|---:|---:|---:|---:|
+| 0.70 | 0.00 | **8350.8 (5.60)** | 78.32 | 0.354 | 0.712 | 0.333 |
+| 0.80 | 0.10 | 8517.2 (5.71) | 78.63 | 0.354 | 0.716 | 0.320 |
+| 0.60 | 0.00 | 8912.4 (5.97) | 78.25 | 0.353 | 0.712 | 0.344 |
+| 0.70 | 0.20 | 8968.3 (6.01) | 78.26 | 0.353 | 0.712 | 0.332 |
+| 0.60 | 0.20 | 9602.3 | 78.25 | 0.352 | 0.713 | 0.344 |
+| 0.85 | 0.20 | 9615.3 | 78.36 | 0.361 | 0.715 | 0.321 |
+| 0.70 | 0.40 | 9774.5 (6.55) | 78.19 | 0.352 | 0.711 | 0.331 |
+| 0.85 | 0.40 | 9956.5 | 78.44 | 0.356 | 0.715 | 0.321 |
+| 0.70 | 0.70 | 11570.7 (7.76) (11-18) | 78.05 | 0.348 | 0.710 | 0.324 |
+| 1.00 | 0.30 | 13342.4 | 78.30 | 0.359 | 0.716 | 0.305 |
+| 0.50 | 0.70 | 14029.5 | 78.08 | 0.352 | 0.714 | 0.368 |
+| 0.35 | 0.50 | 14343.3 (9.61) | 78.21 | 0.362 | 0.707 | 0.443 |
+| 0.35 | 0.70 | 15546.8 | 78.43 | 0.373 | 0.712 | 0.469 |
+
+(u₁ 0.35 / u₂ 0.9 was stopped on purpose at its start point, χ² 27393, the worst of the first four.)
+
+- χ² falls from 11571 (one law) to 8351 with u₁ ≈ 0.7 and u₂ at the edge of the grid (0). Geometry barely moves in the good fits: incl 78.2–78.6°, k 0.352–0.354, T₂/T₁ 0.712–0.716, q 0.32–0.34. Only the fits with u₁ = 0.35 push q up to 0.44–0.47, and they are 6,000 χ² worse.
+- **Inferred:** both preferred values are unphysical. Expected TESS linear coefficients are ~0.3–0.4 for 9,500 K and ~0.5–0.6 for 6,700 K (rough Claret-table values, not looked up today). The fit is using LD to mimic another brightness distribution. The residuals (`_persector_persectorffi_ld107_ld200.png`) keep the same pattern as before: data above the model on the primary-eclipse shoulders (+5σ) and below it on the secondary shoulders (−5σ). That is an out-of-eclipse shape mismatch near conjunction, which pointed at the reflection/irradiation treatment rather than LD; tested below.
+
+**J2218 re-timing with the u = 0.7 model (verified).** `persector_timing.py ... _persectorffi_ldlin070.json --ld 0.7 --maxshift-min 20`:
+
+| Sector | dt (u 0.35, 11-16) | dt (u 0.7) | dt (no irradiation, u 0.35/0.5) |
+|---|---:|---:|---:|
+| S16 | +11.7 min (upper edge of the ±12 scan) | **+13.0 (+12.6..+13.3)** | +12.5 (+12.3..+12.8) |
+| S17 | +10.9 | +11.5 (+11.2..+11.8) | +11.8 (+11.4..+12.3) |
+| S56 / S57 | −1.6 / −2.3 | −1.0 / −1.7 | −0.7 / −1.6 |
+| S76 / S77 | −1.5 / −0.4 | −0.7 / 0.0 | −0.4 / +0.3 |
+| S83 / S84 | +0.9 / +0.6 | +1.2 / +1.3 | +1.4 / +1.5 |
+
+- The S16/S17 offset is LD- and irradiation-independent to within ~1.5 min. With the old ±12 min scan window S16 sat on the edge, so its true offset was ≥ 12 min; the O−C points used for the LTTE fit move by < 1.5 min, far below the plate errors.
+
+**J2218 without irradiation (verified χ²; `--no-irrad`, otherwise as above, 100 evals, start `_ld107_ld200`).**
+
+| u₁ | u₂ | χ² (χ²_red) | incl | k | T₂/T₁ | q |
+|---:|---:|---:|---:|---:|---:|---:|
+| **0.35** | **0.50** | **6867.5 (4.60)** | 77.91 | 0.366 | 0.721 | 0.369 |
+| 0.50 | 0.50 | 7715.3 (5.17) | 78.08 | 0.363 | 0.723 | 0.333 |
+| 0.70 | 0.40 | 9811.6 (6.58) | 78.35 | 0.358 | 0.726 | 0.297 |
+| 0.70 | 0.00 | 11036.4 (7.40) | 78.39 | 0.358 | 0.723 | 0.323 |
+
+- **Verified:** with irradiation off, the physically expected LD (u₁ 0.35, u₂ 0.5) gives the best χ² of any J2218 fit so far, 1,483 below the best irradiated fit and 7,936 below the 11-17 baseline (14,804). The unphysical LD values were compensating for the reflection effect.
+- **Verified:** the residual pattern flips sign (`_persector_persectorffi_noirr_ld1035_ld205.png`): now the model is above the data on the primary shoulders (−4σ) and below it on the secondary shoulders (+3σ). So the real reflection is between PHOEBE's full irradiation and none.
+- q moves to 0.37, closer to the Gaia SB1 value (~0.40, from K₁ 74 km/s; inferred mass function). incl, k and T₂/T₁ shift by < 0.5°, 0.012 and 0.01.
+- **Next (inferred):** fit the irradiation (reflection) fraction as a free parameter with LD at expected values; this should remove most of the remaining shoulder residuals.

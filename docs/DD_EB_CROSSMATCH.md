@@ -1162,3 +1162,25 @@ Builds on the "J2218 O−C check" on branch `claude/project-thread-5mcxzc` (draf
 - **Verified:** the tertiary leaves the W4 excess unchanged (< 2%).
 - **Verified:** stronger limb darkening than the default removes ~22% of the χ²; geometry moves little (incl 78.05°, k 0.348, q 0.324, T₂/T₁ 0.710 at u 0.7).
 - **Inferred:** u 0.7 is high for the 9,500 K primary; a per-star LD law is the next test. Coherent secondary ingress/egress residuals remain.
+
+### J2218: per-star limb darkening and irradiation (2026-11-19 daily run)
+
+![J2218 LD grid](../outputs/candidates/J221843.61+544715.0/J221843.61+544715.0_ld_grid.png)
+
+*χ² of the per-sector fit over 13 (u₁, u₂) pairs, irradiation on. The best points sit at unphysical values (u₁ ≈ 0.7, u₂ → 0); the gray bands are the expected values.*
+
+| Fit (per-sector, Roche, q free, 1514 bins) | χ² (χ²_red) | incl | k | T₂/T₁ | q |
+|---|---:|---:|---:|---:|---:|
+| 11-17 baseline: irradiation on, u 0.35 both | 14803.6 (9.92) | 77.25 | 0.341 | 0.709 | 0.346 |
+| 11-18: irradiation on, u 0.7 both | 11570.7 (7.76) | 78.05 | 0.348 | 0.710 | 0.324 |
+| irradiation on, u₁ 0.7, u₂ 0.0 | 8350.8 (5.60) | 78.32 | 0.354 | 0.712 | 0.333 |
+| **irradiation off, u₁ 0.35, u₂ 0.5** | **6867.5 (4.60)** | 77.91 | 0.366 | 0.721 | 0.369 |
+
+![J2218 no-irradiation fit](../outputs/candidates/J221843.61+544715.0/J221843.61+544715.0_persector_persectorffi_noirr_ld1035_ld205.png)
+
+*Best fit so far: physical limb darkening, no reflection. The shoulder residuals now have the opposite sign to the irradiated fits, so the true reflection is partial.*
+
+- **Verified:** the extreme LD values were absorbing an overestimated reflection effect; with irradiation off, normal LD fits best.
+- **Verified:** the S16/S17 eclipse-timing offset is LD-independent (+13.0 / +11.5 min with u 0.7 and +12.5 / +11.8 with no irradiation, vs +11.7 / +10.9 with u 0.35; the old S16 value hit the ±12 min scan edge).
+- **Inferred:** geometry is stable across all of this (incl 77.9–78.6°, k 0.35–0.37), so none of it affects the W4 excess or the timing result; q (0.32–0.37) is the most model-dependent number.
+
