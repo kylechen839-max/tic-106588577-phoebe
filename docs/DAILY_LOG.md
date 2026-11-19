@@ -806,3 +806,114 @@ Table in `docs/DD_EB_CROSSMATCH.md`. No PHOEBE fits were run; nothing is pending
 - Network: IRSA, the Gaia archive and the Gaia DataLink worked from the cloud today; ASAS-SN Sky Patrol (port 9006) and VizieR did not.
 
 **J2218 old photometry (2026-11-17 UTC):** ASAS-SN V (2014–18) gives +50 min at 2016.6. **DASCH plates (1888–1990)** recover P = 1.669254 d blind, and the eclipses sit within about ±1 hr of the modern ephemeris in every era (1922 +17, 1942 −58, 1975 +12 min). That rules out the steady period increase: the O−C is bounded and cyclic, which favors a third body (or Applegate). The Roche-lobe check also says detached (secondary at ~40% of its lobe). Neither KWS nor Catalina covers the star, and NSVS (skydot.lanl.gov) refuses HTTPS from both the cloud and Kyle's Mac. Details in DD_EB_CROSSMATCH → "J2218 O−C check".
+
+## 2026-11-17 (daily cloud run, 08:51 UTC)
+
+**Environment.** Every archive host returns 000 from this container today (MAST, IRSA, Gaia, VizieR, CDS XMatch, SkyView, DASCH, skydot/NSVS); the AWS S3 mirror works. Main unchanged. J2312: no new work (PC commits 2504ab9, bada4ba merged; see 11-16 evening notes in the J2312 README). New priority from Kyle (11-17): J2218 eclipse timing / third body, building on branch `claude/project-thread-5mcxzc` (draft PR #4), read through a worktree and not merged.
+
+**J2218 third light (verified; the test is uninformative by construction).** Per-sector Roche fits (`fit_per_sector_dilution.py`, T₁ 9500, q free, ntri 400, S16/S17 dt, start `_persectorffi_dt`, depth-scale prior σ 0.02, 150 evals) at fixed l3:
+
+| l3 | χ² | mean depth scale | prior penalty ((b−1)/0.02)² |
+|---:|---:|---:|---:|
+| 0.0 | 14801.9 (χ²_red 9.92) | 1.023 | 1.3 |
+| 0.1 | 14847.9 | 1.137 | 46.9 |
+| 0.2 | 15005.2 (stopped at eval 125) | 1.279 (predicted) | 194 |
+| 0.3 | 15332.6 (stopped at eval 125) | 1.461 (predicted) | 532 |
+
+The geometry is identical at l3 0 and 0.1 (incl 77.25°, k 0.341, T₂/T₁ 0.709, q 0.346), and the per-sector depth scales just rescale by 1/(1−l3). Every Δχ² equals the prior penalty. **Third light scales every eclipse and ellipsoidal feature by the same factor, so with partial eclipses the light-curve shape carries no l3 information**; the only handle is the absolute depth normalization (mean b 1.023 at l3 = 0, i.e. no room for extra light *if* the FFI aperture normalization and background are trusted to ~2%, which they are not verified to be). A 10–20% tertiary is therefore neither confirmed nor excluded by TESS. Tests that can: a third set of lines or a γ-velocity drift in spectra, Gaia DR4 astrometry, or an SED fit with Gaia-scaled radii.
+
+**J2218 refined plate timing (verified).** `src/checks/j2218_dasch_refine.py` (inputs from the PR #4 branch) subtracts each plate series' out-of-eclipse median (series with ≥ 15 points): DASCH rms 0.137 → 0.122 mag (1335 → 1265 points). Decade windows, 300 bootstraps: 1933 +24 [+6, +151], 1938 −5 [−24, +8], 1947 −105 [−126, −88], 1984 +23 [−12, +60] min (1942 drops to Δχ² 8.9). The 1947 point moves from −144 to −105 min and is no longer a 3σ outlier.
+- Circular LTTE with DASCH + ASAS-SN + Gaia + TESS (14 points): constant period χ² 597; **P₃ 25 yr, amplitude 39 min, χ² 12.0 (9 dof)**; 36 yr χ² 15.5; 62 yr χ² 22.1.
+- With ~5-yr windows the best orbit jumps to P₃ ≈ 62 yr, amplitude ≈ 190 min (χ² 14.1), driven by a single 1980–85 point (+136 min). **Inferred:** that orbit needs a₁₂ sin i ≈ 23 AU and f(m₃) ≈ 3 M☉, i.e. a ≳ 6 M☉ tertiary brighter than the binary, which the light curve and SED rule out. The 25-yr orbit remains preferred but not unique.
+- Plot: `outputs/candidates/J221843.61+544715.0/timing/J221843.61+544715.0_oc_refined.png`. Predicted O−C in 1999: about −25 (25 yr), +75 (36 yr), +250 min (62 yr), so one NSVS point would separate them.
+
+**NSVS:** skydot.lanl.gov still refused. **New TESS sectors:** none; tess-point predicts S122 and S129 next (mid/late 2027).
+
+## 2026-11-18 (daily cloud run, 08:51 UTC)
+
+**Environment.** All archive hosts still return 000 (MAST, IRSA, Gaia, VizieR incl. CfA mirror, CDS XMatch, SkyView, DASCH, skydot/NSVS); NSVS retry failed. Kyle's PC ran a VizieR search for J2312 on 11-17 (a54a35d, `outputs/j2312_contamination/vizier/`): no usable IR beyond WISE; HD 236067, A2, Gaia T 9,900 K, 308 L☉, 0.22 Gyr.
+
+**J2312 photosphere vs Gaia T (verified).** The adopted model `_gteffnoirreccesm003` already uses T₁ = 9,932 K (Gaia) and T₂ = 9,702 K; the 8,547 K TIC value appears only in the 10-26 single-star check. No change to the excess numbers.
+
+**J2218 SED with a tertiary (verified arithmetic; tertiary T/R are rough main-sequence values, assumed).** `src/checks/j2218_tertiary_sed.py`, binary from `_t9500` (T₁ 9500 K, R₁ 3.22; T₂ 6703 K, R₂ 1.10 R☉), photosphere rescaled to JHKW1:
+
+| m₃ (M☉) | l3 (TESS) | JHKW1 χ² | d_phot/d_Gaia | W2 | W3 | W4 |
+|---:|---:|---:|---:|---|---|---|
+| none | 0 | 38.6 | 1.12 | 1.17× (5.3σ) | 2.65× (20.5σ) | 31.0× (13.8σ) |
+| 1.0 | 0.023 | 34.7 | 1.15 | 1.16× | 2.62× | 30.6× |
+| 1.5 | 0.087 | 32.7 | 1.19 | 1.15× | 2.60× | 30.4× (13.8σ) |
+| 1.8 | 0.152 | 33.7 | 1.23 | 1.16× | 2.61× | 30.5× |
+| 2.0 | 0.208 | 35.9 | 1.27 | 1.16× | 2.63× | 30.7× |
+
+A tertiary of the size the 25-yr orbit implies changes the W4 excess by < 2% and keeps all SED checks passing. (W2 is 1.17× in this `_t9500` photosphere; the "1.009×" quoted on 11-16 came from a different photosphere fit.)
+
+**J2218 limb darkening (verified).** Per-sector Roche fits, T₁ 9500, q free, ntri 400, no smearing, S16/S17 dt, start `_persectorffi_l3_0.0`, same LD law for both stars:
+
+| LD | evals | χ² (χ²_red) | incl | k | T₂/T₁ | q |
+|---|---:|---:|---:|---:|---:|---:|
+| linear 0.35 (default) | 50 | 14803.6 (9.92) | 77.25 | 0.341 | 0.709 | 0.346 |
+| quadratic 0.15, 0.25 | 50 | 15012.2 | | | | |
+| quadratic 0.25, 0.25 | 125 | 14055.3 | | | | |
+| linear 0.50 | 75 (stopped by mistake) | 12779.6 | | | | |
+| linear 0.60 | 150 | 11780.9 (7.90) | 77.91 | 0.345 | 0.709 | 0.330 |
+| **linear 0.70** | 150 | **11570.7 (7.76)** | 78.05 | 0.348 | 0.710 | 0.324 |
+| linear 0.85 | 100 (stopped) | 12649.5 | | | | |
+
+- Stronger limb darkening lowers χ² by 3,233 (minimum near u = 0.7), with small geometry shifts (incl +0.8°, q 0.346 → 0.324).
+- **Inferred:** u = 0.7 is stronger than expected for a 9,500 K primary in TESS (~0.3–0.4); the fit uses one law for both stars, so it is probably compensating for the cooler secondary's limb darkening or another shape mismatch. Residuals at secondary ingress/egress (±5σ) and the primary shoulders remain (`_persector_persectorffi_ldlin070.png`), so LD is part of the χ²_red ~10, not all of it.
+- Not done: separate LD per star (the fitter has one `--ld` for both).
+
+## 2026-11-19 (daily cloud run, 08:51 UTC)
+
+**Environment.** Archive hosts still return 000 from the cloud (MAST, IRSA, Gaia, VizieR, DASCH/starglass, skydot/NSVS), checked at 08:52 and 11:48. No new TESS sectors (S122/S129 are 2027).
+
+**Code.** `fit_per_sector_dilution.py` and `persector_timing.py` take `--ld1` / `--ld2` (per-star coefficients, same `--ld-func`); the fit json now records `ld_func`, `ld`, `ld1`, `ld2`. New `src/checks/j2218_ld_grid_plot.py` → `_ld_grid.png` / `_ld_grid.json`.
+
+**J2218 per-star limb darkening (verified χ²; linear law; T₁ 9500, q free, Roche, ntri 400, no smearing, S16/S17 dt 11.7/10.9 min; 1514 sector-bins; 125–150 evals each).**
+
+| u₁ (primary) | u₂ (secondary) | χ² (χ²_red) | incl | k | T₂/T₁ | q |
+|---:|---:|---:|---:|---:|---:|---:|
+| 0.70 | 0.00 | **8350.8 (5.60)** | 78.32 | 0.354 | 0.712 | 0.333 |
+| 0.80 | 0.10 | 8517.2 (5.71) | 78.63 | 0.354 | 0.716 | 0.320 |
+| 0.60 | 0.00 | 8912.4 (5.97) | 78.25 | 0.353 | 0.712 | 0.344 |
+| 0.70 | 0.20 | 8968.3 (6.01) | 78.26 | 0.353 | 0.712 | 0.332 |
+| 0.60 | 0.20 | 9602.3 | 78.25 | 0.352 | 0.713 | 0.344 |
+| 0.85 | 0.20 | 9615.3 | 78.36 | 0.361 | 0.715 | 0.321 |
+| 0.70 | 0.40 | 9774.5 (6.55) | 78.19 | 0.352 | 0.711 | 0.331 |
+| 0.85 | 0.40 | 9956.5 | 78.44 | 0.356 | 0.715 | 0.321 |
+| 0.70 | 0.70 | 11570.7 (7.76) (11-18) | 78.05 | 0.348 | 0.710 | 0.324 |
+| 1.00 | 0.30 | 13342.4 | 78.30 | 0.359 | 0.716 | 0.305 |
+| 0.50 | 0.70 | 14029.5 | 78.08 | 0.352 | 0.714 | 0.368 |
+| 0.35 | 0.50 | 14343.3 (9.61) | 78.21 | 0.362 | 0.707 | 0.443 |
+| 0.35 | 0.70 | 15546.8 | 78.43 | 0.373 | 0.712 | 0.469 |
+
+(u₁ 0.35 / u₂ 0.9 was stopped on purpose at its start point, χ² 27393, the worst of the first four.)
+
+- χ² falls from 11571 (one law) to 8351 with u₁ ≈ 0.7 and u₂ at the edge of the grid (0). Geometry barely moves in the good fits: incl 78.2–78.6°, k 0.352–0.354, T₂/T₁ 0.712–0.716, q 0.32–0.34. Only the fits with u₁ = 0.35 push q up to 0.44–0.47, and they are 6,000 χ² worse.
+- **Inferred:** both preferred values are unphysical. Expected TESS linear coefficients are ~0.3–0.4 for 9,500 K and ~0.5–0.6 for 6,700 K (rough Claret-table values, not looked up today). The fit is using LD to mimic another brightness distribution. The residuals (`_persector_persectorffi_ld107_ld200.png`) keep the same pattern as before: data above the model on the primary-eclipse shoulders (+5σ) and below it on the secondary shoulders (−5σ). That is an out-of-eclipse shape mismatch near conjunction, which pointed at the reflection/irradiation treatment rather than LD; tested below.
+
+**J2218 re-timing with the u = 0.7 model (verified).** `persector_timing.py ... _persectorffi_ldlin070.json --ld 0.7 --maxshift-min 20`:
+
+| Sector | dt (u 0.35, 11-16) | dt (u 0.7) | dt (no irradiation, u 0.35/0.5) |
+|---|---:|---:|---:|
+| S16 | +11.7 min (upper edge of the ±12 scan) | **+13.0 (+12.6..+13.3)** | +12.5 (+12.3..+12.8) |
+| S17 | +10.9 | +11.5 (+11.2..+11.8) | +11.8 (+11.4..+12.3) |
+| S56 / S57 | −1.6 / −2.3 | −1.0 / −1.7 | −0.7 / −1.6 |
+| S76 / S77 | −1.5 / −0.4 | −0.7 / 0.0 | −0.4 / +0.3 |
+| S83 / S84 | +0.9 / +0.6 | +1.2 / +1.3 | +1.4 / +1.5 |
+
+- The S16/S17 offset is LD- and irradiation-independent to within ~1.5 min. With the old ±12 min scan window S16 sat on the edge, so its true offset was ≥ 12 min; the O−C points used for the LTTE fit move by < 1.5 min, far below the plate errors.
+
+**J2218 without irradiation (verified χ²; `--no-irrad`, otherwise as above, 100 evals, start `_ld107_ld200`).**
+
+| u₁ | u₂ | χ² (χ²_red) | incl | k | T₂/T₁ | q |
+|---:|---:|---:|---:|---:|---:|---:|
+| **0.35** | **0.50** | **6867.5 (4.60)** | 77.91 | 0.366 | 0.721 | 0.369 |
+| 0.50 | 0.50 | 7715.3 (5.17) | 78.08 | 0.363 | 0.723 | 0.333 |
+| 0.70 | 0.40 | 9811.6 (6.58) | 78.35 | 0.358 | 0.726 | 0.297 |
+| 0.70 | 0.00 | 11036.4 (7.40) | 78.39 | 0.358 | 0.723 | 0.323 |
+
+- **Verified:** with irradiation off, the physically expected LD (u₁ 0.35, u₂ 0.5) gives the best χ² of any J2218 fit so far, 1,483 below the best irradiated fit and 7,936 below the 11-17 baseline (14,804). The unphysical LD values were compensating for the reflection effect.
+- **Verified:** the residual pattern flips sign (`_persector_persectorffi_noirr_ld1035_ld205.png`): now the model is above the data on the primary shoulders (−4σ) and below it on the secondary shoulders (+3σ). So the real reflection is between PHOEBE's full irradiation and none.
+- q moves to 0.37, closer to the Gaia SB1 value (~0.40, from K₁ 74 km/s; inferred mass function). incl, k and T₂/T₁ shift by < 0.5°, 0.012 and 0.01.
+- **Next (inferred):** fit the irradiation (reflection) fraction as a free parameter with LD at expected values; this should remove most of the remaining shoulder residuals.

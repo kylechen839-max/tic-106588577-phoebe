@@ -35,6 +35,8 @@ def main():
     ap.add_argument("--grid-step", type=float, default=0.0001, help="phase step of the model grid near eclipses")
     ap.add_argument("--period", type=float, default=None, help="the fit's --period, if it overrode the ephemeris")
     ap.add_argument("--ld", default=None, help="limb-darkening coefficient(s), comma-separated, as the fit's --ld")
+    ap.add_argument("--ld1", default=None, help="primary-only LD coefficient(s), as the fit's --ld1")
+    ap.add_argument("--ld2", default=None, help="secondary-only LD coefficient(s), as the fit's --ld2")
     ap.add_argument("--ld-func", default="linear", help="limb-darkening law, as the fit's --ld-func")
     ap.add_argument("--maxshift-min", type=float, default=12.0)
     args = ap.parse_args()
@@ -65,6 +67,7 @@ def main():
     ph = np.unique(ph)
     gt = t0 + ph * P
     ldtag = ("_ld" + args.ld_func + str(args.ld)) if args.ld else ""
+    ldtag += (f"_p{args.ld1}" if args.ld1 else "") + (f"_s{args.ld2}" if args.ld2 else "")
     cache = cdir / f"{name}_timing_model_{Path(args.result).stem}_{args.grid_step:g}_n{args.ntri}{ldtag}.npz"
     if cache.exists():
         z = np.load(cache)
@@ -78,6 +81,10 @@ def main():
       if args.ld is not None:
           m.b.set_value_all("ld_func@lc01", args.ld_func)
           m.b.set_value_all("ld_coeffs@lc01", [float(x) for x in str(args.ld).split(",")])
+      for comp, val in (("primary", args.ld1), ("secondary", args.ld2)):
+          if val is not None:
+              m.b.set_value("ld_func", component=comp, dataset="lc01", value=args.ld_func)
+              m.b.set_value("ld_coeffs", component=comp, dataset="lc01", value=[float(x) for x in str(val).split(",")])
       m.set(v)
       m.b.run_compute(compute="phoebe01", model="ps", overwrite=True, progressbar=False)
       mf = np.asarray(m.b.get_value("fluxes@lc01@ps@model"), float)

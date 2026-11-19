@@ -246,3 +246,33 @@ At 12 µm J2312 is point-like; at 22 µm it is not. Taken at face value, the ext
 - **Best fit:** an extended component with FWHM ≈ 25″ carrying ~7.6 mJy, and a compact source of 4.7 mJy. That is the photosphere plus ~0.4 mJy (1.1×, ~0.5σ). So the whole 22 µm excess can be explained by dust that is extended on ~10⁴ AU scales.
 - **Allowed range** (rms within 10% of the best; a rough criterion because the pixels are correlated): compact fraction 0.35–0.70, halo FWHM 16–40″. That allows a compact excess of **0 to ~4.3 mJy (≤ 2× the photosphere)** and an extended component of 3.7–7.9 mJy.
 - **Interpretation (inferred):** WISE cannot separate a compact disk excess from extended dust here. The data allow anything from no disk excess to about half of the ~8 mJy excess being compact. The preferred solution has essentially all of it extended. The compact (disk) excess is ≲ 4 mJy, and consistent with zero.
+- **Figure** `j2312_compact_vs_extended.png` shows the best fit (left) and the most compact model allowed by the 10% criterion (right). The right-hand model already overshoots the central profile by ~20%, so the 10% criterion is generous. The real upper limit on a compact excess is probably below ~4 mJy.
+
+## Correction: profile and compact/extended split with the nebula model removed (2026-11-16, Kyle's PC)
+
+`src/checks/j2312_profile_nebula_removed.py` re-implements method B without astropy.wcs and reproduces it: 11.6 mJy (2.69×, 8.3σ), with the same template scale s = 0.0381. It then repeats the profile and split on the nebula-subtracted image. Output: `j2312_profile_nebula_removed.png` and `_log.txt`.
+
+| W4 FWHM (radial profile) | |
+|---|---|
+| field stars, median / 95% (n = 33) | 18.4″ / 18.8″ |
+| J2312, plane background only (as in `j2312_w4_profile.png`) | 24.9″ |
+| **J2312, 12 µm-map nebula model removed** | **20.3″** |
+
+- **Most of the earlier broadening was the ridge itself.** With the nebula model removed, J2312 is only slightly wider than a point source: wider at 5–15″ and identical beyond ~17″.
+- **The compact/extended split is now unconstrained.** A point source alone fits as well as point + extended (rms 1.47 vs 1.46 ×10⁻⁴). The best fit has a 6″ "halo", with compact = photosphere + 3.1 mJy. Within 10% of the best rms, the compact excess can be anything from 0 to 7.2 mJy, i.e. none to all of it.
+- **This supersedes the plane-only split above.** That split said "best fit: excess all extended; compact ≲ 4 mJy". It treated ridge light inside 30″ as extended dust around the star. After removing the nebula, WISE can neither confirm nor rule out that the remaining ~7.3 mJy excess is compact.
+- **What remains true:** J2312's W4 source is still slightly broader than field stars after nebula removal (20.3″ vs ≤ 18.8″). So some extended emission near the star is likely, but its share is not measured.
+
+## False-alarm test: can the nebula alone mimic J2312's excess? (2026-11-16, Kyle's PC)
+
+`src/checks/j2312_false_alarm.py`, output in `j2312_false_alarm_log.txt`. The 12 µm-map nebula model (method B, re-implemented) is removed. A·PSF + constant is then fitted within 25″ at random positions within ~100″ of J2312 (excluding J2312's inner 40″), and at J2312. Fluxes use the same calibration as the 11.6 mJy result. No other > 5σ compact peak lies within 100″, so nothing nebular was excluded.
+
+| Positions | n | Fake point-source flux: median [16–84%] | Max | ≥ 3 mJy | ≥ 7.5 mJy |
+|---|---|---|---|---|---|
+| On the ridge (nebula model ≥ 50% of its level at J2312) | 1,091 | −0.22 [−0.92, +0.42] mJy | +1.86 mJy | 0 | 0 |
+| Whole field within ~100″ | 3,000 | −0.03 [−0.70, +0.65] mJy | +1.86 mJy | 0 | 0 |
+| **J2312** | | **excess 7.5 mJy over the 4.31 mJy photosphere** | | | |
+
+- **Verified:** after the nebula model is removed, the ridge produces no compact residual above 1.9 mJy anywhere within ~100″. J2312's 7.5 mJy is ~12σ above the empirical scatter (0.63 mJy). The positions overlap, so only ~100 are independent beams. The empirical false-alarm rate is therefore < ~1%, not the Gaussian value.
+- For scale, the nebula model itself puts ~7.2 mJy-equivalent inside the 16.5″ aperture at the star, and that has already been subtracted. To explain the excess, the nebula right at the star would need to be about twice as bright as the 12 µm map predicts, and concentrated within ~10″. Nothing like that occurs anywhere else on the ridge.
+- **Not excluded (assumed):** dust heated locally by J2312 itself, which by construction exists only at the star. The random positions cannot test it. The colour test (excess 2–8× redder than the halo) and the small residual broadening (20.3″ vs ≤ 18.8″) are the relevant constraints there.

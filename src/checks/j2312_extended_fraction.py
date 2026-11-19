@@ -76,3 +76,32 @@ for lab, fc in (("best", grid[0][2]), ("max allowed", max(fcs))):
     Fc = fc * Ftot
     print(f"  {lab}: compact {Fc:.1f} mJy -> compact excess {Fc - 4.31:.1f} mJy ({Fc / 4.31:.2f}x photosphere), "
           f"extended {Ftot - Fc:.1f} mJy")
+
+# Figure: J2312 radial profile vs best compact+extended model and the max-compact allowed model
+import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
+edges = np.arange(0, 36, PIX); rc = 0.5 * (edges[1:] + edges[:-1])
+def prof(a):
+    return np.array([np.nanmean(a[(rr >= p) & (rr < q)]) for p, q in zip(edges[:-1], edges[1:])])
+def model(g, fc):
+    ext = ndimage.gaussian_filter(psf, g / 2.3548 / PIX); ext /= np.nansum(ext[m])
+    return fc * psf, (1 - fc) * ext
+gb, fb = grid[0][1], grid[0][2]
+okmax = max(ok, key=lambda x: x[2]); gm, fm = okmax[1], okmax[2]
+pd_ = prof(data); norm = pd_[0]
+fig, axs = plt.subplots(1, 2, figsize=(12, 4.6), sharey=True)
+for ax, (g, fc, title) in zip(axs, ((gb, fb, f"best fit: compact {fb * Ftot:.1f} mJy (photosphere + {fb * Ftot - 4.31:.1f}), extended {Ftot * (1 - fb):.1f} mJy"),
+                                    (gm, fm, f"most compact still allowed: compact {fm * Ftot:.1f} mJy (photosphere + {fm * Ftot - 4.31:.1f})"))):
+    c_, e_ = model(g, fc)
+    pc, pe = prof(c_) / norm, prof(e_) / norm
+    ph = prof(psf * (4.31 / Ftot)) / norm
+    ax.fill_between(rc, 0, ph, color="#cde2fb", label="photosphere (4.31 mJy, point source)")
+    ax.plot(rc, pc, color="#2a78d6", lw=2, label=f"compact (point source)")
+    ax.plot(rc, pe, color="#eb6834", lw=2, label=f"extended (PSF ⊗ {g}″ Gaussian)")
+    ax.plot(rc, pc + pe, color="#0b0b0b", lw=1.5, ls="--", label="compact + extended")
+    ax.plot(rc, pd_ / norm, "o", color="#0b0b0b", ms=4, label="J2312 W4 data")
+    ax.set_title(title, fontsize=9.5, loc="left"); ax.set_xlabel("radius (arcsec)"); ax.set_xlim(0, 35)
+    for s in ("top", "right"): ax.spines[s].set_visible(False)
+axs[0].set_ylabel("brightness / central data value"); axs[0].legend(fontsize=8, frameon=False)
+fig.suptitle("J2312 at 22 µm: how much of the light is compact vs extended (total 12.25 mJy at the star)", x=0.01, ha="left", fontsize=12, fontweight="bold")
+fig.tight_layout(); fig.savefig(ROOT_OUT := Path(__file__).resolve().parents[2] / "outputs" / "j2312_contamination" / "j2312_compact_vs_extended.png", dpi=150)
+print("saved", ROOT_OUT)

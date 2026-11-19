@@ -162,6 +162,10 @@ def main():
     ap.add_argument("--ld", default=None,
                     help="limb-darkening coefficient(s) for both stars in TESS, comma-separated for two-coefficient laws "
                          "(default: run_phoebe_candidate's linear 0.35 above 9000 K, else 0.5)")
+    ap.add_argument("--ld1", default=None,
+                    help="limb-darkening coefficient(s) for the primary only (overrides --ld for that star)")
+    ap.add_argument("--ld2", default=None,
+                    help="limb-darkening coefficient(s) for the secondary only (overrides --ld for that star)")
     ap.add_argument("--ld-func", default="linear", choices=["linear", "quadratic", "logarithmic", "square_root"],
                     help="limb-darkening law used with --ld")
     ap.add_argument("--sector-dt", action="append", default=[], metavar="SECTOR=MIN",
@@ -216,6 +220,10 @@ def main():
     if args.ld is not None:
         m.b.set_value_all("ld_func@lc01", args.ld_func)
         m.b.set_value_all("ld_coeffs@lc01", [float(x) for x in str(args.ld).split(",")])
+    for comp, val in (("primary", args.ld1), ("secondary", args.ld2)):
+        if val is not None:
+            m.b.set_value("ld_func", component=comp, dataset="lc01", value=args.ld_func)
+            m.b.set_value("ld_coeffs", component=comp, dataset="lc01", value=[float(x) for x in str(val).split(",")])
     oot_idx = np.abs(rpc.phase_values(gt, t0, period)) > 0.15   # for normalising to 1 out of eclipse
 
     def interp_model(pred_grid):
@@ -233,7 +241,7 @@ def main():
     log(f"=== {name} per-sector dilution fit: sectors {sorted(bins)}, {nbin} sector-bins, "
         f"{len(uph)} model phases, Teff1={args.teff:.0f}, l3={args.l3}, scale prior {args.scale_prior}, "
         f"{distortion}, free {free}, cadence (min) {({s: round(c * 1440, 1) for s, c in cadence.items()})}, "
-        f"smeared {[s for s in bins if len(offs[s]) > 1]}, ld {args.ld_func} {args.ld}, sector dt (min) {args.sector_dt}, start {args.start_from}")
+        f"smeared {[s for s in bins if len(offs[s]) > 1]}, ld {args.ld_func} {args.ld} (primary {args.ld1}, secondary {args.ld2}), sector dt (min) {args.sector_dt}, start {args.start_from}")
     best = {"chi2": np.inf, "v": v0}
     n = {"evals": 0}
 
@@ -276,7 +284,8 @@ def main():
     bmean = np.mean([b for _, b in coefs.values()])
     res = {
         "designation": name, "teff1": args.teff, "params": free, "v": list(map(float, v)),
-        "l3": args.l3, "scale_prior": args.scale_prior, "smeared_sectors": [s for s in bins if len(offs[s]) > 1],
+        "l3": args.l3, "ld_func": args.ld_func, "ld": args.ld, "ld1": args.ld1, "ld2": args.ld2,
+        "scale_prior": args.scale_prior, "smeared_sectors": [s for s in bins if len(offs[s]) > 1],
         "mean_depth_scale_b": float(np.mean([b for _, b in coefs.values()])),
         "start_from": args.start_from, "n_sector_bins": nbin, "sectors": sorted(bins),
         "chi2_start_per_sector": c0, "chi2_start_common": c0_common,

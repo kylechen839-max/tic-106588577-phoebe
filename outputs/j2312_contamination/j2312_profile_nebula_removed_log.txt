@@ -1,0 +1,7 @@
+PSFs: W4 33 stars, FWHM 18.5"; W3 60 stars, FWHM 12.7"
+method B (re-implemented): W4 at star 11.61 mJy = 2.69x photosphere, 8.3 sigma; template scale s = 0.0381; 1963 W3 px masked
+FWHM: field stars median 18.4" (95% 18.8"); J2312 plane-only 24.9"; J2312 nebula removed 20.3"
+split: point source alone rms 1.47e-04; best rms 1.46e-04 at halo 6", compact fraction 0.64
+  best: compact 7.4 mJy = photosphere + 3.1 mJy (1.73x), extended 4.2 mJy
+  least compact within 10%: compact 4.3 mJy = photosphere + 0.0 mJy (1.00x), extended 7.3 mJy
+  most compact within 10%: compact 11.5 mJy = photosphere + 7.2 mJy (2.67x), extended 0.1 mJy
