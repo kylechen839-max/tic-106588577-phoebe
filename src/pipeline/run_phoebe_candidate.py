@@ -129,6 +129,11 @@ class Model:
             self.b.set_value("l3_frac@lc01", d["l3"])
         if "q" in d:
             self.b.set_value("q@binary", d["q"])
+        for key, comp in (("alb1", "primary"), ("alb2", "secondary")):   # free reflection (bolometric albedo)
+            if key in d:
+                if not 0.0 <= d[key] <= 1.0:
+                    raise ValueError(f"{key} out of [0, 1]")
+                self.b.set_value(f"irrad_frac_refl_bol@{comp}", d[key])
         if "ecosw" in d:
             ecc = math.hypot(d["ecosw"], d["esinw"])
             if ecc >= 0.9:

@@ -1184,3 +1184,14 @@ Builds on the "J2218 O−C check" on branch `claude/project-thread-5mcxzc` (draf
 - **Verified:** the S16/S17 eclipse-timing offset is LD-independent (+13.0 / +11.5 min with u 0.7 and +12.5 / +11.8 with no irradiation, vs +11.7 / +10.9 with u 0.35; the old S16 value hit the ±12 min scan edge).
 - **Inferred:** geometry is stable across all of this (incl 77.9–78.6°, k 0.35–0.37), so none of it affects the W4 excess or the timing result; q (0.32–0.37) is the most model-dependent number.
 
+### J2218: free reflection albedo (2026-11-20 daily run, fits stopped by a container restart)
+
+| Fit (per-sector, Roche, q free, u₁ 0.35 / u₂ 0.5, 1514 bins) | χ² (χ²_red) | alb₂ | incl | k | T₂/T₁ | q |
+|---|---:|---:|---:|---:|---:|---:|
+| 11-19: reflection off | 6867.5 (4.60) | 0 | 77.91 | 0.366 | 0.721 | 0.369 |
+| **11-20: secondary albedo free (75 of 200 evals)** | **4149.4 (2.78)** | 0.41 | 77.87 | 0.370 | 0.710 | 0.396 |
+| 11-20: both albedos free (75 evals; alb₁ 0.77) | 4178.1 (2.80) | 0.37 | 77.86 | 0.373 | 0.711 | 0.392 |
+
+- **Verified:** partial reflection (secondary albedo ≈ 0.4, reached from starts at 0.3 and 0.6) is J2218's best model so far; q ≈ 0.39–0.40 now agrees with the Gaia SB1 estimate (inferred).
+- Not converged; checkpoints are the `_partial.json` files.
+

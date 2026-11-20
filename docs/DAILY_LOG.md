@@ -909,3 +909,24 @@ A tertiary of the size the 25-yr orbit implies changes the W4 excess by < 2% and
 - **Verified:** the residual pattern flips sign (`_persector_persectorffi_noirr_ld1035_ld205.png`): now the model is above the data on the primary shoulders (−4σ) and below it on the secondary shoulders (+3σ). So the real reflection is between PHOEBE's full irradiation and none.
 - q moves to 0.37, closer to the Gaia SB1 value (~0.40, from K₁ 74 km/s; inferred mass function). incl, k and T₂/T₁ shift by < 0.5°, 0.012 and 0.01.
 - **Next (inferred):** fit the irradiation (reflection) fraction as a free parameter with LD at expected values; this should remove most of the remaining shoulder residuals.
+
+## 2026-11-20 (daily cloud run, 08:51 UTC; stopped early by a container restart)
+
+**Environment.** All archive hosts still return 000 from the cloud (MAST, IRSA, Gaia, VizieR, CDS XMatch, SkyView, DASCH/starglass, skydot/NSVS). No NSVS retry possible. The container restarted at about 09:30 UTC and killed the four fits below; per the routine, nothing was relaunched.
+
+**Code.** `run_phoebe_candidate.Model.set` accepts `alb1` / `alb2` (bolometric reflection albedo `irrad_frac_refl_bol` of the primary / secondary, bounded 0–1). `fit_per_sector_dilution.py` has `--fit-alb secondary|both` and `--alb-start` (needs irradiation on).
+
+**J2218 with the reflection albedo free (verified χ² at the checkpoint; fits NOT converged, stopped at 75–100 of 200 evals).** Start `_persectorffi_noirr_ld1035_ld205` (χ² 6867.5), u₁ 0.35, u₂ 0.5, irradiation on, q free, Roche, ntri 400, no smearing, S16/S17 dt 11.7/10.9 min. χ²_red uses 1514 − 23 dof.
+
+| Run (`_persectorffi_…`) | free albedo, start | evals | χ² (χ²_red) | alb₁ | alb₂ | incl | k | T₂/T₁ | q |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| `albs03_ld1035_ld205` | secondary, 0.3 | 75 | **4149.4 (2.78)** | (1.0 fixed) | 0.41 | 77.87 | 0.370 | 0.710 | 0.396 |
+| `albb06_ld1035_ld205` | both, 0.6 | 75 | 4178.1 (2.80) | 0.77 | 0.37 | 77.86 | 0.373 | 0.711 | 0.392 |
+| `albb03_ld1035_ld205` | both, 0.3 | 100 | 4255.9 (2.85) | 0.36 | 0.29 | 77.91 | 0.366 | 0.717 | 0.379 |
+| `albs06_ld1035_ld205` | secondary, 0.6 | 75 | 4284.4 (2.87) | (1.0 fixed) | 0.41 | 77.92 | 0.372 | 0.711 | 0.394 |
+
+- **Verified:** a partial reflection with physical limb darkening cuts χ² from 6867.5 (no reflection) to ≤ 4149.4, a 40% drop, and from 14803.6 at the 11-17 baseline (χ²_red 9.92 → 2.78). This is J2218's best fit so far.
+- **Verified:** both secondary-only starts (0.3 and 0.6) move to alb₂ ≈ 0.41. The primary's albedo is poorly constrained (0.36 vs 0.77 from two starts, Δχ² < 80), as expected because the cool secondary barely heats the hot primary (inferred).
+- **Verified:** q rises to 0.38–0.40, now matching the Gaia SB1 estimate (~0.40, inferred from K₁ 74 km/s). incl (77.9°) and k (0.37) are unchanged.
+- **Inferred:** an albedo of ~0.4 is plausible for a ~6,700 K star near the convective/radiative boundary (0.5 convective, 1.0 radiative).
+- Not done (restart): converged fits, residual plots, and the re-timing with this model.

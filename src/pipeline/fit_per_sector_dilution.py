@@ -32,7 +32,7 @@ sys.path.insert(0, str(ROOT / "src" / "pipeline"))
 import run_phoebe_candidate as rpc  # noqa: E402
 
 FREE = ["incl", "dt0", "rsum", "k", "teffratio"]
-STEP = {"incl": 0.3, "dt0": 0.0005, "rsum": 0.004, "k": 0.03, "teffratio": 0.03, "ecosw": 0.001, "esinw": 0.01, "q": 0.08}
+STEP = {"incl": 0.3, "dt0": 0.0005, "rsum": 0.004, "k": 0.03, "teffratio": 0.03, "ecosw": 0.001, "esinw": 0.01, "q": 0.08, "alb1": 0.2, "alb2": 0.2}
 SMEAR = (-1 / 3, 0.0, 1 / 3)  # exposure average: 3 sub-exposures at the centres of its thirds
 
 
@@ -154,6 +154,10 @@ def main():
     ap.add_argument("--fit-q", action="store_true", help="also fit the mass ratio (starts at --q unless --start-from has q)")
     ap.add_argument("--no-smear", action="store_true",
                     help="do not average the model over the exposure for sectors with cadence > 5 min")
+    ap.add_argument("--fit-alb", choices=["secondary", "both"], default=None,
+                    help="also fit the reflection albedo (irrad_frac_refl_bol, 0..1) of the secondary or both stars; "
+                         "needs irradiation on (no --no-irrad)")
+    ap.add_argument("--alb-start", type=float, default=0.5, help="start albedo for --fit-alb when --start-from has none")
     ap.add_argument("--l3", type=float, default=0.0, help="third-light fraction in the model (e.g. from TIC contamination)")
     ap.add_argument("--scale-prior", type=float, default=None,
                     help="sigma of a prior that the mean per-sector depth scale is 1 (needs a realistic --l3)")
@@ -180,6 +184,10 @@ def main():
     period = args.period or eph["period"]
     t0 = eph["t0"]
     free = FREE + (["ecosw", "esinw"] if args.eccentric else []) + (["q"] if args.fit_q else [])
+    if args.fit_alb:
+        if args.no_irrad:
+            raise SystemExit("--fit-alb needs irradiation on")
+        free += (["alb1"] if args.fit_alb == "both" else []) + ["alb2"]
     rpc.PARAMS[:] = list(free)
     m1, _ = rpc.ms_mass_radius(args.teff)
     distortion = args.distortion or ("roche" if period < 3 else "sphere")
@@ -192,6 +200,8 @@ def main():
         d = dict(sf)
         d["dt0"] = sf["t0"] - t0
     d.setdefault("q", args.q)
+    d.setdefault("alb1", args.alb_start)
+    d.setdefault("alb2", args.alb_start)
     v0 = np.array([d[n] for n in free], float)
 
     # phase bins: midpoints between the candidate's adaptive _binned.txt phases
