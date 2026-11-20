@@ -1,0 +1,4 @@
+=== J160415.99-562627.3 per-sector dilution fit: sectors [12, 39, 65, 102, 103], 966 sector-bins, 966 model phases, Teff1=14140, l3=0.0, scale prior None, roche, free ['incl', 'dt0', 'rsum', 'k', 'teffratio', 'ecosw', 'esinw'], cadence (min) {12: 30.0, 39: 10.0, 65: 3.3, 102: 3.3, 103: 3.3}, smeared [], start outputs/candidates/J160415.99-562627.3/J160415.99-562627.3_persector_persectorffi3_partial.json
+  start: chi2 per-sector 7407.3, common 10624.2 (966 bins)
+  done: chi2 per-sector 7407.3 (red 7.81), common 10624.2 (red 11.10); depth scales S12 1.005, S39 1.004, S65 0.979, S102 1.011, S103 1.001
+  params {'incl': np.float64(86.14018), 'dt0': np.float64(0.00105), 'rsum': np.float64(0.38593), 'k': np.float64(0.80058), 'teffratio': np.float64(0.97704), 'ecosw': np.float64(0.06204), 'esinw': np.float64(-0.01191)}; mean b 0.876

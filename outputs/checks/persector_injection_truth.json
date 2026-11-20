@@ -1,0 +1,22 @@
+{
+ "params": [
+  "incl",
+  "dt0",
+  "rsum",
+  "k",
+  "teffratio"
+ ],
+ "v": [
+  89.5,
+  0.0026,
+  0.134,
+  0.32,
+  0.59
+ ],
+ "depth_scale": {
+  "10": 0.7000000000000001,
+  "11": 1.4000000000000001,
+  "37": 0.9000000000000001
+ },
+ "note": "start the fitter from perturbed params (persector_injection_start.json)"
+}

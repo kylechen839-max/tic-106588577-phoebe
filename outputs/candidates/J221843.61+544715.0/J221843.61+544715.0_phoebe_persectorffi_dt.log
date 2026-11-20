@@ -1,0 +1,7 @@
+=== J221843.61+544715.0 per-sector dilution fit: sectors [16, 17, 56, 57, 76, 77, 83, 84], 1514 sector-bins, 1514 model phases, Teff1=9500, l3=0.0, scale prior None, roche, free ['incl', 'dt0', 'rsum', 'k', 'teffratio', 'q'], cadence (min) {16: 30.0, 17: 30.0, 56: 3.3, 57: 3.3, 76: 3.3, 77: 3.3, 83: 3.3, 84: 3.3}, smeared [], ld linear None, sector dt (min) ['16=11.7', '17=10.9'], start outputs/candidates/J221843.61+544715.0/J221843.61+544715.0_persector_persectorffi_partial.json
+  start: chi2 per-sector 15381.1, common 16708.1 (1514 bins)
+  eval 25: best chi2 14982.9
+  eval 50: best chi2 14901.3
+  eval 75: best chi2 14827.1
+  done: chi2 per-sector 14819.6 (red 9.93), common 16157.5 (red 10.73); depth scales S16 1.004, S17 1.007, S56 1.010, S57 1.006, S76 0.995, S77 0.984, S83 0.990, S84 1.004
+  params {'incl': np.float64(77.24781), 'dt0': np.float64(0.00025), 'rsum': np.float64(0.45327), 'k': np.float64(0.34089), 'teffratio': np.float64(0.70884), 'q': np.float64(0.34566)}; mean b 1.023

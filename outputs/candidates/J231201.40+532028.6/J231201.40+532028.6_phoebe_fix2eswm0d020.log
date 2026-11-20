@@ -1,0 +1,34 @@
+=== J231201.40+532028.6 2026-10-19T09:57:21.741435+00:00  P=6.849530 t0=2868.13335 Teff1=9932 M1~2.50 q=0.8 distortion=sphere nbins=223
+  bound override: esinw in (-0.022, -0.018)
+  eccentric: secondary at phase 0.4990 -> ecosw0=-0.0016, esinw0=0.041
+  sma=25.04 Rsun, eclipse width 0.070 -> rsum0=0.185, teffratio0=0.98
+  skipping grid: starting from outputs/candidates/J231201.40+532028.6/J231201.40+532028.6_seed_fix2eswm0d020.json (its chi2 nan)
+grid best chi2=nan (0s)
+  local-opt eval 25: best chi2 403.67
+  local-opt eval 50: best chi2 386.60
+  local-opt eval 75: best chi2 347.32
+  local-opt eval 100: best chi2 347.32
+  local-opt eval 125: best chi2 347.32
+  local-opt eval 150: best chi2 346.40
+  local-opt eval 175: best chi2 346.40
+  local-opt eval 200: best chi2 346.40
+  local-opt eval 225: best chi2 343.96
+  local-opt eval 250: best chi2 343.96
+  local-opt eval 275: best chi2 343.96
+  local-opt eval 300: best chi2 343.96
+  local-opt eval 325: best chi2 343.96
+  local-opt eval 350: best chi2 343.96
+  local-opt eval 375: best chi2 343.96
+  local-opt eval 400: best chi2 343.96
+  local-opt eval 425: best chi2 343.96
+  local-opt eval 450: best chi2 343.96
+  local-opt eval 475: best chi2 343.96
+  local-opt eval 500: best chi2 343.96
+  local-opt eval 525: best chi2 343.96
+  local-opt eval 550: best chi2 343.96
+  start 1/1 (grid chi2 nan) -> chi2 343.96
+local-opt (Nelder-Mead) chi2=343.96 after 560 evals v=[82.83437, -0.00326, 0.29035, 0.67413, 0.98514, -0.0025, -0.01991]
+  emcee 16x30 in 1049s, acc=0.33
+{"incl": 82.62224452366969, "r1_frac": 0.1742363098426302, "r2_frac": 0.11863755901290642, "teffratio": 0.9854526251978104, "chi2_final_hires": 198.07188688664218, "passes_all": false}
+photometry: {"chi2": 198.07188688664218, "dof": 215, "chi2_red": 0.9212645901704287, "rms": 0.004108799752440613, "primary_mean_resid": -0.009124356538304772, "primary_bias_sigma": -2.2797213584215603, "secondary_mean_resid": 0.0070992738307294745, "secondary_bias_sigma": 4.498163611207625, "pass_fit": true, "pass_no_eclipse_bias": false}
+blackbody: {"binary_photosphere_chi2_JHKW1": 1.6117181154021627, "photometric_distance_pc": 747.7488908520986, "gaia_distance_pc": 741.7925, "distance_ratio_phot_over_gaia": 1.0080297264425007, "excess_vs_binary_photosphere": {"W2": {"ratio": 0.9532741977243749, "sigma": -1.7739525293674332}, "W3": {"ratio": 1.2372138580023107, "sigma": 6.939023307291512}, "W4": {"ratio": 3.565661397884741, "sigma": 12.600618736976493}}, "pass_photosphere": true, "pass_distance": true, "pass_excess_survives": true}

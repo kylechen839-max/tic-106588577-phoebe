@@ -1,0 +1,19 @@
+Connection to online passbands at https://tables.phoebe-project.org could not be established.  Check your internet connection or try again later (can manually call phoebe.list_online_passbands(refresh=True) to retry).  If the problem persists and you're using a Mac, you may need to update openssl (see https://phoebe-project.org/help/faq). Original error from urlopen: URLError <urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>
+=== J221843.61+544715.0 per-sector dilution fit: sectors [16, 17, 56, 57, 76, 77, 83, 84], 1514 sector-bins, 1514 model phases, Teff1=9500, l3=0.0, scale prior None, roche, free ['incl', 'dt0', 'rsum', 'k', 'teffratio', 'q'], cadence (min) {16: 30.0, 17: 30.0, 56: 3.3, 57: 3.3, 76: 3.3, 77: 3.3, 83: 3.3, 84: 3.3}, smeared [], ld linear 0.7 (primary 0.85, secondary 0.4), sector dt (min) ['16=11.7', '17=10.9'], start outputs/candidates/J221843.61+544715.0/J221843.61+544715.0_persector_persectorffi_ld107_ld204.json
+  start: chi2 per-sector 12074.4, common 13472.0 (1514 bins)
+  eval 25: best chi2 10617.2
+  eval 50: best chi2 9996.8
+  eval 75: best chi2 9996.8
+  eval 100: best chi2 9956.5
+  eval 125: best chi2 9956.5
+  eval 150: best chi2 9956.5
+  done: chi2 per-sector 9956.5 (red 6.67), common 11336.3 (red 7.53); depth scales S16 1.005, S17 1.005, S56 1.011, S57 1.007, S76 0.995, S77 0.983, S83 0.990, S84 1.005
+  params {'incl': np.float64(78.43697), 'dt0': np.float64(-9e-05), 'rsum': np.float64(0.45072), 'k': np.float64(0.35641), 'teffratio': np.float64(0.71527), 'q': np.float64(0.32147)}; mean b 0.896
+ 10617.2
+  eval 50: best chi2 9996.8
+  eval 75: best chi2 9996.8
+  eval 100: best chi2 9956.5
+  eval 125: best chi2 9956.5
+  eval 150: best chi2 9956.5
+  done: chi2 per-sector 9956.5 (red 6.67), common 11336.3 (red 7.53); depth scales S16 1.005, S17 1.005, S56 1.011, S57 1.007, S76 0.995, S77 0.983, S83 0.990, S84 1.005
+  params {'incl': np.float64(78.43697), 'dt0': np.float64(-9e-05), 'rsum': np.float64(0.45072), 'k': np.float64(0.35641), 'teffratio': np.float64(0.71527), 'q': np.float64(0.32147)}; mean b 0.896

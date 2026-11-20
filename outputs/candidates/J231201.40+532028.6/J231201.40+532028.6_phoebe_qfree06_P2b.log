@@ -1,0 +1,5 @@
+=== J231201.40+532028.6 per-sector dilution fit: sectors [16, 17, 57], 649 sector-bins, 649 model phases, Teff1=9932, l3=0.0, scale prior None, roche, free ['incl', 'dt0', 'rsum', 'k', 'teffratio', 'ecosw', 'esinw', 'q'], cadence (min) {16: 30.0, 17: 30.0, 57: 3.3}, smeared [], start outputs/candidates/J231201.40+532028.6/start_qfree06_P2_dt0shift.json
+  start: chi2 per-sector 4764.4, common 5379.5 (649 bins)
+  eval 25: best chi2 4764.4
+  eval 50: best chi2 4764.4
+  eval 75: best chi2 4764.4

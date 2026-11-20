@@ -1,0 +1,20 @@
+33 field stars in the PSF
+halo FWHM  4" -> extended fraction  1.00, rms resid 4.25e-03
+halo FWHM  6" -> extended fraction  1.00, rms resid 1.76e-03
+halo FWHM  8" -> extended fraction  1.00, rms resid 8.64e-04
+halo FWHM 10" -> extended fraction  1.00, rms resid 4.54e-04
+halo FWHM 13" -> extended fraction  1.00, rms resid 1.95e-04
+halo FWHM 16" -> extended fraction  0.91, rms resid 1.64e-04
+halo FWHM 20" -> extended fraction  0.74, rms resid 1.63e-04
+halo FWHM 25" -> extended fraction  0.62, rms resid 1.62e-04
+halo FWHM 30" -> extended fraction  0.54, rms resid 1.64e-04
+point source alone: rms resid 2.13e-04
+F_total 11.8 mJy: extended 7.3 mJy, compact 4.5 mJy -> compact excess 0.2 mJy (1.05x photosphere, 0.3 sigma)
+F_total 12.3 mJy: extended 7.6 mJy, compact 4.7 mJy -> compact excess 0.4 mJy (1.10x photosphere, 0.5 sigma)
+F_total 12.5 mJy: extended 7.7 mJy, compact 4.8 mJy -> compact excess 0.5 mJy (1.12x photosphere, 0.6 sigma)
+best halo FWHM 25", extended fraction 0.62
+
+constrained (fc >= 0.35): best rms 1.62e-04 at halo 25", fc 0.38; pixel noise ~1.5e-04
+within 10% of best rms: fc 0.35-0.70, halo FWHM 16-40"
+  best: compact 4.7 mJy -> compact excess 0.4 mJy (1.09x photosphere), extended 7.6 mJy
+  max allowed: compact 8.6 mJy -> compact excess 4.3 mJy (1.99x photosphere), extended 3.7 mJy

@@ -1,0 +1,59 @@
+{
+ "designation": "J231201.40+532028.6",
+ "teff1": 9932.0,
+ "params": [
+  "incl",
+  "dt0",
+  "rsum",
+  "k",
+  "teffratio",
+  "ecosw",
+  "esinw"
+ ],
+ "v": [
+  82.93099198944915,
+  -0.004637575816625088,
+  0.28857828028859545,
+  0.6380323077240522,
+  0.9392672677233018,
+  -0.0023896169028323113,
+  0.004312650685026207
+ ],
+ "l3": 0.0,
+ "scale_prior": null,
+ "smeared_sectors": [],
+ "mean_depth_scale_b": 1.0256708934706793,
+ "start_from": "outputs/candidates/J231201.40+532028.6/J231201.40+532028.6_persector_persectorffirocheirr_partial.json",
+ "n_sector_bins": 648,
+ "sectors": [
+  16,
+  17,
+  57
+ ],
+ "chi2_start_per_sector": 8582.53984766336,
+ "chi2_start_common": 9123.61266719492,
+ "chi2_per_sector": 8582.53984766336,
+ "dof_per_sector": 635,
+ "chi2_red_per_sector": 13.515810783721827,
+ "chi2_common_same_model": 9123.61266719492,
+ "chi2_red_common_same_model": 14.277954095766699,
+ "sector_affine": {
+  "16": {
+   "a": -0.02101787577873412,
+   "b": 1.0222156588883229,
+   "depth_scale": 0.9966312443841859
+  },
+  "17": {
+   "a": -0.030546081896844438,
+   "b": 1.0325238685628233,
+   "depth_scale": 1.0066814561432613
+  },
+  "57": {
+   "a": -0.02045674934698184,
+   "b": 1.0222731529608913,
+   "depth_scale": 0.9966872994725523
+  }
+ },
+ "evals": 1,
+ "runtime_s": 53.338000535964966
+}

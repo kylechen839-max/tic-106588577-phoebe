@@ -1,0 +1,10 @@
+halo 25-40": F12/F22 = 0.75
+halo 40-55": F12/F22 = 0.96
+halo 55-70": F12/F22 = 0.77
+halo 70-100": F12/F22 = 0.78
+halo 100-150": F12/F22 = 0.99
+halo pixel regression (25-150", 10 W4 bins): dF12/dF22 = 0.55
+compact excess, catalogue sky (50-70"): W3 3.87±0.52 mJy, W4 11.13±0.88 mJy, F12/F22 = 0.35±0.05 (blackbody 200 K)
+compact excess, halo extrapolated under star: W3 0.90±0.44 mJy, W4 7.40±0.66 mJy, F12/F22 = 0.12±0.06 (blackbody 147 K)
+W3 source: Gaussian FWHM 16.3", centroid offset 1.3"
+W4 source: Gaussian FWHM 27.4", centroid offset 2.6"

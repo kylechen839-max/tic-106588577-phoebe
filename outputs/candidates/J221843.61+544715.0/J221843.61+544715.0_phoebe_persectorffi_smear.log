@@ -1,0 +1,2 @@
+=== J221843.61+544715.0 per-sector dilution fit: sectors [16, 17, 56, 57, 76, 77, 83, 84], 1514 sector-bins, 2190 model phases, Teff1=9500, l3=0.0, scale prior None, roche, free ['incl', 'dt0', 'rsum', 'k', 'teffratio', 'q'], cadence (min) {16: 30.0, 17: 30.0, 56: 3.3, 57: 3.3, 76: 3.3, 77: 3.3, 83: 3.3, 84: 3.3}, smeared [16, 17], ld linear None, sector dt (min) [], start outputs/candidates/J221843.61+544715.0/J221843.61+544715.0_persector_persectorffi_partial.json
+  start: chi2 per-sector 18855.9, common 20318.1 (1514 bins)

@@ -1,0 +1,152 @@
+=== J223949.47+583254.4 2026-10-12T09:57:21.909451+00:00  P=3.092438 t0=1778.89390 Teff1=8188 M1~1.80 q=0.8 distortion=sphere nbins=161
+  eccentric: secondary at phase 0.5040 -> ecosw0=0.0063, esinw0=0.013
+  sma=13.21 Rsun, eclipse width 0.152 -> rsum0=0.391, teffratio0=0.74
+  grid 1: chi2=837080.4 v=[74.0, 0.0046, 0.2735, 0.5, 0.592, 0.0, 0.0063, 0.013]
+  grid 2: chi2=837054.8 v=[74.0, 0.0046, 0.2735, 0.5, 0.74, 0.0, 0.0063, 0.013]
+  grid 3: chi2=837025.3 v=[74.0, 0.0046, 0.2735, 0.5, 0.888, 0.0, 0.0063, 0.013]
+  grid 5: chi2=837002.0 v=[74.0, 0.0046, 0.2735, 0.75, 0.74, 0.0, 0.0063, 0.013]
+  grid 6: chi2=836958.0 v=[74.0, 0.0046, 0.2735, 0.75, 0.888, 0.0, 0.0063, 0.013]
+  grid 8: chi2=836947.0 v=[74.0, 0.0046, 0.2735, 1.0, 0.74, 0.0, 0.0063, 0.013]
+  grid 9: chi2=836899.5 v=[74.0, 0.0046, 0.2735, 1.0, 0.888, 0.0, 0.0063, 0.013]
+  grid 11: chi2=836893.5 v=[74.0, 0.0046, 0.2735, 1.3, 0.74, 0.0, 0.0063, 0.013]
+  grid 12: chi2=836851.3 v=[74.0, 0.0046, 0.2735, 1.3, 0.888, 0.0, 0.0063, 0.013]
+  grid 14: chi2=836845.7 v=[74.0, 0.0046, 0.2735, 1.7, 0.74, 0.0, 0.0063, 0.013]
+  grid 15: chi2=836815.1 v=[74.0, 0.0046, 0.2735, 1.7, 0.888, 0.0, 0.0063, 0.013]
+  grid 17: chi2=836813.0 v=[74.0, 0.0046, 0.2735, 2.2, 0.74, 0.0, 0.0063, 0.013]
+  grid 18: chi2=836794.0 v=[74.0, 0.0046, 0.2735, 2.2, 0.888, 0.0, 0.0063, 0.013]
+  grid 19: chi2=783274.6 v=[74.0, 0.0046, 0.332, 0.5, 0.592, 0.0, 0.0063, 0.013]
+  grid 20: chi2=773907.1 v=[74.0, 0.0046, 0.332, 0.5, 0.74, 0.0, 0.0063, 0.013]
+  grid 21: chi2=763309.5 v=[74.0, 0.0046, 0.332, 0.5, 0.888, 0.0, 0.0063, 0.013]
+  grid 23: chi2=756209.0 v=[74.0, 0.0046, 0.332, 0.75, 0.74, 0.0, 0.0063, 0.013]
+  grid 24: chi2=749015.8 v=[74.0, 0.0046, 0.332, 0.75, 0.888, 0.0, 0.0063, 0.013]
+  grid 25: chi2=746987.3 v=[74.0, 0.0046, 0.332, 1.0, 0.592, 0.0, 0.0063, 0.013]
+  grid 26: chi2=744101.7 v=[74.0, 0.0046, 0.332, 1.0, 0.74, 0.0, 0.0063, 0.013]
+  grid 27: chi2=742411.3 v=[74.0, 0.0046, 0.332, 1.0, 0.888, 0.0, 0.0063, 0.013]
+  grid 28: chi2=730274.4 v=[74.0, 0.0046, 0.332, 1.3, 0.592, 0.0, 0.0063, 0.013]
+  grid 31: chi2=715192.0 v=[74.0, 0.0046, 0.332, 1.7, 0.592, 0.0, 0.0063, 0.013]
+  grid 34: chi2=704209.9 v=[74.0, 0.0046, 0.332, 2.2, 0.592, 0.0, 0.0063, 0.013]
+  grid 37: chi2=683340.6 v=[74.0, 0.0046, 0.3906, 0.5, 0.592, 0.0, 0.0063, 0.013]
+  grid 38: chi2=650439.3 v=[74.0, 0.0046, 0.3906, 0.5, 0.74, 0.0, 0.0063, 0.013]
+  grid 39: chi2=618481.6 v=[74.0, 0.0046, 0.3906, 0.5, 0.888, 0.0, 0.0063, 0.013]
+  grid 41: chi2=601765.7 v=[74.0, 0.0046, 0.3906, 0.75, 0.74, 0.0, 0.0063, 0.013]
+  grid 42: chi2=580268.1 v=[74.0, 0.0046, 0.3906, 0.75, 0.888, 0.0, 0.0063, 0.013]
+  grid 44: chi2=570534.1 v=[74.0, 0.0046, 0.3906, 1.0, 0.74, 0.0, 0.0063, 0.013]
+  grid 45: chi2=563509.3 v=[74.0, 0.0046, 0.3906, 1.0, 0.888, 0.0, 0.0063, 0.013]
+  grid 46: chi2=552901.7 v=[74.0, 0.0046, 0.3906, 1.3, 0.592, 0.0, 0.0063, 0.013]
+  grid 47: chi2=551080.1 v=[74.0, 0.0046, 0.3906, 1.3, 0.74, 0.0, 0.0063, 0.013]
+  grid 49: chi2=522013.4 v=[74.0, 0.0046, 0.3906, 1.7, 0.592, 0.0, 0.0063, 0.013]
+  grid 52: chi2=503826.4 v=[74.0, 0.0046, 0.3906, 2.2, 0.592, 0.0, 0.0063, 0.013]
+  grid 55: chi2=481693.9 v=[74.0, 0.0046, 0.4688, 0.5, 0.592, 0.0, 0.0063, 0.013]
+  grid 56: chi2=427615.9 v=[74.0, 0.0046, 0.4688, 0.5, 0.74, 0.0, 0.0063, 0.013]
+  grid 57: chi2=392624.7 v=[74.0, 0.0046, 0.4688, 0.5, 0.888, 0.0, 0.0063, 0.013]
+  grid 58: chi2=369604.1 v=[74.0, 0.0046, 0.4688, 0.75, 0.592, 0.0, 0.0063, 0.013]
+  grid 59: chi2=329035.6 v=[74.0, 0.0046, 0.4688, 0.75, 0.74, 0.0, 0.0063, 0.013]
+  grid 60: chi2=326043.2 v=[74.0, 0.0046, 0.4688, 0.75, 0.888, 0.0, 0.0063, 0.013]
+  grid 61: chi2=290260.9 v=[74.0, 0.0046, 0.4688, 1.0, 0.592, 0.0, 0.0063, 0.013]
+  grid 62: chi2=272665.9 v=[74.0, 0.0046, 0.4688, 1.0, 0.74, 0.0, 0.0063, 0.013]
+  grid 64: chi2=228652.3 v=[74.0, 0.0046, 0.4688, 1.3, 0.592, 0.0, 0.0063, 0.013]
+  grid 67: chi2=184630.1 v=[74.0, 0.0046, 0.4688, 1.7, 0.592, 0.0, 0.0063, 0.013]
+  grid 70: chi2=162772.8 v=[74.0, 0.0046, 0.4688, 2.2, 0.592, 0.0, 0.0063, 0.013]
+  grid 76: chi2=146710.3 v=[74.0, 0.0046, 0.5469, 0.75, 0.592, 0.0, 0.0063, 0.013]
+  grid 77: chi2=104379.7 v=[74.0, 0.0046, 0.5469, 0.75, 0.74, 0.0, 0.0063, 0.013]
+  grid 79: chi2=76198.0 v=[74.0, 0.0046, 0.5469, 1.0, 0.592, 0.0, 0.0063, 0.013]
+  grid 80: chi2=52400.6 v=[74.0, 0.0046, 0.5469, 1.0, 0.74, 0.0, 0.0063, 0.013]
+  grid 82: chi2=49617.3 v=[74.0, 0.0046, 0.5469, 1.3, 0.592, 0.0, 0.0063, 0.013]
+  grid 83: chi2=29594.8 v=[74.0, 0.0046, 0.5469, 1.3, 0.74, 0.0, 0.0063, 0.013]
+  grid 86: chi2=23993.9 v=[74.0, 0.0046, 0.5469, 1.7, 0.74, 0.0, 0.0063, 0.013]
+  grid 164: chi2=16710.2 v=[80.0, 0.0046, 0.5469, 0.75, 0.74, 0.0, 0.0063, 0.013]
+grid best chi2=16710.17 (670s)
+  local-opt eval 25: best chi2 3509.48
+  local-opt eval 50: best chi2 2587.68
+  local-opt eval 75: best chi2 2492.92
+  local-opt eval 100: best chi2 2162.19
+  local-opt eval 125: best chi2 2162.19
+  local-opt eval 150: best chi2 2122.94
+  local-opt eval 175: best chi2 2113.34
+  local-opt eval 200: best chi2 2113.34
+  local-opt eval 225: best chi2 2111.08
+  local-opt eval 250: best chi2 2111.08
+  local-opt eval 275: best chi2 2111.08
+  local-opt eval 300: best chi2 2111.08
+  local-opt eval 325: best chi2 2111.08
+  local-opt eval 350: best chi2 2111.08
+  local-opt eval 375: best chi2 2111.08
+  local-opt eval 400: best chi2 2111.08
+  local-opt eval 425: best chi2 2111.08
+  local-opt eval 450: best chi2 2111.08
+  local-opt eval 475: best chi2 2111.08
+  local-opt eval 500: best chi2 2111.08
+  local-opt eval 525: best chi2 2111.08
+  local-opt eval 550: best chi2 2111.08
+  local-opt eval 575: best chi2 2111.08
+  local-opt eval 600: best chi2 2111.08
+  local-opt eval 625: best chi2 2111.08
+  local-opt eval 650: best chi2 2111.08
+  local-opt eval 675: best chi2 2111.08
+  local-opt eval 700: best chi2 2111.08
+  local-opt eval 725: best chi2 2111.08
+  start 1/3 (grid chi2 16710.2) -> chi2 2111.08
+  local-opt eval 25: best chi2 7070.74
+  local-opt eval 50: best chi2 3757.21
+  local-opt eval 75: best chi2 3227.72
+  local-opt eval 100: best chi2 2887.41
+  local-opt eval 125: best chi2 2877.88
+  local-opt eval 150: best chi2 2837.40
+  local-opt eval 175: best chi2 2837.40
+  local-opt eval 200: best chi2 2829.25
+  local-opt eval 225: best chi2 2828.03
+  local-opt eval 250: best chi2 2827.90
+  local-opt eval 275: best chi2 2827.90
+  local-opt eval 300: best chi2 2827.90
+  local-opt eval 325: best chi2 2827.90
+  local-opt eval 350: best chi2 2827.90
+  local-opt eval 375: best chi2 2827.90
+  local-opt eval 400: best chi2 2827.90
+  local-opt eval 425: best chi2 2827.90
+  local-opt eval 450: best chi2 2827.90
+  local-opt eval 475: best chi2 2827.90
+  local-opt eval 500: best chi2 2827.90
+  local-opt eval 525: best chi2 2827.90
+  local-opt eval 550: best chi2 2827.90
+  local-opt eval 575: best chi2 2827.90
+  local-opt eval 600: best chi2 2827.90
+  local-opt eval 625: best chi2 2827.90
+  local-opt eval 650: best chi2 2827.90
+  local-opt eval 675: best chi2 2827.90
+  local-opt eval 700: best chi2 2827.90
+  start 2/3 (grid chi2 23993.9) -> chi2 2827.90
+  local-opt eval 25: best chi2 5021.33
+  local-opt eval 50: best chi2 3232.60
+  local-opt eval 75: best chi2 2625.46
+  local-opt eval 100: best chi2 2528.12
+  local-opt eval 125: best chi2 2469.86
+  local-opt eval 150: best chi2 2427.91
+  local-opt eval 175: best chi2 2420.91
+  local-opt eval 200: best chi2 2420.91
+  local-opt eval 225: best chi2 2420.30
+  local-opt eval 250: best chi2 2419.83
+  local-opt eval 275: best chi2 2419.83
+  local-opt eval 300: best chi2 2324.87
+  local-opt eval 325: best chi2 2232.68
+  local-opt eval 350: best chi2 2102.43
+  local-opt eval 375: best chi2 1945.20
+  local-opt eval 400: best chi2 1905.44
+  local-opt eval 425: best chi2 1902.11
+  local-opt eval 450: best chi2 1895.59
+  local-opt eval 475: best chi2 1888.87
+  local-opt eval 500: best chi2 1885.63
+  local-opt eval 525: best chi2 1883.06
+  local-opt eval 550: best chi2 1873.91
+  local-opt eval 575: best chi2 1869.63
+  local-opt eval 600: best chi2 1862.05
+  local-opt eval 625: best chi2 1858.86
+  local-opt eval 650: best chi2 1856.72
+  local-opt eval 675: best chi2 1854.04
+  local-opt eval 700: best chi2 1849.81
+  local-opt eval 725: best chi2 1835.56
+  start 3/3 (grid chi2 29594.8) -> chi2 1835.56
+local-opt (Nelder-Mead) chi2=1835.56 after 2191 evals v=[75.14127, 0.00099, 0.56269, 1.40647, 0.71505, 0.00157, 0.00472, 0.05915]
+  emcee 18x30 in 1119s, acc=0.45
+{"incl": 75.14126710866132, "r1_frac": 0.23382520182361582, "r2_frac": 0.32886896799324605, "teffratio": 0.7150451967202323, "chi2_final_hires": 1924.9764170500334, "passes_all": false}
+photometry: {"chi2": 1924.9764170500334, "dof": 152, "chi2_red": 12.664318533223904, "rms": 0.0027401312151808573, "primary_mean_resid": -0.005842437078059537, "primary_bias_sigma": -6.785813565863869, "secondary_mean_resid": 0.0013664073330214577, "secondary_bias_sigma": 2.918157010353455, "pass_fit": false, "pass_no_eclipse_bias": false}
+blackbody: {"binary_photosphere_chi2_JHKW1": 2.6860774464064026, "photometric_distance_pc": 504.5760873135777, "gaia_distance_pc": 989.4851, "distance_ratio_phot_over_gaia": 0.5099380347552255, "excess_vs_binary_photosphere": {"W2": {"ratio": 0.9187424313397613, "sigma": -3.2009074286608303}, "W3": {"ratio": 0.8998087696630688, "sigma": -4.029791286164065}, "W4": {"ratio": 1.8571284629890488, "sigma": 5.166025631718189}}, "pass_photosphere": true, "pass_distance": false, "pass_excess_survives": true}

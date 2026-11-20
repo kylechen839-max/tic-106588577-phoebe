@@ -117,6 +117,8 @@ The round-2 code differs from round 1:
 
 ## Next steps (priority order)
 
+> Daily cloud runs (from 2026-10-03) keep their own plan in `docs/PROJECT_CONTEXT.md` → "Daily next steps" and log in `docs/DAILY_LOG.md`. Steps 2 (Gaia-Teff part) and 7 below are partly done there.
+
 1. **Collect round 2.**
    - Run `.venv-tess/bin/python src/pipeline/summarize_phoebe.py`. It writes `outputs/candidates/phoebe_summary.md` and `phoebe_fits_montage.png` (the montage includes both `_v2` and round-1 results).
    - Update the "PHOEBE modelling status" section of `docs/DD_EB_CROSSMATCH.md` and say which candidates pass all checks (`passes_all` in the JSON).

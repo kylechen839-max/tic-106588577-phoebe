@@ -1,0 +1,66 @@
+S003 SPOC        120s pdcsap_flux  n=12951 CROWDSAP=0.80640167
+S030 SPOC        120s pdcsap_flux  n=16083 CROWDSAP=0.861072
+S042 SPOC        120s pdcsap_flux  n=13035 CROWDSAP=0.83875209
+S043 SPOC        120s pdcsap_flux  n=14039 CROWDSAP=0.87144262
+S070 TESS-SPOC   200s pdcsap_flux  n=8961 CROWDSAP=0.8463406
+S097 QLP         200s sap_flux     n=21622 CROWDSAP=None
+Lomb-Scargle peak period 0.750935 d (x2 = 1.501871); VSX 0.351176
+PDM-refined period 0.3511823 d
+ sector    author  exptime_s    flux_col  n_raw  crowdsap  flfrcsap  n_clean   rms_ppt
+      3      SPOC      120.0 pdcsap_flux  12951  0.806402  0.734918    12948 14.239456
+     30      SPOC      120.0 pdcsap_flux  16083  0.861072  0.625508    16082 13.314191
+     42      SPOC      120.0 pdcsap_flux  13035  0.838752  0.589531    13033 14.843712
+     43      SPOC      120.0 pdcsap_flux  14039  0.871443  0.699654    14037 12.905147
+     70 TESS-SPOC      200.0 pdcsap_flux   8961  0.846341  0.656541     8955 11.408929
+     97       QLP      200.0    sap_flux  21622       NaN       NaN    19962 14.081049
+t0 (min) = 3962.69697 BTJD, P = 0.3511823 d, total clean points 85017, clipped 1674
+_r                              0.82
+recno                         251954
+OID                           253017
+Name        SDSS J013155.94-004224.7
+V                                  0
+RAJ2000                     22.98308
+DEJ2000                     -0.70686
+Type                              EA
+l_max                               
+max                            16.34
+u_max                               
+n_max                              r
+f_min                               
+l_min                               
+u_min                               
+n_min                               
+u_Epoch                             
+l_Period                            
+Period                      0.351176
+u_Period                            
+Sp                                  
+n_OID                              B
+ sector    bls_P  bls_depth_ppt       bls_snr  depth_at_vsxP_ppt  snr_at_vsxP
+      3 0.487355   6.462808e+00  1.774219e+01           0.821667     1.958559
+     30 0.486803   5.159950e+00  1.741953e+01           1.085630     3.144687
+     42 0.243463   3.035005e+00  1.072475e+01           1.444918     2.516339
+     43 0.244002   2.678538e+00  1.122631e+01           1.695584     3.510648
+     70 0.487382   6.480351e+00  1.946026e+01           0.957252     2.446658
+     97 0.200000  1.509938e-308 1.509938e-311                NaN          NaN
+S97 flux pct 1/50/99: [0.9633 0.999  1.0549] n 19962 rms 0.0142
+combined BLS: 0.4870557176392941 0.06 4.371484555669513 26.462828931663065 1386.4017524083276
+  peak P=0.487056 pow=398.9 depth=4.37ppt snr=26.5
+  peak P=0.489668 pow=338.8 depth=4.05ppt snr=24.4
+  peak P=0.484863 pow=306.5 depth=3.81ppt snr=23.2
+  peak P=0.973612 pow=209.3 depth=4.46ppt snr=19.8
+  peak P=0.978014 pow=195.5 depth=4.33ppt snr=19.2
+  peak P=0.244055 pow=189.8 depth=2.13ppt snr=16.9
+refined P=0.4870571 T0=1386.39875 dur=1.44 h depth=4.41±0.17 ppt
+odd/even depth ppt: [4.66834231 0.22675855] [4.16236206 0.22601435] half-phase depth ppt: [0.26340299 0.12564135] phase-0.5 'secondary': [-3.36490604  0.16592424]
+  P S3: in-eclipse depth 6.08 ppt n_in=1542
+  P S30: in-eclipse depth 4.81 ppt n_in=1967
+  P S42: in-eclipse depth 3.72 ppt n_in=1628
+  P S43: in-eclipse depth 1.64 ppt n_in=1699
+  P S70: in-eclipse depth 6.22 ppt n_in=1114
+S3: top P = 0.48803, 0.50556, 0.47169 d; FAP(top)=8.2e-143; semi-amp 4.60 ppt
+S30: top P = 0.48768, 0.50067, 0.47535 d; FAP(top)=1.5e-222; semi-amp 4.79 ppt
+S42: top P = 0.48773, 0.47435, 0.24383 d; FAP(top)=4.3e-116; semi-amp 4.30 ppt
+S43: top P = 0.48814, 0.50234, 0.24397 d; FAP(top)=2.0e-108; semi-amp 3.53 ppt
+S70: top P = 0.48751, 0.24375, 0.47406 d; FAP(top)=8.2e-92; semi-amp 3.59 ppt
+S97: top P = 7.01887, 3.58834, 2.82109 d; FAP(top)=0.0e+00; semi-amp 7.45 ppt
