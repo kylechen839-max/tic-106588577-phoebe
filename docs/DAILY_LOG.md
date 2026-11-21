@@ -930,3 +930,23 @@ A tertiary of the size the 25-yr orbit implies changes the W4 excess by < 2% and
 - **Verified:** q rises to 0.38–0.40, now matching the Gaia SB1 estimate (~0.40, inferred from K₁ 74 km/s). incl (77.9°) and k (0.37) are unchanged.
 - **Inferred:** an albedo of ~0.4 is plausible for a ~6,700 K star near the convective/radiative boundary (0.5 convective, 1.0 radiative).
 - Not done (restart): converged fits, residual plots, and the re-timing with this model.
+
+## 2026-11-21 (daily cloud run, 08:51 UTC)
+
+**Environment.** All archive hosts still return 000 from the cloud (MAST, IRSA, Gaia, VizieR, CDS XMatch, SkyView, DASCH/starglass, skydot/NSVS); no NSVS retry possible.
+
+**J2218 reflection fits finished from the 11-20 checkpoints (verified; 200 more evals each; u₁ 0.35, u₂ 0.5, q free, Roche, ntri 400, no smearing, S16/S17 dt 11.7/10.9 min; 1514 sector-bins).**
+
+| Run (`_persectorffi_…`) | free albedo | χ² (χ²_red) | alb₁ | alb₂ | incl | k | T₂/T₁ | q |
+|---|---|---:|---:|---:|---:|---:|---:|---:|
+| `albb_final` (from `albb06`) | both | **4120.4 (2.77)** | 0.95 | 0.38 | 77.86 | 0.374 | 0.711 | 0.394 |
+| `albs_final` (from `albs03`) | secondary | 4138.9 (2.78) | 1.0 (fixed) | 0.41 | 77.87 | 0.370 | 0.710 | 0.396 |
+| `albb_final2` (from `albb03`) | both | 4253.0 (2.85) | 0.37 | 0.29 | 77.91 | 0.366 | 0.717 | 0.379 |
+
+- **Verified:** the two best fits agree: secondary albedo 0.38–0.41, primary albedo at or near the default 1.0 (freeing it gains Δχ² 18.5 for one parameter). `albb_final2` stopped in a worse local minimum (Δχ² +133). Adopted model: `albs_final` (χ² 4138.9, χ²_red 2.78).
+- **Verified:** the residuals (`_persector_persectorffi_albs_final.png`) no longer show the ±5σ eclipse-shoulder pattern; they are within about ±3σ, with a small positive bump on the primary egress (phase +0.03 to +0.05) and the S84 secondary shoulder.
+- q 0.394–0.396 matches the Gaia SB1 estimate (~0.40; inferred from K₁ 74 km/s).
+
+**J2218 re-timing with `albs_final` (verified).** `persector_timing.py ... --ld1 0.35 --ld2 0.5 --maxshift-min 20`: S16 +12.3 (+12.1..+12.5), S17 +11.6 (+11.3..+11.9), S56 −1.0, S57 −1.8, S76 −0.8, S77 0.0, S83 +1.2, S84 +1.3 min. Same as with every earlier model (within ~1 min), so the 2019 offset is model-independent.
+
+**emcee (16 × 10) crashed** at its first step: the emcee bounds in `fit_per_sector_dilution.py` had no entries for `alb1`/`alb2` (KeyError). Fixed today (albedo bounds 0–1), not rerun: not enough of the window left.

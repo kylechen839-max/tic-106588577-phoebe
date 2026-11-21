@@ -1,0 +1,45 @@
+Connection to online passbands at https://tables.phoebe-project.org could not be established.  Check your internet connection or try again later (can manually call phoebe.list_online_passbands(refresh=True) to retry).  If the problem persists and you're using a Mac, you may need to update openssl (see https://phoebe-project.org/help/faq). Original error from urlopen: URLError <urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>
+=== J221843.61+544715.0 per-sector dilution fit: sectors [16, 17, 56, 57, 76, 77, 83, 84], 1514 sector-bins, 1514 model phases, Teff1=9500, l3=0.0, scale prior None, roche, free ['incl', 'dt0', 'rsum', 'k', 'teffratio', 'q', 'alb2'], cadence (min) {16: 30.0, 17: 30.0, 56: 3.3, 57: 3.3, 76: 3.3, 77: 3.3, 83: 3.3, 84: 3.3}, smeared [], ld linear 0.35 (primary 0.35, secondary 0.5), sector dt (min) ['16=11.7', '17=10.9'], start outputs/candidates/J221843.61+544715.0/J221843.61+544715.0_persector_persectorffi_albs_final.json
+  start: chi2 per-sector 4138.9, common 5442.4 (1514 bins)
+  done: chi2 per-sector 4138.9 (red 2.78), common 5442.4 (red 3.62); depth scales S16 1.005, S17 1.006, S56 1.010, S57 1.006, S76 0.996, S77 0.984, S83 0.990, S84 1.004
+  params {'incl': np.float64(77.87094), 'dt0': np.float64(1e-05), 'rsum': np.float64(0.45237), 'k': np.float64(0.37007), 'teffratio': np.float64(0.71037), 'q': np.float64(0.3961), 'alb2': np.float64(0.4097)}; mean b 0.918
+emcee: Exception while calling your likelihood function:
+  params: [ 7.79933963e+01 -2.40937597e-04  4.52708789e-01  3.66664525e-01
+  7.07655327e-01  3.92650905e-01  3.28897572e-01]
+  args: []
+  kwargs: {}
+  exception:
+Traceback (most recent call last):
+  File "/home/claude/tic-106588577-phoebe/.venv-phoebe/lib/python3.11/site-packages/emcee/ensemble.py", line 640, in __call__
+    return self.f(x, *self.args, **self.kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/claude/tic-106588577-phoebe/src/pipeline/fit_per_sector_dilution.py", line 329, in lnp
+    if any(not (lo[p] < x < hi[p]) for p, x in zip(free, v)):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/claude/tic-106588577-phoebe/src/pipeline/fit_per_sector_dilution.py", line 329, in <genexpr>
+    if any(not (lo[p] < x < hi[p]) for p, x in zip(free, v)):
+                ~~^^^
+KeyError: 'alb2'
+Traceback (most recent call last):
+  File "/home/claude/tic-106588577-phoebe/src/pipeline/fit_per_sector_dilution.py", line 387, in <module>
+    main()
+  File "/home/claude/tic-106588577-phoebe/src/pipeline/fit_per_sector_dilution.py", line 314, in main
+    run_mcmc(args, name, cdir, free, v, c_ps, res, bins, model_pred, log)
+  File "/home/claude/tic-106588577-phoebe/src/pipeline/fit_per_sector_dilution.py", line 355, in run_mcmc
+    for i, _ in enumerate(sampler.sample(p0, iterations=max(nsteps, 0))):
+  File "/home/claude/tic-106588577-phoebe/.venv-phoebe/lib/python3.11/site-packages/emcee/ensemble.py", line 351, in sample
+    state.log_prob, state.blobs = self.compute_log_prob(state.coords)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/claude/tic-106588577-phoebe/.venv-phoebe/lib/python3.11/site-packages/emcee/ensemble.py", line 496, in compute_log_prob
+    results = list(map_func(self.log_prob_fn, p))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/claude/tic-106588577-phoebe/.venv-phoebe/lib/python3.11/site-packages/emcee/ensemble.py", line 640, in __call__
+    return self.f(x, *self.args, **self.kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/claude/tic-106588577-phoebe/src/pipeline/fit_per_sector_dilution.py", line 329, in lnp
+    if any(not (lo[p] < x < hi[p]) for p, x in zip(free, v)):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/claude/tic-106588577-phoebe/src/pipeline/fit_per_sector_dilution.py", line 329, in <genexpr>
+    if any(not (lo[p] < x < hi[p]) for p, x in zip(free, v)):
+                ~~^^^
+KeyError: 'alb2'

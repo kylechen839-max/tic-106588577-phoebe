@@ -1195,3 +1195,19 @@ Builds on the "J2218 O−C check" on branch `claude/project-thread-5mcxzc` (draf
 - **Verified:** partial reflection (secondary albedo ≈ 0.4, reached from starts at 0.3 and 0.6) is J2218's best model so far; q ≈ 0.39–0.40 now agrees with the Gaia SB1 estimate (inferred).
 - Not converged; checkpoints are the `_partial.json` files.
 
+### J2218: converged reflection fit (2026-11-21 daily run)
+
+![J2218 best fit](../outputs/candidates/J221843.61+544715.0/J221843.61+544715.0_persector_persectorffi_albs_final.png)
+
+*Adopted J2218 light-curve model: physical limb darkening (0.35 / 0.5) and a secondary reflection albedo of 0.41. The ±5σ eclipse-shoulder residuals of the earlier fits are gone.*
+
+| Fit | χ² (χ²_red) | alb₁ / alb₂ | incl | k | T₂/T₁ | q | S16 / S17 offset (min) |
+|---|---:|---|---:|---:|---:|---:|---|
+| 11-17 baseline (u 0.35, full reflection) | 14803.6 (9.92) | 1.0 / 1.0 | 77.25 | 0.341 | 0.709 | 0.346 | +11.7 / +10.9 |
+| 11-19 reflection off | 6867.5 (4.60) | 0 / 0 | 77.91 | 0.366 | 0.721 | 0.369 | +12.5 / +11.8 |
+| **11-21 secondary albedo free (adopted)** | **4138.9 (2.78)** | 1.0 / **0.41** | 77.87 | 0.370 | 0.710 | 0.396 | +12.3 / +11.6 |
+| 11-21 both albedos free | 4120.4 (2.77) | 0.95 / 0.38 | 77.86 | 0.374 | 0.711 | 0.394 | |
+
+- **Verified:** the timing offset that supports the third body survives every light-curve model tried (+11.7 to +13.0 min for S16).
+- **Verified:** χ² fell 72% from the 11-17 baseline with almost no change in inclination or radius ratio, so the W4 excess and the SED check (which use the radii and temperatures) are unaffected (inferred, < 1% radius change).
+
