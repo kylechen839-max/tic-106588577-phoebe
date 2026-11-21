@@ -132,7 +132,7 @@ The round-2 code differs from round 1:
      - Try `--eccentric yes`, since the secondary is at φ = 0.504 with unequal widths.
      - Seed T2/T1 lower, and let k go above 1.4 (the current bound).
 3. **J1419−56 (passes every check):** look for higher-resolution 24 µm data (Spitzer MIPS, AKARI), check for apsidal motion with `eclipse_timing.py`, and test the result's sensitivity to the assumed Teff and q.
-4. **J2218+54 (strongest SED):** add a cool spot for the O'Connell asymmetry and consider ld/gravity-darkening refinements. It is worth requesting RVs.
+4. **J2218+54 (strongest SED):** add a cool spot for the O'Connell asymmetry and consider ld/gravity-darkening refinements. It is worth requesting RVs. **2026-11-16:** the eclipse times follow a curved O−C (Gaia 2015.9 +39 min, TESS 2019 +9, 2022–24 ≈ 0; dP/dt ≈ +0.49 s/yr). It is not apsidal motion. It is mass transfer or a third body (P₃ ≳ 15–20 yr), and neither can make the W4 excess. ASAS-SN epochs would separate them. See `docs/DD_EB_CROSSMATCH.md` → "J2218 O−C check".
 5. **J1122:** redo the custom-aperture extraction for all 7 sectors on the new ephemeris (`src/extract_multisector_tess_lightcurve.py --period 4.7917045 --t0 3762.8427`). Compare its eclipse depth with QLP and refit. Do not reuse the old `outputs/j1122_*` binned files; they use the wrong period.
 6. **Improve the WISE image S/N** in `src/crossmatch/wise_cutouts.py`: use a plane-fit background in an 18–35″ annulus. J0719 falsely fails the current version. Then visually review the tier-B objects flagged `wise_image`.
 7. **Fit the remaining tier-A objects:** J073937 (hot, no TIC Teff; use `--teff`), J024542, J173224, J223553, J220912.

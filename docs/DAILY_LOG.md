@@ -799,6 +799,14 @@ Table in `docs/DD_EB_CROSSMATCH.md`. No PHOEBE fits were run; nothing is pending
 - **Inferred, not verified:** the 2019 → 2022+ timing change looks like an eclipse-timing variation (a third body's light-travel time, or apsidal motion). It is not the 30-min FFI timestamps: J2312's S17 FFI timing is consistent with zero. A third star would matter for the W4 excess (an extra photosphere) and for T₁.
 - χ²_red ~10 remains; the residuals still carry coherent ingress/egress structure in every sector (`_persector_persectorffi.png`), so the model shape, not dilution, is the problem (spot / T₁ / LD).
 
+**J2218 O−C (thread "Discuss J2218 results", 2026-11-16 afternoon):** `eclipse_split_timing.py` and `j2218_oc_gaia_tess.py`; table in `docs/DD_EB_CROSSMATCH.md` → "J2218 O−C check".
+- Primary and secondary shift together in every sector, so it is **not apsidal motion** (verified).
+- **Gaia DR3 epoch photometry (2014–2017) gives O−C +39 min**, the same direction as S16/S17 (+9 min). That is an independent instrument, so the shift is not a TESScut timestamp artifact (verified). Quadratic O−C, χ² 7.7/6 dof against 403 for linear; dP/dt ≈ +0.49 s/yr.
+- Mass transfer (period increase) or a third body with P₃ ≳ 15–20 yr: can't be separated yet (inferred). Either way a tertiary photosphere can't produce the 28.7× W4 excess, since W2 is 1.009× (inferred).
+- Network: IRSA, the Gaia archive and the Gaia DataLink worked from the cloud today; ASAS-SN Sky Patrol (port 9006) and VizieR did not.
+
+**J2218 old photometry (2026-11-17 UTC):** ASAS-SN V (2014–18) gives +50 min at 2016.6. **DASCH plates (1888–1990)** recover P = 1.669254 d blind, and the eclipses sit within about ±1 hr of the modern ephemeris in every era (1922 +17, 1942 −58, 1975 +12 min). That rules out the steady period increase: the O−C is bounded and cyclic, which favors a third body (or Applegate). The Roche-lobe check also says detached (secondary at ~40% of its lobe). Neither KWS nor Catalina covers the star, and NSVS (skydot.lanl.gov) refuses HTTPS from both the cloud and Kyle's Mac. Details in DD_EB_CROSSMATCH → "J2218 O−C check".
+
 ## 2026-11-17 (daily cloud run, 08:51 UTC)
 
 **Environment.** Every archive host returns 000 from this container today (MAST, IRSA, Gaia, VizieR, CDS XMatch, SkyView, DASCH, skydot/NSVS); the AWS S3 mirror works. Main unchanged. J2312: no new work (PC commits 2504ab9, bada4ba merged; see 11-16 evening notes in the J2312 README). New priority from Kyle (11-17): J2218 eclipse timing / third body, building on branch `claude/project-thread-5mcxzc` (draft PR #4), read through a worktree and not merged.
