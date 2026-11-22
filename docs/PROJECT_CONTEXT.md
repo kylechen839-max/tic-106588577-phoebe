@@ -117,13 +117,15 @@ Cloud runs: if `.venv-phoebe` is missing, run `python3.11 -m venv .venv-phoebe &
      Done 11-19: per-star LD (`--ld1`/`--ld2` in `fit_per_sector_dilution.py` and `persector_timing.py`); irradiation on wants unphysical LD (u₁ 0.7, u₂ 0), χ² 8351; **irradiation off with expected LD (0.35/0.5) is best, χ² 6867.5, χ²_red 4.60** (`_persectorffi_noirr_ld1035_ld205`, q 0.369); residuals flip sign, so reflection is partial. Re-timing: S16/S17 +13.0/+11.5 min (u 0.7), +12.5/+11.8 (no irradiation), so the offset is model-independent. Next:
      Done 11-20 (stopped by a container restart at 75–100 evals): `--fit-alb secondary|both` added; secondary albedo free → **χ² 4149.4 (χ²_red 2.78)**, alb₂ 0.41, q 0.396 (`_persectorffi_albs03_ld1035_ld205_partial.json`). Next:
      Done 11-21: fits converged; **adopted `_persectorffi_albs_final` (χ² 4138.9, χ²_red 2.78; alb₂ 0.41, q 0.396)**; both-albedo fit 4120.4 (alb₁ 0.95). Re-timing S16/S17 +12.3/+11.6 min (model-independent). emcee crashed on missing albedo bounds (fixed). Next:
-     (a) emcee for q/albedo uncertainties: `fit_per_sector_dilution.py --designation $D --raw $O/ffi/${D}_raw.txt --start-from $O/${D}_persector_persectorffi_albs_final.json --teff 9500 --fit-q --distortion roche --ntri 400 --maxfev 1 --no-smear --sector-dt 16=11.7 --sector-dt 17=10.9 --ld 0.35 --ld1 0.35 --ld2 0.5 --fit-alb secondary --walkers 16 --steps 10 --tag _persectorffi_albs_mcmc` (about 80 min on one core);
-     (b) redo the J2218 SED/W4 check with the adopted radii (`src/checks/j2218_tertiary_sed.py` style) to confirm the excess is unchanged;
-     (c) retry NSVS (skydot.lanl.gov) and DASCH/Gaia hosts each run; a 1999 NSVS point separates the 25/36/62-yr orbits (−25/+75/+250 min);
-     (d) time S122/S129 when they appear (2027).
-     J2218's light-curve modeling is otherwise done; further gains need data (NSVS, new sectors, RVs).
+     Done 11-22: emcee 16×10 (q 0.398 +0.007/−0.009, albedo 0.40 +0.04/−0.02); SED with adopted radii (W4 30.9×, d ratio 1.01; `src/checks/j2218_adopted_sed.py`). J2218's light-curve modeling is done. Next:
+     (a) retry NSVS (skydot.lanl.gov) and DASCH/Gaia hosts each run; a 1999 NSVS point separates the 25/36/62-yr orbits (−25/+75/+250 min);
+     (b) time S122/S129 when they appear (2027);
+     (c) optional: a longer emcee (16×30) if Kyle wants quotable errors.
 2. **J2312: offline light-curve work is done.** The best fit is `_s16fit` (χ²_red 7.15, q 0.598). W4 after nebula modeling is 11.6–12.5 mJy (2.7–2.9×, 8.3–9.3σ), but the source is slightly extended and sits on a N–S nebular ridge (`j2312_ridge_figure.png`). WISE cannot go further; this needs JWST/MIRI or a WISE HiRes coadd, which only the PC can make (IRSA ICORE).
-3. **J0739:** the largest robust excess (5.2×, 17σ) at 396 pc, but extended (~13″ ≈ 5,000 AU). Check for a resolved companion or galaxy in the W4 beam (Gaia/Pan-STARRS on the PC), and refit its light curve (χ²_red 2.6).
+3. **J0739:** the largest robust excess (5.2×, 17σ) at 396 pc, but extended (~13″ ≈ 5,000 AU). Check for a resolved companion or galaxy in the W4 beam (Gaia/Pan-STARRS on the PC). Done 11-22: per-sector FFI fit on 7 sectors (FFI in `outputs/candidates/J073937.23-363011.8/ffi/`; never `git add` its `ffi_cutouts/`), full reflection **χ² 3644.1 (χ²_red 3.01)**, incl 86.84, k 0.471, T₂/T₁ 0.476, q 0.282 (`_persectorffi`, 150 evals). Next:
+   (a) continue it: `fit_per_sector_dilution.py --designation $N --raw $O/ffi/${N}_raw.txt --start-from $O/${N}_persector_persectorffi.json --teff 12470 --fit-q --distortion roche --ntri 400 --maxfev 150 --tag _persectorffi2` (each eval is slow because S7/S8/S34 are smeared; about 2.5 h for 150 evals);
+   (b) re-time the sectors (`persector_timing.py ... 12470 --maxshift-min 20`) to check the S109/S110 secondary-bottom residuals;
+   (c) rerun the SED/W4 check with the per-sector radii.
 4. **J1108−56 and J2048+49: parked.** No detached-EB model fits. **J0009+58:** a YSO dipper candidate; needs a SIMBAD/YSO lookup (PC).
 5. **Needs Kyle:**
    - squash-merge PR #2 (large FITS in history);

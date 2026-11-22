@@ -1211,3 +1211,24 @@ Builds on the "J2218 O−C check" on branch `claude/project-thread-5mcxzc` (draf
 - **Verified:** the timing offset that supports the third body survives every light-curve model tried (+11.7 to +13.0 min for S16).
 - **Verified:** χ² fell 72% from the 11-17 baseline with almost no change in inclination or radius ratio, so the W4 excess and the SED check (which use the radii and temperatures) are unaffected (inferred, < 1% radius change).
 
+### J2218 uncertainties and SED with adopted radii; J0739 per-sector FFI fit (2026-11-22 daily run)
+
+| J2218 (`_persectorffi_albs_mcmc`, emcee 16×10, indicative) | value |
+|---|---|
+| q | 0.398 (+0.007/−0.009) |
+| secondary albedo | 0.40 (+0.04/−0.02) |
+| incl / k / T₂/T₁ | 77.89° / 0.369 / 0.712 |
+| SED with adopted radii (R₁ 2.89, R₂ 1.07 R☉) | JHKW1 χ² 38, d_phot/d_Gaia 1.01, W4 30.9× (13.8σ) |
+
+![J0739 per-sector fit](../outputs/candidates/J073937.23-363011.8/J073937.23-363011.8_persector_persectorffi.png)
+
+*J0739 per-sector FFI fit, 7 sectors including the new S109/S110: χ²_red 3.01, with a flat-bottomed secondary (total occultation).*
+
+| J0739 fit | χ² (χ²_red) | incl | k | T₂/T₁ | q |
+|---|---:|---:|---:|---:|---:|
+| pipeline `_m10` (sector-spread errors, 10-20) | (2.60) | 86.60 | 0.467 | 0.559 | 0.248 |
+| **per-sector FFI, full reflection (11-22)** | **3644.1 (3.01)** | 86.84 | 0.471 | 0.476 | 0.282 |
+| per-sector FFI, reflection off | 132819 | | | | |
+
+- The J0739 χ²_red values are not comparable between rows (different error models); the per-sector FFI fit is the photon-noise comparison.
+

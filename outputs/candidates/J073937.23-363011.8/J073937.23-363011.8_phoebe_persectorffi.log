@@ -1,0 +1,18 @@
+Connection to online passbands at https://tables.phoebe-project.org could not be established.  Check your internet connection or try again later (can manually call phoebe.list_online_passbands(refresh=True) to retry).  If the problem persists and you're using a Mac, you may need to update openssl (see https://phoebe-project.org/help/faq). Original error from urlopen: URLError <urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>
+=== J073937.23-363011.8 per-sector dilution fit: sectors [7, 8, 34, 61, 88, 109, 110], 1230 sector-bins, 2282 model phases, Teff1=12470, l3=0.0, scale prior None, roche, free ['incl', 'dt0', 'rsum', 'k', 'teffratio', 'q'], cadence (min) {7: 30.0, 8: 30.0, 34: 10.0, 61: 3.3, 88: 3.3, 109: 3.3, 110: 3.3}, smeared [7, 8, 34], ld linear None (primary None, secondary None), sector dt (min) [], start outputs/candidates/J073937.23-363011.8/J073937.23-363011.8_phoebe_result_m10.json
+  start: chi2 per-sector 49359.8, common 49553.1 (1230 bins)
+  eval 25: best chi2 6246.4
+  eval 50: best chi2 4283.5
+  eval 75: best chi2 3717.6
+  eval 100: best chi2 3671.5
+  eval 125: best chi2 3664.7
+  eval 150: best chi2 3644.1
+  done: chi2 per-sector 3644.1 (red 3.01), common 3826.7 (red 3.13); depth scales S7 1.004, S8 0.991, S34 1.000, S61 1.004, S88 1.002, S109 0.997, S110 1.003
+  params {'incl': np.float64(86.84004), 'dt0': np.float64(-0.00336), 'rsum': np.float64(0.49442), 'k': np.float64(0.47079), 'teffratio': np.float64(0.47619), 'q': np.float64(0.28244)}; mean b 0.925
+2 4283.5
+  eval 75: best chi2 3717.6
+  eval 100: best chi2 3671.5
+  eval 125: best chi2 3664.7
+  eval 150: best chi2 3644.1
+  done: chi2 per-sector 3644.1 (red 3.01), common 3826.7 (red 3.13); depth scales S7 1.004, S8 0.991, S34 1.000, S61 1.004, S88 1.002, S109 0.997, S110 1.003
+  params {'incl': np.float64(86.84004), 'dt0': np.float64(-0.00336), 'rsum': np.float64(0.49442), 'k': np.float64(0.47079), 'teffratio': np.float64(0.47619), 'q': np.float64(0.28244)}; mean b 0.925

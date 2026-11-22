@@ -950,3 +950,24 @@ A tertiary of the size the 25-yr orbit implies changes the W4 excess by < 2% and
 **J2218 re-timing with `albs_final` (verified).** `persector_timing.py ... --ld1 0.35 --ld2 0.5 --maxshift-min 20`: S16 +12.3 (+12.1..+12.5), S17 +11.6 (+11.3..+11.9), S56 −1.0, S57 −1.8, S76 −0.8, S77 0.0, S83 +1.2, S84 +1.3 min. Same as with every earlier model (within ~1 min), so the 2019 offset is model-independent.
 
 **emcee (16 × 10) crashed** at its first step: the emcee bounds in `fit_per_sector_dilution.py` had no entries for `alb1`/`alb2` (KeyError). Fixed today (albedo bounds 0–1), not rerun: not enough of the window left.
+
+## 2026-11-22 (daily cloud run, 08:51 UTC)
+
+**Environment.** All archive hosts still return 000 from the cloud (MAST, IRSA, Gaia, VizieR, CDS XMatch, SkyView, DASCH/starglass, skydot/NSVS). The AWS TESS mirror works.
+
+**J2218 emcee on the adopted model (verified; 16 walkers × 10 steps, χ² scale 2.78, acceptance 0.28; short chain, so the errors are indicative).** `_persectorffi_albs_mcmc`: incl 77.89 (+0.05/−0.03)°, rsum 0.4526 (+0.0004/−0.0006), k 0.369 (+0.002/−0.005), T₂/T₁ 0.712 (+0.002/−0.007), **q 0.398 (+0.007/−0.009)**, **secondary albedo 0.40 (+0.04/−0.02)**. Depth scales 0.984–1.010, each to ±0.0005.
+
+**J2218 SED/W4 with the adopted radii (verified arithmetic; M₁ from the main-sequence relation at 9,500 K is assumed).** `src/checks/j2218_adopted_sed.py`: with q 0.396, sma 8.75 R☉, R₁ 2.89, R₂ 1.07 R☉, T₂ 6,749 K → JHKW1 χ² 38, d_phot/d_Gaia **1.01** (was 1.12), W2 1.17× (5.2σ), W3 2.64× (20.5σ), **W4 30.9× (13.8σ)** (was 31.0×). The excess is unchanged; the distance check improves because the fitted q gives a smaller sma. (The per-sector fit itself used the sma for q 0.8; only fractional radii come from the light curve, and that run gives d ratio 1.10.)
+
+**J0739 per-sector FFI fit (new; verified χ²).** J0739 = J073937.23−363011.8 (tier A, W4 5.2× but extended). FFI light curves from the AWS cubes (`fetch_tess_ffi_s3.py --outdir .../ffi`), sectors 7, 8, 34, 61, 88, 109, 110 (40,875 points; S109/S110 are new). `fit_per_sector_dilution.py`, T₁ 12,470 K, q free (start 0.248), Roche, ntri 400, default LD, exposure smearing for S7/S8/S34, start `_phoebe_result_m10.json`; 1230 sector-bins, 150 evals:
+
+| Variant | χ² (χ²_red) | incl | k | T₂/T₁ | q | albedo₂ |
+|---|---:|---:|---:|---:|---:|---:|
+| **full reflection (`_persectorffi`)** | **3644.1 (3.01)** | 86.84 | 0.471 | 0.476 | 0.282 | 1.0 |
+| secondary albedo free (`_persectorffi_albs`, 125 evals) | 4320.2 (3.57) | 86.72 | 0.453 | 0.472 | 0.259 | 0.99 |
+| reflection off (`_persectorffi_noirr`, stopped at ~75 evals) | 132819 | | | | | 0 |
+
+- **Verified:** full reflection fits J0739 well (χ²_red 3.01, depth scales 0.991–1.004). Reflection off is ruled out (χ² 36× worse). The albedo-free run converged more slowly and sits at albedo ~1.0 anyway, so it isn't needed.
+- **Verified:** the secondary eclipse is flat-bottomed (total occultation of the secondary), and dt0 = −0.0034 d (−4.8 min) relative to the pipeline ephemeris.
+- Residuals (`_persector_persectorffi.png`) are within about ±4σ, with a small bump at primary phase −0.035 and secondary-bottom points ~2σ low in S109/S110 (inferred: a mild period or depth drift; not tested).
+- **Inferred:** T₂ ≈ 0.476 × 12,470 ≈ 5,900 K; the pipeline's eclipse-bias failure (sector-spread errors) does not reappear in the per-sector FFI fit.
