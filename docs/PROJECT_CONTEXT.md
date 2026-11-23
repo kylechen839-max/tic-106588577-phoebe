@@ -123,9 +123,9 @@ Cloud runs: if `.venv-phoebe` is missing, run `python3.11 -m venv .venv-phoebe &
      (c) optional: a longer emcee (16×30) if Kyle wants quotable errors.
 2. **J2312: offline light-curve work is done.** The best fit is `_s16fit` (χ²_red 7.15, q 0.598). W4 after nebula modeling is 11.6–12.5 mJy (2.7–2.9×, 8.3–9.3σ), but the source is slightly extended and sits on a N–S nebular ridge (`j2312_ridge_figure.png`). WISE cannot go further; this needs JWST/MIRI or a WISE HiRes coadd, which only the PC can make (IRSA ICORE).
 3. **J0739:** the largest robust excess (5.2×, 17σ) at 396 pc, but extended (~13″ ≈ 5,000 AU). Check for a resolved companion or galaxy in the W4 beam (Gaia/Pan-STARRS on the PC). Done 11-22: per-sector FFI fit on 7 sectors (FFI in `outputs/candidates/J073937.23-363011.8/ffi/`; never `git add` its `ffi_cutouts/`), full reflection **χ² 3644.1 (χ²_red 3.01)**, incl 86.84, k 0.471, T₂/T₁ 0.476, q 0.282 (`_persectorffi`, 150 evals). Next:
-   (a) continue it: `fit_per_sector_dilution.py --designation $N --raw $O/ffi/${N}_raw.txt --start-from $O/${N}_persector_persectorffi.json --teff 12470 --fit-q --distortion roche --ntri 400 --maxfev 150 --tag _persectorffi2` (each eval is slow because S7/S8/S34 are smeared; about 2.5 h for 150 evals);
-   (b) re-time the sectors (`persector_timing.py ... 12470 --maxshift-min 20`) to check the S109/S110 secondary-bottom residuals;
-   (c) rerun the SED/W4 check with the per-sector radii.
+   Done 11-23: Gaia T₁ 13,856 K fits far better (**`_persectorffi_gteff` χ² 2125.6, χ²_red 1.76**; 12,470 K: 2934.2); timing flat within ±0.5 min over 7 sectors; SED with per-sector radii (`src/checks/persector_sed.py`): W4 5.38× (17.3σ), JHKW1 χ² 1.5, d ratio 1.21. J0739 now passes every fit/SED criterion; the open issue is the extended W4 source. Next:
+   (a) finish the fit: `fit_per_sector_dilution.py --designation $N --raw $O/ffi/${N}_raw.txt --start-from $O/${N}_persector_persectorffi_gteff.json --teff 13856 --fit-q --distortion roche --ntri 400 --maxfev 100 --tag _persectorffi_gteff2`, then emcee 16×10 (`--maxfev 1 --walkers 16 --steps 10`);
+   (b) on the PC: Gaia/Pan-STARRS sources inside the W4 beam (resolved companion or galaxy?).
 4. **J1108−56 and J2048+49: parked.** No detached-EB model fits. **J0009+58:** a YSO dipper candidate; needs a SIMBAD/YSO lookup (PC).
 5. **Needs Kyle:**
    - squash-merge PR #2 (large FITS in history);

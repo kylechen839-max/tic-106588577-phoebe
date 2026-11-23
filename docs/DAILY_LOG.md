@@ -971,3 +971,32 @@ A tertiary of the size the 25-yr orbit implies changes the W4 excess by < 2% and
 - **Verified:** the secondary eclipse is flat-bottomed (total occultation of the secondary), and dt0 = −0.0034 d (−4.8 min) relative to the pipeline ephemeris.
 - Residuals (`_persector_persectorffi.png`) are within about ±4σ, with a small bump at primary phase −0.035 and secondary-bottom points ~2σ low in S109/S110 (inferred: a mild period or depth drift; not tested).
 - **Inferred:** T₂ ≈ 0.476 × 12,470 ≈ 5,900 K; the pipeline's eclipse-bias failure (sector-spread errors) does not reappear in the per-sector FFI fit.
+
+## 2026-11-23 (daily cloud run, 08:51 UTC)
+
+**Environment.** All archive hosts still return 000 from the cloud (MAST, IRSA, Gaia, VizieR, CDS XMatch, SkyView, DASCH/starglass, skydot/NSVS).
+
+**J0739 per-sector FFI fit continued (verified χ²; 150 more evals each from `_persectorffi`; Roche, q free, ntri 400, default LD, smearing S7/S8/S34; 1230 sector-bins).**
+
+| Run | T₁ | χ² (χ²_red) | incl | k | T₂/T₁ (T₂) | q |
+|---|---:|---:|---:|---:|---:|---:|
+| 11-22 `_persectorffi` | 12,470 K | 3644.1 (3.01) | 86.84 | 0.471 | 0.476 | 0.282 |
+| `_persectorffi2` | 12,470 K | 2934.2 (2.42) | 86.28 | 0.486 | 0.480 (5,980 K) | 0.275 |
+| **`_persectorffi_gteff`** | **13,856 K (Gaia)** | **2125.6 (1.76)** | 86.69 | 0.478 | 0.455 (6,305 K) | 0.306 |
+
+- **Verified:** the Gaia temperature fits much better (Δχ² −809 against the same start and number of evals). Residuals (`_persector_persectorffi_gteff.png`) are within about ±3σ, with one +4σ point group at primary phase +0.028. Depth scales 0.992–1.004.
+- Neither run is formally converged at 150 evals (χ² still falling ~20 per 25 evals at the end of `_persectorffi2`; < 2 for `_gteff`).
+- The continuation started at χ² 3668.2, not the 3644.1 the 11-22 run reported (+0.7%, inferred: the json stores rounded parameters).
+
+**J0739 re-timing (verified).** `persector_timing.py ... _persectorffi.json 12470 --maxshift-min 20`: every sector (S7, S8, S34, S61, S88, S109, S110; 2018–2025) is within ±0.5 min of the ephemeris; linear correction dP = +2.6e-8 ± 3.1e-8 d. No timing anomaly, so the small S109/S110 secondary-bottom residuals seen on 11-22 are not a timing shift.
+
+**J0739 SED/W4 with the per-sector radii (verified arithmetic; M₁ from the main-sequence relation at T₁ is assumed).** New generic `src/checks/persector_sed.py DESIGNATION FIT_JSON TEFF1 BASE_RESULT_JSON`:
+
+| Fit | R₁ / R₂ (R☉) | JHKW1 χ² | d_phot/d_Gaia | W3 | W4 |
+|---|---|---:|---:|---|---|
+| `_m10` pipeline (10-20) | 2.66 / 1.24 | 4.0 | 1.16 | 1.01× | 5.23× (17.2σ) |
+| `_persectorffi` (12,470 K) | 2.39 / 1.13 | 4.3 | 1.04 | 1.01× | 5.21× (17.2σ) |
+| `_persectorffi2` (12,470 K) | 2.42 / 1.17 | 4.5 | 1.05 | 1.01× | 5.20× (17.2σ) |
+| **`_persectorffi_gteff` (13,856 K)** | 2.61 / 1.25 | **1.5** | 1.21 | 1.04× | **5.38× (17.3σ)** |
+
+- **Verified:** J0739's W4 excess (5.2–5.4×, 17σ) does not depend on the light-curve model; all SED checks pass. W3 shows no excess, so the dust is cold (inferred).

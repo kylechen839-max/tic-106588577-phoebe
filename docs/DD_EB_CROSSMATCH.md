@@ -1232,3 +1232,17 @@ Builds on the "J2218 O−C check" on branch `claude/project-thread-5mcxzc` (draf
 
 - The J0739 χ²_red values are not comparable between rows (different error models); the per-sector FFI fit is the photon-noise comparison.
 
+### J0739: per-sector FFI fit with the Gaia temperature (2026-11-23 daily run)
+
+![J0739 fit with Gaia T](../outputs/candidates/J073937.23-363011.8/J073937.23-363011.8_persector_persectorffi_gteff.png)
+
+*J0739 per-sector fit at the Gaia temperature (13,856 K), 7 sectors: χ²_red 1.76, total secondary eclipse.*
+
+| J0739 fit | χ² (χ²_red) | incl | k | T₂ | q | SED: JHKW1 χ², d_phot/d_Gaia, W4 |
+|---|---:|---:|---:|---:|---:|---|
+| per-sector, T₁ 12,470 K (`_persectorffi2`) | 2934.2 (2.42) | 86.28 | 0.486 | 5,980 K | 0.275 | 4.5, 1.05, 5.20× (17.2σ) |
+| **per-sector, T₁ 13,856 K Gaia (`_persectorffi_gteff`)** | **2125.6 (1.76)** | 86.69 | 0.478 | 6,305 K | 0.306 | **1.5, 1.21, 5.38× (17.3σ)** |
+
+- **Verified:** J0739 now passes every light-curve and SED criterion with the photon-noise per-sector errors (χ²_red 1.76 < 5; JHKW1 χ² 1.5; d ratio 1.21; W4 17σ). Its remaining caveat is the extended W4 source (20.4″ vs PSF 15.9″).
+- **Verified:** eclipse times in all 7 sectors (2018–2025) agree within ±0.5 min; no third-body signal of the J2218 kind.
+
