@@ -1242,7 +1242,7 @@ Builds on the "J2218 O−C check" on branch `claude/project-thread-5mcxzc` (draf
 |---|---:|---:|---:|---:|---:|---|
 | per-sector, T₁ 12,470 K (`_persectorffi2`) | 2934.2 (2.42) | 86.28 | 0.486 | 5,980 K | 0.275 | 4.5, 1.05, 5.20× (17.2σ) |
 | per-sector, T₁ 13,856 K Gaia (`_persectorffi_gteff`) | 2125.6 (1.76) | 86.69 | 0.478 | 6,305 K | 0.306 | 1.5, 1.21, 5.38× (17.3σ) |
-| **same, continued (`_persectorffi_gteff2`, converged)** | **1956.9 (1.62)** | 86.61 | 0.481 | 6,289 K | 0.303 | see daily log |
+| **same, continued (`_persectorffi_gteff2`, converged)** | **1956.9 (1.62)** | 86.61 | 0.481 | 6,289 K | 0.303 | **1.5, 1.22, 5.38× (17.3σ)** |
 
 - **Verified:** J0739 now passes every light-curve and SED criterion with the photon-noise per-sector errors (χ²_red 1.62 < 5; JHKW1 χ² 1.5; d ratio 1.21; W4 17σ). Its remaining caveat is the extended W4 source (20.4″ vs PSF 15.9″).
 - **Verified:** eclipse times in all 7 sectors (2018–2025) agree within ±0.5 min; no third-body signal of the J2218 kind.
