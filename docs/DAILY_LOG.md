@@ -1000,3 +1000,5 @@ A tertiary of the size the 25-yr orbit implies changes the W4 excess by < 2% and
 | **`_persectorffi_gteff` (13,856 K)** | 2.61 / 1.25 | **1.5** | 1.21 | 1.04× | **5.38× (17.3σ)** |
 
 - **Verified:** J0739's W4 excess (5.2–5.4×, 17σ) does not depend on the light-curve model; all SED checks pass. W3 shows no excess, so the dust is cold (inferred).
+- **Continuation (`_persectorffi_gteff2`, 100 more evals, verified):** χ² **1956.9 (χ²_red 1.62)**, incl 86.61, k 0.481, T₂/T₁ 0.454 (6,289 K), q 0.303; last 25 evals gained only 0.4, so it is essentially converged.
+
