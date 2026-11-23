@@ -117,7 +117,7 @@ ax = fig.add_subplot(gs[1, 3])
 names = ["stars alone\n(PHOEBE)", "getsf-style\npoint source"]
 vals = [m.F_PHOT, F]
 ax.barh([0, 1], vals, xerr=[0, m.E_CAT], color=["C0", "C1"], alpha=0.85, capsize=4)
-ax.text(F + 1.2, 1, f"{F / m.F_PHOT:.1f}× the stars\nexcess {F - m.F_PHOT:.1f} mJy, {sig:.1f}σ", va="center", fontsize=9)
+ax.text(F + 1.2, 1, f"excess {sig:.1f}σ", va="center", fontsize=9)
 ax.set_yticks([0, 1]); ax.set_yticklabels(names, fontsize=9); ax.invert_yaxis()
 ax.set_xlim(0, 24); ax.set_xlabel("W4 flux at the star (mJy)")
 ax.set_title("W4 at the star", fontsize=10)

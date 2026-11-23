@@ -110,13 +110,13 @@ names = ["catalog\nflat sky", "plane", "12 µm\ntemplate", "size\nseparation"]
 vals = [15.36, 14.55, F_B, 12.4]
 cols = ["0.6", "0.6", "C1", "C1"]
 y = np.arange(len(names))
-ax.barh(y, vals, xerr=m.E_CAT, color=cols, alpha=0.85, capsize=3)
-ax.axvline(m.F_PHOT, color="C0", ls="--", lw=2); ax.text(m.F_PHOT + 0.2, len(names) - 0.42, "stars\nalone", color="C0", fontsize=8, va="top")
-for yi, vv in zip(y, vals):
-    ax.text(vv + 1.1, yi, f"{vv / m.F_PHOT:.1f}×, {(vv - m.F_PHOT) / m.E_CAT:.1f}σ", va="center", fontsize=8)
-ax.set_yticks(y); ax.set_yticklabels(names, fontsize=8); ax.set_ylim(len(names) + 0.1, -0.5)
-ax.set_xlim(0, 24); ax.set_xlabel("W4 flux at the star (mJy)")
-ax.set_title("W4 at the star, by background model\n(orange: nebula modeled)", fontsize=10)
+sig = [(v - m.F_PHOT) / m.E_CAT for v in vals]
+ax.barh(y, sig, xerr=1.0, color=cols, alpha=0.85, capsize=3)
+for yi, ss in zip(y, sig):
+    ax.text(ss + 1.4, yi, f"{ss:.1f}σ", va="center", fontsize=9)
+ax.set_yticks(y); ax.set_yticklabels(names, fontsize=8); ax.invert_yaxis()
+ax.set_xlim(0, 17); ax.set_xlabel("W4 excess at the star (σ; 1σ = 0.88 mJy)")
+ax.set_title("W4 excess, by background model\n(orange: nebula modeled)", fontsize=10)
 
 fig.suptitle("J2312 at 22 µm: nebula model subtracted, point source fitted, and what is left", fontsize=12)
 fig.tight_layout()
