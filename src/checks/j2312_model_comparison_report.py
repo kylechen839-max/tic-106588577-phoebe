@@ -97,7 +97,7 @@ ax.set_xlabel("distance from the star (arcsec)"); ax.set_ylabel("relative bright
 fig.tight_layout(); fig.savefig(OUT / "fig2_profiles.png", dpi=130); plt.close(fig)
 
 # ---------- fig 3: flux by model ----------
-models = [("catalogue (flat sky)", 15.36, "0.6"), ("tilted plane", 14.55, "0.6"), ("quadratic", 12.30, "C2"),
+models = [("catalog (flat sky)", 15.36, "0.6"), ("tilted plane", 14.55, "0.6"),
           ("size separation", 12.40, "C2"), ("getsf-style", F_G, "C1"), ("12 µm map (method B)", F_B, "C0")]
 fig, ax = plt.subplots(figsize=(8.5, 4.2))
 y = np.arange(len(models))
@@ -107,7 +107,7 @@ ax.text(F_PHOT + 0.15, -0.6, f"stars alone {F_PHOT:.2f} mJy", fontsize=8)
 for yi, (_, vv, _) in zip(y, models):
     ax.text(vv + 1.0, yi, f"{vv:.2f} mJy · {vv / F_PHOT:.2f}× · {(vv - F_PHOT) / E_CAT:.1f}σ", va="center", fontsize=8.5)
 ax.set_yticks(y); ax.set_yticklabels([n for n, *_ in models]); ax.invert_yaxis()
-ax.set_xlim(0, 24); ax.set_xlabel("W4 flux at the star (mJy); error bar = catalogue error 0.88 mJy")
+ax.set_xlim(0, 24); ax.set_xlabel("W4 flux at the star (mJy); error bar = catalog error 0.88 mJy")
 ax.set_title("W4 at J2312 by background model (gray: nebula ignored; color: nebula modeled)")
 fig.tight_layout(); fig.savefig(OUT / "fig3_flux.png", dpi=130); plt.close(fig)
 
