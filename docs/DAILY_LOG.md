@@ -1002,3 +1002,22 @@ A tertiary of the size the 25-yr orbit implies changes the W4 excess by < 2% and
 - **Verified:** J0739's W4 excess (5.2–5.4×, 17σ) does not depend on the light-curve model; all SED checks pass. W3 shows no excess, so the dust is cold (inferred).
 - **Continuation (`_persectorffi_gteff2`, 100 more evals, verified):** χ² **1956.9 (χ²_red 1.62)**, incl 86.61, k 0.481, T₂/T₁ 0.454 (6,289 K), q 0.303; last 25 evals gained only 0.4, so it is essentially converged.
 
+
+## 2026-11-24 (daily cloud run, 08:51 UTC)
+
+**Environment.** Every archive host returns 000 from the cloud, now including DASCH/starglass (reachable on 11-17) and skydot/NSVS, so the J2218 NSVS retry was not possible.
+
+**J0739 emcee (verified; 16 walkers × 10 steps from `_persectorffi_gteff2`, T₁ 13,856 K, Roche, q free, ntri 400; 08:52–11:08 UTC).** χ² scale 1.62, acceptance 0.28. Output `_persector_persectorffi_gteff_mcmc.{json,png,log}` and the chain `.npy`.
+
+| Parameter | Median | +1σ | −1σ |
+|---|---:|---:|---:|
+| incl (°) | 86.61 | +0.059 | −0.071 |
+| r_sum | 0.4995 | +0.0004 | −0.0006 |
+| k | 0.4814 | +0.0045 | −0.0030 |
+| T₂/T₁ | 0.4553 | +0.0041 | −0.0047 |
+| q | 0.302 | +0.009 | −0.007 |
+| dt0 (d) | −0.003243 | ±0.00006 | |
+
+- **Verified:** the posteriors sit on the converged fit (q 0.303, incl 86.61); depth scales 0.992–1.004. A 10-step chain is short, so the errors are indicative (assumed adequate for the table, as for J2218).
+
+**J2312 report figures (Kyle's requests).** Bar panels now show the excess in σ (1σ = 0.88 mJy), and the quadratic bar is gone from `j2312_model_figure.png` (commits 20abaef, 2156045). The accidental fig3 change was reverted (bfbf82e).
