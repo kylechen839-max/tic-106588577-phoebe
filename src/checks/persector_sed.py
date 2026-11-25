@@ -14,6 +14,9 @@ import run_phoebe_candidate as rp
 name, fit_path, T1, base_path = sys.argv[1], Path(sys.argv[2]), float(sys.argv[3]), Path(sys.argv[4])
 fit, base = json.load(open(fit_path)), json.load(open(base_path))
 p = dict(zip(fit["params"], fit["v"]))
+if "q" not in p:  # q fixed in the fit: fit_per_sector_dilution.py default --q 0.8
+    p["q"] = 0.8
+    print("q not fitted: assuming the fitter default q = 0.8")
 m1, _ = rp.ms_mass_radius(T1)
 sma = rp.kepler_sma(base["period"], m1 * (1 + p["q"]))
 R1, R2, T2 = p["rsum"] / (1 + p["k"]) * sma, p["rsum"] * p["k"] / (1 + p["k"]) * sma, T1 * p["teffratio"]
