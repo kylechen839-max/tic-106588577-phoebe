@@ -1,0 +1,31 @@
+{
+ "fit": "J141909.42-565518.1_persector_persectorffi_lb2.json",
+ "T1": 10875.0,
+ "m1": 3.0319868934492575,
+ "q": 0.8,
+ "sma_rsun": 48.2802345492139,
+ "R1": 4.575085824165907,
+ "R2": 2.28830793477312,
+ "T2": 11056.604125000275,
+ "binary_photosphere_chi2_JHKW1": 0.09412511329913054,
+ "photometric_distance_pc": 723.9688952746498,
+ "gaia_distance_pc": 788.1462799495587,
+ "distance_ratio_phot_over_gaia": 0.9185717343244756,
+ "excess_vs_binary_photosphere": {
+  "W2": {
+   "ratio": 0.9621285946580251,
+   "sigma": -1.4245620295509984
+  },
+  "W3": {
+   "ratio": 1.00050329228247,
+   "sigma": 0.01820559235429908
+  },
+  "W4": {
+   "ratio": 2.8785608183583618,
+   "sigma": 8.53681908507391
+  }
+ },
+ "pass_photosphere": true,
+ "pass_distance": true,
+ "pass_excess_survives": true
+}

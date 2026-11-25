@@ -1021,3 +1021,20 @@ A tertiary of the size the 25-yr orbit implies changes the W4 excess by < 2% and
 - **Verified:** the posteriors sit on the converged fit (q 0.303, incl 86.61); depth scales 0.992–1.004. A 10-step chain is short, so the errors are indicative (assumed adequate for the table, as for J2218).
 
 **J2312 report figures (Kyle's requests).** Bar panels now show the excess in σ (1σ = 0.88 mJy), and the quadratic bar is gone from `j2312_model_figure.png` (commits 20abaef, 2156045). The accidental fig3 change was reverted (bfbf82e).
+
+## 2026-11-25 (daily cloud run, 08:51 UTC)
+
+**Environment.** Every archive host still returns 000 (CDS XMatch, VizieR, MAST, SkyView, IRSA, Gaia, DASCH/starglass, skydot/NSVS); the AWS TESS mirror works. No new PC results on any branch or in /mnt/project-files. J2218 NSVS/DASCH retry not possible.
+
+**J1419 photon-noise per-sector fit (verified χ²; sphere, eccentric, T₁ 10,875 K, q 0.8 fixed, ntri 1500, start `_persectorffi2`, 150 evals each).** The 10-28 fit (χ²_red 137.3) was dominated by out-of-eclipse steps between sectors. New `src/checks/local_eclipse_baseline.py` fits a polynomial in time to each eclipse's out-of-eclipse points (|Δφ| > 1.3 half-widths, within ±0.08 phase) and keeps only those windows: 16,753 of 56,697 points, 619 sector-bins; 4 one-sided events dropped (S11 primary at cycle −148, S102 at +4, S65 secondary at −60). Linear baseline slopes range −2.9 to +1.9 ppt/d (primaries) and −3.9 to +2.2 ppt/d (secondaries).
+
+| Fit | Baseline | χ² start → end | χ²_red per-sector / shared | incl | r_sum | k | T₂/T₁ | e cos ω / e sin ω |
+|---|---|---|---|---:|---:|---:|---:|---|
+| 10-28 `_persectorffi2` | per-orbit detrend | 205,067 (1515 bins) | 137.3 / 148.2 | 89.41 | 0.142 | 0.486 | 1.019 | 0.134 / 0.036 |
+| `_persectorffi_lb` (smeared S11/S38) | linear per eclipse | 9776.4 → 9363.5 | 15.66 / 17.31 | 89.60 | 0.142 | 0.494 | 1.018 | 0.135 / 0.029 |
+| `_persectorffi_lb_nosmear` | linear per eclipse | 9763.7 → 9307.7 | 15.56 / 17.27 | 89.60 | 0.142 | 0.497 | 1.018 | 0.135 / 0.029 |
+| **`_persectorffi_lb2`** (smeared) | **quadratic per eclipse** | 5508.2 → **5235.7** | **8.76 / 9.75** | 89.87 | 0.142 | 0.500 | 1.017 | 0.135 / 0.028 |
+
+- **Verified:** the light-curve geometry does not depend on the baseline treatment; depth scales 0.994–1.003. χ²_red 8.76 still fails the < 5 criterion. Remaining residuals: ±3σ antisymmetric structure at primary ingress/egress in S38/S65, a few ±5–8σ bins at window edges.
+- **Verified:** SED with the per-sector radii (`persector_sed.py`, now defaulting q to 0.8 when it is not fitted): R₁ 4.58, R₂ 2.29 R☉, JHKW1 χ² 0.09, d_phot/d_Gaia 0.92, **W4 2.88× (8.5σ)**, unchanged from `_v4`.
+- Assumed: q 0.8 (never fitted per sector); a quadratic baseline over ±1.3 d cannot fake eclipse shape, since it is fitted to out-of-eclipse points only.

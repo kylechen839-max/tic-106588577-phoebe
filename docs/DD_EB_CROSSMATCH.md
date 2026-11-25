@@ -479,7 +479,7 @@ Visual inspection of the 2′×2′ AllWISE atlas cutouts (`outputs/crossmatch/w
 |---|---|---:|---|---|
 | J2312 | Roche + reflection, q 0.6 | 7.98 (648 bins) | incl 82.87°, r_sum 0.2865, k 0.560, T₂/T₁ 0.937 | q profile minimum at q ≈ 0.6 (0.4: 9.19; 0.5: 8.23; 0.7: 8.10; 0.8: 8.21; 0.9: 8.38; 1.0: 8.53) |
 | J1604 | Roche, eccentric | 7.81 (966 bins) | incl 86.14°, r_sum 0.386, k 0.801, e cos ω 0.062 | final; W4 nebular |
-| J1419 | | 137.3 | | unchanged (10-28) |
+| J1419 | sphere, eccentric, per-eclipse quadratic baseline (`_persectorffi_lb2`, 11-25) | 8.76 (619 bins) | incl 89.87°, r_sum 0.142, k 0.500, T₂/T₁ 1.017, e cos ω 0.135 | was 137.3 with per-orbit detrending; still above 5; SED unchanged (W4 2.88×, 8.5σ) |
 | J2048+49 | PHOEBE grid, sector consensus | 20.3 (165 dof) | incl 65.7°, T₂/T₁ 0.38 | fails: broad dip at phase 0.54 not fitted; d_phot/d_Gaia 1.93 |
 
 New tier-B FFI light curves: J2048+49 (P 3.235309 d, 8 sectors, depths 2.09% / 0.42–0.65% broad) and J1108−56 (P 4.877495 d, 7 sectors, primary 3.58%, no secondary). Details: `docs/DAILY_LOG.md` 2026-10-29.
@@ -509,6 +509,10 @@ New tier-B FFI light curves: J2048+49 (P 3.235309 d, 8 sectors, depths 2.09% / 0
 | J2312 | `_persectorffirocheirr` (Roche + reflection; stopped) | 16, 17, 57 | 300 | **8.21** / – | – | 82.93 | 0.638 | 0.939 | 0.0043 |
 | J1604 | `_persectorffi2` (resumed) | 12, 39, 65, 102, 103 | 180 (+100) | 7.86 / 11.13 | 0.979–1.011 | 86.28 | 0.792 | 0.978 | −0.013 |
 | J1419 | `_persectorffi2` (2nd start) | 11, 38, 65, 99–102 | 180 | 137.3 / 148.2 | 0.993–1.011 | 89.41 | 0.486 | 1.019 | 0.036 |
+| J1419 | `_persectorffi_lb` (11-25; per-eclipse linear baseline, ±0.08 phase windows) | 11, 38, 65, 99–102 | 150 | 15.66 / 17.31 | 0.995–1.005 | 89.60 | 0.494 | 1.018 | 0.029 |
+| J1419 | **`_persectorffi_lb2`** (11-25; per-eclipse quadratic baseline) | 11, 38, 65, 99–102 | 150 | **8.76 / 9.75** | 0.994–1.003 | 89.87 | 0.500 | 1.017 | 0.028 |
+
+J1419 (11-25, verified): the 137.3 came from sector-to-sector baseline offsets and slopes (up to ±3.9 ppt/d) left by per-orbit detrending. `src/checks/local_eclipse_baseline.py` fits a polynomial to each eclipse's out-of-eclipse points (|Δφ| > 1.3 half-widths, within ±0.08) and keeps only the windows (16,753 of 56,697 points; 4 one-sided events dropped). The geometry barely moves (incl 89.41 → 89.87°, k 0.486 → 0.500, T₂/T₁ 1.019 → 1.017), and the SED check with the new radii (R₁ 4.58, R₂ 2.29 R☉, q 0.8 assumed) is unchanged: JHKW1 χ² 0.09, d_phot/d_Gaia 0.92, W4 2.88× (8.5σ). Exposure smearing for S11/S38 changes χ² by < 1% (9363.5 vs 9307.7 without). Remaining residuals are ±3σ antisymmetric structure at primary ingress/egress in S38/S65 (inferred: limb darkening or timing).
 
 The Roche runs were stopped at the window cutoff; neither improved after eval ~150. Their parameters are in `_persector<tag>_partial.json`, and no depth scales were written.
 
