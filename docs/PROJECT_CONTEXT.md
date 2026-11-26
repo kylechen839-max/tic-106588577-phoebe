@@ -97,7 +97,7 @@ Everything under `outputs/` is gitignored. Selected results are force-added (`gi
   - zsh errors on unmatched globs; use `find`.
   - PHOEBE rejects short model labels such as "m" and "x".
 
-## Daily next steps (rewritten by each daily cloud run; last: 2026-11-25)
+## Daily next steps (rewritten by each daily cloud run; last: 2026-11-26)
 
 Cloud runs: if `.venv-phoebe` is missing, run `python3.11 -m venv .venv-phoebe && .venv-phoebe/bin/pip install phoebe==2.4.22 emcee corner scipy matplotlib numpy pandas tabulate`, then `.venv-phoebe/bin/python src/pipeline/build_tess_passband.py`. `.venv-tess` needs `astrocut s3fs tess-point` for the AWS route. **One usage window per day** (Kyle, 2026-10-05): plan fits to finish within ~4.5 h. Do not relaunch after a container restart or once the limit resets; checkpoint and stop. Poll fits by PID (`kill -0`), never with `pgrep -f` on a pattern your own wait loop contains. **Never `git add` `ffi_cutouts/` or `lk_pipeline/cutouts/`** (50 MB FITS each), nor `outputs/j2312_contamination/native/` (67 MB tiles). **χ² is only comparable at the same `--ntri` and `--q`**: J2312 per-sector fits use `--q 0.6 --ntri 1500 --no-smear`; `--ntri 400` changes χ² by ~37%.
 
@@ -127,10 +127,10 @@ Cloud runs: if `.venv-phoebe` is missing, run `python3.11 -m venv .venv-phoebe &
    Converged 11-23: `_persectorffi_gteff2` χ² 1956.9 (χ²_red 1.62), q 0.303.
    Done 11-24: emcee 16×10 (`_persectorffi_gteff_mcmc`, 2.3 h): q 0.302 +0.009/−0.007, incl 86.61 +0.06/−0.07, k 0.481 +0.005/−0.003, T₂/T₁ 0.455 ±0.004, acceptance 0.28. J0739's light-curve modeling is done.
    (b) on the PC: Gaia/Pan-STARRS sources inside the W4 beam (resolved companion or galaxy?).
-4. **J1419 (new 11-25):** per-eclipse quadratic baselines (`src/checks/local_eclipse_baseline.py RAW EPH OUT --order 2`) bring the photon-noise per-sector fit from χ²_red 137.3 to **8.76** (`_persectorffi_lb2`), geometry and SED unchanged (W4 2.88×, 8.5σ). Still above 5. Next, from `_persectorffi_lb2.json` on `ffi/${N}_raw_localbase2.txt` (N=J141909.42-565518.1, O=outputs/candidates/$N, ~1.2 h each, run in parallel):
-   (a) LD scan: `fit_per_sector_dilution.py --designation $N --raw $O/ffi/${N}_raw_localbase2.txt --start-from $O/${N}_persector_persectorffi_lb2.json --teff 10875 --ntri 1500 --eccentric --maxfev 150 --ld 0.25 --tag _persectorffi_lb2_ld025` (and `--ld 0.45`);
-   (b) per-sector timing: `persector_timing.py` on `_persectorffi_lb2.json` (ingress/egress residuals in S38/S65 may be a timing shift);
-   (c) q free (`--fit-q`, start 0.8): q is fixed at the fitter default 0.8 in every per-sector J1419 fit.
+4. **J1419:** per-eclipse quadratic baselines (`src/checks/local_eclipse_baseline.py RAW EPH OUT --order 2`, 11-25) took the photon-noise per-sector fit from χ²_red 137.3 to 8.76. Done 11-26: per-sector timing found the period 8.5 s short (dP +9.81e-5 ± 1.0e-5 d; new P 16.6338312 d); LD scan best u 0.25; q is unconstrained (free q gains Δχ² 0.8). **Adopted `_persectorffi_lb2_pc_ld025`, χ² 4379.6 (χ²_red 7.35)**; SED unchanged (W4 2.88×, 8.5σ). Still above 5. The secondary-eclipse windows carry most of the χ². Next (N=J141909.42-565518.1, O=outputs/candidates/$N, R=$O/ffi/${N}_raw_localbase2.txt, P=16.633831154807936; about 1.2 h each, in parallel):
+   (a) per-star LD (secondary differs?): `fit_per_sector_dilution.py --designation $N --raw $R --start-from $O/${N}_persector_persectorffi_lb2_pc_ld025.json --teff 10875 --ntri 1500 --eccentric --maxfev 150 --period $P --ld1 0.25 --ld2 0.15 --tag _persectorffi_lb2_pc_ld2015` (and `--ld2 0.35`);
+   (b) quadratic LD law (`--ld-func quadratic --ld 0.15,0.20`), same start;
+   (c) a cubic-baseline check (`local_eclipse_baseline.py ... --order 3`) to see how much of the χ² is still baseline.
 5. **J1108−56 and J2048+49: parked.** No detached-EB model fits. **J0009+58:** a YSO dipper candidate; needs a SIMBAD/YSO lookup (PC).
 6. **Needs Kyle:**
    - squash-merge PR #2 (large FITS in history);

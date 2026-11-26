@@ -1038,3 +1038,26 @@ A tertiary of the size the 25-yr orbit implies changes the W4 excess by < 2% and
 - **Verified:** the light-curve geometry does not depend on the baseline treatment; depth scales 0.994–1.003. χ²_red 8.76 still fails the < 5 criterion. Remaining residuals: ±3σ antisymmetric structure at primary ingress/egress in S38/S65, a few ±5–8σ bins at window edges.
 - **Verified:** SED with the per-sector radii (`persector_sed.py`, now defaulting q to 0.8 when it is not fitted): R₁ 4.58, R₂ 2.29 R☉, JHKW1 χ² 0.09, d_phot/d_Gaia 0.92, **W4 2.88× (8.5σ)**, unchanged from `_v4`.
 - Assumed: q 0.8 (never fitted per sector); a quadratic baseline over ±1.3 d cannot fake eclipse shape, since it is fitted to out-of-eclipse points only.
+
+## 2026-11-26 (daily cloud run, 08:51 UTC)
+
+**Environment.** Every archive host still returns 000 (CDS XMatch, VizieR, MAST, SkyView, IRSA, Gaia, DASCH/starglass, skydot/NSVS). No new PC results on any branch. J2218 NSVS/DASCH retry not possible.
+
+**J1419 follow-ups on the per-eclipse-baseline light curve (verified χ²; sphere, eccentric, T₁ 10,875 K, ntri 1500, smeared S11/S38, 150 evals each; `ffi/..._raw_localbase2.txt`).**
+
+| Fit | Period (d) | LD (linear) | q | χ² | χ²_red (bins) | incl | k | T₂/T₁ |
+|---|---|---:|---:|---:|---|---:|---:|---:|
+| 11-25 `_lb2` | 16.6337331 | 0.35 (default) | 0.8 | 5235.7 | 8.76 (619) | 89.87 | 0.500 | 1.017 |
+| `_lb2_ld015` | 16.6337331 | 0.15 | 0.8 | 5050.3 | 8.45 | 90.01 | 0.517 | 0.991 |
+| `_lb2_ld025` | 16.6337331 | 0.25 | 0.8 | 4682.9 | 7.83 | 90.04 | 0.515 | 1.003 |
+| `_lb2_ld045` | 16.6337331 | 0.45 | 0.8 | 6705.1 | 11.21 | 90.10 | 0.492 | 1.032 |
+| `_lb2_q` | 16.6337331 | 0.35 | **0.865 (free)** | 5234.9 | 8.77 | 89.90 | 0.501 | 1.017 |
+| `_lb2_pc_ld015` | 16.6338312 | 0.15 | 0.8 | 4776.2 | 8.01 (617) | 89.84 | 0.524 | 0.991 |
+| `_lb2_pc_ld020` | 16.6338312 | 0.20 | 0.8 | 4430.9 | 7.43 | 90.10 | 0.523 | 0.997 |
+| **`_lb2_pc_ld025`** | **16.6338312** | **0.25** | 0.8 | **4379.6** | **7.35** | 89.88 | 0.515 | 1.004 |
+| `_lb2_pc_ld030` | 16.6338312 | 0.30 | 0.8 | 4571.8 | 7.67 | 90.15 | 0.507 | 1.010 |
+
+- **Verified: the catalog period is 8.5 s short.** Per-sector timing (`persector_timing.py`, model `_lb2`): S11 −19.5, S38 −9.5, S65 −7.8, S99 +2.9, S100 +2.2, S101 +2.4, S102 +2.0 min; linear fit dP **+9.81e-5 ± 1.0e-5 d** (χ² 2.4 for 7 sectors), so P = 16.6338312 d. Re-timing at the new period (model `_lb2_pc_ld025`): S38–S102 within −0.2 to +3.5 min, S11 +10.8 min (30-min cadence; 1σ +6.5 to +15.2); residual dP −2.7e-5 ± 1.3e-5 d (2σ, not applied).
+- **Verified:** linear LD u ≈ 0.25 is best at both periods; q is not constrained by the light curve (Δχ² 0.8). The period correction gains Δχ² −303 at LD 0.25 (617 vs 619 bins).
+- **Verified:** SED with the adopted radii (R₁ 4.54, R₂ 2.34 R☉; q 0.8 assumed): JHKW1 χ² 0.09, d_phot/d_Gaia 0.92, W4 2.88× (8.5σ), unchanged.
+- χ²_red 7.35 still fails < 5. In the timing scan most of the remaining χ² sits in the secondary-eclipse windows (S100 5350 of 6082; S101 3930 of 5040), which points at the secondary's shape or LD (inferred).

@@ -479,7 +479,7 @@ Visual inspection of the 2′×2′ AllWISE atlas cutouts (`outputs/crossmatch/w
 |---|---|---:|---|---|
 | J2312 | Roche + reflection, q 0.6 | 7.98 (648 bins) | incl 82.87°, r_sum 0.2865, k 0.560, T₂/T₁ 0.937 | q profile minimum at q ≈ 0.6 (0.4: 9.19; 0.5: 8.23; 0.7: 8.10; 0.8: 8.21; 0.9: 8.38; 1.0: 8.53) |
 | J1604 | Roche, eccentric | 7.81 (966 bins) | incl 86.14°, r_sum 0.386, k 0.801, e cos ω 0.062 | final; W4 nebular |
-| J1419 | sphere, eccentric, per-eclipse quadratic baseline (`_persectorffi_lb2`, 11-25) | 8.76 (619 bins) | incl 89.87°, r_sum 0.142, k 0.500, T₂/T₁ 1.017, e cos ω 0.135 | was 137.3 with per-orbit detrending; still above 5; SED unchanged (W4 2.88×, 8.5σ) |
+| J1419 | sphere, eccentric, per-eclipse quadratic baseline, P 16.6338312 d, LD 0.25 (`_persectorffi_lb2_pc_ld025`, 11-26) | 7.35 (617 bins) | incl 89.88°, r_sum 0.142, k 0.515, T₂/T₁ 1.004, e cos ω 0.135 | was 137.3 (10-28), 8.76 (11-25); still above 5; most remaining χ² is in the secondary eclipse; SED unchanged (W4 2.88×, 8.5σ) |
 | J2048+49 | PHOEBE grid, sector consensus | 20.3 (165 dof) | incl 65.7°, T₂/T₁ 0.38 | fails: broad dip at phase 0.54 not fitted; d_phot/d_Gaia 1.93 |
 
 New tier-B FFI light curves: J2048+49 (P 3.235309 d, 8 sectors, depths 2.09% / 0.42–0.65% broad) and J1108−56 (P 4.877495 d, 7 sectors, primary 3.58%, no secondary). Details: `docs/DAILY_LOG.md` 2026-10-29.
@@ -510,9 +510,14 @@ New tier-B FFI light curves: J2048+49 (P 3.235309 d, 8 sectors, depths 2.09% / 0
 | J1604 | `_persectorffi2` (resumed) | 12, 39, 65, 102, 103 | 180 (+100) | 7.86 / 11.13 | 0.979–1.011 | 86.28 | 0.792 | 0.978 | −0.013 |
 | J1419 | `_persectorffi2` (2nd start) | 11, 38, 65, 99–102 | 180 | 137.3 / 148.2 | 0.993–1.011 | 89.41 | 0.486 | 1.019 | 0.036 |
 | J1419 | `_persectorffi_lb` (11-25; per-eclipse linear baseline, ±0.08 phase windows) | 11, 38, 65, 99–102 | 150 | 15.66 / 17.31 | 0.995–1.005 | 89.60 | 0.494 | 1.018 | 0.029 |
-| J1419 | **`_persectorffi_lb2`** (11-25; per-eclipse quadratic baseline) | 11, 38, 65, 99–102 | 150 | **8.76 / 9.75** | 0.994–1.003 | 89.87 | 0.500 | 1.017 | 0.028 |
+| J1419 | `_persectorffi_lb2` (11-25; per-eclipse quadratic baseline) | 11, 38, 65, 99–102 | 150 | 8.76 / 9.75 | 0.994–1.003 | 89.87 | 0.500 | 1.017 | 0.028 |
+| J1419 | `_persectorffi_lb2_ld025` (11-26; linear LD 0.25) | 11, 38, 65, 99–102 | 150 | 7.83 / 8.94 | 0.994–1.003 | 90.04 | 0.515 | 1.003 | 0.035 |
+| J1419 | `_persectorffi_lb2_q` (11-26; q free → 0.865) | 11, 38, 65, 99–102 | 150 | 8.77 / 9.76 | 0.995–1.003 | 89.90 | 0.501 | 1.017 | 0.027 |
+| J1419 | **`_persectorffi_lb2_pc_ld025`** (11-26; P 16.6338312 d, LD 0.25; adopted) | 11, 38, 65, 99–102 | 150 | **7.35 / 8.44** | 0.995–1.003 | 89.88 | 0.515 | 1.004 | 0.037 |
 
 J1419 (11-25, verified): the 137.3 came from sector-to-sector baseline offsets and slopes (up to ±3.9 ppt/d) left by per-orbit detrending. `src/checks/local_eclipse_baseline.py` fits a polynomial to each eclipse's out-of-eclipse points (|Δφ| > 1.3 half-widths, within ±0.08) and keeps only the windows (16,753 of 56,697 points; 4 one-sided events dropped). The geometry barely moves (incl 89.41 → 89.87°, k 0.486 → 0.500, T₂/T₁ 1.019 → 1.017), and the SED check with the new radii (R₁ 4.58, R₂ 2.29 R☉, q 0.8 assumed) is unchanged: JHKW1 χ² 0.09, d_phot/d_Gaia 0.92, W4 2.88× (8.5σ). Exposure smearing for S11/S38 changes χ² by < 1% (9363.5 vs 9307.7 without). Remaining residuals are ±3σ antisymmetric structure at primary ingress/egress in S38/S65 (inferred: limb darkening or timing).
+
+J1419 (11-26, verified): per-sector timing on `_lb2` gives shifts from −19.5 min (S11, 2019) to +2–3 min (S99–S102, 2025) that a linear ephemeris absorbs: **dP +9.81e-5 ± 1.0e-5 d** (χ² 2.4 for 7 sectors), so the catalog period 16.6337331 d was 8.5 s short. At P 16.6338312 d re-timing leaves S38–S102 within −0.2 to +3.5 min, with S11 (30-min cadence) at +10.8 min (residual dP −2.7e-5 ± 1.3e-5 d, 2σ). LD scan at the corrected period: u 0.20 / 0.25 / 0.30 → χ² 4430.9 / **4379.6** / 4571.8; at the old period 0.15 / 0.25 / 0.35 / 0.45 → 5050.3 / 4682.9 / 5235.7 / 6705.1. Freeing q (→ 0.865) gains only Δχ² 0.8, so the light curve does not constrain q. SED with the adopted radii (R₁ 4.54, R₂ 2.34 R☉, q 0.8 assumed): JHKW1 χ² 0.09, d_phot/d_Gaia 0.92, W4 2.88× (8.5σ). In the timing scan, the secondary-eclipse windows carry most of the remaining χ² (e.g. S100: 5350 of 6082).
 
 The Roche runs were stopped at the window cutoff; neither improved after eval ~150. Their parameters are in `_persector<tag>_partial.json`, and no depth scales were written.
 
