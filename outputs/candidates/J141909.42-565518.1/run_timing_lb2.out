@@ -1,0 +1,11 @@
+Connection to online passbands at https://tables.phoebe-project.org could not be established.  Check your internet connection or try again later (can manually call phoebe.list_online_passbands(refresh=True) to retry).  If the problem persists and you're using a Mac, you may need to update openssl (see https://phoebe-project.org/help/faq). Original error from urlopen: URLError <urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>
+J141909.42-565518.1: per-sector timing scan, model from outputs/candidates/J141909.42-565518.1/J141909.42-565518.1_persector_persectorffi_lb2.json
+  S11: chi2 1553.3 -> 1252.1 at dt -19.50 min (1sig -20.0..-15.6); primary 91.6 -> 88.9; secondary 1309.9 -> 1014.9; ingress/egress mean resid +0.76/-5.77 -> +0.89/-5.62
+  S38: chi2 2664.6 -> 2327.6 at dt -9.50 min (1sig -12.1..-7.0); primary 418.6 -> 315.4; secondary 2057.1 -> 1823.2; ingress/egress mean resid -0.70/+0.24 -> +0.65/-0.99
+  S65: chi2 4245.2 -> 3847.8 at dt -7.80 min (1sig -9.9..-5.6); primary 558.7 -> 511.3; secondary 3295.9 -> 2945.7; ingress/egress mean resid -0.97/-1.30 -> +0.92/-3.17
+  S99: chi2 481.1 -> 452.3 at dt +2.90 min (1sig +1.3..+4.4); primary 332.4 -> 304.2; secondary 0.0 -> 0.0; ingress/egress mean resid +1.32/-2.25 -> +0.62/-1.59
+  S100: chi2 5303.1 -> 5261.3 at dt +2.20 min (1sig -0.2..+4.6); primary 614.1 -> 610.9; secondary 4447.4 -> 4408.2; ingress/egress mean resid +0.85/+0.13 -> +0.46/+0.50
+  S101: chi2 4556.6 -> 4507.2 at dt +2.40 min (1sig +0.1..+4.6); primary 726.6 -> 743.9; secondary 3326.9 -> 3260.8; ingress/egress mean resid -1.95/+1.88 -> -2.55/+2.45
+  S102: chi2 1815.0 -> 1798.6 at dt +2.00 min (1sig -0.1..+4.1); primary 165.5 -> 171.4; secondary 1546.7 -> 1523.8; ingress/egress mean resid -1.56/-0.14 -> -1.90/+0.18
+  linear fit to shifts: dT0 +2.35 min, dP +9.809e-05 +/- 1.0e-05 d (chi2 2.4 for 7 sectors)
+  wrote /home/claude/tic-106588577-phoebe/outputs/candidates/J141909.42-565518.1/J141909.42-565518.1_timing_persectorffi_lb2.json
