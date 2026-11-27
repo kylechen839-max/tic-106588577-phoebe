@@ -1061,3 +1061,24 @@ A tertiary of the size the 25-yr orbit implies changes the W4 excess by < 2% and
 - **Verified:** linear LD u ≈ 0.25 is best at both periods; q is not constrained by the light curve (Δχ² 0.8). The period correction gains Δχ² −303 at LD 0.25 (617 vs 619 bins).
 - **Verified:** SED with the adopted radii (R₁ 4.54, R₂ 2.34 R☉; q 0.8 assumed): JHKW1 χ² 0.09, d_phot/d_Gaia 0.92, W4 2.88× (8.5σ), unchanged.
 - χ²_red 7.35 still fails < 5. In the timing scan most of the remaining χ² sits in the secondary-eclipse windows (S100 5350 of 6082; S101 3930 of 5040), which points at the secondary's shape or LD (inferred).
+
+## 2026-11-27 (daily cloud run, 08:51 UTC)
+
+**Environment.** Every archive host still returns 000 (CDS XMatch, VizieR, MAST, SkyView, IRSA, Gaia, DASCH/starglass, skydot/NSVS). No new PC results on any branch. J2218 NSVS/DASCH retry not possible.
+
+**J1419 (verified χ²; sphere, eccentric, T₁ 10,875 K, q 0.8, ntri 1500, P 16.6338312 d, start `_lb2_pc_ld025`, 150 evals each; 617 sector-bins).**
+
+| Fit | Baseline per eclipse | LD | χ² | χ²_red per-sector / shared | incl | k | T₂/T₁ |
+|---|---|---|---:|---|---:|---:|---:|
+| 11-26 `_lb2_pc_ld025` | quadratic | linear 0.25 | 4379.6 | 7.35 / 8.44 | 89.88 | 0.515 | 1.004 |
+| `_lb2_pc_ld2015` | quadratic | 0.25 / secondary 0.15 | 4397.0 | 7.38 / 8.50 | 89.98 | 0.516 | 1.003 |
+| `_lb2_pc_ld2035` | quadratic | 0.25 / secondary 0.35 | 4369.0 | 7.33 / 8.44 | 89.88 | 0.515 | 1.004 |
+| `_lb2_pc_quad` | quadratic | quadratic 0.15, 0.20 | 4374.5 | 7.34 / 8.50 | 90.12 | 0.516 | 1.006 |
+| **`_lb3_pc_ld025`** | **cubic** | linear 0.25 | **1483.6** | **2.49 / 3.60** | 90.02 | 0.515 | 1.003 |
+| `_lb4_pc_ld025` | quartic | linear 0.25 | 1411.3 | 2.37 / 4.25 | 90.10 | 0.515 | 1.003 |
+
+- **Verified:** limb darkening is not what limits the fit (all LD variants within Δχ² 30). The baseline order is: cubic drops χ² by 66% with unchanged geometry, and quartic adds only another 5%, so the baseline converges at cubic. Depth scales 0.993–1.004.
+- **Verified:** with the cubic baseline the in-eclipse point-level χ² (`persector_timing.py`, dt = 0, summed over sectors) also drops versus quadratic: primary 2207 → 1338, secondary 15,916 → 14,504. Inferred: the extra term corrects the in-eclipse baseline level, not just the out-of-eclipse bins. Timing is flat: S38–S102 within −0.7 to +3.6 min, S11 +7.8 min (30-min cadence); residual dP −2.5e-5 ± 1.2e-5 d (2σ, not applied).
+- **Emcee 16×10 on `_lb3_pc_ld025`** (χ² scale 2.49, acceptance 0.38; `_persectorffi_lb3_mcmc`): incl 90.05 +0.027/−0.033, r_sum 0.1424 +0.0004/−0.0004, k 0.5146 +0.0017/−0.0030, T₂/T₁ 1.004 +0.003/−0.0014, e cos ω 0.1346 ± 0.0001, e sin ω 0.0369 +0.0017/−0.0012. Short chain, indicative.
+- **Verified:** SED with the adopted radii (R₁ 4.54, R₂ 2.34 R☉; q 0.8 assumed): JHKW1 χ² 0.09, d_phot/d_Gaia 0.92, W4 2.88× (8.5σ).
+- **J1419 now passes the photon-noise light-curve criterion (χ²_red 2.49 < 5)**, conditional on cubic per-eclipse baselines. Its open issue stays the W4 image (model-dependent against structured background, 11-15).
