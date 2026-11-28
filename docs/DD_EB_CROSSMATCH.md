@@ -479,6 +479,7 @@ Visual inspection of the 2′×2′ AllWISE atlas cutouts (`outputs/crossmatch/w
 |---|---|---:|---|---|
 | J2312 | Roche + reflection, q 0.6 | 7.98 (648 bins) | incl 82.87°, r_sum 0.2865, k 0.560, T₂/T₁ 0.937 | q profile minimum at q ≈ 0.6 (0.4: 9.19; 0.5: 8.23; 0.7: 8.10; 0.8: 8.21; 0.9: 8.38; 1.0: 8.53) |
 | J1604 | Roche, eccentric | 7.81 (966 bins) | incl 86.14°, r_sum 0.386, k 0.801, e cos ω 0.062 | final; W4 nebular |
+| J1604 | same + smearing S12/S39, linear LD 0.25 (`_persectorffi_smear_ld025`, 11-28; not converged) | 7.22 (966 bins) | incl 85.87°, r_sum 0.384, k 0.796, e cos ω 0.062 | timing flat (±1 min), so no period error; LD 0.35 / 0.45 give 7.84 / 8.67; in-eclipse shape residuals remain; W4 nebular |
 | J1419 | sphere, eccentric, per-eclipse cubic baseline, P 16.6338312 d, LD 0.25 (`_persectorffi_lb3_pc_ld025`, 11-27) | **2.49** (617 bins) | incl 90.05°, r_sum 0.1424, k 0.515, T₂/T₁ 1.004, e cos ω 0.1346, e sin ω 0.037 | **passes < 5** (was 137.3 on 10-28, 7.35 on 11-26); baseline-order dependent; SED unchanged (W4 2.88×, 8.5σ) |
 | J2048+49 | PHOEBE grid, sector consensus | 20.3 (165 dof) | incl 65.7°, T₂/T₁ 0.38 | fails: broad dip at phase 0.54 not fitted; d_phot/d_Gaia 1.93 |
 

@@ -1,0 +1,9 @@
+Connection to online passbands at https://tables.phoebe-project.org could not be established.  Check your internet connection or try again later (can manually call phoebe.list_online_passbands(refresh=True) to retry).  If the problem persists and you're using a Mac, you may need to update openssl (see https://phoebe-project.org/help/faq). Original error from urlopen: URLError <urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>
+J160415.99-562627.3: per-sector timing scan, model from outputs/candidates/J160415.99-562627.3/J160415.99-562627.3_persector_ffi3final.json
+  S12: chi2 2804.2 -> 2795.5 at dt -0.30 min (1sig -0.8..+0.1); primary 907.6 -> 974.7; secondary 992.0 -> 939.3; ingress/egress mean resid +5.00/-8.62 -> +5.38/-9.02
+  S39: chi2 548.7 -> 545.6 at dt +0.30 min (1sig +0.1..+0.5); primary 229.4 -> 214.9; secondary 36.2 -> 48.3; ingress/egress mean resid -0.60/-4.28 -> -0.90/-3.99
+  S65: chi2 1515.1 -> 1514.5 at dt +0.10 min (1sig -0.1..+0.4); primary 414.8 -> 421.3; secondary 108.9 -> 99.7; ingress/egress mean resid -5.83/-3.39 -> -6.00/-3.21
+  S102: chi2 1228.3 -> 1174.3 at dt -0.80 min (1sig -0.9..-0.6); primary 348.8 -> 249.4; secondary 254.6 -> 334.0; ingress/egress mean resid -6.72/-0.46 -> -5.44/-1.75
+  S103: chi2 1553.8 -> 1525.2 at dt +0.50 min (1sig +0.3..+0.7); primary 280.0 -> 333.6; secondary 441.2 -> 367.2; ingress/egress mean resid -5.52/-2.07 -> -6.28/-1.35
+  linear fit to shifts: dT0 -0.29 min, dP -3.918e-07 +/- 1.7e-07 d (chi2 30.2 for 5 sectors)
+  wrote /home/claude/tic-106588577-phoebe/outputs/candidates/J160415.99-562627.3/J160415.99-562627.3_timing_ffi3final.json

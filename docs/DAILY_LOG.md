@@ -1082,3 +1082,20 @@ A tertiary of the size the 25-yr orbit implies changes the W4 excess by < 2% and
 - **Emcee 16×10 on `_lb3_pc_ld025`** (χ² scale 2.49, acceptance 0.38; `_persectorffi_lb3_mcmc`): incl 90.05 +0.027/−0.033, r_sum 0.1424 +0.0004/−0.0004, k 0.5146 +0.0017/−0.0030, T₂/T₁ 1.004 +0.003/−0.0014, e cos ω 0.1346 ± 0.0001, e sin ω 0.0369 +0.0017/−0.0012. Short chain, indicative.
 - **Verified:** SED with the adopted radii (R₁ 4.54, R₂ 2.34 R☉; q 0.8 assumed): JHKW1 χ² 0.09, d_phot/d_Gaia 0.92, W4 2.88× (8.5σ).
 - **J1419 now passes the photon-noise light-curve criterion (χ²_red 2.49 < 5)**, conditional on cubic per-eclipse baselines. Its open issue stays the W4 image (model-dependent against structured background, 11-15).
+
+## 2026-11-28 (daily cloud run, 08:51 UTC)
+
+**Environment.** Every archive host still returns 000 (CDS XMatch, VizieR, MAST, SkyView, IRSA, Gaia, DASCH/starglass, skydot/NSVS). No new PC results on any branch. J2218 NSVS/DASCH retry not possible.
+
+**J1604 (W4 nebular; follow-up on the photon-noise fit `_ffi3final`, χ² 7407.3, χ²_red 7.81, 966 bins).** Its residuals (`_persector_ffi3final.png`) are coherent in-eclipse shape errors of ±5–10σ, not baseline steps, so the J1419 per-eclipse baseline does not apply (and at P 2.21 d it would absorb the ellipsoidal signal).
+- **Per-sector timing (verified;** `persector_timing.py`, Roche, ntri 1500, q 0.8): S12 −0.3, S39 +0.3, S65 +0.1, S102 −0.8, S103 +0.5 min; dP −3.9e-7 ± 1.7e-7 d (χ² 30.2 for 5 sectors). No period error; the shifts are too small to matter.
+- **Refits (verified χ²; Roche, eccentric, T₁ 14,140 K, q 0.8, ntri 1500, now with exposure smearing for S12 (30 min) and S39 (10 min), start `_ffi3final`, 100 evals each, not converged):**
+
+| Fit | LD (linear) | χ² start → end | χ²_red per-sector / shared | incl | r_sum | k | T₂/T₁ |
+|---|---:|---|---|---:|---:|---:|---:|
+| `_ffi3final` (no smearing) | 0.35 | 7407.3 | 7.81 / 11.10 | 86.14 | 0.386 | 0.801 | 0.977 |
+| `_persectorffi_smear` | 0.35 | 7528.6 → 7444.9 | 7.84 / 11.33 | 85.74 | 0.386 | 0.818 | 0.975 |
+| **`_persectorffi_smear_ld025`** | **0.25** | 7231.0 → **6853.6** | **7.22** / 10.68 | 85.87 | 0.384 | 0.796 | 0.972 |
+| `_persectorffi_smear_ld045` | 0.45 | 8746.6 → 8228.7 | 8.67 / 12.28 | 85.57 | 0.388 | 0.862 | 0.974 |
+
+- Verified: lower LD helps (Δχ² −591 for 0.35 → 0.25); smearing alone does not (+38). Depth scales unchanged (S65 0.978). J1604 still fails χ²_red < 5, and its W4 excess is nebular (11-15), so it stays low priority.
