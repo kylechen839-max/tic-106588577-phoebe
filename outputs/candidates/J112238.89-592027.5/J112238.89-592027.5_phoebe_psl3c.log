@@ -1,0 +1,24 @@
+=== J112238.89-592027.5 per-sector dilution fit: sectors [10, 11, 37], 589 sector-bins, 589 model phases, Teff1=7705, l3=0.367, scale prior 0.05, free ['incl', 'dt0', 'rsum', 'k', 'teffratio'], cadence (min) {10: 30.0, 11: 30.0, 37: 10.0}, smeared [], start outputs/candidates/J112238.89-592027.5/J112238.89-592027.5_phoebe_result_7sector.json
+  start: chi2 per-sector 1460.3, common 1314.4 (589 bins)
+  eval 25: best chi2 938.8
+  eval 50: best chi2 881.7
+  eval 75: best chi2 866.8
+  eval 100: best chi2 859.5
+  eval 125: best chi2 858.9
+  eval 150: best chi2 857.0
+  eval 175: best chi2 857.0
+  eval 200: best chi2 848.7
+  eval 225: best chi2 848.7
+  eval 250: best chi2 848.7
+  eval 275: best chi2 848.7
+  eval 300: best chi2 848.7
+  eval 325: best chi2 848.7
+  eval 350: best chi2 848.7
+  eval 375: best chi2 848.7
+  eval 400: best chi2 848.7
+  eval 425: best chi2 848.7
+  eval 450: best chi2 848.7
+  eval 475: best chi2 848.7
+  eval 500: best chi2 848.7
+  done: chi2 per-sector 848.7 (red 1.47), common 890.8 (red 1.53); depth scales S10 0.851, S11 1.065, S37 1.085
+  params {'incl': np.float64(89.50044), 'dt0': np.float64(0.00436), 'rsum': np.float64(0.15106), 'k': np.float64(0.10727), 'teffratio': np.float64(0.6511)}; mean b 0.968

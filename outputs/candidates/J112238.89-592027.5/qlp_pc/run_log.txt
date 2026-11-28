@@ -1,0 +1,29 @@
+S010 QLP  1800s sap_flux n=925
+S011 QLP  1800s sap_flux n=961
+S037 QLP   600s sap_flux n=2840
+S064 QLP   200s sap_flux n=10673
+S090 QLP   200s sap_flux n=10858
+S100 QLP   200s sap_flux n=8004
+S099 QLP   600s sap_flux n=7089
+ sector  exptime_s flux_col  n_all  n_quality0  n_clean  n_clipped  rms_ppt  primary_depth_pct  n_in_primary  secondary_depth_pct  n_in_secondary
+     10     1800.0 sap_flux   1211         925      915         10    7.740              4.240             9                0.396              14
+     11     1800.0 sap_flux   1248         961      955          6    7.162              3.970            12                0.538              18
+     37      600.0 sap_flux   3477        2840     2835          5   12.750              3.851            35                0.703              28
+     64      200.0 sap_flux  11356       10673    10673          0   20.347              4.591           105                0.032             124
+     90      200.0 sap_flux  11574       10858    10855          3   19.063              5.415           125                0.306              93
+     99      600.0 sap_flux   8629        7089     7088          1    4.937              4.608            77                0.467              41
+    100      200.0 sap_flux  11174        8004     8004          0    4.552              4.271            82                0.510              84
+all sectors: primary 4.59%, secondary 0.39%, clean points 41325, clipped 25
+NaN flux_err: 41325 of 41325
+secondary (|ph-0.5|<0.01): 0.319 +/- 0.039 %  (8.2 sigma)
+   same test at 24 other out-of-eclipse phases: rms 0.107%, max |dip| 0.290%
+secondary (|ph-0.5|<0.02): 0.186 +/- 0.031 %  (6.1 sigma)
+   same test at 24 other out-of-eclipse phases: rms 0.090%, max |dip| 0.213%
+primary core (|ph|<0.005): 4.68 +/- 0.06 %
+  S10 secondary -0.03 +/- 0.16%
+  S11 secondary 0.52 +/- 0.12%
+  S37 secondary 0.33 +/- 0.12%
+  S64 secondary -0.11 +/- 0.10%
+  S90 secondary 0.27 +/- 0.12%
+  S99 secondary 0.47 +/- 0.04%
+  S100 secondary 0.33 +/- 0.04%

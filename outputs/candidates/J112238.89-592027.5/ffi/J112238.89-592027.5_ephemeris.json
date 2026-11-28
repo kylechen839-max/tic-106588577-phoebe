@@ -1,0 +1,40 @@
+{
+  "designation": "J112238.89-592027.5",
+  "catalog_period": 4.7917046,
+  "period": 4.7917046,
+  "t0": 3772.4240203737136,
+  "odd_even_sigma": NaN,
+  "odd_depth": NaN,
+  "even_depth": NaN,
+  "phase05_dip_over_primary": NaN,
+  "sectors": [
+    10,
+    11,
+    37,
+    64,
+    90,
+    99,
+    100
+  ],
+  "authors": [
+    "FFI-S3"
+  ],
+  "n_points": 31436,
+  "n_bins": 238,
+  "oot_flux": 1.0058607947696983,
+  "primary_depth": 0.23481737140712422,
+  "secondary_depth": 0.06020246100508775,
+  "raw_rms": 0.03379309127788845,
+  "eclipses": {
+    "phase1": 0.0005400737127023714,
+    "phase2": 0.5031193877910008,
+    "depth1": 0.19203654479789745,
+    "depth2": 0.04384788878599177,
+    "halfwidth1": 0.023,
+    "halfwidth2": 0.024,
+    "secondary_detected": true,
+    "continuum_amplitude": 0.01161817063763193,
+    "profile_noise": 0.006134907727456982
+  },
+  "ecosw_estimate": 0.00489992288395298
+}

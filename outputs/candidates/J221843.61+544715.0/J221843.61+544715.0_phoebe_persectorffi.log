@@ -1,0 +1,12 @@
+=== J221843.61+544715.0 per-sector dilution fit: sectors [16, 17, 56, 57, 76, 77, 83, 84], 1514 sector-bins, 1514 model phases, Teff1=9500, l3=0.0, scale prior None, roche, free ['incl', 'dt0', 'rsum', 'k', 'teffratio', 'q'], cadence (min) {16: 30.0, 17: 30.0, 56: 3.3, 57: 3.3, 76: 3.3, 77: 3.3, 83: 3.3, 84: 3.3}, smeared [], ld linear None, sector dt (min) [], start outputs/candidates/J221843.61+544715.0/J221843.61+544715.0_phoebe_result_t9500.json
+  start: chi2 per-sector 20947.2, common 22317.3 (1514 bins)
+  eval 25: best chi2 19631.4
+  eval 50: best chi2 19297.5
+  eval 75: best chi2 19034.6
+  eval 100: best chi2 18922.1
+  eval 125: best chi2 18922.1
+  eval 150: best chi2 18922.1
+  eval 175: best chi2 18880.0
+  eval 200: best chi2 18852.5
+  done: chi2 per-sector 18852.5 (red 12.64), common 20287.2 (red 13.47); depth scales S16 1.014, S17 1.002, S56 1.009, S57 1.005, S76 0.994, S77 0.983, S83 0.989, S84 1.003
+  params {'incl': np.float64(77.00631), 'dt0': np.float64(0.00036), 'rsum': np.float64(0.45365), 'k': np.float64(0.34064), 'teffratio': np.float64(0.70623), 'q': np.float64(0.34372)}; mean b 1.039

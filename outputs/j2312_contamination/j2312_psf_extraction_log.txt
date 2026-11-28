@@ -1,0 +1,14 @@
+empirical PSFs: W4 40 stars, FWHM 17.0"; W3 40 stars, FWHM 11.3"
+W3 template scale s = 0.0381 (W4 DN per W3 DN); W3 star fit removed, 1954 px of other W3 sources masked
+
+method                                                      F/F(a0)   W4 mJy  F/F_phot excess sigma
+a0 flat sky 50-70" (catalogue-like)                           1.000    15.36      3.56         12.6
+a1 free constant                                              0.946    14.52      3.37         11.6
+a2 plane                                                      0.950    14.59      3.38         11.7
+a3 quadratic                                                  0.798    12.26      2.84          9.1
+a4 quad + Gaussian halo (sigma 12"), DEGENERATE*             -0.011    -0.17     -0.04         -5.1
+B W3 nebula template + plane within 150"                      0.767    11.77      2.73          8.5
+
+photosphere 4.31 mJy; catalogue error 0.88 mJy (0.062 mag); fit-region pixel noise 0.051 DN
+* a4 is degenerate: a 12" Gaussian trades off against the 17" PSF. The same fit on the W3 image, where J2312 is mostly photosphere, also moves 45% of the flux into the halo, so a4 is not used.
+A shared limit: nebula structure narrower than the W4 PSF and centred on the star is indistinguishable from the star in all methods.

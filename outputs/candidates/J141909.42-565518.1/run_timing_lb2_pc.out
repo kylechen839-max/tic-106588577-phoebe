@@ -1,0 +1,11 @@
+Connection to online passbands at https://tables.phoebe-project.org could not be established.  Check your internet connection or try again later (can manually call phoebe.list_online_passbands(refresh=True) to retry).  If the problem persists and you're using a Mac, you may need to update openssl (see https://phoebe-project.org/help/faq). Original error from urlopen: URLError <urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>
+J141909.42-565518.1: per-sector timing scan, model from outputs/candidates/J141909.42-565518.1/J141909.42-565518.1_persector_persectorffi_lb2_pc_ld025.json
+  S11: chi2 1027.0 -> 937.9 at dt +10.80 min (1sig +6.5..+15.2); primary 97.1 -> 97.1; secondary 750.3 -> 662.0; ingress/egress mean resid +2.06/-5.00 -> +2.01/-5.03
+  S38: chi2 1656.8 -> 1619.6 at dt +3.50 min (1sig +1.1..+5.9); primary 262.8 -> 259.2; secondary 1207.1 -> 1173.8; ingress/egress mean resid +1.42/-1.29 -> +0.95/-0.82
+  S65: chi2 3614.8 -> 3611.8 at dt +0.70 min (1sig -1.6..+3.0); primary 381.9 -> 377.2; secondary 2825.1 -> 2826.8; ingress/egress mean resid +1.08/-2.97 -> +0.91/-2.81
+  S99: chi2 362.7 -> 359.5 at dt +1.10 min (1sig -0.5..+2.5); primary 210.0 -> 206.8; secondary 0.0 -> 0.0; ingress/egress mean resid +0.99/-2.03 -> +0.73/-1.79
+  S100: chi2 6082.0 -> 6081.5 at dt -0.20 min (1sig -2.6..+2.2); primary 494.7 -> 494.5; secondary 5350.0 -> 5349.7; ingress/egress mean resid +0.74/+0.37 -> +0.77/+0.34
+  S101: chi2 5039.8 -> 5036.8 at dt +0.60 min (1sig -1.7..+2.8); primary 622.2 -> 630.9; secondary 3930.2 -> 3918.7; ingress/egress mean resid -2.27/+2.23 -> -2.41/+2.37
+  S102: chi2 2093.6 -> 2093.4 at dt -0.20 min (1sig -2.5..+2.0); primary 138.1 -> 137.1; secondary 1853.5 -> 1854.4; ingress/egress mean resid -1.85/+0.13 -> -1.82/+0.10
+  linear fit to shifts: dT0 +0.27 min, dP -2.735e-05 +/- 1.3e-05 d (chi2 2.3 for 7 sectors)
+  wrote /home/claude/tic-106588577-phoebe/outputs/candidates/J141909.42-565518.1/J141909.42-565518.1_timing_persectorffi_lb2_pc_ld025.json

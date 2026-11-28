@@ -103,8 +103,7 @@
     "luminosity_factor_vs_assumed": 3.6283245750473276,
     "implied_sma_rsun": 25.16396450184946,
     "implied_total_mass_msun": 22.356634632096167,
-    "assumed_total_mass_msun": 3.23479850578776,
-    "note": "ratio << 1 means the system is brighter than an MS binary at the TIC Teff: Teff underestimated (reddening), evolved components, or third light"
+    "assumed_total_mass_msun": 3.23479850578776
   },
   "passes_all": false
 }

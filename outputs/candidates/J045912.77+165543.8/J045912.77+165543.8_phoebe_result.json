@@ -97,5 +97,11 @@
     "pass_excess_survives": true
   },
   "runtime_s": 1180.4016036987305,
-  "passes_all": false
+  "passes_all": false,
+  "distance_scaling": {
+    "luminosity_factor_vs_assumed": 5.0556272134042635,
+    "implied_sma_rsun": 14.715114029919402,
+    "implied_total_mass_msun": 40.87684092179431,
+    "assumed_total_mass_msun": 3.595959241497135
+  }
 }

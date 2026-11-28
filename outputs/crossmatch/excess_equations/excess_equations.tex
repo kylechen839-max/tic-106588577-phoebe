@@ -1,0 +1,48 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb}
+\usepackage[margin=1in]{geometry}
+\begin{document}
+\section*{How the infrared excess is calculated}
+Source: \texttt{src/crossmatch/sanity_checks.py} (\texttt{fit\_sed}). Worked numbers: J0719 (WISE J071951.40$-$240400.6), W4.
+
+\paragraph{1. Magnitude to flux density}
+\begin{equation}
+F_\nu = F_0\,10^{-0.4\,m}, \qquad \sigma_F = 0.4\ln 10\;F_\nu\,\sigma_m \quad (\sigma_m \ge 0.03\ \text{mag})
+\end{equation}
+$F_0 = 1594,\,1024,\,666.7,\,309.5,\,171.8,\,31.67,\,8.363$ Jy for J, H, K$_s$, W1--W4.
+J0719 W4: $m = 6.744 \pm 0.076 \Rightarrow F_\nu = 16.78 \pm 1.17$ mJy.
+
+\paragraph{2. Stellar photosphere} (blackbody fitted to J, H, K$_s$, W1)
+\begin{equation}
+F_{\rm phot}(\lambda) = A\,B_\nu(\lambda,T), \qquad
+A = \frac{\sum_i w_i\,B_\nu(\lambda_i,T)\,F_i}{\sum_i w_i\,B_\nu(\lambda_i,T)^2}, \qquad w_i = \sigma_i^{-2},
+\end{equation}
+with $T$ minimising $\chi^2$ on a 2500--30000 K grid (25 K steps), and again with $T$ fixed at the catalogue
+$T_{\rm eff}$. J0719: $T = 16\,550$ K. The diagnostic version uses $F_{\rm phot} = A/\lambda^2$ fitted to W1 and W2,
+giving $F_{\rm phot}({\rm W4}) = 1.57$ mJy.
+
+\paragraph{3. Excess ratio}
+\begin{equation}
+R = \frac{F_{\rm obs}}{F_{\rm phot}} \qquad \text{J0719 W4: } R = 16.78/1.57 = 10.7
+\end{equation}
+
+\paragraph{4. Excess significance}
+\begin{equation}
+S = \frac{F_{\rm obs} - F_{\rm phot}}{\sigma_F} \qquad \text{J0719 W4: } S = \frac{16.78 - 1.57}{1.17} = 12.95
+\end{equation}
+Only the photometric error enters; $S \lesssim 1/(0.4\ln 10 \times 0.03) \approx 36$. An excess counts if $S_{\rm W3}$ or
+$S_{\rm W4} \ge 5$ (AllWISE quality A/B) for both photospheres.
+
+\paragraph{5. Dust versus free-free} Residuals $r_i = F_{\rm obs} - F_{\rm phot}$ in W2, W3, W4:
+\begin{gather}
+\text{dust: } r_i \approx a\,B_\nu(\lambda_i, T_d),\ T_d \in [40,1500]\ \text{K}; \qquad
+\text{free-free: } r_i \approx a\,\nu_i^{\alpha},\ \alpha \in [-0.1, 0.6] \\
+\chi^2 = \sum_i \left(\frac{r_i - \text{model}_i}{\sigma_i}\right)^2, \qquad \text{dust preferred if } \chi^2_{\rm dust} < \chi^2_{\rm ff}
+\end{gather}
+J0719: $T_d = 151$ K, $\chi^2_{\rm dust} = 0.12$, $\chi^2_{\rm ff} = 120$ (diagnostic: 158 K, 0.02 vs.\ 103).
+
+\paragraph{6. Fractional dust luminosity}
+\begin{equation}
+\frac{L_{\rm IR}}{L_\ast} = \frac{a\,T_d^{4}}{A\,T^{4}} \qquad \text{J0719: } 1.1\times10^{-4}\ \ (\text{debris disks} \lesssim 10^{-2})
+\end{equation}
+\end{document}

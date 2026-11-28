@@ -1,0 +1,62 @@
+[
+ {
+  "label": "adopted q",
+  "q": 0.3961004594166835,
+  "m1": 2.3136759909996636,
+  "sma_rsun": 8.753835665498404,
+  "R1": 2.8903684250358017,
+  "R2": 1.0696419459367084,
+  "T2": 6748.5266166475285,
+  "binary_photosphere_chi2_JHKW1": 37.98527361087517,
+  "photometric_distance_pc": 1284.115875233585,
+  "gaia_distance_pc": 1267.9092177000127,
+  "distance_ratio_phot_over_gaia": 1.0127821907967285,
+  "excess_vs_binary_photosphere": {
+   "W2": {
+    "ratio": 1.168111044625449,
+    "sigma": 5.20853014244279
+   },
+   "W3": {
+    "ratio": 2.64288797793763,
+    "sigma": 20.45217858667484
+   },
+   "W4": {
+    "ratio": 30.897740078394033,
+    "sigma": 13.823638694167165
+   }
+  },
+  "pass_photosphere": true,
+  "pass_distance": true,
+  "pass_excess_survives": true
+ },
+ {
+  "label": "fit's sma (q 0.8)",
+  "q": 0.8,
+  "m1": 2.3136759909996636,
+  "sma_rsun": 9.527603335144333,
+  "R1": 3.1458534176856827,
+  "R2": 1.1641895691146287,
+  "T2": 6748.5266166475285,
+  "binary_photosphere_chi2_JHKW1": 37.98527361087514,
+  "photometric_distance_pc": 1397.6212443429172,
+  "gaia_distance_pc": 1267.9092177000127,
+  "distance_ratio_phot_over_gaia": 1.1023038754132588,
+  "excess_vs_binary_photosphere": {
+   "W2": {
+    "ratio": 1.168111044625449,
+    "sigma": 5.20853014244279
+   },
+   "W3": {
+    "ratio": 2.64288797793763,
+    "sigma": 20.45217858667484
+   },
+   "W4": {
+    "ratio": 30.897740078394037,
+    "sigma": 13.823638694167165
+   }
+  },
+  "pass_photosphere": true,
+  "pass_distance": true,
+  "pass_excess_survives": true
+ }
+]

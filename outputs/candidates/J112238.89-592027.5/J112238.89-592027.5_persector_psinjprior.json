@@ -1,0 +1,55 @@
+{
+ "designation": "J112238.89-592027.5",
+ "teff1": 7705.0,
+ "params": [
+  "incl",
+  "dt0",
+  "rsum",
+  "k",
+  "teffratio"
+ ],
+ "v": [
+  88.71380250805706,
+  0.0025131613223320134,
+  0.13590814330593243,
+  0.31313982642662885,
+  0.5902823068850118
+ ],
+ "l3": 0.0,
+ "scale_prior": 0.05,
+ "smeared_sectors": [],
+ "mean_depth_scale_b": 1.0491439747410458,
+ "start_from": "outputs/checks/persector_injection_start.json",
+ "n_sector_bins": 589,
+ "sectors": [
+  10,
+  11,
+  37
+ ],
+ "chi2_start_per_sector": 3614.641650302851,
+ "chi2_start_common": 14767.54612964573,
+ "chi2_per_sector": 707.8777538924646,
+ "dof_per_sector": 578,
+ "chi2_red_per_sector": 1.224701996353745,
+ "chi2_common_same_model": 8263.07813747015,
+ "chi2_red_common_same_model": 14.197728758539775,
+ "sector_affine": {
+  "10": {
+   "a": 0.25881702194687156,
+   "b": 0.741269404820732,
+   "depth_scale": 0.7065468826656468
+  },
+  "11": {
+   "a": -0.45655349540136725,
+   "b": 1.4568185098879465,
+   "depth_scale": 1.388578255188974
+  },
+  "37": {
+   "a": 0.05083719746792517,
+   "b": 0.9493440095144584,
+   "depth_scale": 0.9048748621453786
+  }
+ },
+ "evals": 601,
+ "runtime_s": 8598.308520078659
+}

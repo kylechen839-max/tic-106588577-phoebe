@@ -1,0 +1,103 @@
+Connection to online passbands at https://tables.phoebe-project.org could not be established.  Check your internet connection or try again later (can manually call phoebe.list_online_passbands(refresh=True) to retry).  If the problem persists and you're using a Mac, you may need to update openssl (see https://phoebe-project.org/help/faq). Original error from urlopen: URLError <urlopen error Tunnel connection failed: 403 Forbidden>
+=== J223949.47+583254.4 2026-10-04T14:52:58.427270+00:00  P=3.092438 t0=1778.89390 Teff1=8188 M1~1.80 q=0.8 distortion=sphere nbins=161
+  sma=13.21 Rsun, eclipse width 0.152 -> rsum0=0.391, teffratio0=0.74
+  grid 1: chi2=852228.1 v=[74.0, 0.0046, 0.2735, 0.5, 0.592]
+  grid 2: chi2=849118.6 v=[74.0, 0.0046, 0.2735, 0.5, 0.74]
+  grid 3: chi2=848567.0 v=[74.0, 0.0046, 0.2735, 0.5, 0.888]
+  grid 19: chi2=807447.7 v=[74.0, 0.0046, 0.332, 0.5, 0.592]
+  grid 20: chi2=790171.6 v=[74.0, 0.0046, 0.332, 0.5, 0.74]
+  grid 21: chi2=776335.0 v=[74.0, 0.0046, 0.332, 0.5, 0.888]
+  grid 24: chi2=769913.0 v=[74.0, 0.0046, 0.332, 0.75, 0.888]
+  grid 27: chi2=767108.4 v=[74.0, 0.0046, 0.332, 1.0, 0.888]
+  grid 30: chi2=765308.4 v=[74.0, 0.0046, 0.332, 1.3, 0.888]
+  grid 37: chi2=708867.8 v=[74.0, 0.0046, 0.3906, 0.5, 0.592]
+  grid 38: chi2=668916.6 v=[74.0, 0.0046, 0.3906, 0.5, 0.74]
+  grid 39: chi2=638773.1 v=[74.0, 0.0046, 0.3906, 0.5, 0.888]
+  grid 42: chi2=611226.8 v=[74.0, 0.0046, 0.3906, 0.75, 0.888]
+  grid 45: chi2=599126.1 v=[74.0, 0.0046, 0.3906, 1.0, 0.888]
+  grid 48: chi2=597280.7 v=[74.0, 0.0046, 0.3906, 1.3, 0.888]
+  grid 55: chi2=503352.9 v=[74.0, 0.0046, 0.4688, 0.5, 0.592]
+  grid 56: chi2=442148.4 v=[74.0, 0.0046, 0.4688, 0.5, 0.74]
+  grid 57: chi2=413407.0 v=[74.0, 0.0046, 0.4688, 0.5, 0.888]
+  grid 59: chi2=375207.6 v=[74.0, 0.0046, 0.4688, 0.75, 0.74]
+  grid 60: chi2=356741.4 v=[74.0, 0.0046, 0.4688, 0.75, 0.888]
+  grid 62: chi2=345790.9 v=[74.0, 0.0046, 0.4688, 1.0, 0.74]
+  grid 63: chi2=333123.6 v=[74.0, 0.0046, 0.4688, 1.0, 0.888]
+  grid 65: chi2=331030.0 v=[74.0, 0.0046, 0.4688, 1.3, 0.74]
+  grid 66: chi2=325416.6 v=[74.0, 0.0046, 0.4688, 1.3, 0.888]
+  grid 68: chi2=323884.4 v=[74.0, 0.0046, 0.4688, 1.7, 0.74]
+  grid 73: chi2=313191.2 v=[74.0, 0.0046, 0.5469, 0.5, 0.592]
+  grid 74: chi2=238549.5 v=[74.0, 0.0046, 0.5469, 0.5, 0.74]
+  grid 75: chi2=230181.2 v=[74.0, 0.0046, 0.5469, 0.5, 0.888]
+  grid 77: chi2=164520.5 v=[74.0, 0.0046, 0.5469, 0.75, 0.74]
+  grid 80: chi2=154045.1 v=[74.0, 0.0046, 0.5469, 1.0, 0.74]
+  grid 81: chi2=152198.0 v=[74.0, 0.0046, 0.5469, 1.0, 0.888]
+  grid 84: chi2=139689.7 v=[74.0, 0.0046, 0.5469, 1.3, 0.888]
+  grid 87: chi2=137653.6 v=[74.0, 0.0046, 0.5469, 1.7, 0.888]
+  grid 146: chi2=107278.0 v=[80.0, 0.0046, 0.4688, 0.75, 0.74]
+  grid 158: chi2=92055.8 v=[80.0, 0.0046, 0.4688, 2.2, 0.74]
+  grid 161: chi2=80213.3 v=[80.0, 0.0046, 0.5469, 0.5, 0.74]
+  grid 248: chi2=56253.0 v=[84.0, 0.0046, 0.5469, 0.5, 0.74]
+  grid 335: chi2=52839.6 v=[87.0, 0.0046, 0.5469, 0.5, 0.74]
+  grid 422: chi2=51714.8 v=[89.5, 0.0046, 0.5469, 0.5, 0.74]
+grid best chi2=51714.84 (704s)
+  local-opt eval 25: best chi2 38449.28
+  local-opt eval 50: best chi2 36827.89
+  local-opt eval 75: best chi2 36827.89
+  local-opt eval 100: best chi2 36807.50
+  local-opt eval 125: best chi2 36807.50
+  local-opt eval 150: best chi2 36807.50
+  local-opt eval 175: best chi2 36807.50
+  local-opt eval 200: best chi2 36807.50
+  local-opt eval 225: best chi2 36807.50
+  local-opt eval 250: best chi2 36807.50
+  local-opt eval 275: best chi2 36807.50
+  local-opt eval 300: best chi2 36807.50
+  local-opt eval 325: best chi2 36807.50
+  local-opt eval 350: best chi2 36807.50
+  local-opt eval 375: best chi2 36807.50
+  local-opt eval 400: best chi2 36807.50
+  local-opt eval 425: best chi2 36807.50
+  start 1/3 (grid chi2 51714.8) -> chi2 36807.50
+  local-opt eval 25: best chi2 40258.23
+  local-opt eval 50: best chi2 36658.58
+  local-opt eval 75: best chi2 36658.58
+  local-opt eval 100: best chi2 36658.58
+  local-opt eval 125: best chi2 36650.97
+  local-opt eval 150: best chi2 36649.63
+  local-opt eval 175: best chi2 36601.63
+  local-opt eval 200: best chi2 36601.08
+  local-opt eval 225: best chi2 36601.06
+  local-opt eval 250: best chi2 36601.06
+  local-opt eval 275: best chi2 36601.06
+  local-opt eval 300: best chi2 36601.06
+  local-opt eval 325: best chi2 36601.06
+  local-opt eval 350: best chi2 36601.06
+  local-opt eval 375: best chi2 36601.06
+  local-opt eval 400: best chi2 36601.06
+  local-opt eval 425: best chi2 36601.06
+  start 2/3 (grid chi2 52839.6) -> chi2 36601.06
+  local-opt eval 25: best chi2 41760.53
+  local-opt eval 50: best chi2 40079.62
+  local-opt eval 75: best chi2 38606.33
+  local-opt eval 100: best chi2 38606.33
+  local-opt eval 125: best chi2 38566.97
+  local-opt eval 150: best chi2 38565.34
+  local-opt eval 175: best chi2 37915.62
+  local-opt eval 200: best chi2 37915.62
+  local-opt eval 225: best chi2 37915.62
+  local-opt eval 250: best chi2 37915.62
+  local-opt eval 275: best chi2 37915.62
+  local-opt eval 300: best chi2 37915.62
+  local-opt eval 325: best chi2 37915.62
+  local-opt eval 350: best chi2 37915.62
+  local-opt eval 375: best chi2 37915.62
+  local-opt eval 400: best chi2 37915.62
+  local-opt eval 425: best chi2 37915.62
+  local-opt eval 450: best chi2 37915.62
+  start 3/3 (grid chi2 56253.0) -> chi2 37915.62
+local-opt (Nelder-Mead) chi2=36601.06 after 1311 evals v=[88.7921, 0.00493, 0.50761, 0.56398, 0.73156]
+  emcee 12x30 in 654s, acc=0.44
+{"incl": 88.79210082838419, "r1_frac": 0.3245660858835911, "r2_frac": 0.18304858214590652, "teffratio": 0.7315570936655298, "chi2_final_hires": 37903.27075452726, "passes_all": false}
+photometry: {"chi2": 37903.27075452726, "dof": 155, "chi2_red": 244.5372306743694, "rms": 0.010486846441541676, "primary_mean_resid": -0.04955522526806996, "primary_bias_sigma": -57.5568919939821, "secondary_mean_resid": 0.0062959256307636435, "secondary_bias_sigma": 13.445843762745971, "pass_fit": false, "pass_no_eclipse_bias": false}
+blackbody: {"status": "no AllWISE row"}

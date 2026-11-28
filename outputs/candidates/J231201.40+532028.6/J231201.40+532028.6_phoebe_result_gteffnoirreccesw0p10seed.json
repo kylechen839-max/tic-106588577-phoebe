@@ -1,0 +1,122 @@
+{
+  "designation": "J231201.40+532028.6",
+  "timestamp_utc": "2026-10-18T10:36:00.239772+00:00",
+  "period": 6.849530274279999,
+  "t0": 2868.1298182426067,
+  "teff1": 10925.0,
+  "teff2": 10873.693030798571,
+  "q_assumed": 0.8,
+  "mass1_assumed": 3.0641451462432223,
+  "sma_rsun": 26.817034486686516,
+  "incl": 83.29230914634714,
+  "rsum": 0.2794331423600723,
+  "k": 0.6378591822850637,
+  "teffratio": 0.9953037099129127,
+  "r1_frac": 0.17060877112171535,
+  "r2_frac": 0.10882437123835692,
+  "R1_rsun": 4.575221298902247,
+  "R2_rsun": 2.918346916490994,
+  "distortion": "sphere",
+  "l3_frac": 0.0,
+  "l3_fitted": false,
+  "eccentric": true,
+  "ecc": 0.03972583525936276,
+  "per0_deg": 93.40787895274633,
+  "ecosw": -0.0023614484339504705,
+  "esinw": 0.039655586596945236,
+  "params": [
+    "incl",
+    "dt0",
+    "rsum",
+    "k",
+    "teffratio",
+    "ecosw",
+    "esinw"
+  ],
+  "chi2_grid": NaN,
+  "chi2_powell": 242.0580560602908,
+  "chi2_final_hires": 81.48942374699243,
+  "posterior_16_50_84": {
+    "incl": [
+      83.2457752146934,
+      83.2800005219088,
+      83.34406310200629
+    ],
+    "dt0": [
+      -0.003516962736027721,
+      -0.003357489775162054,
+      -0.0032380526589769238
+    ],
+    "rsum": [
+      0.2790582569652006,
+      0.2797772736730425,
+      0.2801872749099861
+    ],
+    "k": [
+      0.605065026028294,
+      0.6176773445153407,
+      0.6363855010674752
+    ],
+    "teffratio": [
+      0.9933757694875964,
+      0.9964340315280791,
+      1.0022056654458698
+    ],
+    "ecosw": [
+      -0.002577421047431627,
+      -0.0024165248826406305,
+      -0.0022929895807486827
+    ],
+    "esinw": [
+      0.03319953537658996,
+      0.036322929804822005,
+      0.03902022878350604
+    ]
+  },
+  "photometry_check": {
+    "chi2": 81.48942374699243,
+    "dof": 215,
+    "chi2_red": 0.37902057556740665,
+    "rms": 0.0026233360931086497,
+    "primary_mean_resid": -0.0021240111220473066,
+    "primary_bias_sigma": -0.5306843830716658,
+    "secondary_mean_resid": 0.0035565658489441856,
+    "secondary_bias_sigma": 2.2534720401030985,
+    "pass_fit": true,
+    "pass_no_eclipse_bias": true
+  },
+  "blackbody_check": {
+    "binary_photosphere_chi2_JHKW1": 1.7607659915112184,
+    "photometric_distance_pc": 824.7751135995976,
+    "gaia_distance_pc": 741.7925,
+    "distance_ratio_phot_over_gaia": 1.1118676902228017,
+    "excess_vs_binary_photosphere": {
+      "W2": {
+        "ratio": 0.9790585252907104,
+        "sigma": -0.7741082099305989
+      },
+      "W3": {
+        "ratio": 1.2828905955819139,
+        "sigma": 7.980534029080752
+      },
+      "W4": {
+        "ratio": 3.7080465942766154,
+        "sigma": 12.78920592590805
+      }
+    },
+    "pass_photosphere": true,
+    "pass_distance": true,
+    "pass_excess_survives": true
+  },
+  "runtime_s": 2462.0268890857697,
+  "q": 0.8,
+  "q_fitted": false,
+  "distance_scaling": {
+    "luminosity_factor_vs_assumed": 0.808898033311565,
+    "implied_sma_rsun": 24.118907962252937,
+    "implied_total_mass_msun": 4.012568948509664,
+    "assumed_total_mass_msun": 5.515461263237801,
+    "note": "ratio << 1 means the system is brighter than an MS binary at the TIC Teff: Teff underestimated (reddening), evolved components, or third light"
+  },
+  "passes_all": true
+}

@@ -1,0 +1,11 @@
+Connection to online passbands at https://tables.phoebe-project.org could not be established.  Check your internet connection or try again later (can manually call phoebe.list_online_passbands(refresh=True) to retry).  If the problem persists and you're using a Mac, you may need to update openssl (see https://phoebe-project.org/help/faq). Original error from urlopen: URLError <urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>
+=== J141909.42-565518.1 per-sector dilution fit: sectors [11, 38, 65, 99, 100, 101, 102], 617 sector-bins, 935 model phases, Teff1=10875, l3=0.0, scale prior None, sphere, free ['incl', 'dt0', 'rsum', 'k', 'teffratio', 'ecosw', 'esinw'], cadence (min) {11: 30.0, 38: 10.0, 65: 3.3, 99: 3.3, 100: 3.3, 101: 3.3, 102: 3.3}, smeared [11, 38], ld linear 0.30 (primary None, secondary None), sector dt (min) [], start outputs/candidates/J141909.42-565518.1/J141909.42-565518.1_persector_persectorffi_lb2_pc_ld025.json
+  start: chi2 per-sector 8296.0, common 10363.3 (617 bins)
+  eval 25: best chi2 4992.2
+  eval 50: best chi2 4703.8
+  eval 75: best chi2 4621.6
+  eval 100: best chi2 4594.3
+  eval 125: best chi2 4588.6
+  eval 150: best chi2 4571.8
+  done: chi2 per-sector 4571.8 (red 7.67), common 5316.0 (red 8.74); depth scales S11 1.001, S38 0.999, S65 1.002, S99 0.994, S100 1.003, S101 1.003, S102 0.997
+  params {'incl': np.float64(90.148), 'dt0': np.float64(-0.00892), 'rsum': np.float64(0.14234), 'k': np.float64(0.50717), 'teffratio': np.float64(1.00984), 'ecosw': np.float64(0.13462), 'esinw': np.float64(0.03292)}; mean b 0.957

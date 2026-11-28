@@ -1,0 +1,23 @@
+=== J112238.89-592027.5 per-sector dilution fit: sectors [10, 11, 37], 589 sector-bins, 589 model phases, Teff1=7705, l3=0.367, scale prior 0.05, free ['incl', 'dt0', 'rsum', 'k', 'teffratio'], cadence (min) {10: 30.0, 11: 30.0, 37: 10.0}, smeared [], start outputs/candidates/J112238.89-592027.5/J112238.89-592027.5_persector_persector1500b.json
+  start: chi2 per-sector 1090.9, common 846.9 (589 bins)
+  eval 25: best chi2 998.4
+  eval 50: best chi2 832.3
+  eval 75: best chi2 826.4
+  eval 100: best chi2 815.4
+  eval 125: best chi2 815.4
+  eval 150: best chi2 815.4
+  eval 175: best chi2 815.4
+  eval 200: best chi2 815.4
+  eval 225: best chi2 815.4
+  eval 250: best chi2 815.4
+  eval 275: best chi2 815.4
+  eval 300: best chi2 815.4
+  eval 325: best chi2 815.4
+  eval 350: best chi2 815.4
+  eval 375: best chi2 815.4
+  eval 400: best chi2 815.4
+  eval 425: best chi2 815.4
+  eval 450: best chi2 815.4
+  eval 475: best chi2 815.4
+  done: chi2 per-sector 815.3 (red 1.41), common 871.9 (red 1.50); depth scales S10 0.821, S11 1.101, S37 1.078
+  params {'incl': np.float64(93.71729), 'dt0': np.float64(0.00782), 'rsum': np.float64(0.15989), 'k': np.float64(0.11496), 'teffratio': np.float64(0.63594)}; mean b 0.969

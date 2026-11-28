@@ -1,0 +1,17 @@
+Connection to online passbands at https://tables.phoebe-project.org could not be established.  Check your internet connection or try again later (can manually call phoebe.list_online_passbands(refresh=True) to retry).  If the problem persists and you're using a Mac, you may need to update openssl (see https://phoebe-project.org/help/faq). Original error from urlopen: URLError <urlopen error Tunnel connection failed: 403 Forbidden>
+=== J221843.61+544715.0 per-sector dilution fit: sectors [16, 17, 56, 57, 76, 77, 83, 84], 1514 sector-bins, 2190 model phases, Teff1=9500, l3=0.1, scale prior 0.02, roche, free ['incl', 'dt0', 'rsum', 'k', 'teffratio', 'q'], cadence (min) {16: 30.0, 17: 30.0, 56: 3.3, 57: 3.3, 76: 3.3, 77: 3.3, 83: 3.3, 84: 3.3}, smeared [16, 17], ld linear None, sector dt (min) ['16=11.7', '17=10.9'], start outputs/candidates/J221843.61+544715.0/J221843.61+544715.0_persector_persectorffi_dt.json
+  start: chi2 per-sector 14861.2, common 16171.1 (1514 bins)
+  eval 25: best chi2 14861.2
+  eval 50: best chi2 14861.2
+  eval 75: best chi2 14849.9
+  eval 100: best chi2 14849.9
+  eval 125: best chi2 14847.9
+  eval 150: best chi2 14847.9
+  done: chi2 per-sector 14847.9 (red 9.95), common 16158.8 (red 10.73); depth scales S16 1.006, S17 1.009, S56 1.009, S57 1.006, S76 0.994, S77 0.983, S83 0.989, S84 1.003
+  params {'incl': np.float64(77.25297), 'dt0': np.float64(0.00026), 'rsum': np.float64(0.45321), 'k': np.float64(0.34102), 'teffratio': np.float64(0.70893), 'q': np.float64(0.34616)}; mean b 1.137
+eval 75: best chi2 14849.9
+  eval 100: best chi2 14849.9
+  eval 125: best chi2 14847.9
+  eval 150: best chi2 14847.9
+  done: chi2 per-sector 14847.9 (red 9.95), common 16158.8 (red 10.73); depth scales S16 1.006, S17 1.009, S56 1.009, S57 1.006, S76 0.994, S77 0.983, S83 0.989, S84 1.003
+  params {'incl': np.float64(77.25297), 'dt0': np.float64(0.00026), 'rsum': np.float64(0.45321), 'k': np.float64(0.34102), 'teffratio': np.float64(0.70893), 'q': np.float64(0.34616)}; mean b 1.137

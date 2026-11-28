@@ -1,0 +1,16 @@
+Connection to online passbands at https://tables.phoebe-project.org could not be established.  Check your internet connection or try again later (can manually call phoebe.list_online_passbands(refresh=True) to retry).  If the problem persists and you're using a Mac, you may need to update openssl (see https://phoebe-project.org/help/faq). Original error from urlopen: URLError <urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>
+=== J221843.61+544715.0 per-sector dilution fit: sectors [16, 17, 56, 57, 76, 77, 83, 84], 1514 sector-bins, 1514 model phases, Teff1=9500, l3=0.0, scale prior None, roche, free ['incl', 'dt0', 'rsum', 'k', 'teffratio', 'q'], cadence (min) {16: 30.0, 17: 30.0, 56: 3.3, 57: 3.3, 76: 3.3, 77: 3.3, 83: 3.3, 84: 3.3}, smeared [], ld linear 0.7 (primary 0.7, secondary 0.4), sector dt (min) ['16=11.7', '17=10.9'], start outputs/candidates/J221843.61+544715.0/J221843.61+544715.0_persector_persectorffi_ld107_ld200.json
+  start: chi2 per-sector 16472.4, common 17804.9 (1514 bins)
+  eval 25: best chi2 11189.4
+  eval 50: best chi2 10355.7
+  eval 75: best chi2 9840.0
+  eval 100: best chi2 9832.7
+  done: chi2 per-sector 9811.6 (red 6.58), common 11108.9 (red 7.38); depth scales S16 1.006, S17 1.006, S56 1.010, S57 1.006, S76 0.996, S77 0.983, S83 0.989, S84 1.004
+  params {'incl': np.float64(78.34675), 'dt0': np.float64(-0.0002), 'rsum': np.float64(0.45241), 'k': np.float64(0.3581), 'teffratio': np.float64(0.72615), 'q': np.float64(0.29749)}; mean b 0.939
+16472.4, common 17804.9 (1514 bins)
+  eval 25: best chi2 11189.4
+  eval 50: best chi2 10355.7
+  eval 75: best chi2 9840.0
+  eval 100: best chi2 9832.7
+  done: chi2 per-sector 9811.6 (red 6.58), common 11108.9 (red 7.38); depth scales S16 1.006, S17 1.006, S56 1.010, S57 1.006, S76 0.996, S77 0.983, S83 0.989, S84 1.004
+  params {'incl': np.float64(78.34675), 'dt0': np.float64(-0.0002), 'rsum': np.float64(0.45241), 'k': np.float64(0.3581), 'teffratio': np.float64(0.72615), 'q': np.float64(0.29749)}; mean b 0.939

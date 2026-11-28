@@ -1,0 +1,1 @@
+{"params": ["incl", "dt0", "rsum", "k", "teffratio", "ecosw", "esinw"], "chi2": NaN, "v": [83.44014308132779, -0.0028828087899389135, 0.26904036572628887, 0.7386937148685018, 1.0072917192738648, -0.0024990547524169626, 0.13], "evals": 659, "note": "outputs/candidates/J231201.40+532028.6/J231201.40+532028.6_localopt_fix2esw0d100.json optimum with esinw set to 0.13"}

@@ -1,0 +1,10 @@
+=== J141909.42-565518.1 per-sector dilution fit: sectors [11, 38, 65, 99, 100, 101, 102], 619 sector-bins, 943 model phases, Teff1=10875, l3=0.0, scale prior None, sphere, free ['incl', 'dt0', 'rsum', 'k', 'teffratio', 'ecosw', 'esinw'], cadence (min) {11: 30.0, 38: 10.0, 65: 3.3, 99: 3.3, 100: 3.3, 101: 3.3, 102: 3.3}, smeared [11, 38], ld linear 0.45 (primary None, secondary None), sector dt (min) [], start outputs/candidates/J141909.42-565518.1/J141909.42-565518.1_persector_persectorffi_lb2.json
+  start: chi2 per-sector 25172.3, common 30090.7 (619 bins)
+  eval 25: best chi2 7266.2
+  eval 50: best chi2 6897.7
+  eval 75: best chi2 6762.3
+  eval 100: best chi2 6738.9
+  eval 125: best chi2 6705.1
+  eval 150: best chi2 6705.1
+  done: chi2 per-sector 6705.1 (red 11.21), common 7311.6 (red 11.99); depth scales S11 1.001, S38 0.999, S65 1.002, S99 0.995, S100 1.002, S101 1.002, S102 0.998
+  params {'incl': np.float64(90.10082), 'dt0': np.float64(-0.00977), 'rsum': np.float64(0.14275), 'k': np.float64(0.4917), 'teffratio': np.float64(1.03157), 'ecosw': np.float64(0.13455), 'esinw': np.float64(0.02339)}; mean b 0.970

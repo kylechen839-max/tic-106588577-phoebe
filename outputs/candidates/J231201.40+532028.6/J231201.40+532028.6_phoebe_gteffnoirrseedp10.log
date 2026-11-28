@@ -1,0 +1,13 @@
+=== J231201.40+532028.6 2026-10-15T09:45:50.359162+00:00  P=6.849530 t0=2868.13335 Teff1=9932 M1~2.50 q=0.8 distortion=sphere nbins=223
+  sma=25.04 Rsun, eclipse width 0.070 -> rsum0=0.185, teffratio0=0.98
+  skipping grid: starting from outputs/candidates/J231201.40+532028.6/J231201.40+532028.6_localopt_gteffnoirrp10.json (its chi2 521.52)
+grid best chi2=nan (0s)
+  local-opt eval 25: best chi2 524.38
+  local-opt eval 50: best chi2 524.38
+  local-opt eval 75: best chi2 524.38
+  start 1/1 (grid chi2 nan) -> chi2 524.38
+local-opt (Nelder-Mead) chi2=524.38 after 82 evals v=[83.56258, -0.00982, 0.28733, 0.56368, 0.97733]
+  emcee 12x30 in 671s, acc=0.41
+{"incl": 83.5625754091044, "r1_frac": 0.1837555215653261, "r2_frac": 0.10357863855895226, "teffratio": 0.9773320203801534, "chi2_final_hires": 391.60705432320293, "passes_all": true}
+photometry: {"chi2": 391.60705432320293, "dof": 217, "chi2_red": 1.8046408033327324, "rms": 0.004070770821005753, "primary_mean_resid": -0.004940212364566961, "primary_bias_sigma": -1.2343125342988868, "secondary_mean_resid": 0.001467211755327676, "secondary_bias_sigma": 0.9296385355898955, "pass_fit": true, "pass_no_eclipse_bias": true}
+blackbody: {"binary_photosphere_chi2_JHKW1": 1.6226628076920568, "photometric_distance_pc": 747.8003417423266, "gaia_distance_pc": 741.7925, "distance_ratio_phot_over_gaia": 1.0080990866614674, "excess_vs_binary_photosphere": {"W2": {"ratio": 0.9530457473318453, "sigma": -1.7830529902648227}, "W3": {"ratio": 1.2368088173132636, "sigma": 6.92944355300581}, "W4": {"ratio": 3.564399074044597, "sigma": 12.598879426978941}}, "pass_photosphere": true, "pass_distance": true, "pass_excess_survives": true}

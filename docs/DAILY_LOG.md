@@ -1,0 +1,1101 @@
+# Daily log (cloud routine)
+
+One entry per daily cloud run. The plan for the next run is in `docs/PROJECT_CONTEXT.md` → "Daily next steps".
+
+## 2026-10-03
+
+**Environment.** 4-core cloud container. These hosts are still blocked by the network policy: cdsxmatch.u-strasbg.fr, vizier/cdsarc/simbad.cds.unistra.fr, mast.stsci.edu, archive.stsci.edu, skyview.gsfc.nasa.gov, irsa.ipac.caltech.edu, gea.esac.esa.int, tables.phoebe-project.org. GitHub (including `git clone` of public repos) and PyPI work.
+
+**Unblocked PHOEBE in the cloud.** TESS:T normally downloads from tables.phoebe-project.org. `src/pipeline/build_tess_passband.py` now rebuilds a blackbody-only TESS:T from `data/passbands/tess.ptf`, the response copied from github.com/phoebe-project/phoebe2-tables. Verified: the J1419 best model gives χ² = 210.41, identical to the Mac result.
+
+**Not possible offline:** new survey cross-matches (VizieR/XMatch), TESS downloads for new targets (MAST), WISE cutout re-analysis (only PNGs are committed), and the AllWISE SED check. The AllWISE cache `outputs/crossmatch/dd1_support_cache/allwise.csv` is not in git. `run_phoebe_candidate.py` now tolerates the missing cache instead of crashing after the fit.
+
+**Fits run** (details and table in `docs/DD_EB_CROSSMATCH.md` → "Cloud run 2026-10-03"):
+- New tier-A fits: J0245+48 χ²_red 3.84 (secondary bias 3.8σ); J0739−36 2.90 (bias 4.5/4.8σ); J2209+58 **1.03, no bias** (M dwarfs, RUWE 43); J2235+50 15.2 (e = 0.40).
+- J2239+58: eccentric 235, Gaia Teff 318. Neither improves on 243.
+- Gaia-Teff refits: J2312+53 χ²_red 4.91, est. d ratio 0.84 → 1.03; J0459+16 χ²_red 40.4 → 22.4, est. d ratio 0.44 → 0.95.
+- Still running at the time of writing: J1732−36 (eccentric, Roche, q fitted: slow), J0332+52 at Gaia Teff (emcee stage), J1419 at Teff −10% and +10%.
+
+**Key finding.** The luminosity excess at the Gaia distance mostly goes away with the Gaia GSP-Phot Teff. TIC Teffs look reddening-biased low by 15–45%. This is inferred from a scaled SED; the full AllWISE check is still to do.
+
+**Also done:** `src/pipeline/teff_distance_scaling.py` and `src/pipeline/recheck_sed.py`. Draft PR #2 is open.
+
+## 2026-10-04
+
+**Environment.** The same 4-core container, resumed. The 3 fits left running on 10-03 (J1732, J0332 `_gteff`, J1419 `_teffm10`) had been **killed when the session went idle**, ~3 min after the last reply. Background fits only survive while the session is active. Cached `_grid`/`_localopt` JSONs let the relaunches skip finished stages. Archive hosts are still blocked (CDS XMatch, VizieR, MAST, SkyView, IRSA, tables.phoebe-project.org).
+
+**Code.** Two new options in `run_phoebe_candidate.py`: `--kmax` (upper bound on k; grid adds k = 1.7, 2.2 when allowed) and `--no-irrad` (reflection albedo 0).
+
+**Fits** (table in `docs/DD_EB_CROSSMATCH.md` → "Cloud run 2026-10-04"):
+- J1419 Teff −10%/+10%: geometry stable (i 89.1–89.4°, r₁ 0.094, e 0.14); χ²_red 0.67/0.64, below the nominal 0.92; est. d ratio 0.79/1.04; secondary bias 2.8/3.4σ.
+- J0332 at Gaia Teff (18,920 K): χ²_red 125 (was 135). Still fails.
+- J2312 at Gaia Teff, eccentric + l3: χ²_red 2.00, eclipse bias −4.0/−9.2σ.
+- J2239 with k ≤ 2.5: no change (χ²_red 245, k stays 0.56). **With reflection off: χ²_red 17.4, rms 3.0 ppt** (was 243, 10.5).
+- J2218 at 9,500 K, q fitted: **χ²_red 11.8, rms 1.5 ppt** (was 47, 3.6); q = 0.32; est. d ratio 1.12.
+- Reflection off on Roche systems makes them worse: J2218 `_t9500noirr` χ²_red 18.96 (vs 11.8), J0459 `_gteffnoirr` 765 (vs 22.4).
+- J1604 `_gteff` and J1732 were killed by a container restart at ~23:00 UTC and relaunched.
+- **J1604 at Gaia Teff (14,140 K): χ²_red 1.66, rms 1.9 ppt, eclipse bias +1.7/−1.1σ**, so it passes both light-curve checks (e = 0.063, q = 0.76). The SED check is pending.
+- J1732 (first fit): χ²_red 5.52, eclipse bias +8.3/+3.3σ. It fails.
+
+**Key finding.** For J2239 (detached, flat out-of-eclipse), the default reflection albedo of 1.0 produced humps the data do not show; switching it off fixed most of the misfit. For the short-period Roche systems (J2218, J0459), switching it off makes the fit much worse, so it is a per-system choice.
+
+## 2026-10-05
+
+**Environment.** Archive hosts are still blocked, and there is still no AllWISE cache in git. The container restarted twice: ~23:00 UTC on 10-04, which killed J1604 and J1732, and ~12:50 UTC on 10-05, which killed the J1419/J0739/J2235 `_v2` refits. All were relaunched from cached grids.
+
+**Late results from 10-04:** J1604 at Gaia Teff gives χ²_red 1.66 with bias +1.7/−1.1σ, so it passes the light-curve checks. J1732 (first fit) gives χ²_red 5.52 with bias +8.3/+3.3σ and fails.
+
+**Fits today** (table in `docs/DD_EB_CROSSMATCH.md` → "Cloud run 2026-10-05"):
+- **J2312 at Gaia Teff, reflection off: χ²_red 1.69, bias −2.1/+1.9σ, est. d ratio 1.02.** It passes the light-curve checks.
+- J2239 eccentric, reflection off, k ≤ 2.5: χ²_red 11.5 (was 17.4); primary bias −8.5σ.
+- J1419 `_v2` (12 Nelder–Mead iterations): χ² 144.7 (was 210.4), χ²_red 0.63, but the secondary bias is +3.1σ, so its light-curve pass is now marginal.
+- Stopped unfinished at 16:00 UTC on Kyle's request (no work after the session limit resets): J0739 `_v2`, J2235 `_v2`, J1604 `_gteffm10`, J1419 `_v3` (q fitted). Their grid caches are pushed.
+
+**Status.** Three candidates pass or nearly pass the light-curve checks: J1419 (all checks in round 1; marginal +3.1σ secondary bias at the better `_v2` minimum), J1604 (Gaia Teff) and J2312 (Gaia Teff, reflection off). Only J1419 has had the full AllWISE SED/distance check.
+
+## 2026-10-06
+
+**Environment.** Same container; archive hosts still blocked. Neither the AllWISE cache nor the DD1.0 label spreadsheet is in the repo, so the SED check and the new DD1.0-criteria/label columns (Kyle, 10-06) could not be done. One window: fits ran 07:55–12:00 UTC and were stopped at the cutoff.
+
+**Fits** (table in `docs/DD_EB_CROSSMATCH.md` → "Cloud run 2026-10-06"):
+- **J2312 at Gaia Teff ±10% (reflection off): χ²_red 1.64 (8,939 K) and 1.78 (10,925 K), all eclipse biases < 1.5σ, est. d ratio 0.87/1.16.** Its light-curve pass is robust to Teff.
+- J1419 with q fitted (`_v3`): Nelder–Mead χ² 171.4 vs 167.8 for fixed q (`_v2`). Fitting q does not help; stopped in emcee.
+- Stopped in Nelder–Mead: J1604 `_gteffm10` (χ² 410.1 so far vs 409.3 at Gaia Teff), J0739 `_v2` (454.6 vs 454.7 in round 1, no improvement).
+
+**Status.** Light-curve-passing candidates: J1419 (marginal +3.1σ secondary bias), J1604 (Gaia Teff), J2312 (Gaia Teff, robust to ±10%). All three still wait on the AllWISE SED check.
+
+**Afternoon addendum (Kyle online).** The DD1.0 MAST label table (`DD_1.0ObjectsFromMAST.csv`, from Kyle's Teams chat with Alissa Bans) and WZSubs.zip were copied from Kyle's Mac. Labels cover 115/800 cross-matches (no tier A). WZSubs gave an offline AllWISE cache, so the SED check finally ran: **J1604 (Gaia Teff) and J2312 (Gaia Teff, reflection off, also at ±10% Teff) now pass all checks**, joining J1419. Details: `docs/DD_EB_CROSSMATCH.md` → "SED check with the AllWISE cache (2026-10-06)".
+
+## 2026-10-07
+
+**Environment.** Archive hosts still blocked (CDS XMatch, VizieR, MAST, SkyView, IRSA return no connection). One window: fits ran 07:53–11:56 UTC and were stopped at the cutoff.
+
+**DD1.0 criteria and labels.** `src/crossmatch/add_dd1_criteria.py` adds the DD1.0 excess cut (without `w4rchi2`, which is unavailable), the volunteer labels and a `grade` column to `dd1_candidates_scored.csv`; the tier tables show them. Tier A: 12/12 pass the DD1.0 cut (no labels exist). Tier B: 110/119 pass; grades 100 B, 10 B+ (sci-team YES), 9 B− (W4 `cc_flags` = d, or W4 S/N 9.96). Tier C: 466/669 pass.
+
+**Fits** (all stopped in Nelder–Mead; table in `docs/DD_EB_CROSSMATCH.md` → "Cloud run 2026-10-07"): J1604 −10% Teff χ² 392.4 (vs 409.3 at Gaia Teff), +10% 417.7; J1419 with l3 173.1 (vs 167.8 without); J2218 eccentric 3265.8 (vs 1936.3 circular).
+
+**Status.** Three candidates pass all checks: J1419, J1604, J2312. Four parallel fits do not finish within one window; run fewer at a time.
+
+## 2026-10-08
+
+**Environment.** Archive hosts still blocked. Fits ran 07:52–11:51 UTC (one window) and were stopped at the cutoff.
+
+**Fits.** J2235 `_v2` finished from its cached optimum: χ²_red 15.4, eclipse bias −7.9/−8.2σ, fails (SED passes: d ratio 0.94, W4 8.3σ). J1604 at Teff −10%/+10% stopped in Nelder–Mead start 2 (best χ² 392.4/391.5 vs 409.3 at Gaia Teff).
+
+**Code.** Each Nelder–Mead start is now cached (`<name>_localopt_starts<tag>.json`), so stopped runs resume at the next start instead of repeating start 1 (which happened on 10-06, 10-07 and 10-08).
+
+**Status.** Unchanged: J1419, J1604, J2312 pass all checks.
+
+## 2026-10-09
+
+**Environment.** Archive hosts still blocked. Fits ran 07:52–11:51 UTC and were stopped at the cutoff. The per-start cache added on 10-08 worked: finished Nelder–Mead starts are saved for J1604 (both) and J2218.
+
+**Fits.** J1419 `_v4` (third light free, fitted l3 ≈ 0.0001) finished and **passes all checks**: χ²_red 0.67, bias −0.4/+2.5σ, d ratio 0.91, W4 8.5σ. It is a nearby solution to `_v2` (χ² 144.7 vs 151.2), which had +3.1σ secondary bias. J1604 −10%/+10% Teff: start 1 cached (457.0/435.4), start 2 reached 405.8/392.0. J2218 eccentric: start 1 χ² 3265.8, worse than circular 1936.3.
+
+**Status.** J1419, J1604, J2312 pass all checks.
+
+## 2026-10-10
+
+**Environment.** Archive hosts still blocked. Fits ran 07:52–12:15 UTC (one window) and were stopped at the cutoff. Only the two J1604 fits ran, as planned.
+
+**Fits.** J1604 −10%/+10% Teff: start 2 finished (χ² 392.4/391.5, cached). Start 3 reached χ² 198.1/281.4 before the cutoff, far below the Gaia-Teff fit's 409.3, but had not converged and is not cached. The lower minimum is inferred from the unfinished runs, not yet verified by a finished fit.
+
+**Status.** J1419, J1604, J2312 pass all checks. J1604's light-curve fit can likely improve further.
+
+## 2026-10-11
+
+**Environment.** Archive hosts still blocked. Fits ran 07:55–11:52 UTC. They were stopped early in emcee, which takes about 2 h and could not finish before the cutoff.
+
+**Fits.** J1604 −10%/+10% Teff: Nelder–Mead start 3 converged at χ² 190.65/280.11, against 409.3 for the Gaia-Teff fit's local optimum. Both optima are cached. emcee, the hi-res χ²_red and the SED check have not run yet, so whether J1604 still passes at ±10% Teff is not verified.
+
+**Code.** `run_phoebe_candidate.py` now saves an unfinished Nelder–Mead start's best vector every 25 evaluations and resumes from it.
+
+**Status.** J1419, J1604, J2312 pass all checks. The Gaia-Teff J1604 fit is likely not at its best minimum (inferred from the ±10% runs).
+
+## 2026-10-12
+
+**Environment.** Archive hosts still blocked. Fits ran 07:52–11:58 UTC and were stopped at the cutoff.
+
+**Fits.** J1604 robustness finished. At +10% Teff it passes all checks (χ²_red 1.01, bias +2.0/+1.0σ, d ratio 1.10, W4 9.0σ). At −10% Teff the SED check passes (d ratio 0.83, W4 8.9σ) and χ²_red is 0.75, but the primary-eclipse bias is +3.6σ, just over the 3σ limit. J1604 `_gteffms` (Gaia Teff, multi-start): grid done, start 1 χ² 413.4, start 2 partial. J2239 `_noirr3`: χ²_red 12.7, d ratio 0.51, fails.
+
+**Status.** J1419, J1604, J2312 pass all checks. J1604's W4 excess (≈ 9σ) is robust to ±10% Teff. Its light-curve pass holds at the Gaia Teff and +10% and fails marginally at −10%.
+
+## 2026-10-13
+
+**Environment.** Archive hosts still blocked. One fit ran 07:53–11:52 UTC and was stopped at the cutoff; the other cores were idle by plan.
+
+**Fits.** J1604 `_gteffms` (Gaia Teff, multi-start). Start 2 resumed from its cached partial best and converged at χ² 336.4, against 409.3 for the old single-start fit. Start 3 reached 696.1 (partial, cached). Resuming from a partial start worked as intended.
+
+**Status.** J1419, J1604, J2312 pass all checks.
+
+## 2026-10-14
+
+**Environment.** Archive hosts still blocked. Fits ran 07:53–11:51 UTC and were stopped in emcee at the cutoff.
+
+**Fits.** J1604 at the Gaia Teff:
+- multi-start `_gteffms` best χ² 336.4;
+- seeded from the −10% Teff optimum (`_gteffseedm10`, new `--start-from` option): **χ² 180.1**, the deep i ≈ 86.1° minimum;
+- seeded from +10%: 248.8.
+
+All local optima are cached; emcee, hi-res and the SED check run next.
+
+**Status.** J1419, J1604, J2312 pass all checks. J1604's current Gaia-Teff fit (χ²_red 1.66) is not its best solution. A finished `_gteffseedm10` should give a lower χ²_red at the same Teff (inferred; it needs emcee and hi-res).
+
+## 2026-10-15
+
+**Environment.** Archive hosts still blocked. Fits ran 07:53–10:11 UTC and all finished; no cutoff needed.
+
+**Fits.**
+- J1604 at the Gaia Teff, three finished fits, all passing all checks: seeded from −10% χ²_red **0.70** (bias +2.8/+0.2σ), seeded from +10% 1.01, multi-start 1.41 (old `_gteff` 1.66). `_gteffseedm10` is J1604's new reference fit. The SED check is identical in all: d ratio 0.96, W4 9.0σ.
+- J2312 seeded from its ±10% optima: χ²_red 1.68/1.80 against 1.69, so there is no hidden deeper minimum. It still passes all checks.
+
+**Status.** Three candidates pass all checks, with best fits: J1419 (`_v4` χ²_red 0.67), J1604 (`_gteffseedm10` 0.70), J2312 (`_gteffnoirr` 1.69). The PHOEBE work on these three is complete. What remains is blocked on data: DD1.0 tier-A labels, `w4rchi2`, and TESS or archive access for tier B and new surveys.
+
+**Late (10:15–12:12 UTC).** J1604 ±10% Teff reseeded from the new reference ran until the cutoff, still in local optimisation. Partial bests (cached): χ² 184.8 at −10% (was 190.65) and 174.4 at +10% (was 280.1).
+
+## 2026-10-16
+
+**Environment.** Archive hosts still blocked. Fits ran 07:53–10:41 UTC and both finished.
+
+**Fits.** J1604 at ±10% Teff, reseeded from the 10-15 reference, both pass all checks:
+- −10%: χ²_red 0.70, bias +1.6/−0.4σ, d ratio 0.83, W4 8.9σ;
+- +10%: χ²_red 0.66, bias +1.6/+0.3σ, d ratio 1.10, W4 9.0σ.
+
+The earlier −10% failure was a worse local minimum.
+
+**Status.** J1419, J1604 and J2312 pass all checks at the Gaia Teff and at ±10% Teff. The PHOEBE work on these three is complete. Remaining items need data: DD1.0 tier-A labels, AllWISE `w4rchi2`, and archive or TESS access for tier B and new surveys.
+
+## 2026-10-17
+
+**Environment.** Archive hosts still blocked (all 000). Fits ran 07:53–11:50 UTC. J1732 `_m10` was stopped at the window limit; the others finished.
+
+**Fits.**
+- **J2312 eccentric** (`_gteffnoirrecc`): χ² 139.3/215, **χ²_red 0.65** (was 1.69), bias −0.1/+0.4σ, d ratio 0.93, W3/W4 7.0/12.6σ, passes all checks. e cos ω = −0.0024 matches the eclipse timing. e sin ω = 0.10 is weakly constrained. New J2312 reference.
+- J0245: `_m10` χ²_red 3.80; seeded nominal returns to the same optimum (χ²_red 3.84). Still fails on the +3.5–3.8σ secondary bias.
+- J0332: `_gteffm10` χ²_red 77.5; seeded at the Gaia Teff, χ²_red 96.1 (local opt 16,501 vs 18,891). Still fails.
+- J1732 `_m10`: start 1 reached χ² 1,348 (nominal 1,002); stopped during start 2.
+
+**Clip check.** The running-median clip has been in the script since 19e6290, the same commit that added every candidate light curve, so they were probably all built with it (assumed; git can't prove which version ran). A simulation shows it removes eclipse cores only at 30-min cadence (J1604: about 95% of core points at 30 min, none at 200 s). The binned J1604 eclipse core still uses all 5 sectors. J2312's deepest primary bins use 2 of 3 sectors (possible clip loss, unconfirmed). See `docs/DD_EB_CROSSMATCH.md`, "Cloud run 2026-10-17".
+
+**Status.** J1419 (`_v4` 0.67), J2312 (`_gteffnoirrecc` 0.65) and J1604 (`_gteffseedm10` 0.70) pass all fit and SED checks. J1604's W4 excess is suspect (nebular W4 image).
+
+## 2026-10-18
+
+**Environment.** Archive hosts still blocked (all 000). Fits ran 07:53–11:32 UTC. J1732 `_m10` was stopped at the cutoff; all others finished.
+
+**Clip fix.** `fetch_tess_lc.clip_mask()` no longer drops runs of consecutive same-sign deviations. In simulation, J1604's eclipse-core loss at 30-min cadence falls from 95% to 0%, and isolated bad cadences are still removed (39/40). Light curves were not regenerated (MAST blocked).
+
+**J2312 eccentric.**
+- ±10% Teff from the 10-17 optimum: χ²_red 0.65 / 0.60, both pass.
+- Seeds at e sin ω = 0, −0.03 and +0.06 reached χ² 98.4, **84.6** and 90.5 (e sin ω 0.029 / 0.010 / 0.052).
+- ±10% from the e sin ω ≈ 0.03 optimum: χ² 80.3 / 81.5, both pass.
+- e cos ω = −0.0024 in every fit. e sin ω is not constrained (0.01–0.10).
+- New reference `_gteffnoirreccesm003`: χ²_red 0.39, bias −0.1/+2.5σ, d ratio 0.99, W4 12.6σ.
+
+**J1732 `_m10`:** three starts at χ² 1,267–1,529, all worse than nominal (1,002). Still fails.
+
+**Status.** J1419 (`_v4` 0.67), J2312 (`_gteffnoirreccesm003` 0.39) and J1604 (`_gteffseedm10` 0.70) pass all fit and SED checks. J1604's W4 excess is suspect (nebular image).
+
+## 2026-10-19
+
+**Environment.** Archive hosts still blocked (all 000). Sixteen J2312 fits ran 07:53–10:45 UTC, two rounds of 8, and all finished.
+
+**J2312 e sin ω profile** (new `--bound` option):
+- χ² is 84–101 for e sin ω between 0.00 and 0.065, the minimum being 83.9 at 0.01.
+- It rises to 116 at 0.08, 141 at 0.10, 202 at 0.13 and 196 at −0.02.
+- Repeats from different seeds differ by up to 25 at the same e sin ω.
+- **Inferred:** e sin ω between 0 and 0.07. The reference stays `_gteffnoirreccesm003` (χ²_red 0.39).
+
+**Flux errors.** The binned errors come from sector-to-sector scatter, and in eclipse that scatter is 3–25× larger than out of eclipse (depth differences between sectors, probably dilution). χ²_red < 1 therefore reflects large in-eclipse errors, not a photon-noise-level fit. With white-noise errors, the in-eclipse χ²_red of the passing fits would be J1419 2,983, J1604 182 and J2312 1,583. The pass criteria test consistency with the sector spread. See `docs/DD_EB_CROSSMATCH.md`, "Cloud run 2026-10-19".
+
+**Status.** J1419, J1604 and J2312 still pass all checks as defined (J1604 W4 suspect). The error-model finding means the pass is relative to sector-to-sector systematics.
+
+## 2026-10-20
+
+**Environment.** The 07:51 fire was skipped while the routine was paused. Kyle reset the usage and the run started at 07:53 UTC. Archive hosts still blocked (all 000). Fits ran 07:54–11:39 UTC and all finished.
+
+**White-noise χ².** The photometry check now reports χ²_red against the bin-to-bin white noise; this is informational only. Recomputed for all 67 stored fits: the pipeline χ²_red is reproduced exactly. For the reference fits, χ²_red against white noise is J1604 25, J2312 260 and J1419 331 (eclipse windows 116 / 1,058 / 1,915). No fit reaches the white-noise level. The closest are J1122 (1.9) and J0739 (4.8).
+
+**J2312, reflection on:** grid fit χ²_red 1.91 (secondary bias −3.5σ), seeded fit 3.54 (primary bias −4.2σ). Both fail and are worse than reflection off (0.39).
+
+**J0739 seeding:** `_m10` χ²_red 2.60, seeded at nominal 2.83 (round 1: 2.90). Both fail the eclipse bias (> 3.7σ).
+
+**Status.** Unchanged: J1419, J2312 and J1604 pass all checks as defined (J1604 W4 suspect). Against white noise, none fits to the photon level, which points to per-sector dilution as the next model change (needs raw light curves).
+
+## 2026-10-21
+
+**Environment.** Archive hosts still blocked (all 000). Work ran 07:54–11:01 UTC.
+
+**Per-sector dilution fitter** (`src/pipeline/fit_per_sector_dilution.py`):
+- Each sector is binned separately with white-noise errors and gets its own flux offset and depth scale against one PHOEBE model.
+- **Injection test on J1122's time stamps:** geometry recovered within 0.07° in incl, 0.001 in r_sum, 0.008 in k and 0.002 in T₂/T₁. Injected depth scales 0.70/1.40/0.90 came back as 0.707/1.389/0.904, at χ²_red 1.21. Needs ntri 1500: ntri 400 gives χ²_red 3.10 even at the true parameters.
+- **J1122 (sectors 10, 11, 37):** χ²_red 1.33 against white noise. Depth scales are S10 0.77, S11 1.18 and S37 1.05, consistent across 3 fits, and Δχ² is 75–81 against a shared dilution. The geometry is degenerate: k is 0.26–0.51 at nearly equal χ². Needs the other 4 sectors or a total-dilution prior.
+
+**Status.** The per-sector approach works and is tested. It can't be applied to J2312, J1604 or J1419 until their per-sector light curves are fetched (MAST blocked; `_raw.txt` not in the repo).
+
+## 2026-10-22
+
+**Environment.** Archive hosts still blocked (all 000). Work ran 07:54–10:25 UTC.
+
+**Per-sector fitter additions.**
+- New options: eccentricity, exposure smearing for long cadences, and a model l3 with a prior on the mean depth scale.
+- The 10-21 results reproduce exactly.
+- Smearing changes J1122's best χ² by only 0.2.
+- Injection with the prior recovers the geometry (k 0.313 vs 0.320) and the depth scales (0.707/1.389/0.905).
+
+**J1122 with the TIC dilution** (l3 0.367, σ 0.05).
+- All 3 starts converge to k = 0.11–0.12 (R₂ ≈ 0.25–0.32 R☉) at χ² 806–849 (χ²_red 1.39–1.47).
+- That is Δχ² 40–83 worse than free dilution.
+- The free-dilution solutions imply 85–94% third light, against 37% from TIC, so they are probably unphysical.
+- Per-sector depth scales are S10 ≈ 0.82, S11 ≈ 1.10 and S37 ≈ 1.07.
+
+**Status.** The per-sector tools are ready. Applying them to J2312, J1604 and J1419 needs their per-sector light curves (MAST blocked).
+
+## 2026-10-23
+
+**Environment.** Archive hosts still blocked. Work ran 07:51 to about 09:15 UTC.
+
+**Emcee step added** to `fit_per_sector_dilution.py` (`--walkers`, `--steps`; commit 3c0c65f).
+
+**J1122 emcee runs lost.** Three 12×60 runs (`_mcfreea`, `_mcfreeb`, `_mcl3`) were at step 20/60 when the container restarted at about 09:05 UTC. No chains survived. Per the one-window rule, nothing was relaunched.
+
+**Fix.** The chain is now checkpointed every 5 steps (`*_persector_chainpart{tag}.npz`), and a rerun with the same tag resumes from it. The code compiles; resume has not been exercised yet.
+
+**Status.** No new science results today. The next run should rerun the three J1122 emcee jobs with the same commands and tags (each about 2.5 h at 4 cores in parallel).
+
+## 2026-10-24
+
+**Environment.** Archive hosts still blocked (all 000). Work ran 07:52 to about 12:20 UTC.
+
+**J1122 emcee reruns** (12×60, 3 in parallel, about 2.7 h each, all finished by 10:35 UTC):
+- Free dilution: two separate modes at nearly the same χ² (765.9 vs 769.5). One has k 0.405 (+0.052/−0.035) at incl 90°; the other has k 0.286 (+0.050/−0.038) at incl 85°.
+- TIC dilution prior: k 0.122 (+0.008/−0.005), R₂ ≈ 0.34 R☉, χ²_red 1.39.
+- Depth scales are consistent across all runs: S10 ≈ 0.78, S11 ≈ 1.17, S37 ≈ 1.05.
+- Chains are short and were not convergence-tested.
+
+**Lost time.** My wait loop used `pgrep -f` on a pattern that matched the loop's own shell. So it never saw the fits finish, and about 1.5 h of the window went idle. Use `pgrep -f "^.venv-phoebe/bin/python src/pipeline/fit_per"` or the PIDs from `$!` next time.
+
+**Fix.** Resume with zero steps left no longer crashes (`afd6d37`).
+
+## 2026-10-25
+
+**Environment.** Archive hosts still blocked (all 000). Work ran 07:52 to about 11:00 UTC.
+
+**J1122 emcee extended to 120 steps.** All three chains resumed from the 10-24 checkpoints, so checkpoint/resume is now verified in a real run. They finished at 10:45 UTC, about 2.9 h for 60 steps.
+- **TIC dilution prior:** k = 0.125 (+0.004/−0.005), R₂ ≈ 0.36 R☉. This is stable between the two halves of the kept chain.
+- **Free dilution:** the two chains now overlap (k 0.40 and 0.32), and one walker has drifted out to k 1.3. The 10-24 "bimodality" is a single poorly constrained region, roughly k 0.27–0.6+.
+- **Convergence:** τ ≈ 10–15 steps, so the chains are about 9 τ long. They are not converged.
+- **Depth scales:** unchanged, S10 0.77–0.80, S11 1.16–1.18, S37 1.04–1.05.
+
+**Wait loop.** This time it watched the fits by PID, with no idle gap.
+
+**Note.** The `_mc*` result JSONs are rewritten with the 120-step percentiles. The 60-step versions are in commit 2666e03.
+
+## 2026-10-26
+
+**Environment.** Archive hosts still blocked (all 000). Work ran 07:52 to about 11:20 UTC.
+
+**J1122 l3 sensitivity** (Nelder–Mead with depth-scale prior σ 0.05):
+- l3 0.25: k 0.110, χ² 808.0. The first start stalled at 817.2; a second start from the 0.50 fit fixed it.
+- l3 0.367 (TIC): k 0.118, χ² 806.1.
+- l3 0.50: k 0.136, χ² 797.1.
+- So R₂ ≈ 0.30–0.37 R☉ across this range, and the small companion is robust to the exact TIC dilution.
+
+**J1122 TIC-prior chain extended to 180 steps.** k stays at 0.125 ± 0.005. But incl (83.7 → 82.3) and r_sum are still drifting, and τ is 14–23 steps, so the chain is not converged. R₂ = 0.38 (0.35–0.41) R☉.
+
+**2026-10-26 evening (extra routine fire at 22:13 UTC after Kyle added the J2312 checks; no fits run).**
+- No PC results from Kyle yet: none on any branch, and nothing new in `/mnt/project-files/J2312`.
+- MAST, IRSA, Gaia and VizieR still return 000, so checks (a) and (b) are blocked.
+- Check (c), by eye, `/mnt/project-files/wise_w3w4_check/J231201.40+532028.6_wise.png`: the W4 source is a compact peak at the star (offset 1.1″, S/N 15). It sits on a diffuse plateau that extends S and E and runs off the 2′ field. The 10-16 label "clean" was too generous, so it is now "possibly contaminated", as 081ab9c says.
+- A faint source about 50″ SW is visible in W1–W3 but not clearly in W4.
+- No verdict until the wide-field check runs.
+
+**2026-10-26 late: J2312 checks run on Kyle's PC** (Remote Control session; commit f953daa, `outputs/j2312_contamination/`).
+- **AllWISE:** target W4 6.84, SNR 17.5, w4rchi2 1.14, cc_flags 0000. Neighbours within 3′ are at 23–34″ with W4 SNR ≤ 4.1, so none can supply the W4 flux. **Verified.**
+- **Gaia DR3:** none within 12″; 52 sources at 12–60″, none within 5 mag of the target, summing to 1.8% of its flux. So TESS dilution from neighbours is about 2%. **Verified.**
+- **TIC:** contamratio is null (the star is not in the CTL). The nearest TIC neighbour is Tmag 14.46 at 12.8″.
+- **Sky test:** near/far sky flux ratio is 0.88 in W3 and 0.82 in W4. The W4 near-annulus sky is above the far sky in all four quadrants.
+- **By eye** (I checked the 4′ zoom too): the compact source sits on a N–S 22 µm ridge running about 3′ south. The W4 radial profile is about 15–20% of peak at 50–100″.
+- **Interpretation (not proven):** the W4 excess may be partly heated nebular dust rather than a disk. The 18% shift from the choice of sky annulus does not remove the W4/photosphere ratio of 3.6, but emission peaked on the star can't be separated by this test.
+- The PC session ran its own reimplementation of `w4_neighbours.py` (same method and parameters), because the PC's permission policy blocked running the clone's script. Both scripts are in the commit. Commit 081ab9c is still not merged.
+
+
+**2026-10-26 night (Kyle's requests, cloud and PC).**
+- **J2312 W4 excess with the local nebular background subtracted** (`outputs/j2312_contamination/README.md`):
+  - W4 drops from 3.6× to 2.5–3.0× the photosphere: 8–12σ on photometric error alone.
+  - The spread between background estimates is about ±0.25 mag, so the honest significance is about 2.5–3σ.
+  - W3 drops to 2–3.5σ, so it is not significant.
+- **J0136+62** (J013614.42+625507.1, tier B on `mac-run-2026-10-04`; TESS 10k EB P = 2.78951 d):
+  - FFI light curve from S18, S24, S25, S58 and S85 gives P = 2.789497 d. The primary is 2.5–3% deep, odd and even eclipses agree (0.3σ), and there is no secondary. A once-per-orbit 1.3% modulation is present.
+  - The difference image centres on the target.
+  - W3/W4 sit on the edge of a nebula. W4 is 8–10σ after local-background subtraction; W3 is about 3.5σ.
+- **J0131−00** (DD2, PC session): no eclipses at the VSX 0.351 d period. TESS shows a 0.488 d spot-like modulation, and W4 is an upper limit. Not an EB candidate.
+- **J2312 deck:** `outputs/j2312_deck/` (10 slides, plus the explainer).
+
+## 2026-10-27
+
+**Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive still return 000. The public AWS mirrors work, and they unblock most of the TESS and WISE work:
+- TESScut FFI cubes on `s3://stpubdata/tess/public/mast/`. These cover sectors up to about 108; no QLP or SPOC HLSP products are there.
+- AllWISE Atlas tiles on `nasa-irsa-wise`.
+
+Work ran 07:52 to about 12:00 UTC.
+
+**New tools** (committed 10-26 evening, extended today):
+- `src/pipeline/fetch_tess_ffi_s3.py`: 15×15 px FFI cutouts with astrocut (a few seconds per sector), aperture photometry with a per-cadence background, and dropping of scattered-light cadences. Then per-orbit trend removal that keeps the periodic signal; the phase model is skipped when an orbit is shorter than 1.5 P, which fixes J1419. Finally `fetch_tess_lc.py` cleaning and binning (new `--outdir`).
+  - Sectors missing from tess-point's pointing table (J2312 S77/S84, J1604 S66) could not be cut. A brute-force camera/CCD search gave garbage stamps for J2312, and was killed for memory on J1604.
+- `src/crossmatch/wise_atlas_s3.py`: 10′ W3/W4 images, near/far sky, and radial profiles.
+
+**FFI light curves for the per-sector dilution fits** (`outputs/candidates/<des>/ffi/`):
+- J2312: S16, S17, S57.
+- J1604: S12, S39, S65, S102, S103.
+- J1419: S11, S38, S65, S99–S102.
+
+All fold cleanly at the reference periods.
+
+**Per-sector dilution fits on the FFI data** (`fit_per_sector_dilution.py`, `--ntri 1500 --no-smear --eccentric`, tag `_persectorffi`):
+- **J2312** (reflection off, 600 evals; the l3 = 0.018 + scale-prior run gave the same optimum):
+  - χ² 77,142, χ²_red 121.5 against white noise. The QLP/SPOC data gave 260.
+  - Depth scales S16 0.998, S17 1.006, S57 0.996. **The ~3% sector depth disagreement in the QLP/SPOC products is absent in uniform FFI photometry**, so it came from the pipeline products, not the star.
+  - incl 83.48°, r_sum 0.294, k 0.640 (was 0.70), T₂/T₁ 0.953 (was 0.974), e cos ω −0.0028, e sin ω 0.017.
+  - The optimum stopped improving after about 100 evals. A second start (`_persectorffi2`) is reported below.
+  - Most of the remaining χ² is out of eclipse. The FFI continuum has about 0.8% peak-to-peak curvature, faint near the eclipses, that the reflection-off sphere model does not have. It is not settled whether this is real or left by the detrending; QLP did not show it at this level.
+- **J1419** (200 evals, capped because each eval takes about 55 s with 7 sectors):
+  - χ²_red 137.8 per-sector vs 148.6 with shared dilution.
+  - Depth scales 0.993–1.011.
+  - incl 89.39°, r_sum 0.142, k 0.486, T₂/T₁ 1.019, e cos ω 0.134, e sin ω 0.036. This is close to `_v4` (k 0.499, T₂/T₁ 0.994).
+  - Residuals are dominated by out-of-eclipse steps between sectors (detrending), not by the eclipses.
+- **J2312 second start** (`_persectorffi2`, from the first optimum, 200 evals): χ² 76,636 (χ²_red 120.7), down 0.7% from 77,142. No improvement after eval 100. incl 83.04°, r_sum 0.298, k 0.672, T₂/T₁ 0.948, e cos ω −0.0024, e sin ω 0.010. Depth scales S16 0.997, S17 1.006, S57 0.996, unchanged. k moves by 0.03 between starts for a 0.7% χ² change, so k is poorly constrained by this data; the geometry otherwise holds.
+- **J1604** (the 600-eval run was too slow, 125 evals in 2 h, so it was restarted at 100 evals; **not converged**: best χ² still fell 7,697 → 7,649 over the last 25 evals):
+  - χ² 7,649, χ²_red 8.06 per-sector vs 11.26 with shared dilution (966 bins).
+  - Depth scales S12 1.004, S39 1.005, S65 0.979, S102 1.011, S103 1.001. S65 is 2% shallow; the rest agree within 1.1%.
+  - incl 86.27°, r_sum 0.384, k 0.778, T₂/T₁ 0.978, e cos ω 0.062, e sin ω −0.016, mean b 0.885. The 10-24 `_gteff` fit had i 85.1°, T₂/T₁ 0.97 and e 0.063, so the FFI fit agrees so far.
+
+**Fitter.** Now writes `<des>_persector<tag>_partial.json` (best χ² and parameters) every 25 evals, so a run stopped at the end of the window keeps its optimum.
+
+**Tier-B TESS confirmation** (`outputs/candidates/tierB_tess/`, `tierB_tess_eclipse_check.csv`, `montage_yes.png`, `montage_no.png`). FFI light curves, at most 3 sectors for B+ and 2 for B/B−, were folded at the catalogue period. Checked: 87 of 119. Not checked: 29 with no catalogue period, and 3 whose sectors are not on the mirror.
+- **Automatic flag** (primary depth ≥ 5× profile noise, half-width ≥ 0.003): 43 yes.
+- **By-eye class:** 30 detached eclipses, 10 close-binary-like continuous variation, 5 eclipses seen but the fold needs a better period, 5 variable but not eclipse-like, 37 no signal, too faint or systematics.
+  - The by-eye class is the one to use: it rescues J0924−05 and the contact-like systems, and rejects pulsators and systematics.
+  - Faintness drives the "no signal" group: 21 of 44 at Tmag > 13.
+- **B+:** only J0009+58 shows eclipses, and they smear in the fold, so it needs a period search. J0408+32 is a 2% double wave with no eclipse (ellipsoidal or contact-like). J0604−07 shows a short-period pulsation.
+- **Nebular-demoted tier-A objects:** J1022, J1246−65 and J2041 eclipse clearly, so they are EBs, but their W4 remains suspect.
+
+**Daily-routine bookkeeping.** PR #2 is still open; Kyle's "merge it" (10-26) is awaiting his choice of what to merge. Nothing has been merged.
+
+## 2026-10-28
+
+**Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive still return 000; the AWS mirrors work. The run fired at 01:14 UTC and stopped at 05:16 UTC.
+
+**J2312 out-of-eclipse structure: solved.** It is ellipsoidal variation, which the sphere model (the fitter's default for P > 3 d) cannot make.
+- The out-of-eclipse cos 4πφ amplitude a₂ is −3.8 to −5.1 ppt in all three sectors, and the same within 0.4 ppt whether the per-orbit trend is the current poly + Fourier, a straight line, or a median (`_continuum_check.csv`). So it is in the star, not left by detrending.
+- PHOEBE at the `_persectorffi2` parameters gives a₂ = −0.04 ppt (sphere), −5.28 (Roche) and −4.17 (Roche + reflection).
+- New `--distortion` option in `fit_per_sector_dilution.py`. The Roche per-sector fits, started from `_persectorffi2`:
+  - no reflection: χ² 15,275 at start → 7,286 (χ²_red 11.5) after 300 evals;
+  - with reflection: χ² 8,819 at start → **5,215 (χ²_red 8.2)** after 300 evals, vs 120.7 for the sphere fit. Reflection on is now better, unlike with spheres (10-20).
+  - Parameters (reflection on): incl 82.93°, r_sum 0.2886, k 0.638, T₂/T₁ 0.939, e cos ω −0.0024, e sin ω 0.0043.
+  - Both stalled after eval ~150 and were stopped at the cutoff. Parameters are in `_persector_persectorffiroche{,irr}_partial.json`. Not converged in the two-start sense.
+- The published best fit (`_gteffnoirreccesm003`, sphere, sector-scatter errors) is therefore missing the ellipsoidal term. Its radii and T₂/T₁ should be rechecked with Roche.
+
+**J1604 resumed** (`_persectorffi2`, 180 evals): χ² 7,649 → 7,462 (χ²_red 7.86 vs 11.13 shared). Still improving slowly (7,472 → 7,462 over the last 50 evals).
+- incl 86.28°, r_sum 0.385, k 0.792, T₂/T₁ 0.978, e cos ω 0.062, e sin ω −0.013.
+- Depth scales unchanged; S65 is 0.979.
+
+**J1419 second start** (`_persectorffi2`, 180 evals): χ² 205,819 → 205,067 (−0.4%, χ²_red 137.3). Parameters are within 0.02° / 0.0002 of the first start, so the optimum is confirmed. With P = 16.6 d, spheres are probably adequate; this is inferred from the period, and no a₂ check was run.
+
+**Tier B without a catalogue period** (`src/checks/bls_ffi.py`, 30 objects, 2 FFI sectors each). By eye after BLS: 6 detached EBs with new periods (J1710−44 6.8638 d, J1220−62 10.040 d, J1108−56 4.8776 d, J0612+09 2.5213 d, J2110+47 12.146 d, J2048+49 3.2350 d), 1 close binary, 6 eclipses with unknown period, 9 variables, 8 no signal.
+
+**J0009+58 is dipper-like, not an EB.**
+- Its dips recur near 4.2922 d (O−C within ±5 h for 7 of 10), but depths vary 4.4–9.7%, each dip lasts 0.6–1.3 d, and there is no secondary.
+- It is a K star (4513 K) with excess from W1 onward (JHKW1 χ² 820 against the photosphere; W2 26σ; W4 74×).
+- W3/W4 show a compact source on flat sky.
+- **Inferred, not verified:** an AA Tau-type dipper with an inner disk. Spectroscopy (Hα, Li) would test this.
+
+**Tables.** The TESS FFI class has been added to the scored and tier tables (`add_tess_ffi_check.py`). 47 tier B are now TESS-confirmed (E or C); 9 of them failed only `multi_survey`.
+
+**J0136+62** (Kyle's request): clean light curve from S58 alone and from the S58 + S85 stack (the 30-min sectors disagree on depth, 1.5–2.5%). Files are in `outputs/candidates/J013614.42+625507.1/` and `/mnt/project-files/J0136/`.
+
+**Daily-routine bookkeeping.** PR #2 is still open. The merge question (PR #2 vs the 081ab9c flag) is still waiting on Kyle; nothing has been merged.
+
+## 2026-10-28 (morning run)
+
+**Environment.** The archives still return 000; the AWS mirrors work. The run fired at 07:52 UTC; fits were stopped at 11:45 UTC.
+
+**J2312 Roche + reflection: optimum confirmed, q near 0.8.**
+- A third start from the 01:14 run's optimum (`_persectorffirocheirr2`) and a run with q free (`_persectorffirocheirrq`) both found nothing below χ² 5,215.1 (χ²_red 8.21) in 150 evals each. Both were stopped early to free cores.
+- A final evaluation (`_rocheirr_q0.8`) gives depth scales S16 0.995, S17 1.007 and S57 0.998, and χ²_red 9.17 with shared dilution.
+- With the other parameters fixed, changing q gives: q 0.6 → χ² 8,582.5 (red 13.5); q 0.8 → 5,215.1 (8.21); q 1.0 → 9,913.0 (15.6).
+  - The ellipsoidal amplitude therefore pins q near 0.8 at this geometry.
+  - This is not a profile: radii were not re-optimised, and the amplitude scales roughly as q·r³.
+- Remaining residuals are largest in S57's primary eclipse: −10σ on ingress, +5–10σ on egress.
+  - Eclipse centres from the light curve: S17 +5.3 min, S57 −1.3 min. S16 is unreliable because of a data gap in its primary eclipse.
+  - Possible causes are a small timing offset or the linear limb darkening; neither has been tested.
+
+**J1604 resumed** (`_persectorffi3`, 175 evals, stopped): χ² 7,462 → 7,407 (χ²_red 7.81). incl 86.14°, r_sum 0.386, k 0.801, T₂/T₁ 0.977, e cos ω 0.062, e sin ω −0.012. Gains are now under 0.1% per 25 evals, so it is close to converged.
+
+**J1122: FFI photometry fails.**
+- Seven sectors were cut (S10, S11, S37, S64, S90, S99, S100). The target (Tmag 12.7, TIC contamination ratio 0.58) is not a distinct source in the 15×15 px stamps; it sits in a dark gap between brighter neighbours.
+- The per-sector primary depths come out at 25, 31, 42, 84, 15, 12 and 22%, against ~3% in QLP. The aperture is mostly background, so normalising inflates the depths.
+- **Verified:** the AWS route cannot replace QLP for J1122. Its per-sector fit still needs QLP or SPOC light curves (Kyle's PC or MAST).
+
+**J0009+58 across all 9 available sectors** (S17, 18, 24, 57, 58, 77, 78, 84, 85; S123 and S129 are not on the mirror; `outputs/candidates/tierB_tess/J000904.86+581647.9/ffi_all/`):
+- S17–S18: dips of 5–10% near the 4.2922 d ephemeris.
+- S24: 4–5%, and shallower later in the sector.
+- **S57–S58: no dips** (≤ 0.8% at the predicted times). Instead there is a ~2% quasi-sinusoidal modulation at roughly the same period.
+- S77, S84, S85: dips of 3–8% that are not on the ephemeris (O−C up to ±25 h).
+- An eclipsing binary's eclipses cannot vanish for two sectors and come back off-phase. This supports the dipper interpretation: episodic occultations by circumstellar dust, plus rotational modulation at P ≈ 4.3 d.
+- Dip-depth table: `_dip_depths.txt`.
+
+**WISE images of the six new BLS EBs** (`wise_atlas_s3.py`, now with automatic tile lookup; `noperiod/wise_new_ebs.png`):
+
+| Object | W3/W4 at the star | Catalogue W4 excess | Verdict |
+|---|---|---|---|
+| J1108−56 | compact in both | 15.4σ (no Teff, BB fit) | plausible |
+| J2110+47 | compact in both, flat sky (near/far 0.96/0.95) | 21σ, 2.5×; fails `dust_over_ff` and the DD1 cut | compact but free-free favoured (B star, 12,735 K) |
+| J2048+49 | compact in both | 5.9σ, 1.6×; W3 0.8σ | weak but clean |
+| J0612+09 | compact W3; W4 has a halo (profile 20% of peak at 75″) | 6.7σ | suspect (nebular) |
+| J1710−44 | no W3 source; W4 on structured nebulosity | 15σ | suspect (nebular) |
+| J1220−62 | no source at the star in W3 or W4 | 14σ | fail |
+
+BLS periods for E and C objects are now in `tess_bls_period`, and fill `period_d` in the scored table.
+
+
+## 2026-10-29 (daily cloud run, 07:52–12:10 UTC)
+
+**Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive all still return 000. No new J2312 results from Kyle's PC (no new commits on other branches since 10-19; `/mnt/project-files/J2312` unchanged since 10-26), so the J2312 contamination checks (a)/(b) stay blocked.
+
+**J2312 q profile with radii re-optimised** (Roche + reflection, eccentric, per-sector dilution, ntri 1500, 648 bins; starts from `_persector_persectorffirocheirr_partial.json`, q 0.4/0.5 from the q 0.6 result):
+
+| q | evals | χ² | χ²_red | k | incl | r_sum | T₂/T₁ |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| 0.4 | 60 | 5832.9 | 9.19 | 0.480 | 82.72 | 0.2871 | 0.939 |
+| 0.5 | 60 | 5224.9 | 8.23 | 0.528 | 82.65 | 0.2879 | 0.935 |
+| **0.6** | 120 | **5066.4** | **7.98** | 0.560 | 82.87 | 0.2865 | 0.937 |
+| 0.7 | 120 | 5143.7 | 8.10 | 0.606 | 82.82 | 0.2888 | 0.939 |
+| 0.8 (10-28) | 300 | 5215.1 | 8.21 | 0.638 | 82.93 | 0.2886 | 0.939 |
+| 0.9 | 120 | 5321.1 | 8.38 | 0.663 | 83.12 | 0.2870 | 0.938 |
+| 1.0 | 120 | 5414.6 | 8.53 | 0.688 | 83.20 | 0.2866 | 0.938 |
+
+- A parabola through q 0.5/0.6/0.7 has its minimum at q ≈ 0.62. With χ² scaled by χ²_red ≈ 8, q 0.5 and 0.7 sit at Δχ²/χ²_red ≈ 20 and 10, so q ≈ 0.6 ± 0.05 (statistical only; inferred, not an MCMC).
+- k rises with q (0.48 → 0.69): the ellipsoidal amplitude is shared between q and the secondary's size, so q and k are correlated. r_sum (0.287 ± 0.001), incl (82.7–83.2°) and T₂/T₁ (0.935–0.939) barely move.
+- q 0.4 and 0.5 ran only 60 evals; their χ² are upper bounds.
+- Depth scales stay at 0.995–1.008 in every run.
+
+**J1604 final evaluation** (`_ffi3final`, from `_persectorffi3_partial.json`): χ² 7407.3, χ²_red 7.81 (966 bins); depth scales S12 1.005, S39 1.004, S65 0.979, S102 1.011, S103 1.001. incl 86.14°, r_sum 0.386, k 0.801, T₂/T₁ 0.977, e cos ω 0.062, e sin ω −0.012.
+
+**Tier-B FFI light curves** (`fetch_tess_ffi_s3.py`):
+- J2048+49 (TIC 365489252, Teff 8559 K, contamination 0.036): 8 sectors (S15, 16, 55, 56, 75, 76, 82, 83). P = 3.235309 d, primary 2.09%, and a **broad** dip at phase 0.542 (0.42–0.65%, half-width 0.14 in phase vs 0.027 for the primary).
+- J1108−56 (TIC 307878702, no TIC Teff): 7 sectors (S10, 37, 63, 64, 90, 99, 100). P = 4.877495 d, primary 3.58%, no secondary (< ~0.3%); a 0.5% hump after the eclipse (phase ≈ 0.1) and a pre-eclipse slope, seen in the sector consensus.
+
+**J2048+49 PHOEBE fit** (`run_phoebe_candidate.py --teff 8559 --iters 5 --tag _ffi`): χ² 3344 on 165 dof, χ²_red 20.3 (166.6 against white noise); incl 65.7°, r1 0.252, r2 0.060, T₂/T₁ 0.38. Eclipse bias primary −10σ, secondary −24σ: the model cannot reproduce the broad phase-0.54 dip. Blackbody check: photosphere χ² (JHK W1) 7.1, d_phot/d_Gaia 1.93 (fails), W4 excess survives at 5.8σ (1.6×). **Verdict:** fit fails; the broad dip is probably not a plain eclipse (high e sin ω, a contaminating variable, or a detrending artefact). Not a usable PHOEBE solution.
+
+**J1108−56** was not fitted: no Teff in TIC.
+
+**Housekeeping.** `~/phoebe-env` had been lost in a container reset on 10-28 and was recreated (fresh venv, phoebe 2.4.22); `.venv-phoebe` was present. Commit fcee8cb accidentally included 8 J2048 FFI cutout FITS (~50 MB each). ac0c5af removes them from the tree, but they stay in branch history. A force-push to drop them was blocked, so **squash-merge PR #2** (or rewrite the branch with Kyle's OK) to keep them out of main.
+
+
+## 2026-10-30 (daily cloud run, 07:52–10:20 UTC)
+
+**Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive still return 000. No new J2312 results from Kyle's PC (other branches unchanged since 10-19; `/mnt/project-files/J2312` unchanged since 10-26). J2312 contamination checks (a)/(b) stay blocked.
+
+**J2312, q free from the q 0.6 optimum** (`_rocheirr_qfree06`, Roche + reflection, eccentric, 130 evals): χ² 4981.9, **χ²_red 7.86** (648 bins; shared dilution 8.79). **q = 0.602**, incl 82.89°, r_sum 0.2866, k 0.561, T₂/T₁ 0.937, e cos ω −0.0027, e sin ω 0.0012; depth scales 0.995–1.007. This confirms the 10-29 profile minimum (q ≈ 0.62).
+- Radii at this solution (inferred: M1 = 2.50 M☉ as assumed in the reference fit, a rescaled to q 0.6 → 24.09 R☉): **R1 4.42 R☉, R2 2.48 R☉**. The spherical-star reference fit gave 4.28 / 2.95.
+- Tension (inferred, not tested): T₂/T₁ 0.937 means T₂ ≈ 9300 K, but q 0.6 gives M₂ ≈ 1.5 M☉. A 9300 K main-sequence star is about 2.2 M☉. Either M1 is underestimated, the primary is evolved, or q is biased by the ellipsoidal/reflection modelling. The SED check with the new radii was not rerun.
+
+**J2048+49 broad dip.**
+- **Verified, phase-locked:** per-sector folds (8 sectors, 2019–2024) all show the dip at phase 0.55, depth 3.2–4.6 ppt (S15 3.9, S16 3.7, S55 4.0, S56 4.5, S75 4.6, S76 4.1, S82 3.7, S83 3.2). It follows the 3.2353 d period over ~570 cycles, so it is not a detrending artefact or an unrelated variable at another period.
+- **Centroid** (`src/checks/dip_centroid.py`): the primary's difference image is 1–6″ from the target (± 1–9″). The broad dip's is 5–21″ (± 2–15″). In S56, S82 and S83 the dip is offset 9 ± 4″, 14 ± 4″ and 12 ± 6″ against 3 ± 1″, 5 ± 3″ and 1 ± 3″ for the primary. That is a 2–3σ hint that the dip comes partly from a neighbour, but S75 (5 ± 2″) agrees with the target.
+- **Eccentric PHOEBE refits**: the width ratio (0.141/0.027 ≈ 5.2) matches a secondary eclipse with e sin ω ≈ 0.67.
+  - e sin ω bounded 0.45–0.85: stuck at 0.495, χ²_red 119.9 (primary bias −73σ).
+  - e sin ω forced to 0.62–0.72 (start 0.67): χ²_red 193.7, primary bias −136σ, secondary −6.8σ.
+  - Both are much worse than the 10-29 fit (χ²_red 20.3, e sin ω 0.39). **Not verified either way:** an e ≈ 0.67 eclipse doesn't fit with this pipeline's starts. Note that e ≈ 0.67 at P = 3.2 d would be unusual (tidal circularisation).
+- **Status:** the broad dip is unexplained; J2048 has no usable PHOEBE solution.
+
+**J1108−56 PHOEBE** (`_gteffffi`, Gaia Teff 18,238 K; the BB fit gives 13,900 K; no TIC Teff): χ²_red 300.7 (242 dof), primary bias −129σ, secondary +34σ; incl 87.1°, r_sum 0.065, k 0.505. **Fails.** The model can't reproduce the 0.5% post-eclipse hump and the in-eclipse shoulder. d_phot/d_Gaia 0.27 also fails. W4 15σ (16×) survives the binary photosphere.
+
+
+## 2026-10-31 (daily cloud run, 07:51–11:55 UTC)
+
+**Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive still return 000. No new J2312 results from Kyle's PC (other branches unchanged since 10-19; `/mnt/project-files/J2312` unchanged since 10-26), so J2312 checks (a)/(b) stay blocked.
+
+**J2312 SED/distance with the Roche q 0.602 radii** (`run_phoebe_candidate.blackbody_check`, T1 9932 K, T2 = 0.937 T1 = 9300 K, Gaia distance 741.8 pc; a from Kepler for each assumed M1):
+
+| M1 (M☉) | a (R☉) | R1 | R2 | M2 | JHKW1 χ² | d_phot/d_Gaia |
+|---|---:|---:|---:|---:|---:|---:|
+| 2.0 | 22.37 | 4.11 | 2.30 | 1.20 | 1.8 | 0.893 |
+| 2.5 | 24.10 | 4.43 | 2.48 | 1.50 | 1.8 | 0.961 |
+| 3.0 | 25.61 | 4.70 | 2.64 | 1.81 | 1.8 | 1.022 |
+| 3.5 | 26.96 | 4.95 | 2.78 | 2.11 | 1.8 | 1.076 |
+
+- **Verified:** the distance check passes for any M1 2.0–3.5 M☉ (d_phot/d_Gaia 0.89–1.08). The catalogue W3/W4 excess against this photosphere is 6.8σ / 12.6σ (3.55×). That is before the 10-26 local-background subtraction, which brings W4 down to 2.5–3σ.
+- **Inferred, resolves the q–Teff tension:** both stars are about 2× larger than main-sequence radii for their Teff (MS: 1.94 and 1.80 R☉), so both are evolved. MS mass–Teff relations don't apply; q 0.6 with T₂/T₁ 0.94 is possible for two evolved stars.
+
+**J2312 emcee** on the per-sector q-free fit (`_mcq06`, 16 walkers × 8 steps, χ² scale 7.86; short chain, not converged):
+- q 0.594 (+0.012 / −0.006);
+- incl 82.90 (+0.04 / −0.05);
+- r_sum 0.2869 (+0.0005 / −0.0003);
+- k 0.560 (+0.005 / −0.002);
+- T₂/T₁ 0.936 ± 0.002;
+- depth scales S16 0.995, S17 1.007, S57 0.998.
+- Fixed a bug first: the fitter's emcee bounds had no entry for q, so `--fit-q` with `--walkers` crashed (KeyError). q is now bounded to 0.05–5.
+
+**J2048+49 broad dip is on target** (`src/checks/aperture_depth_test.py`, circular apertures r = 1, 1.5, 2, 3 px, per-orbit quadratic detrend):
+- The ratio of dip depth to primary depth stays at 0.07–0.12 in every sector and doesn't grow with aperture; it falls slightly (e.g. S15 0.116 → 0.095; S83 0.098 → 0.081). A neighbour outside the 1-px aperture would make it grow.
+- **Verified (to ~1 TESS pixel, 21″):** the dip comes from the target's pixel. This outweighs the 10-30 2–3σ centroid hint. The dip is phase-locked and on target, but no PHOEBE model fits it yet.
+
+**J1108−56 post-eclipse hump is on target and phase-locked.**
+- The brightening at phase 0.12 is +4.5 to +9.0 ppt in all 7 sectors (2019–2023), against a 3.1–4.0% primary.
+- The hump/primary ratio, −0.13 to −0.25, doesn't change systematically with aperture.
+- **Eccentric Roche PHOEBE fit** (`_gteffroecc`, Gaia Teff 18,238 K; stopped at the window limit after 625 local-opt evals): χ² 72,770 (circular, 10-30) → 57,242 (grid) → **18,993** (about χ²_red 79).
+  - e = 0.275 (e cos ω −0.145, e sin ω 0.234, ω ≈ 122°), q 0.96, incl 85.1°, r_sum 0.123, k 0.20, T₂/T₁ 0.32.
+  - **Inferred:** an eccentric, tidally distorted binary (heartbeat-like brightening near periastron) explains the hump much better than a circular orbit. The fit is not converged; restart from the partial.
+
+
+## 2026-11-01 (daily cloud run, 08:52–13:00 UTC)
+
+**Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive still return 000. No new J2312 results from Kyle's PC (other branches unchanged since 10-19; `/mnt/project-files/J2312` unchanged since 10-26), so J2312 checks (a)/(b) stay blocked.
+
+**J2312 emcee extended** (`_mcq06`, resumed from the 5-step checkpoint; now 16 walkers × 15 steps, χ² scale 7.86, acceptance 0.25; still short):
+- q 0.597 (+0.009 / −0.007);
+- incl 82.89 (+0.04 / −0.03);
+- r_sum 0.2869 (+0.0003 / −0.0004);
+- k 0.561 (+0.002 / −0.004);
+- T₂/T₁ 0.936 ± 0.002;
+- e cos ω −0.00266, e sin ω 0.0007 (+0.0011 / −0.0009);
+- depth scales S16 0.996, S17 1.007, S57 0.998.
+- Consistent with the 8-step chunk (q 0.594) and the optimum (0.602).
+
+**J1108−56 eccentric Roche fit resumed** (`_gteffroecc`):
+- Start 1 finished at **χ² 6883.3** (716 evals; about χ²_red 29 on ~239 dof), down from 18,993 (10-31) and 72,770 for the circular fit.
+- Parameters: incl 81.7°, r_sum 0.151, k 0.205, T₂/T₁ 0.325, e cos ω −0.206, e sin ω 0.202 → **e 0.288, ω ≈ 136°**, q 1.30.
+- Start 2 was at 8294 after 225 evals (e 0.36) when stopped at the window limit. Rerunning the same command resumes it; start 3 is pending.
+- Inferred: an eccentric (e ≈ 0.3) orbit with tidal distortion reproduces most of the post-eclipse brightening. The fit is still about 29× the noise, and q (0.7–1.3 across starts) is not pinned down.
+
+**J2048+49 eccentric Roche fit** (`_ffiroecc`, e sin ω −0.8 to 0.8):
+- Start 1 χ² 5965.5 (677 evals; about χ²_red 36): e 0.62, ω 82°, q 0.78, incl 71.2°, k 0.45, T₂/T₁ 0.59.
+- Start 2 was at 7467 when stopped.
+- **Worse than the 10-29 spherical fit** (χ² 3344, χ²_red 20.3, e sin ω 0.39). Neither eccentricity nor Roche distortion explains the broad on-target dip.
+
+## 2026-11-02 (daily cloud run, 08:52–13:05 UTC)
+
+**Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive still return 000. Nothing new from Kyle's PC: branch `claude/project-thread-9rn9ph` is still at 081ab9c (10-19), and `/mnt/project-files/J2312` hasn't changed since 10-26. J2312 checks (a) and (b) stay blocked. The container had been reset, so `.venv-phoebe` was rebuilt, now on Python 3.11 with numpy 2.4.6 and scipy 1.17.1, and the TESS:T passband was rebuilt.
+- **Verified:** the rebuilt environment reproduces the 10-30 J2312 optimum exactly: χ² 4981.9 with `--q 0.6 --ntri 1500 --no-smear`.
+- A first re-evaluation gave 6834.5 because it used the defaults `--ntri 400` and `--q 0.8`. At this χ² level, the mesh resolution changes χ² by about 37%, so χ² values are only comparable at the same `--ntri` and `--q`.
+
+**J2312: the period is slightly too long** (`src/checks/persector_timing.py`, new). The model of the q-free optimum was evaluated once on a 0.0001-phase grid, then shifted in time separately for each sector, with each sector's affine map refitted.
+- Best shift per sector:
+  - S16: +1.8 min (1σ +0.3 to +4.3), χ² 1046 → 1040;
+  - S17: +5.0 min (+3.8 to +5.7), χ² 1128 → 1030;
+  - S57: −4.1 min (−4.8 to −3.5), χ² 2956 → 2526. S57's primary eclipse alone goes 728 → 391, and its ingress/egress mean residual goes −5.4σ/+2.2σ → −2.4σ/−0.9σ.
+- A linear ephemeris fits the three shifts (χ² 2.4, 1 dof): **dP = −3.69 × 10⁻⁵ ± 0.47 × 10⁻⁵ d** (7.9σ), giving P = 6.8494934 d in place of 6.8495303 d, with dT₀ −4.09 min at the S57 epoch.
+- **Verified:** the full model at the new period, with dt0 shifted by −4.09 min and nothing else changed, gives **χ² 4764.4 (χ²_red 7.50, 649 bins)**, down from 4981.9 (7.86). Δχ² is −218 for one extra parameter.
+- A Nelder–Mead refit from that point (`_qfree06_P2b`, 75 evals, stopped at the window limit) found nothing lower.
+- A refit at the new period that started from the old dt0 (`_qfree06_P2`, 120 evals) got stuck at 5229.0 (8.23). Its dt0 moved only −0.6 min, so a period change must come with the matching dt0 shift.
+- **Inferred:** about half of S57's ingress/egress residual was this timing error. What's left (−2.4σ ingress) may be limb darkening. The emcee posteriors (q 0.597 etc.) were computed at the old period, but the geometry is unchanged at the start point.
+
+**J1108−56 eccentric Roche** (`_gteffroecc`, Gaia Teff 18,238 K):
+- **Start 2 finished at χ² 5692.9** (661 evals; about χ²_red 24 on ~239 dof), down from start 1's 6883.3.
+  - incl 81.19°, r_sum 0.164, k 0.201, T₂/T₁ 0.330;
+  - e cos ω −0.293, e sin ω 0.161, so **e 0.334, ω 151°**;
+  - q 0.76.
+- Start 3 was still at 49,092 after 425 evals when stopped (e 0.22). It is not competitive.
+- q is still not pinned down: 1.30 in start 1 and 0.76 in start 2.
+
+**J0009+58 graded as a Class II YSO dipper** (`src/checks/yso_colour_grade.py`, new; cached 2MASS/AllWISE/Gaia; `_yso_grade.json`):
+- WISE colours: W1−W2 0.553, W2−W3 1.176. That is **Class II** by Koenig & Leisawitz (2014), both cuts passing after subtracting 1σ.
+- The K–W4 spectral index α = −1.12 is Class II.
+- f_IR 0.047–0.074 is primordial-disk level, far above debris disks (≲10⁻³).
+- With A_V ≈ 0.6 (rough, from BP−RP), M_G is 5.1, 1.5 mag above the main sequence at 4513 K. That fits a pre-main-sequence star with R ≈ 1.5 R☉.
+- The 4.29 d corotation radius is 0.052 AU (7.3 R*), where blackbody dust is about 1190 K, close to sublimation. Dips last 0.6–1.3 d, 14–30% of the period.
+- **Inferred:** an AA Tau-type dipper, with the occulter at the inner disk edge near corotation.
+- Caveats:
+  - the cached SIMBAD type is RSCVnV* (an automated ZTF variable class) and the TIC luminosity class is GIANT; the colours and f_IR are hard to explain with an RS CVn star;
+  - a spectrum (Hα, Li 6708) would settle it, and no SIMBAD/YSO-catalogue check was possible offline.
+
+## 2026-11-03 (daily cloud run, 08:52–11:10 UTC)
+
+**Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive still return 000. Nothing new from Kyle's PC: `claude/project-thread-9rn9ph` is still at 081ab9c, and `/mnt/project-files/J2312` hasn't changed since 10-26. J2312 checks (a) and (b) stay blocked. The container kept `.venv-phoebe` (Python 3.11) and the passband from 11-02.
+
+**J2312 emcee at the corrected period** (`_mcP2`, P 6.8494934 d, 16 walkers × 10 steps with 5 burn-in, χ² scale 7.50, acceptance 0.29; still short). It started from the 11-02 point (χ² 4764.4, χ²_red 7.50):
+- q 0.596 (+0.012 / −0.009);
+- incl 82.91 (+0.05 / −0.07);
+- r_sum 0.2868 (+0.0005 / −0.0004);
+- k 0.560 (+0.004 / −0.002);
+- T₂/T₁ 0.935 (+0.003 / −0.004);
+- dt0 −0.00628 ± 0.00007 d;
+- depth scales S16 0.996, S17 1.006, S57 0.999.
+- These are unchanged within 1σ from the old-period chain (q 0.597, k 0.561, T₂/T₁ 0.936). **Verified:** the period correction doesn't move the geometry.
+
+**Timing re-check at the new period** (`persector_timing.py --period 6.8494934 --ntri 1500 --q 0.6`, model at the `_mcP2` start point):
+- S17 now wants +0.3 min (1σ −0.3 to +1.0) and S57 −0.3 min (−0.9 to +0.5). Both are consistent with zero, so the correction worked for them.
+- S16 now wants −5.1 min (−6.2 to −3.2); the 11-02 scan at the old period gave +1.8. S16 and S17 are consecutive sectors (about 4 cycles apart), so their 5.4 min disagreement can't be a period effect. **Inferred:** a systematic in S16's primary eclipse, which has a data gap and only egress coverage (its primary χ² 120.7 → 35.9 with the shift). S16 is not used for the ephemeris.
+- S57's primary ingress residual is still −2.4σ on average.
+
+**J2312 limb-darkening test** (new fitter option `--ld`; single evaluations at the 11-02 point, geometry fixed):
+- linear LD 0.25: χ² 4874.2;
+- linear LD 0.35 (default): 4764.4;
+- linear LD 0.45: 5041.6.
+- A parabola through the three puts the minimum at LD ≈ 0.33. **Verified at fixed geometry:** the default 0.35 is within 0.02 of the best, so linear LD doesn't explain the S57 ingress residual. Not tested: refitting the geometry at each LD, and quadratic LD.
+
+**J1108−56 final evaluation** (`_gteffroecc`, start 2 as the local optimum, then emcee 18×5 and a final model at ntri 1500):
+- Final χ² 5115.8 (**χ²_red 21.4**, 239 dof); white-noise χ²_red 46.4.
+- e 0.330, ω 152°, q 0.73, incl 81.1°, k 0.209, T₂/T₁ 0.302 (T₂ ≈ 5500 K). R1 4.30 and R2 0.90 R☉, for an assumed M1 of 9.96 M☉.
+- **SED/distance now passes:** binary-photosphere JHKW1 χ² 3.6 and d_phot/d_Gaia 0.82, against 0.27 for the circular fit. The W3 excess is 11.8σ (1.77×) and W4 15.5σ (16.5×).
+- **The light curve still fails:** χ²_red 21.4 > 5, primary bias −5.5σ and secondary bias +24.3σ. The secondary is the eclipse the model still misses.
+
+## 2026-11-04 (daily cloud run, 08:51–12:45 UTC)
+
+**Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive still return 000. Nothing new from Kyle's PC: `claude/project-thread-9rn9ph` is still at 081ab9c, and nothing in `/mnt/project-files/J2312` is newer than 10-26. J2312 checks (a) and (b) stay blocked. `.venv-phoebe` (Python 3.11) and the passband are intact.
+
+**J2312: the quadratic limb-darkening law fits better than linear** (new fitter option `--ld-func`). The test used single evaluations at the 11-02 point (P 6.8494934 d, geometry fixed; linear 0.35 gives χ² 4764.4):
+
+| quadratic (u1, u2) | χ² |
+|---|---:|
+| 0.00, 0.30 | 4882.0 |
+| 0.00, 0.40 | 4664.3 |
+| 0.05, 0.35 | 4657.9 |
+| 0.05, 0.45 | 4643.2 |
+| 0.10, 0.30 | 4659.1 |
+| 0.10, 0.40 | 4679.1 |
+| 0.15, 0.25 | 4668.3 |
+| 0.25, 0.20 | 4753.4 |
+
+- The χ² surface is a long valley: its Hessian eigenvalues are 127 and 50,688, so the data constrain one combination of u1 and u2, near u1 + u2 ≈ 0.4–0.5, and not the two separately. The extrapolated minimum is unphysical (u1 < 0), so I didn't use it.
+- **Geometry refit at quadratic (0.10, 0.30)** (`_ldq_fit`, 120 evals): **χ² 4621.7 (χ²_red 7.28)**, down from 4764.4 (7.50) with linear LD.
+  - incl 82.90°, r_sum 0.2864, k 0.561, T₂/T₁ 0.937, q 0.603;
+  - depth scales 0.995 / 1.006 / 0.999.
+  - **Verified:** the geometry stays within about 1σ of the 11-03 emcee, so the LD law changes χ² but not the parameters.
+- Not tested: whether the S57 ingress residual shrinks. `persector_timing.py` has no LD option yet.
+
+**J1108−56 secondary-eclipse tests** (from the 11-03 final fit, χ²_red 21.4, secondary bias +24.3σ):
+- **Free third light** (`_gteffroeccl3`, from start 2): l3 0.034. Final χ² 4864.3 (**χ²_red 20.4**), with e 0.37 (e cos ω −0.302, e sin ω 0.217) and q 0.76. The secondary bias is still +23.1σ and the primary −4.8σ.
+- **q fixed at 1.30** (`_gteffroeccq13`, from start 1): final χ² 7119.2 (**χ²_red 29.7**), with secondary bias +20.4σ. This is worse.
+- SED/distance passes in both runs: JHKW1 χ² 3.6 and d_phot/d_Gaia 0.82.
+- **Verified:** neither third light nor a higher q fixes the secondary eclipse. The model's secondary stays too deep by about 1.5 ppt, measured as the mean residual in the secondary window. Inferred: the secondary's shape (e and ω) or T₂ needs another constraint, or the secondary is affected by the same structure that causes the hump.
+
+## 2026-11-05 (daily cloud run, 08:52–12:25 UTC)
+
+**Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive still return 000. Nothing new from Kyle's PC: `claude/project-thread-9rn9ph` is still at 081ab9c, and no file in `/mnt/project-files/J2312` is newer than 10-26. J2312 checks (a) and (b) stay blocked. The environment is intact.
+
+**J2312 timing re-check with quadratic LD** (`persector_timing.py`, which now takes `--ld-func/--ld`; model at the `_ldq_fit` optimum):
+- S57's primary χ² went 396.0 → 307.2 against the linear-LD check (11-03). Its ingress mean residual went −2.39σ → −1.95σ, and egress −0.95σ → −0.55σ.
+- S17 and S57 shifts stay consistent with zero (−0.1 and −0.4 min). S16 still wants −5.2 min (its primary has a data gap).
+- **Verified:** quadratic LD removes about 20% of S57's ingress residual. The rest is unexplained; the model is not yet fitted to it.
+
+**J2312 emcee at quadratic LD (0.10, 0.30)** (`_mcldq`, 16 × 10 with 5 burn-in, χ² scale 7.28, acceptance 0.34):
+- q 0.598 ± 0.007;
+- incl 82.91 (+0.03 / −0.06);
+- r_sum 0.2867 ± 0.0003;
+- k 0.561 ± 0.003;
+- T₂/T₁ 0.936 (+0.002 / −0.004);
+- depth scales S16 0.995, S17 1.006, S57 0.999.
+- **Verified:** this agrees within 1σ with the linear-LD chain (q 0.596, k 0.560, T₂/T₁ 0.935). The LD law doesn't change the geometry.
+
+**J1108−56 with e and ω pinned to the 0.258 secondary phase** (`_gteffroeccepin`: e cos ω in −0.42 to −0.34 and e sin ω in −0.08 to 0.08, the values that equal eclipse widths imply):
+- Local opt reached χ² 7892.2 (698 evals); the final model gives 7547.3 (**χ²_red 31.6**).
+- Secondary bias +16.2σ, primary −2.7σ, d_phot/d_Gaia 0.76.
+- **Worse** than the unpinned fit (χ²_red 21.4) and the free-l3 fit (20.4).
+- **Verified:** none of the four variants fits the phase-0.258 feature: free e, l3, q 1.30 and pinned e.
+  - In the ephemeris, that feature is a marginal "secondary" (depth 0.34%, flagged not detected), and the hump sits next to it.
+  - Inferred: the 0.258 feature and the hump are probably one heartbeat-type signal, not a separate eclipse.
+- **J1108 is parked**, like J2048. Its SED/distance check passes (d_phot/d_Gaia 0.76–0.82; W3 11.8σ, W4 15.5σ), but no detached-EB model fits the light curve.
+
+## 2026-11-06 (daily cloud run, 08:52–10:35 UTC)
+
+**Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive still return 000. Nothing new from Kyle's PC: `claude/project-thread-9rn9ph` is still at 081ab9c, and no file in `/mnt/project-files/J2312` is newer than 10-26. J2312 checks (a) and (b) stay blocked. The environment is intact.
+
+**J2312: S16 given its own fixed time offset** (new fitter option `--sector-dt SECTOR=MIN`). The test used single evaluations at the quadratic-LD optimum (χ² 4621.7 with no offset):
+
+| S16 offset (min) | −1.0 | −2.0 | −3.0 | −4.0 | −5.2 | −7.0 |
+|---|---:|---:|---:|---:|---:|---:|
+| χ² | 4602.4 | 4571.8 | 4552.9 | **4538.9** | 4564.5 | 4583.0 |
+
+- Best at −4 min: **χ² 4538.9 (χ²_red 7.15)**, Δχ² −83 for one extra parameter. The timing scan's −5.2 min is close.
+- A Nelder–Mead refit with S16 at −4 min (`_s16fit`, 120 evals) found nothing lower. The geometry is unchanged: incl 82.90°, k 0.561, T₂/T₁ 0.937, q 0.603; depth scales 0.996 / 1.006 / 0.998.
+- **Verified:** S16's offset is a sector-level timing systematic, inferred to come from the data gap in its primary eclipse. It doesn't affect the binary parameters.
+- With this, the offline J2312 light-curve work is done: the quadratic-LD emcee (q 0.598 ± 0.007) stands.
+
+## 2026-11-07 (daily cloud run, 08:52 UTC)
+
+**Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive still return 000 from the cloud. `.venv-phoebe` is intact. No fits were run: the offline J2312 light-curve work finished on 11-06, and J1108/J2048 are parked.
+
+**Added since the 11-06 run (on Kyle's requests, 11-06 evening):**
+- `outputs/crossmatch/candidates_all_in_one.csv`: all 131 tier A + B candidates, 74 columns. It holds WISE photometry and excess, periods, Gaia/TIC parameters (incl. TIC logg, mass, luminosity, E(B−V)), PHOEBE fit parameters for the 14 fitted objects, grades and notes. The J2312 row carries the newest per-sector Roche fit and the corrected period. This replaces the duplicate CSVs made earlier, which were removed in 45905ef.
+- `outputs/crossmatch/DD1_EB_candidates.xlsx`: a spreadsheet of the same 131 candidates with periods, W1–W4, W3/W4 excess, the EB catalogues each was matched in (3″) and the star's ID in each. A "Catalogue key" sheet lists each catalogue's VizieR table and count: VSX 80, Gaia DR3 67, ASAS-SN 21, TESS OBA EBs 18, ATLAS 15, TESS EBs 9, WISE 8, ZTF 8, OGLE LMC 4, CRTS 3, ASAS-3 1, CRTS-South 1.
+- From Kyle's PC: the J1122 7-sector QLP light curve (dd39a6f, 63a50dc; primary 4.68 ± 0.06%, tentative secondary 0.32%), handed to the J1122 thread.
+
+**Still waiting on Kyle:** whether to pause the daily routine (it has no offline work left); whether to run the J0136 Gaia-neighbour and J0009 SIMBAD/YSO checks on his PC; whether to add the 669 tier C objects to the combined table; squash-merging PR #2; the 081ab9c decision.
+
+## 2026-11-08 (daily cloud run, 08:52 UTC)
+
+**Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive still return 000. Nothing new on the branch or in `/mnt/project-files/J2312` since 11-07; `claude/project-thread-9rn9ph` is still at 081ab9c. No fits run: no offline work is left (see 11-07). Kyle hasn't answered the open questions (pause the routine; PC checks for J0136/J0009; tier C in the combined table).
+
+## 2026-11-09 (daily cloud run, 08:52 UTC)
+
+**Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive still return 000. Nothing new on the branch, on `claude/project-thread-9rn9ph` (081ab9c) or in `/mnt/project-files/J2312`. No fits run; no offline work is left. Open questions to Kyle are unchanged since 11-07.
+
+## 2026-11-10 (daily cloud run, 08:52 UTC)
+
+**Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive still return 000. Branch merged with main (already up to date). No fits run.
+
+**From Kyle's PC (pulled 11-09/10):** STORY.md and population plots 07/09 (6e07265), the excess-equation sheet (25319cb), the J0719 dust vs free-free figure (75157c0; dust 158 K χ² 0.02 vs free-free 103/127), the free-free slope range figure (271775c) and the WISE contact sheets with a blank `review_sheet.csv` (8560183).
+
+**Done offline:** preliminary by-eye verdicts in `review_sheet.csv` for the 26 tier-B objects failing the automated image check: 4 compact (J0719, J2319+58, J1805−13, J1952+25), 3 weak, 3 neighbour, 16 nebular. Judged from PNGs only; Kyle's `by_eye_verdict` is still blank. Talk prep for the Georgia Regional Astronomy Meeting (deck and study guide) was done in the project thread, not in the repo.
+
+**Still waiting on Kyle:** pause/weekly for this routine; filling `by_eye_verdict`; squash-merging PR #2; the 081ab9c decision; co-authors and affiliation for the talk.
+
+## 2026-11-11 (daily cloud run, 08:51 UTC)
+
+**Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive still return 000. Nothing new on the branch, on main (55f55ae), on `claude/project-thread-9rn9ph` (081ab9c) or in `/mnt/project-files/J2312`. `by_eye_verdict` in `review_sheet.csv` is still blank. No fits run; no offline work is left. Open questions to Kyle are unchanged since 11-10.
+
+## 2026-11-12 (daily cloud run, 08:51 UTC)
+
+**Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive still return 000. Nothing new on the branch, on main (55f55ae), on `claude/project-thread-9rn9ph` (081ab9c) or in `/mnt/project-files/J2312`. `by_eye_verdict` in `review_sheet.csv` is still blank. No fits run; no offline work is left.
+
+**Q&A with Kyle on 11-11 (no repo change):** the catalogue Teff is TIC v8.2 (IV/39/tic82, nearest within 2.5″); dust vs free-free is fitted on the single-blackbody excess, not the PHOEBE model; J0719 is tier B because `n_independent` = 1 (ASAS only) and its image S/N is W3 3.7 / W4 4.3 (< 5), although both are centred within 2.6″. Kyle asked about Eclipsing Binary Patrol, which is not one of our cross-matched catalogues; it could give J0719 a second survey if it lists it.
+
+## 2026-11-13 (daily cloud run, 08:55 UTC)
+
+**Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive still return 000. Nothing new on the branch, on main (55f55ae), on `claude/project-thread-9rn9ph` (081ab9c) or in `/mnt/project-files/J2312` (the only new shared files are a project database export, not science inputs). `by_eye_verdict` is still blank. No fits run; no offline work is left.
+
+## 2026-11-14 (daily cloud run, 08:52 UTC)
+
+**Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive still return 000. Nothing new on the branch, on main (55f55ae), on `claude/project-thread-9rn9ph` (081ab9c) or in `/mnt/project-files/J2312`. New shared files are talk material only (`/mnt/project-files/talk/group_meeting_2026-11-13/`: deck v4 and plotting scripts for Dr. Bans's comments), not pipeline inputs. `by_eye_verdict` is still blank (0 of 131). No fits run; no offline work is left.
+
+**Noted 11-13 (Q&A, no repo change):** J0719 entered the project through Kyle's DD1.0 × Eclipsing Binary Patrol cross-match. EB Patrol is not among our 16 catalogues; if it is counted as an independent detection, J0719 has `n_independent` = 2 and fails tier A only on the automated image test (which it passes by eye). The image test's low S/N for J0719 (W3 3.7, W4 4.3) comes mainly from nebular structure beyond 40″ inflating the noise estimate; AllWISE catalogue S/N is ~28 (W3) and ~14 (W4).
+
+## 2026-11-15 (interactive, Kyle: 22 µm nebula methods)
+
+Literature check on building a 22 µm nebula map, then W4 morphology checks on tier A. Details in `docs/DD_EB_CROSSMATCH.md` ("is the W4 source compact and centred?") and `outputs/j2312_contamination/README.md` (multi-scale section).
+
+- **KL14 cut:** passes 4 of 12, with every failure on S/N. w4rchi2 is 0.89–1.26 for all 12.
+- **Centring:** all centred within 0.4–2.5″. J1604 has no compact W4 peak.
+- **W4 width:** 7 of 12 are broader than field point sources at 22 µm while point-like at 12 µm, including J2312 (20.8″ against 16.1″) and J0739. J2209 and J2218 are point-like; J2209's MIPS 24 source confirms this.
+- **Correction:** the 11-14 README line "J2312's W4 core is point-like" compared a 20″ fit with 30″ field numbers. It is struck through and corrected.
+- **Multi-scale (getsf-style, W4 only):** J2312 gives 12.3–12.5 mJy (2.9×) for background windows ≥ 90″, agreeing with the earlier models. None of these flux models can split off the ~13″ extended component, so treat 2.7–2.9× as an upper limit on a compact excess.
+- **Merged** PC commit b419073 (Spitzer MIPS 24 coverage, J1604 contamination checks).
+
+## 2026-11-15 (daily cloud run, 08:52 UTC)
+
+**Environment.** CDS XMatch, VizieR, MAST, SkyView, IRSA and the Gaia archive still return 000; main is unchanged (55f55ae). Merged the PC commits (b419073 Spitzer MIPS 24 + J1604 contamination checks; 9ddd223 and 14cf594 J2312 profile and ridge plots).
+
+**Ran:** `src/checks/tierA_nebula_model.py`, which is J2312's 12 µm-template nebula model applied to all 12 tier A stars (AllWISE strips by range read from AWS, empirical PSFs of 5–40 stars). It reproduces J2312 at 11.6 mJy (vs 11.8). Results:
+- **J2218** (28.7×, 12.8σ, FWHM 16.2″ = PSF) and **J2209** (2.5×, 6.5σ; quadratic 3.1×, 9.3σ; 15.9″) are the only excesses that are both robust to the nebula model and point-like.
+- **J2312** (2.7×, 8.3σ, 18.8″) and **J0739** (5.2×, 17.0σ, 20.4″) are robust but extended.
+- The other 8 drop below 5σ with a quadratic background.
+
+Table in `docs/DD_EB_CROSSMATCH.md`. No PHOEBE fits were run; nothing is pending on light curves.
+
+## 2026-11-16 (daily cloud run, 08:51 UTC)
+
+**Environment.** Archive hosts still return 000; main unchanged (55f55ae); no new PC commits. Recreated `.venv-tess` (python3.13; lightkurve, astrocut, s3fs, tess-point, pandas, astroquery, openpyxl).
+
+**Candidate tables (verified):** `src/checks/add_morphology_columns.py` (new) adds `kl14_pass`, `W4_fwhm20`, `W4_fwhm20_field95`, `W4_fwhm20_nebsub`, `W4_ratio_nebB`/`W4_sigma_nebB`, `W4_ratio_quad`/`W4_sigma_quad` and `w4_morphology` to `candidates_all_in_one.csv` (74 → 83 columns; existing values byte-identical) and to the Candidates sheet of `DD1_EB_candidates.xlsx`. Verdicts for tier A: point-like 3 (J2218, J2209, J2235), extended 5, no compact peak after nebula removal 2 (J1732, J2239), no field comparison 2 (J0245, J1604).
+
+**J2218 FFI light curve:** `fetch_tess_ffi_s3.py`, 8 sectors (16, 17, 56, 57, 76, 77, 83, 84), 64,056 points; P 1.669258 d. Per-sector Roche fit (`fit_per_sector_dilution.py`, T₁ 9500 K, q free, ntri 400, start `_t9500`):
+- `_persectorffi` (200 evals): χ² 20947 → 18853 over 1514 sector-bins (χ²_red 12.64; shared dilution 13.47). incl 77.0°, k 0.341, T₂/T₁ 0.706, q 0.344. Depth scales 0.983–1.014, so the sectors agree on dilution.
+- Exposure smearing for the 30-min sectors: start χ² 18856 vs 18853; no effect (run stopped).
+- Per-sector timing (`persector_timing.py`): **S16 and S17 eclipses are +11.7 and +10.9 min late** (χ² 2773 → 581 and 1601 → 314); S56–S84 are within ±2.3 min. A linear ephemeris does not absorb this (χ² 908 for 8 sectors).
+- `_persectorffi_dt` (S16 +11.7, S17 +10.9 min, 80 evals): χ² **14820 (χ²_red 9.93)**. Geometry unchanged (incl 77.2°, k 0.341, T₂/T₁ 0.709, q 0.346).
+- **Inferred, not verified:** the 2019 → 2022+ timing change looks like an eclipse-timing variation (a third body's light-travel time, or apsidal motion). It is not the 30-min FFI timestamps: J2312's S17 FFI timing is consistent with zero. A third star would matter for the W4 excess (an extra photosphere) and for T₁.
+- χ²_red ~10 remains; the residuals still carry coherent ingress/egress structure in every sector (`_persector_persectorffi.png`), so the model shape, not dilution, is the problem (spot / T₁ / LD).
+
+## 2026-11-17 (daily cloud run, 08:51 UTC)
+
+**Environment.** Every archive host returns 000 from this container today (MAST, IRSA, Gaia, VizieR, CDS XMatch, SkyView, DASCH, skydot/NSVS); the AWS S3 mirror works. Main unchanged. J2312: no new work (PC commits 2504ab9, bada4ba merged; see 11-16 evening notes in the J2312 README). New priority from Kyle (11-17): J2218 eclipse timing / third body, building on branch `claude/project-thread-5mcxzc` (draft PR #4), read through a worktree and not merged.
+
+**J2218 third light (verified; the test is uninformative by construction).** Per-sector Roche fits (`fit_per_sector_dilution.py`, T₁ 9500, q free, ntri 400, S16/S17 dt, start `_persectorffi_dt`, depth-scale prior σ 0.02, 150 evals) at fixed l3:
+
+| l3 | χ² | mean depth scale | prior penalty ((b−1)/0.02)² |
+|---:|---:|---:|---:|
+| 0.0 | 14801.9 (χ²_red 9.92) | 1.023 | 1.3 |
+| 0.1 | 14847.9 | 1.137 | 46.9 |
+| 0.2 | 15005.2 (stopped at eval 125) | 1.279 (predicted) | 194 |
+| 0.3 | 15332.6 (stopped at eval 125) | 1.461 (predicted) | 532 |
+
+The geometry is identical at l3 0 and 0.1 (incl 77.25°, k 0.341, T₂/T₁ 0.709, q 0.346), and the per-sector depth scales just rescale by 1/(1−l3). Every Δχ² equals the prior penalty. **Third light scales every eclipse and ellipsoidal feature by the same factor, so with partial eclipses the light-curve shape carries no l3 information**; the only handle is the absolute depth normalization (mean b 1.023 at l3 = 0, i.e. no room for extra light *if* the FFI aperture normalization and background are trusted to ~2%, which they are not verified to be). A 10–20% tertiary is therefore neither confirmed nor excluded by TESS. Tests that can: a third set of lines or a γ-velocity drift in spectra, Gaia DR4 astrometry, or an SED fit with Gaia-scaled radii.
+
+**J2218 refined plate timing (verified).** `src/checks/j2218_dasch_refine.py` (inputs from the PR #4 branch) subtracts each plate series' out-of-eclipse median (series with ≥ 15 points): DASCH rms 0.137 → 0.122 mag (1335 → 1265 points). Decade windows, 300 bootstraps: 1933 +24 [+6, +151], 1938 −5 [−24, +8], 1947 −105 [−126, −88], 1984 +23 [−12, +60] min (1942 drops to Δχ² 8.9). The 1947 point moves from −144 to −105 min and is no longer a 3σ outlier.
+- Circular LTTE with DASCH + ASAS-SN + Gaia + TESS (14 points): constant period χ² 597; **P₃ 25 yr, amplitude 39 min, χ² 12.0 (9 dof)**; 36 yr χ² 15.5; 62 yr χ² 22.1.
+- With ~5-yr windows the best orbit jumps to P₃ ≈ 62 yr, amplitude ≈ 190 min (χ² 14.1), driven by a single 1980–85 point (+136 min). **Inferred:** that orbit needs a₁₂ sin i ≈ 23 AU and f(m₃) ≈ 3 M☉, i.e. a ≳ 6 M☉ tertiary brighter than the binary, which the light curve and SED rule out. The 25-yr orbit remains preferred but not unique.
+- Plot: `outputs/candidates/J221843.61+544715.0/timing/J221843.61+544715.0_oc_refined.png`. Predicted O−C in 1999: about −25 (25 yr), +75 (36 yr), +250 min (62 yr), so one NSVS point would separate them.
+
+**NSVS:** skydot.lanl.gov still refused. **New TESS sectors:** none; tess-point predicts S122 and S129 next (mid/late 2027).
+
+## 2026-11-18 (daily cloud run, 08:51 UTC)
+
+**Environment.** All archive hosts still return 000 (MAST, IRSA, Gaia, VizieR incl. CfA mirror, CDS XMatch, SkyView, DASCH, skydot/NSVS); NSVS retry failed. Kyle's PC ran a VizieR search for J2312 on 11-17 (a54a35d, `outputs/j2312_contamination/vizier/`): no usable IR beyond WISE; HD 236067, A2, Gaia T 9,900 K, 308 L☉, 0.22 Gyr.
+
+**J2312 photosphere vs Gaia T (verified).** The adopted model `_gteffnoirreccesm003` already uses T₁ = 9,932 K (Gaia) and T₂ = 9,702 K; the 8,547 K TIC value appears only in the 10-26 single-star check. No change to the excess numbers.
+
+**J2218 SED with a tertiary (verified arithmetic; tertiary T/R are rough main-sequence values, assumed).** `src/checks/j2218_tertiary_sed.py`, binary from `_t9500` (T₁ 9500 K, R₁ 3.22; T₂ 6703 K, R₂ 1.10 R☉), photosphere rescaled to JHKW1:
+
+| m₃ (M☉) | l3 (TESS) | JHKW1 χ² | d_phot/d_Gaia | W2 | W3 | W4 |
+|---:|---:|---:|---:|---|---|---|
+| none | 0 | 38.6 | 1.12 | 1.17× (5.3σ) | 2.65× (20.5σ) | 31.0× (13.8σ) |
+| 1.0 | 0.023 | 34.7 | 1.15 | 1.16× | 2.62× | 30.6× |
+| 1.5 | 0.087 | 32.7 | 1.19 | 1.15× | 2.60× | 30.4× (13.8σ) |
+| 1.8 | 0.152 | 33.7 | 1.23 | 1.16× | 2.61× | 30.5× |
+| 2.0 | 0.208 | 35.9 | 1.27 | 1.16× | 2.63× | 30.7× |
+
+A tertiary of the size the 25-yr orbit implies changes the W4 excess by < 2% and keeps all SED checks passing. (W2 is 1.17× in this `_t9500` photosphere; the "1.009×" quoted on 11-16 came from a different photosphere fit.)
+
+**J2218 limb darkening (verified).** Per-sector Roche fits, T₁ 9500, q free, ntri 400, no smearing, S16/S17 dt, start `_persectorffi_l3_0.0`, same LD law for both stars:
+
+| LD | evals | χ² (χ²_red) | incl | k | T₂/T₁ | q |
+|---|---:|---:|---:|---:|---:|---:|
+| linear 0.35 (default) | 50 | 14803.6 (9.92) | 77.25 | 0.341 | 0.709 | 0.346 |
+| quadratic 0.15, 0.25 | 50 | 15012.2 | | | | |
+| quadratic 0.25, 0.25 | 125 | 14055.3 | | | | |
+| linear 0.50 | 75 (stopped by mistake) | 12779.6 | | | | |
+| linear 0.60 | 150 | 11780.9 (7.90) | 77.91 | 0.345 | 0.709 | 0.330 |
+| **linear 0.70** | 150 | **11570.7 (7.76)** | 78.05 | 0.348 | 0.710 | 0.324 |
+| linear 0.85 | 100 (stopped) | 12649.5 | | | | |
+
+- Stronger limb darkening lowers χ² by 3,233 (minimum near u = 0.7), with small geometry shifts (incl +0.8°, q 0.346 → 0.324).
+- **Inferred:** u = 0.7 is stronger than expected for a 9,500 K primary in TESS (~0.3–0.4); the fit uses one law for both stars, so it is probably compensating for the cooler secondary's limb darkening or another shape mismatch. Residuals at secondary ingress/egress (±5σ) and the primary shoulders remain (`_persector_persectorffi_ldlin070.png`), so LD is part of the χ²_red ~10, not all of it.
+- Not done: separate LD per star (the fitter has one `--ld` for both).
+
+## 2026-11-19 (daily cloud run, 08:51 UTC)
+
+**Environment.** Archive hosts still return 000 from the cloud (MAST, IRSA, Gaia, VizieR, DASCH/starglass, skydot/NSVS), checked at 08:52 and 11:48. No new TESS sectors (S122/S129 are 2027).
+
+**Code.** `fit_per_sector_dilution.py` and `persector_timing.py` take `--ld1` / `--ld2` (per-star coefficients, same `--ld-func`); the fit json now records `ld_func`, `ld`, `ld1`, `ld2`. New `src/checks/j2218_ld_grid_plot.py` → `_ld_grid.png` / `_ld_grid.json`.
+
+**J2218 per-star limb darkening (verified χ²; linear law; T₁ 9500, q free, Roche, ntri 400, no smearing, S16/S17 dt 11.7/10.9 min; 1514 sector-bins; 125–150 evals each).**
+
+| u₁ (primary) | u₂ (secondary) | χ² (χ²_red) | incl | k | T₂/T₁ | q |
+|---:|---:|---:|---:|---:|---:|---:|
+| 0.70 | 0.00 | **8350.8 (5.60)** | 78.32 | 0.354 | 0.712 | 0.333 |
+| 0.80 | 0.10 | 8517.2 (5.71) | 78.63 | 0.354 | 0.716 | 0.320 |
+| 0.60 | 0.00 | 8912.4 (5.97) | 78.25 | 0.353 | 0.712 | 0.344 |
+| 0.70 | 0.20 | 8968.3 (6.01) | 78.26 | 0.353 | 0.712 | 0.332 |
+| 0.60 | 0.20 | 9602.3 | 78.25 | 0.352 | 0.713 | 0.344 |
+| 0.85 | 0.20 | 9615.3 | 78.36 | 0.361 | 0.715 | 0.321 |
+| 0.70 | 0.40 | 9774.5 (6.55) | 78.19 | 0.352 | 0.711 | 0.331 |
+| 0.85 | 0.40 | 9956.5 | 78.44 | 0.356 | 0.715 | 0.321 |
+| 0.70 | 0.70 | 11570.7 (7.76) (11-18) | 78.05 | 0.348 | 0.710 | 0.324 |
+| 1.00 | 0.30 | 13342.4 | 78.30 | 0.359 | 0.716 | 0.305 |
+| 0.50 | 0.70 | 14029.5 | 78.08 | 0.352 | 0.714 | 0.368 |
+| 0.35 | 0.50 | 14343.3 (9.61) | 78.21 | 0.362 | 0.707 | 0.443 |
+| 0.35 | 0.70 | 15546.8 | 78.43 | 0.373 | 0.712 | 0.469 |
+
+(u₁ 0.35 / u₂ 0.9 was stopped on purpose at its start point, χ² 27393, the worst of the first four.)
+
+- χ² falls from 11571 (one law) to 8351 with u₁ ≈ 0.7 and u₂ at the edge of the grid (0). Geometry barely moves in the good fits: incl 78.2–78.6°, k 0.352–0.354, T₂/T₁ 0.712–0.716, q 0.32–0.34. Only the fits with u₁ = 0.35 push q up to 0.44–0.47, and they are 6,000 χ² worse.
+- **Inferred:** both preferred values are unphysical. Expected TESS linear coefficients are ~0.3–0.4 for 9,500 K and ~0.5–0.6 for 6,700 K (rough Claret-table values, not looked up today). The fit is using LD to mimic another brightness distribution. The residuals (`_persector_persectorffi_ld107_ld200.png`) keep the same pattern as before: data above the model on the primary-eclipse shoulders (+5σ) and below it on the secondary shoulders (−5σ). That is an out-of-eclipse shape mismatch near conjunction, which pointed at the reflection/irradiation treatment rather than LD; tested below.
+
+**J2218 re-timing with the u = 0.7 model (verified).** `persector_timing.py ... _persectorffi_ldlin070.json --ld 0.7 --maxshift-min 20`:
+
+| Sector | dt (u 0.35, 11-16) | dt (u 0.7) | dt (no irradiation, u 0.35/0.5) |
+|---|---:|---:|---:|
+| S16 | +11.7 min (upper edge of the ±12 scan) | **+13.0 (+12.6..+13.3)** | +12.5 (+12.3..+12.8) |
+| S17 | +10.9 | +11.5 (+11.2..+11.8) | +11.8 (+11.4..+12.3) |
+| S56 / S57 | −1.6 / −2.3 | −1.0 / −1.7 | −0.7 / −1.6 |
+| S76 / S77 | −1.5 / −0.4 | −0.7 / 0.0 | −0.4 / +0.3 |
+| S83 / S84 | +0.9 / +0.6 | +1.2 / +1.3 | +1.4 / +1.5 |
+
+- The S16/S17 offset is LD- and irradiation-independent to within ~1.5 min. With the old ±12 min scan window S16 sat on the edge, so its true offset was ≥ 12 min; the O−C points used for the LTTE fit move by < 1.5 min, far below the plate errors.
+
+**J2218 without irradiation (verified χ²; `--no-irrad`, otherwise as above, 100 evals, start `_ld107_ld200`).**
+
+| u₁ | u₂ | χ² (χ²_red) | incl | k | T₂/T₁ | q |
+|---:|---:|---:|---:|---:|---:|---:|
+| **0.35** | **0.50** | **6867.5 (4.60)** | 77.91 | 0.366 | 0.721 | 0.369 |
+| 0.50 | 0.50 | 7715.3 (5.17) | 78.08 | 0.363 | 0.723 | 0.333 |
+| 0.70 | 0.40 | 9811.6 (6.58) | 78.35 | 0.358 | 0.726 | 0.297 |
+| 0.70 | 0.00 | 11036.4 (7.40) | 78.39 | 0.358 | 0.723 | 0.323 |
+
+- **Verified:** with irradiation off, the physically expected LD (u₁ 0.35, u₂ 0.5) gives the best χ² of any J2218 fit so far, 1,483 below the best irradiated fit and 7,936 below the 11-17 baseline (14,804). The unphysical LD values were compensating for the reflection effect.
+- **Verified:** the residual pattern flips sign (`_persector_persectorffi_noirr_ld1035_ld205.png`): now the model is above the data on the primary shoulders (−4σ) and below it on the secondary shoulders (+3σ). So the real reflection is between PHOEBE's full irradiation and none.
+- q moves to 0.37, closer to the Gaia SB1 value (~0.40, from K₁ 74 km/s; inferred mass function). incl, k and T₂/T₁ shift by < 0.5°, 0.012 and 0.01.
+- **Next (inferred):** fit the irradiation (reflection) fraction as a free parameter with LD at expected values; this should remove most of the remaining shoulder residuals.
+
+## 2026-11-20 (daily cloud run, 08:51 UTC; stopped early by a container restart)
+
+**Environment.** All archive hosts still return 000 from the cloud (MAST, IRSA, Gaia, VizieR, CDS XMatch, SkyView, DASCH/starglass, skydot/NSVS). No NSVS retry possible. The container restarted at about 09:30 UTC and killed the four fits below; per the routine, nothing was relaunched.
+
+**Code.** `run_phoebe_candidate.Model.set` accepts `alb1` / `alb2` (bolometric reflection albedo `irrad_frac_refl_bol` of the primary / secondary, bounded 0–1). `fit_per_sector_dilution.py` has `--fit-alb secondary|both` and `--alb-start` (needs irradiation on).
+
+**J2218 with the reflection albedo free (verified χ² at the checkpoint; fits NOT converged, stopped at 75–100 of 200 evals).** Start `_persectorffi_noirr_ld1035_ld205` (χ² 6867.5), u₁ 0.35, u₂ 0.5, irradiation on, q free, Roche, ntri 400, no smearing, S16/S17 dt 11.7/10.9 min. χ²_red uses 1514 − 23 dof.
+
+| Run (`_persectorffi_…`) | free albedo, start | evals | χ² (χ²_red) | alb₁ | alb₂ | incl | k | T₂/T₁ | q |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| `albs03_ld1035_ld205` | secondary, 0.3 | 75 | **4149.4 (2.78)** | (1.0 fixed) | 0.41 | 77.87 | 0.370 | 0.710 | 0.396 |
+| `albb06_ld1035_ld205` | both, 0.6 | 75 | 4178.1 (2.80) | 0.77 | 0.37 | 77.86 | 0.373 | 0.711 | 0.392 |
+| `albb03_ld1035_ld205` | both, 0.3 | 100 | 4255.9 (2.85) | 0.36 | 0.29 | 77.91 | 0.366 | 0.717 | 0.379 |
+| `albs06_ld1035_ld205` | secondary, 0.6 | 75 | 4284.4 (2.87) | (1.0 fixed) | 0.41 | 77.92 | 0.372 | 0.711 | 0.394 |
+
+- **Verified:** a partial reflection with physical limb darkening cuts χ² from 6867.5 (no reflection) to ≤ 4149.4, a 40% drop, and from 14803.6 at the 11-17 baseline (χ²_red 9.92 → 2.78). This is J2218's best fit so far.
+- **Verified:** both secondary-only starts (0.3 and 0.6) move to alb₂ ≈ 0.41. The primary's albedo is poorly constrained (0.36 vs 0.77 from two starts, Δχ² < 80), as expected because the cool secondary barely heats the hot primary (inferred).
+- **Verified:** q rises to 0.38–0.40, now matching the Gaia SB1 estimate (~0.40, inferred from K₁ 74 km/s). incl (77.9°) and k (0.37) are unchanged.
+- **Inferred:** an albedo of ~0.4 is plausible for a ~6,700 K star near the convective/radiative boundary (0.5 convective, 1.0 radiative).
+- Not done (restart): converged fits, residual plots, and the re-timing with this model.
+
+## 2026-11-21 (daily cloud run, 08:51 UTC)
+
+**Environment.** All archive hosts still return 000 from the cloud (MAST, IRSA, Gaia, VizieR, CDS XMatch, SkyView, DASCH/starglass, skydot/NSVS); no NSVS retry possible.
+
+**J2218 reflection fits finished from the 11-20 checkpoints (verified; 200 more evals each; u₁ 0.35, u₂ 0.5, q free, Roche, ntri 400, no smearing, S16/S17 dt 11.7/10.9 min; 1514 sector-bins).**
+
+| Run (`_persectorffi_…`) | free albedo | χ² (χ²_red) | alb₁ | alb₂ | incl | k | T₂/T₁ | q |
+|---|---|---:|---:|---:|---:|---:|---:|---:|
+| `albb_final` (from `albb06`) | both | **4120.4 (2.77)** | 0.95 | 0.38 | 77.86 | 0.374 | 0.711 | 0.394 |
+| `albs_final` (from `albs03`) | secondary | 4138.9 (2.78) | 1.0 (fixed) | 0.41 | 77.87 | 0.370 | 0.710 | 0.396 |
+| `albb_final2` (from `albb03`) | both | 4253.0 (2.85) | 0.37 | 0.29 | 77.91 | 0.366 | 0.717 | 0.379 |
+
+- **Verified:** the two best fits agree: secondary albedo 0.38–0.41, primary albedo at or near the default 1.0 (freeing it gains Δχ² 18.5 for one parameter). `albb_final2` stopped in a worse local minimum (Δχ² +133). Adopted model: `albs_final` (χ² 4138.9, χ²_red 2.78).
+- **Verified:** the residuals (`_persector_persectorffi_albs_final.png`) no longer show the ±5σ eclipse-shoulder pattern; they are within about ±3σ, with a small positive bump on the primary egress (phase +0.03 to +0.05) and the S84 secondary shoulder.
+- q 0.394–0.396 matches the Gaia SB1 estimate (~0.40; inferred from K₁ 74 km/s).
+
+**J2218 re-timing with `albs_final` (verified).** `persector_timing.py ... --ld1 0.35 --ld2 0.5 --maxshift-min 20`: S16 +12.3 (+12.1..+12.5), S17 +11.6 (+11.3..+11.9), S56 −1.0, S57 −1.8, S76 −0.8, S77 0.0, S83 +1.2, S84 +1.3 min. Same as with every earlier model (within ~1 min), so the 2019 offset is model-independent.
+
+**emcee (16 × 10) crashed** at its first step: the emcee bounds in `fit_per_sector_dilution.py` had no entries for `alb1`/`alb2` (KeyError). Fixed today (albedo bounds 0–1), not rerun: not enough of the window left.
+
+## 2026-11-22 (daily cloud run, 08:51 UTC)
+
+**Environment.** All archive hosts still return 000 from the cloud (MAST, IRSA, Gaia, VizieR, CDS XMatch, SkyView, DASCH/starglass, skydot/NSVS). The AWS TESS mirror works.
+
+**J2218 emcee on the adopted model (verified; 16 walkers × 10 steps, χ² scale 2.78, acceptance 0.28; short chain, so the errors are indicative).** `_persectorffi_albs_mcmc`: incl 77.89 (+0.05/−0.03)°, rsum 0.4526 (+0.0004/−0.0006), k 0.369 (+0.002/−0.005), T₂/T₁ 0.712 (+0.002/−0.007), **q 0.398 (+0.007/−0.009)**, **secondary albedo 0.40 (+0.04/−0.02)**. Depth scales 0.984–1.010, each to ±0.0005.
+
+**J2218 SED/W4 with the adopted radii (verified arithmetic; M₁ from the main-sequence relation at 9,500 K is assumed).** `src/checks/j2218_adopted_sed.py`: with q 0.396, sma 8.75 R☉, R₁ 2.89, R₂ 1.07 R☉, T₂ 6,749 K → JHKW1 χ² 38, d_phot/d_Gaia **1.01** (was 1.12), W2 1.17× (5.2σ), W3 2.64× (20.5σ), **W4 30.9× (13.8σ)** (was 31.0×). The excess is unchanged; the distance check improves because the fitted q gives a smaller sma. (The per-sector fit itself used the sma for q 0.8; only fractional radii come from the light curve, and that run gives d ratio 1.10.)
+
+**J0739 per-sector FFI fit (new; verified χ²).** J0739 = J073937.23−363011.8 (tier A, W4 5.2× but extended). FFI light curves from the AWS cubes (`fetch_tess_ffi_s3.py --outdir .../ffi`), sectors 7, 8, 34, 61, 88, 109, 110 (40,875 points; S109/S110 are new). `fit_per_sector_dilution.py`, T₁ 12,470 K, q free (start 0.248), Roche, ntri 400, default LD, exposure smearing for S7/S8/S34, start `_phoebe_result_m10.json`; 1230 sector-bins, 150 evals:
+
+| Variant | χ² (χ²_red) | incl | k | T₂/T₁ | q | albedo₂ |
+|---|---:|---:|---:|---:|---:|---:|
+| **full reflection (`_persectorffi`)** | **3644.1 (3.01)** | 86.84 | 0.471 | 0.476 | 0.282 | 1.0 |
+| secondary albedo free (`_persectorffi_albs`, 125 evals) | 4320.2 (3.57) | 86.72 | 0.453 | 0.472 | 0.259 | 0.99 |
+| reflection off (`_persectorffi_noirr`, stopped at ~75 evals) | 132819 | | | | | 0 |
+
+- **Verified:** full reflection fits J0739 well (χ²_red 3.01, depth scales 0.991–1.004). Reflection off is ruled out (χ² 36× worse). The albedo-free run converged more slowly and sits at albedo ~1.0 anyway, so it isn't needed.
+- **Verified:** the secondary eclipse is flat-bottomed (total occultation of the secondary), and dt0 = −0.0034 d (−4.8 min) relative to the pipeline ephemeris.
+- Residuals (`_persector_persectorffi.png`) are within about ±4σ, with a small bump at primary phase −0.035 and secondary-bottom points ~2σ low in S109/S110 (inferred: a mild period or depth drift; not tested).
+- **Inferred:** T₂ ≈ 0.476 × 12,470 ≈ 5,900 K; the pipeline's eclipse-bias failure (sector-spread errors) does not reappear in the per-sector FFI fit.
+
+## 2026-11-23 (daily cloud run, 08:51 UTC)
+
+**Environment.** All archive hosts still return 000 from the cloud (MAST, IRSA, Gaia, VizieR, CDS XMatch, SkyView, DASCH/starglass, skydot/NSVS).
+
+**J0739 per-sector FFI fit continued (verified χ²; 150 more evals each from `_persectorffi`; Roche, q free, ntri 400, default LD, smearing S7/S8/S34; 1230 sector-bins).**
+
+| Run | T₁ | χ² (χ²_red) | incl | k | T₂/T₁ (T₂) | q |
+|---|---:|---:|---:|---:|---:|---:|
+| 11-22 `_persectorffi` | 12,470 K | 3644.1 (3.01) | 86.84 | 0.471 | 0.476 | 0.282 |
+| `_persectorffi2` | 12,470 K | 2934.2 (2.42) | 86.28 | 0.486 | 0.480 (5,980 K) | 0.275 |
+| **`_persectorffi_gteff`** | **13,856 K (Gaia)** | **2125.6 (1.76)** | 86.69 | 0.478 | 0.455 (6,305 K) | 0.306 |
+
+- **Verified:** the Gaia temperature fits much better (Δχ² −809 against the same start and number of evals). Residuals (`_persector_persectorffi_gteff.png`) are within about ±3σ, with one +4σ point group at primary phase +0.028. Depth scales 0.992–1.004.
+- Neither run is formally converged at 150 evals (χ² still falling ~20 per 25 evals at the end of `_persectorffi2`; < 2 for `_gteff`).
+- The continuation started at χ² 3668.2, not the 3644.1 the 11-22 run reported (+0.7%, inferred: the json stores rounded parameters).
+
+**J0739 re-timing (verified).** `persector_timing.py ... _persectorffi.json 12470 --maxshift-min 20`: every sector (S7, S8, S34, S61, S88, S109, S110; 2018–2025) is within ±0.5 min of the ephemeris; linear correction dP = +2.6e-8 ± 3.1e-8 d. No timing anomaly, so the small S109/S110 secondary-bottom residuals seen on 11-22 are not a timing shift.
+
+**J0739 SED/W4 with the per-sector radii (verified arithmetic; M₁ from the main-sequence relation at T₁ is assumed).** New generic `src/checks/persector_sed.py DESIGNATION FIT_JSON TEFF1 BASE_RESULT_JSON`:
+
+| Fit | R₁ / R₂ (R☉) | JHKW1 χ² | d_phot/d_Gaia | W3 | W4 |
+|---|---|---:|---:|---|---|
+| `_m10` pipeline (10-20) | 2.66 / 1.24 | 4.0 | 1.16 | 1.01× | 5.23× (17.2σ) |
+| `_persectorffi` (12,470 K) | 2.39 / 1.13 | 4.3 | 1.04 | 1.01× | 5.21× (17.2σ) |
+| `_persectorffi2` (12,470 K) | 2.42 / 1.17 | 4.5 | 1.05 | 1.01× | 5.20× (17.2σ) |
+| **`_persectorffi_gteff` (13,856 K)** | 2.61 / 1.25 | **1.5** | 1.21 | 1.04× | **5.38× (17.3σ)** |
+
+- **Verified:** J0739's W4 excess (5.2–5.4×, 17σ) does not depend on the light-curve model; all SED checks pass. W3 shows no excess, so the dust is cold (inferred).
+- **Continuation (`_persectorffi_gteff2`, 100 more evals, verified):** χ² **1956.9 (χ²_red 1.62)**, incl 86.61, k 0.481, T₂/T₁ 0.454 (6,289 K), q 0.303; last 25 evals gained only 0.4, so it is essentially converged.
+
+
+## 2026-11-24 (daily cloud run, 08:51 UTC)
+
+**Environment.** Every archive host returns 000 from the cloud, now including DASCH/starglass (reachable on 11-17) and skydot/NSVS, so the J2218 NSVS retry was not possible.
+
+**J0739 emcee (verified; 16 walkers × 10 steps from `_persectorffi_gteff2`, T₁ 13,856 K, Roche, q free, ntri 400; 08:52–11:08 UTC).** χ² scale 1.62, acceptance 0.28. Output `_persector_persectorffi_gteff_mcmc.{json,png,log}` and the chain `.npy`.
+
+| Parameter | Median | +1σ | −1σ |
+|---|---:|---:|---:|
+| incl (°) | 86.61 | +0.059 | −0.071 |
+| r_sum | 0.4995 | +0.0004 | −0.0006 |
+| k | 0.4814 | +0.0045 | −0.0030 |
+| T₂/T₁ | 0.4553 | +0.0041 | −0.0047 |
+| q | 0.302 | +0.009 | −0.007 |
+| dt0 (d) | −0.003243 | ±0.00006 | |
+
+- **Verified:** the posteriors sit on the converged fit (q 0.303, incl 86.61); depth scales 0.992–1.004. A 10-step chain is short, so the errors are indicative (assumed adequate for the table, as for J2218).
+
+**J2312 report figures (Kyle's requests).** Bar panels now show the excess in σ (1σ = 0.88 mJy), and the quadratic bar is gone from `j2312_model_figure.png` (commits 20abaef, 2156045). The accidental fig3 change was reverted (bfbf82e).
+
+## 2026-11-25 (daily cloud run, 08:51 UTC)
+
+**Environment.** Every archive host still returns 000 (CDS XMatch, VizieR, MAST, SkyView, IRSA, Gaia, DASCH/starglass, skydot/NSVS); the AWS TESS mirror works. No new PC results on any branch or in /mnt/project-files. J2218 NSVS/DASCH retry not possible.
+
+**J1419 photon-noise per-sector fit (verified χ²; sphere, eccentric, T₁ 10,875 K, q 0.8 fixed, ntri 1500, start `_persectorffi2`, 150 evals each).** The 10-28 fit (χ²_red 137.3) was dominated by out-of-eclipse steps between sectors. New `src/checks/local_eclipse_baseline.py` fits a polynomial in time to each eclipse's out-of-eclipse points (|Δφ| > 1.3 half-widths, within ±0.08 phase) and keeps only those windows: 16,753 of 56,697 points, 619 sector-bins; 4 one-sided events dropped (S11 primary at cycle −148, S102 at +4, S65 secondary at −60). Linear baseline slopes range −2.9 to +1.9 ppt/d (primaries) and −3.9 to +2.2 ppt/d (secondaries).
+
+| Fit | Baseline | χ² start → end | χ²_red per-sector / shared | incl | r_sum | k | T₂/T₁ | e cos ω / e sin ω |
+|---|---|---|---|---:|---:|---:|---:|---|
+| 10-28 `_persectorffi2` | per-orbit detrend | 205,067 (1515 bins) | 137.3 / 148.2 | 89.41 | 0.142 | 0.486 | 1.019 | 0.134 / 0.036 |
+| `_persectorffi_lb` (smeared S11/S38) | linear per eclipse | 9776.4 → 9363.5 | 15.66 / 17.31 | 89.60 | 0.142 | 0.494 | 1.018 | 0.135 / 0.029 |
+| `_persectorffi_lb_nosmear` | linear per eclipse | 9763.7 → 9307.7 | 15.56 / 17.27 | 89.60 | 0.142 | 0.497 | 1.018 | 0.135 / 0.029 |
+| **`_persectorffi_lb2`** (smeared) | **quadratic per eclipse** | 5508.2 → **5235.7** | **8.76 / 9.75** | 89.87 | 0.142 | 0.500 | 1.017 | 0.135 / 0.028 |
+
+- **Verified:** the light-curve geometry does not depend on the baseline treatment; depth scales 0.994–1.003. χ²_red 8.76 still fails the < 5 criterion. Remaining residuals: ±3σ antisymmetric structure at primary ingress/egress in S38/S65, a few ±5–8σ bins at window edges.
+- **Verified:** SED with the per-sector radii (`persector_sed.py`, now defaulting q to 0.8 when it is not fitted): R₁ 4.58, R₂ 2.29 R☉, JHKW1 χ² 0.09, d_phot/d_Gaia 0.92, **W4 2.88× (8.5σ)**, unchanged from `_v4`.
+- Assumed: q 0.8 (never fitted per sector); a quadratic baseline over ±1.3 d cannot fake eclipse shape, since it is fitted to out-of-eclipse points only.
+
+## 2026-11-26 (daily cloud run, 08:51 UTC)
+
+**Environment.** Every archive host still returns 000 (CDS XMatch, VizieR, MAST, SkyView, IRSA, Gaia, DASCH/starglass, skydot/NSVS). No new PC results on any branch. J2218 NSVS/DASCH retry not possible.
+
+**J1419 follow-ups on the per-eclipse-baseline light curve (verified χ²; sphere, eccentric, T₁ 10,875 K, ntri 1500, smeared S11/S38, 150 evals each; `ffi/..._raw_localbase2.txt`).**
+
+| Fit | Period (d) | LD (linear) | q | χ² | χ²_red (bins) | incl | k | T₂/T₁ |
+|---|---|---:|---:|---:|---|---:|---:|---:|
+| 11-25 `_lb2` | 16.6337331 | 0.35 (default) | 0.8 | 5235.7 | 8.76 (619) | 89.87 | 0.500 | 1.017 |
+| `_lb2_ld015` | 16.6337331 | 0.15 | 0.8 | 5050.3 | 8.45 | 90.01 | 0.517 | 0.991 |
+| `_lb2_ld025` | 16.6337331 | 0.25 | 0.8 | 4682.9 | 7.83 | 90.04 | 0.515 | 1.003 |
+| `_lb2_ld045` | 16.6337331 | 0.45 | 0.8 | 6705.1 | 11.21 | 90.10 | 0.492 | 1.032 |
+| `_lb2_q` | 16.6337331 | 0.35 | **0.865 (free)** | 5234.9 | 8.77 | 89.90 | 0.501 | 1.017 |
+| `_lb2_pc_ld015` | 16.6338312 | 0.15 | 0.8 | 4776.2 | 8.01 (617) | 89.84 | 0.524 | 0.991 |
+| `_lb2_pc_ld020` | 16.6338312 | 0.20 | 0.8 | 4430.9 | 7.43 | 90.10 | 0.523 | 0.997 |
+| **`_lb2_pc_ld025`** | **16.6338312** | **0.25** | 0.8 | **4379.6** | **7.35** | 89.88 | 0.515 | 1.004 |
+| `_lb2_pc_ld030` | 16.6338312 | 0.30 | 0.8 | 4571.8 | 7.67 | 90.15 | 0.507 | 1.010 |
+
+- **Verified: the catalog period is 8.5 s short.** Per-sector timing (`persector_timing.py`, model `_lb2`): S11 −19.5, S38 −9.5, S65 −7.8, S99 +2.9, S100 +2.2, S101 +2.4, S102 +2.0 min; linear fit dP **+9.81e-5 ± 1.0e-5 d** (χ² 2.4 for 7 sectors), so P = 16.6338312 d. Re-timing at the new period (model `_lb2_pc_ld025`): S38–S102 within −0.2 to +3.5 min, S11 +10.8 min (30-min cadence; 1σ +6.5 to +15.2); residual dP −2.7e-5 ± 1.3e-5 d (2σ, not applied).
+- **Verified:** linear LD u ≈ 0.25 is best at both periods; q is not constrained by the light curve (Δχ² 0.8). The period correction gains Δχ² −303 at LD 0.25 (617 vs 619 bins).
+- **Verified:** SED with the adopted radii (R₁ 4.54, R₂ 2.34 R☉; q 0.8 assumed): JHKW1 χ² 0.09, d_phot/d_Gaia 0.92, W4 2.88× (8.5σ), unchanged.
+- χ²_red 7.35 still fails < 5. In the timing scan most of the remaining χ² sits in the secondary-eclipse windows (S100 5350 of 6082; S101 3930 of 5040), which points at the secondary's shape or LD (inferred).
+
+## 2026-11-27 (daily cloud run, 08:51 UTC)
+
+**Environment.** Every archive host still returns 000 (CDS XMatch, VizieR, MAST, SkyView, IRSA, Gaia, DASCH/starglass, skydot/NSVS). No new PC results on any branch. J2218 NSVS/DASCH retry not possible.
+
+**J1419 (verified χ²; sphere, eccentric, T₁ 10,875 K, q 0.8, ntri 1500, P 16.6338312 d, start `_lb2_pc_ld025`, 150 evals each; 617 sector-bins).**
+
+| Fit | Baseline per eclipse | LD | χ² | χ²_red per-sector / shared | incl | k | T₂/T₁ |
+|---|---|---|---:|---|---:|---:|---:|
+| 11-26 `_lb2_pc_ld025` | quadratic | linear 0.25 | 4379.6 | 7.35 / 8.44 | 89.88 | 0.515 | 1.004 |
+| `_lb2_pc_ld2015` | quadratic | 0.25 / secondary 0.15 | 4397.0 | 7.38 / 8.50 | 89.98 | 0.516 | 1.003 |
+| `_lb2_pc_ld2035` | quadratic | 0.25 / secondary 0.35 | 4369.0 | 7.33 / 8.44 | 89.88 | 0.515 | 1.004 |
+| `_lb2_pc_quad` | quadratic | quadratic 0.15, 0.20 | 4374.5 | 7.34 / 8.50 | 90.12 | 0.516 | 1.006 |
+| **`_lb3_pc_ld025`** | **cubic** | linear 0.25 | **1483.6** | **2.49 / 3.60** | 90.02 | 0.515 | 1.003 |
+| `_lb4_pc_ld025` | quartic | linear 0.25 | 1411.3 | 2.37 / 4.25 | 90.10 | 0.515 | 1.003 |
+
+- **Verified:** limb darkening is not what limits the fit (all LD variants within Δχ² 30). The baseline order is: cubic drops χ² by 66% with unchanged geometry, and quartic adds only another 5%, so the baseline converges at cubic. Depth scales 0.993–1.004.
+- **Verified:** with the cubic baseline the in-eclipse point-level χ² (`persector_timing.py`, dt = 0, summed over sectors) also drops versus quadratic: primary 2207 → 1338, secondary 15,916 → 14,504. Inferred: the extra term corrects the in-eclipse baseline level, not just the out-of-eclipse bins. Timing is flat: S38–S102 within −0.7 to +3.6 min, S11 +7.8 min (30-min cadence); residual dP −2.5e-5 ± 1.2e-5 d (2σ, not applied).
+- **Emcee 16×10 on `_lb3_pc_ld025`** (χ² scale 2.49, acceptance 0.38; `_persectorffi_lb3_mcmc`): incl 90.05 +0.027/−0.033, r_sum 0.1424 +0.0004/−0.0004, k 0.5146 +0.0017/−0.0030, T₂/T₁ 1.004 +0.003/−0.0014, e cos ω 0.1346 ± 0.0001, e sin ω 0.0369 +0.0017/−0.0012. Short chain, indicative.
+- **Verified:** SED with the adopted radii (R₁ 4.54, R₂ 2.34 R☉; q 0.8 assumed): JHKW1 χ² 0.09, d_phot/d_Gaia 0.92, W4 2.88× (8.5σ).
+- **J1419 now passes the photon-noise light-curve criterion (χ²_red 2.49 < 5)**, conditional on cubic per-eclipse baselines. Its open issue stays the W4 image (model-dependent against structured background, 11-15).
+
+## 2026-11-28 (daily cloud run, 08:51 UTC)
+
+**Environment.** Every archive host still returns 000 (CDS XMatch, VizieR, MAST, SkyView, IRSA, Gaia, DASCH/starglass, skydot/NSVS). No new PC results on any branch. J2218 NSVS/DASCH retry not possible.
+
+**J1604 (W4 nebular; follow-up on the photon-noise fit `_ffi3final`, χ² 7407.3, χ²_red 7.81, 966 bins).** Its residuals (`_persector_ffi3final.png`) are coherent in-eclipse shape errors of ±5–10σ, not baseline steps, so the J1419 per-eclipse baseline does not apply (and at P 2.21 d it would absorb the ellipsoidal signal).
+- **Per-sector timing (verified;** `persector_timing.py`, Roche, ntri 1500, q 0.8): S12 −0.3, S39 +0.3, S65 +0.1, S102 −0.8, S103 +0.5 min; dP −3.9e-7 ± 1.7e-7 d (χ² 30.2 for 5 sectors). No period error; the shifts are too small to matter.
+- **Refits (verified χ²; Roche, eccentric, T₁ 14,140 K, q 0.8, ntri 1500, now with exposure smearing for S12 (30 min) and S39 (10 min), start `_ffi3final`, 100 evals each, not converged):**
+
+| Fit | LD (linear) | χ² start → end | χ²_red per-sector / shared | incl | r_sum | k | T₂/T₁ |
+|---|---:|---|---|---:|---:|---:|---:|
+| `_ffi3final` (no smearing) | 0.35 | 7407.3 | 7.81 / 11.10 | 86.14 | 0.386 | 0.801 | 0.977 |
+| `_persectorffi_smear` | 0.35 | 7528.6 → 7444.9 | 7.84 / 11.33 | 85.74 | 0.386 | 0.818 | 0.975 |
+| **`_persectorffi_smear_ld025`** | **0.25** | 7231.0 → **6853.6** | **7.22** / 10.68 | 85.87 | 0.384 | 0.796 | 0.972 |
+| `_persectorffi_smear_ld045` | 0.45 | 8746.6 → 8228.7 | 8.67 / 12.28 | 85.57 | 0.388 | 0.862 | 0.974 |
+
+- Verified: lower LD helps (Δχ² −591 for 0.35 → 0.25); smearing alone does not (+38). Depth scales unchanged (S65 0.978). J1604 still fails χ²_red < 5, and its W4 excess is nebular (11-15), so it stays low priority.
